@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Organizer.Infrastructure
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : IEntity;
 
