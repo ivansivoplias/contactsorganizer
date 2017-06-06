@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace Organizer.DAL.UnitOfWork
+namespace Organizer.DAL
 {
     public class UnitOfWork : IUnitOfWork
     {
         private IDbTransaction _transaction;
         private readonly Action<IUnitOfWork> _rolledBack;
         private readonly Action<IUnitOfWork> _committed;
-        private IRepositoryProvider _repositoryProvider;
+        private readonly IRepositoryProvider _repositoryProvider;
 
         public UnitOfWork(IDbTransaction transaction, Action<IUnitOfWork> rolledBack, Action<IUnitOfWork> committed)
         {

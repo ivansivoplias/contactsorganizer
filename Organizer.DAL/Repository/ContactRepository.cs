@@ -2,50 +2,62 @@
 using Organizer.Infrastructure;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 
 namespace Organizer.DAL.Repository
 {
-    public class ContactRepository : IRepository<Contact>
+    public class ContactRepository : RepositoryBase<Contact>
     {
-        public void Create(Contact entity)
+        public ContactRepository(IDbContext context) : base(context, "Contacts")
+        {
+        }
+
+        public override void Create(Contact entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Contact entity)
+        public override void Delete(Contact entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public override void Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Contact Get(int id)
+        public override Contact Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Contact Get(object key)
+        public override Contact Get(object key)
         {
             throw new NotImplementedException();
         }
 
-        public ICollection<Contact> GetAll()
+        public override ICollection<Contact> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public ICollection<Contact> Select()
+        public override Contact Map(IDataRecord record)
+        {
+            var contact = new Contact();
+            contact.Id = int.Parse(record["ContactId"] as string);
+            contact.Phone = record["Phone"] as string;
+            contact.UserId = int.Parse(record["UserId"] as string);
+
+            return contact;
+        }
+
+        public override ICollection<Contact> Select()
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Contact entity)
+        public override void Update(Contact entity)
         {
             throw new NotImplementedException();
         }

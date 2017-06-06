@@ -5,47 +5,64 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Organizer.DAL.Repository
 {
-    public class MeetingRepository : IRepository<Meeting>
+    public class MeetingRepository : RepositoryBase<Meeting>
     {
-        public void Create(Meeting entity)
+        public MeetingRepository(IDbContext context, string baseSetName) : base(context, baseSetName)
+        {
+        }
+
+        public override void Create(Meeting entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Meeting entity)
+        public override void Delete(Meeting entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public override void Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Meeting Get(int id)
+        public override Meeting Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Meeting Get(object key)
+        public override Meeting Get(object key)
         {
             throw new NotImplementedException();
         }
 
-        public ICollection<Meeting> GetAll()
+        public override ICollection<Meeting> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public ICollection<Meeting> Select()
+        public override Meeting Map(IDataRecord record)
+        {
+            var meeting = new Meeting();
+            meeting.Id = int.Parse(record["MeetingId"] as string);
+            meeting.Description = record["Description"] as string;
+            meeting.MeetingDate = DateTime.Parse(record["MeetingDate"] as string);
+            meeting.NotificationDate = DateTime.Parse(record["NotificationDate"] as string);
+            meeting.SendNotification = bool.Parse(record["SendNotification"] as string);
+            meeting.UserId = int.Parse(record["UserId"] as string);
+            return meeting;
+        }
+
+        public override ICollection<Meeting> Select()
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Meeting entity)
+        public override void Update(Meeting entity)
         {
             throw new NotImplementedException();
         }
