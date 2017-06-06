@@ -9,7 +9,9 @@ namespace Organizer.Infrastructure
 {
     public interface IDbContext : IDisposable
     {
-        IUnitOfWork CurrentTransaction { get; }
+        IDbTransaction CurrentTransaction { get; }
+
+        IUnitOfWork CurrentWorkUnit { get; }
 
         bool InTransaction { get; }
 
@@ -25,6 +27,6 @@ namespace Organizer.Infrastructure
 
         DataSet Set(string setName);
 
-        IUnitOfWork BeginTransaction();
+        IUnitOfWork CreateWorkUnit();
     }
 }

@@ -9,7 +9,8 @@ namespace Organizer.DAL.Context
     public class DbContext : IDbContext
     {
         private readonly IDbConnection _connection;
-        private IUnitOfWork _currentTransaction;
+        private IUnitOfWork _currentWorkUnit;
+        private IDbTransaction _currentTransaction;
         private bool _inTransaction;
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
@@ -19,7 +20,9 @@ namespace Organizer.DAL.Context
         private DataSet _contacts;
         private DataSet _meetings;
 
-        public IUnitOfWork CurrentTransaction => _currentTransaction;
+        public IDbTransaction CurrentTransaction => _currentTransaction;
+
+        public IUnitOfWork CurrentWorkUnit => _currentWorkUnit;
 
         public DataSet Users
         {
@@ -105,19 +108,17 @@ namespace Organizer.DAL.Context
             _connection = connection;
         }
 
-        public IUnitOfWork BeginTransaction()
+        public IUnitOfWork CreateWorkUnit()
         {
             if (!InTransaction)
             {
                 _lock.EnterWriteLock();
-                var transaction = _connection.BeginTransaction();
-                _currentTransaction = new UnitOfWork(transaction, RemoveTransaction, RemoveTransaction);
-                _lock.ExitWriteLock();
-
+                _currentTransaction = _connection.BeginTransaction();
                 InTransaction = true;
-                return _currentTransaction;
+                _currentWorkUnit = new UnitOfWork(this, RemoveTransaction, RemoveTransaction);
+                _lock.ExitWriteLock();
             }
-            throw new Exception("Transaction cannot be started because another transaction didn't finish executing.");
+            throw new Exception("UnitOfWork cannot be created because another transaction didn't finish executing.");
         }
 
         public DataSet Set(string setName)
@@ -190,11 +191,12 @@ namespace Organizer.DAL.Context
             sqlAdapter.Fill(_meetings);
         }
 
-        private void RemoveTransaction(IUnitOfWork obj)
+        private void RemoveTransaction()
         {
             _lock.EnterWriteLock();
             InTransaction = false;
             _currentTransaction = null;
+            _currentWorkUnit = null;
             _lock.ExitWriteLock();
         }
 
@@ -213,7 +215,7 @@ namespace Organizer.DAL.Context
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // TODO: set large fields to null.
-                _currentTransaction?.Dispose();
+                _currentWorkUnit?.Dispose();
                 _connection.Dispose();
                 _lock.Dispose();
 

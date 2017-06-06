@@ -11,7 +11,7 @@ namespace Organizer.DAL.Repository
 {
     public class MeetingRepository : RepositoryBase<Meeting>
     {
-        public MeetingRepository(IDbContext context, string baseSetName) : base(context, baseSetName)
+        public MeetingRepository(IDbContext context) : base(context, "Meetings")
         {
         }
 

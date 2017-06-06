@@ -9,13 +9,15 @@ namespace Organizer.DAL
     public class UnitOfWork : IUnitOfWork
     {
         private IDbTransaction _transaction;
-        private readonly Action<IUnitOfWork> _rolledBack;
-        private readonly Action<IUnitOfWork> _committed;
+        private IDbContext _context;
+        private readonly Action _rolledBack;
+        private readonly Action _committed;
         private readonly IRepositoryProvider _repositoryProvider;
 
-        public UnitOfWork(IDbTransaction transaction, Action<IUnitOfWork> rolledBack, Action<IUnitOfWork> committed)
+        public UnitOfWork(IDbContext context, Action rolledBack, Action committed)
         {
-            Transaction = transaction;
+            Transaction = context.CurrentTransaction;
+            _context = context;
             _rolledBack = rolledBack;
             _committed = committed;
             _repositoryProvider = new RepositoryProvider();
@@ -32,7 +34,7 @@ namespace Organizer.DAL
             var repositoryType = typeof(IRepository<TEntity>);
             var repositoryName = repositoryType.Name;
 
-            return _repositoryProvider.GetRepositoryForKey<TEntity>(repositoryName);
+            return _repositoryProvider.GetRepositoryForKey<TEntity>(repositoryName, _context);
         }
 
         public void SaveChanges()
@@ -41,7 +43,7 @@ namespace Organizer.DAL
                 throw new InvalidOperationException("May not call save changes twice.");
 
             _transaction.Commit();
-            _committed(this);
+            _committed();
             _transaction = null;
         }
 
@@ -52,7 +54,7 @@ namespace Organizer.DAL
 
             _transaction.Rollback();
             _transaction.Dispose();
-            _rolledBack(this);
+            _rolledBack();
             _transaction = null;
         }
     }
