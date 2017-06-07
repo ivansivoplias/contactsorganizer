@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{731EF1FE-B536-4572-B4E0-B7D1C5869F3D}</ProjectGuid>
+    <ProjectGuid>{90775428-1836-4113-AED3-CBDE7F110236}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Organizer.Infrastructure</RootNamespace>
-    <AssemblyName>Organizer.Infrastructure</AssemblyName>
+    <RootNamespace>Organizer.DI</RootNamespace>
+    <AssemblyName>Organizer.DI</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,13 +43,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\IConnectionFactory.cs" />
-    <Compile Include="Database\IDbContext.cs" />
-    <Compile Include="Database\IEntity.cs" />
-    <Compile Include="Database\IRepository.cs" />
-    <Compile Include="Database\IRepositoryProvider.cs" />
-    <Compile Include="Database\IUnitOfWork.cs" />
+    <Compile Include="AutofacInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Organizer.BL\Organizer.BL.csproj">
+      <Project>{69199102-5a9f-48f8-bb38-3d05ec37e4c4}</Project>
+      <Name>Organizer.BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Organizer.Common\Organizer.Common.csproj">
+      <Project>{ad5f05a7-cc04-40ac-8a25-c97303a5b081}</Project>
+      <Name>Organizer.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Organizer.DAL\Organizer.DAL.csproj">
+      <Project>{e741d9b8-2490-4859-8f02-ceeb8913de52}</Project>
+      <Name>Organizer.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Organizer.Infrastructure\Organizer.Infrastructure.csproj">
+      <Project>{731ef1fe-b536-4572-b4e0-b7d1c5869f3d}</Project>
+      <Name>Organizer.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
