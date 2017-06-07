@@ -9,20 +9,19 @@ namespace Organizer.DAL.Context
     public class DbContext : IDbContext
     {
         private readonly IDbConnection _connection;
-        private IUnitOfWork _currentWorkUnit;
-        private IDbTransaction _currentTransaction;
-        private bool _inTransaction;
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
+
+        private SqlDataAdapter _usersAdapter;
+        private SqlDataAdapter _notesAdapter;
+        private SqlDataAdapter _infoAdapter;
+        private SqlDataAdapter _contactsAdapter;
+        private SqlDataAdapter _meetingsAdapter;
 
         private DataSet _users;
         private DataSet _notes;
         private DataSet _personalInfos;
         private DataSet _contacts;
         private DataSet _meetings;
-
-        public IDbTransaction CurrentTransaction => _currentTransaction;
-
-        public IUnitOfWork CurrentWorkUnit => _currentWorkUnit;
 
         public DataSet Users
         {
@@ -97,28 +96,9 @@ namespace Organizer.DAL.Context
             }
         }
 
-        public bool InTransaction
-        {
-            get { return _inTransaction; }
-            private set { _inTransaction = value; }
-        }
-
         public DbContext(IDbConnection connection)
         {
             _connection = connection;
-        }
-
-        public IUnitOfWork CreateWorkUnit()
-        {
-            if (!InTransaction)
-            {
-                _lock.EnterWriteLock();
-                _currentTransaction = _connection.BeginTransaction();
-                InTransaction = true;
-                _currentWorkUnit = new UnitOfWork(this, RemoveTransaction, RemoveTransaction);
-                _lock.ExitWriteLock();
-            }
-            throw new Exception("UnitOfWork cannot be created because another transaction didn't finish executing.");
         }
 
         public DataSet Set(string setName)
@@ -128,76 +108,90 @@ namespace Organizer.DAL.Context
             switch (setName)
             {
                 case nameof(Users):
-                    result = _users;
+                    result = Users;
                     break;
 
                 case nameof(Notes):
-                    result = _notes;
+                    result = Notes;
                     break;
 
                 case nameof(PersonalInfos):
-                    result = _personalInfos;
+                    result = PersonalInfos;
                     break;
 
                 case nameof(Contacts):
-                    result = _contacts;
+                    result = Contacts;
                     break;
 
                 case nameof(Meetings):
-                    result = _meetings;
+                    result = Meetings;
                     break;
             }
 
             return result;
         }
 
+        public void SaveChanges()
+        {
+            _usersAdapter.Update(Users);
+            _contactsAdapter.Update(Contacts);
+            _notesAdapter.Update(Notes);
+            _meetingsAdapter.Update(Meetings);
+            _infoAdapter.Update(PersonalInfos);
+        }
+
         private void FetchUsers()
         {
-            var sqlAdapter = new SqlDataAdapter("SELECT * FROM dbo.Users", (SqlConnection)_connection);
-            if (_users == null)
-                _users = new DataSet();
-            sqlAdapter.Fill(_users);
+            _usersAdapter = GetAdapter("SELECT * FROM dbo.Users AS Users");
+            ClearOrCreateDataSet(_users);
+            _usersAdapter.Fill(_users);
         }
 
         private void FetchNotes()
         {
-            var sqlAdapter = new SqlDataAdapter("SELECT * FROM dbo.Notes", (SqlConnection)_connection);
-            if (_contacts == null)
-                _notes = new DataSet();
-            sqlAdapter.Fill(_notes);
+            _notesAdapter = GetAdapter("SELECT * FROM dbo.Notes");
+            ClearOrCreateDataSet(_notes);
+            _notesAdapter.Fill(_notes);
         }
 
         private void FetchPersonalInfo()
         {
-            var sqlAdapter = new SqlDataAdapter("SELECT * FROM dbo.PersonalInfo", (SqlConnection)_connection);
-            if (_personalInfos == null)
-                _personalInfos = new DataSet();
-            sqlAdapter.Fill(_personalInfos);
+            _infoAdapter = GetAdapter("SELECT * FROM dbo.PersonalInfo");
+            ClearOrCreateDataSet(_personalInfos);
+            _infoAdapter.Fill(_personalInfos);
         }
 
         private void FetchContacts()
         {
-            var sqlAdapter = new SqlDataAdapter("SELECT * FROM dbo.Contacts", (SqlConnection)_connection);
-            if (_contacts == null)
-                _contacts = new DataSet();
-            sqlAdapter.Fill(_contacts);
+            _contactsAdapter = GetAdapter("SELECT * FROM dbo.Contacts");
+            ClearOrCreateDataSet(_contacts);
+            _contactsAdapter.Fill(_contacts);
         }
 
         private void FetchMeetings()
         {
-            var sqlAdapter = new SqlDataAdapter("SELECT * FROM dbo.Meetings", (SqlConnection)_connection);
-            if (_meetings == null)
-                _meetings = new DataSet();
-            sqlAdapter.Fill(_meetings);
+            _meetingsAdapter = GetAdapter("SELECT * FROM dbo.Meetings");
+            ClearOrCreateDataSet(_meetings);
+            _meetingsAdapter.Fill(_meetings);
         }
 
-        private void RemoveTransaction()
+        private void ClearOrCreateDataSet(DataSet target)
         {
-            _lock.EnterWriteLock();
-            InTransaction = false;
-            _currentTransaction = null;
-            _currentWorkUnit = null;
-            _lock.ExitWriteLock();
+            if (target == null)
+                target = new DataSet();
+            else
+            {
+                target.Clear();
+            }
+        }
+
+        private SqlDataAdapter GetAdapter(string query)
+        {
+            if (_connection == null || _connection.State == ConnectionState.Closed)
+            {
+                throw new Exception("Cannot create adapter because connection was closed");
+            }
+            return new SqlDataAdapter(query, (SqlConnection)_connection);
         }
 
         #region IDisposable Support
@@ -215,7 +209,6 @@ namespace Organizer.DAL.Context
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // TODO: set large fields to null.
-                _currentWorkUnit?.Dispose();
                 _connection.Dispose();
                 _lock.Dispose();
 

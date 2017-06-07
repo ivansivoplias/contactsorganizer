@@ -1,10 +1,5 @@
 ﻿using Organizer.DAL.Entities;
 using Organizer.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Organizer.DAL.Repository
 {

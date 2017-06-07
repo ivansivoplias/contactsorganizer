@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Organizer.Infrastructure
 {
     public interface IDbContext : IDisposable
     {
-        IDbTransaction CurrentTransaction { get; }
-
-        IUnitOfWork CurrentWorkUnit { get; }
-
-        bool InTransaction { get; }
-
         DataSet Users { get; set; }
 
         DataSet Notes { get; set; }
@@ -27,6 +17,6 @@ namespace Organizer.Infrastructure
 
         DataSet Set(string setName);
 
-        IUnitOfWork CreateWorkUnit();
+        void SaveChanges();
     }
 }

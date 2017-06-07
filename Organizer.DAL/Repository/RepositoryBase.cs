@@ -35,6 +35,8 @@ namespace Organizer.DAL.Repository
 
         public abstract TEntity Map(IDataRecord record);
 
+        public abstract TEntity Map(DataRow row);
+
         #endregion Helpers
 
         #region CRUD
