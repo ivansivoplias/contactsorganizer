@@ -1,4 +1,4 @@
-﻿namespace Organizer.DAL.Entities
+﻿namespace Organizer.Common.Entities
 {
     public class User : BaseEntity
     {
@@ -8,6 +8,6 @@
 
         public override string IdColumnName => "UserId";
 
-        public override string TableName => "Users";
+        public override string TableName => "dbo.Users";
     }
 }

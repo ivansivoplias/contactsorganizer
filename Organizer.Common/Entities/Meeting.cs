@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Organizer.DAL.Entities
+namespace Organizer.Common.Entities
 {
     public class Meeting : BaseEntity
     {
@@ -12,6 +12,6 @@ namespace Organizer.DAL.Entities
 
         public override string IdColumnName => "MeetingId";
 
-        public override string TableName => "Meetings";
+        public override string TableName => "dbo.Meetings";
     }
 }

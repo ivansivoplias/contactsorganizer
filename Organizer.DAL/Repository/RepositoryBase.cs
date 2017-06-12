@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Organizer.DAL.Repository
 {
     public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : IEntity
     {
-        private IDbConnection _connection;
+        private SqlConnection _connection;
         protected readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace Organizer.DAL.Repository
         /// <param name="insertSql"></param>
         /// <param name="sqlTransaction"></param>
         /// <returns></returns>
-        public int Insert(TEntity entity, string insertSql, IDbTransaction sqlTransaction)
+        public int Insert(TEntity entity, string insertSql, SqlTransaction sqlTransaction)
         {
             int i = 0;
             try
@@ -59,7 +60,7 @@ namespace Organizer.DAL.Repository
         /// <param name="updateSql"></param>
         /// <param name="sqlTransaction"></param>
         /// <returns></returns>
-        public int Update(TEntity entity, string updateSql, IDbTransaction sqlTransaction)
+        public int Update(TEntity entity, string updateSql, SqlTransaction sqlTransaction)
         {
             int i = 0;
             using (var cmd = _connection.CreateCommand())
@@ -80,7 +81,7 @@ namespace Organizer.DAL.Repository
         /// <param name="deleteSql"></param>
         /// <param name="sqlTransaction"></param>
         /// <returns></returns>
-        public int Delete(int id, string deleteSql, IDbTransaction sqlTransaction)
+        public int Delete(int id, string deleteSql, SqlTransaction sqlTransaction)
         {
             int i = 0;
             using (var cmd = _connection.CreateCommand())
@@ -107,7 +108,7 @@ namespace Organizer.DAL.Repository
                 cmd.CommandText = getByIdSql;
                 cmd.CommandType = CommandType.Text;
                 GetByIdCommandParameters(id, cmd);
-                using (IDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     return Map(reader);
                 }
@@ -125,23 +126,23 @@ namespace Organizer.DAL.Repository
             {
                 cmd.CommandText = getAllSql;
                 cmd.CommandType = CommandType.Text;
-                using (IDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     return MapCollection(reader);
                 }
             }
         }
 
-        protected abstract void InsertCommandParameters(TEntity entity, IDbCommand cmd);
+        protected abstract void InsertCommandParameters(TEntity entity, SqlCommand cmd);
 
-        protected abstract void UpdateCommandParameters(TEntity entity, IDbCommand cmd);
+        protected abstract void UpdateCommandParameters(TEntity entity, SqlCommand cmd);
 
-        protected abstract void DeleteCommandParameters(int id, IDbCommand cmd);
+        protected abstract void DeleteCommandParameters(int id, SqlCommand cmd);
 
-        protected abstract void GetByIdCommandParameters(int id, IDbCommand cmd);
+        protected abstract void GetByIdCommandParameters(int id, SqlCommand cmd);
 
-        protected abstract TEntity Map(IDataReader reader);
+        protected abstract TEntity Map(SqlDataReader reader);
 
-        protected abstract List<TEntity> MapCollection(IDataReader reader);
+        protected abstract List<TEntity> MapCollection(SqlDataReader reader);
     }
 }

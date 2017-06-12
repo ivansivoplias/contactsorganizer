@@ -1,7 +1,6 @@
-﻿using Organizer.Common;
-using System;
+﻿using System;
 
-namespace Organizer.DAL.Entities
+namespace Organizer.Common.Entities
 {
     public class Note : BaseEntity
     {
@@ -19,6 +18,6 @@ namespace Organizer.DAL.Entities
 
         public override string IdColumnName => "NoteId";
 
-        public override string TableName => "Notes";
+        public override string TableName => "dbo.Notes";
     }
 }

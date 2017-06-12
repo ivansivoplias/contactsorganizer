@@ -1,6 +1,6 @@
 ﻿using Organizer.Infrastructure.Database;
 
-namespace Organizer.DAL.Entities
+namespace Organizer.Common.Entities
 {
     public abstract class BaseEntity : IEntity
     {

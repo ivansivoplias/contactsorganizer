@@ -1,4 +1,4 @@
-﻿using System.Data;
+﻿using System.Data.SqlClient;
 
 namespace Organizer.Infrastructure.Database
 {
@@ -6,7 +6,7 @@ namespace Organizer.Infrastructure.Database
     {
         IDbContext DataContext { get; }
 
-        IDbTransaction BeginTransaction();
+        SqlTransaction BeginTransaction();
 
         void Commit();
     }

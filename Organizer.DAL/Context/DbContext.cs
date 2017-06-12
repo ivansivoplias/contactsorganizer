@@ -7,7 +7,7 @@ namespace Organizer.DAL.Context
     public class DbContext : IDbContext
     {
         private readonly string _connectionString;
-        private IDbConnection _connection;
+        private SqlConnection _connection;
 
         /// <summary>
         /// Get connection string inside constructor.
@@ -21,7 +21,7 @@ namespace Organizer.DAL.Context
         /// <summary>
         /// Gets the connection.
         /// </summary>
-        public IDbConnection Connection
+        public SqlConnection Connection
         {
             get
             {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Organizer.DAL.Entities
+namespace Organizer.Common.Entities
 {
     public class PersonalInfo : BaseEntity
     {
@@ -13,6 +13,6 @@ namespace Organizer.DAL.Entities
 
         public override string IdColumnName => "PersonalInfoId";
 
-        public override string TableName => "PersonalInfo";
+        public override string TableName => "dbo.PersonalInfo";
     }
 }
