@@ -1,11 +1,13 @@
-﻿using System;
+﻿using System.Data;
 
-namespace Organizer.Infrastructure
+namespace Organizer.Infrastructure.Database
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
-        IRepository<TEntity> GetRepository<TEntity>() where TEntity : IEntity;
+        IDbContext DataContext { get; }
 
-        void SaveChanges();
+        IDbTransaction BeginTransaction();
+
+        void Commit();
     }
 }

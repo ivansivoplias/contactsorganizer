@@ -1,62 +1,147 @@
-﻿using Organizer.Infrastructure;
+﻿using Organizer.Infrastructure.Database;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
 namespace Organizer.DAL.Repository
 {
-    public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class, IEntity, new()
+    public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : IEntity
     {
-        private IDbContext _context;
-        protected DataSet _dataSet;
+        private IDbConnection _connection;
+        protected readonly IUnitOfWork _unitOfWork;
 
-        public RepositoryBase(IDbContext context, string baseSetName)
+        /// <summary>
+        /// Initialize the connection
+        /// </summary>
+        /// <param name="unitOfWork">UnitOfWork</param>
+        public RepositoryBase(IUnitOfWork unitOfWork)
         {
-            _context = context;
-            _context.Set(baseSetName);
+            if (unitOfWork == null)
+            {
+                throw new ArgumentNullException(nameof(unitOfWork));
+            }
+            _unitOfWork = unitOfWork;
+            _connection = _unitOfWork.DataContext.Connection;
         }
 
-        protected IDbContext Context => _context;
-
-        #region Helpers
-
-        protected ICollection<TEntity> ToList(IDbCommand command)
+        /// <summary>
+        /// Base Method for Insert Data
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="insertSql"></param>
+        /// <param name="sqlTransaction"></param>
+        /// <returns></returns>
+        public int Insert(TEntity entity, string insertSql, IDbTransaction sqlTransaction)
         {
-            using (var reader = command.ExecuteReader())
+            int i = 0;
+            try
             {
-                var items = new List<TEntity>();
-                while (reader.Read())
+                using (var cmd = _connection.CreateCommand())
                 {
-                    var item = Map(reader);
-                    items.Add(item);
+                    cmd.CommandText = insertSql;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Transaction = sqlTransaction;
+                    InsertCommandParameters(entity, cmd);
+                    i = cmd.ExecuteNonQuery();
                 }
-                return items;
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+            return i;
+        }
+
+        /// <summary>
+        /// Base Method for Update Data
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="updateSql"></param>
+        /// <param name="sqlTransaction"></param>
+        /// <returns></returns>
+        public int Update(TEntity entity, string updateSql, IDbTransaction sqlTransaction)
+        {
+            int i = 0;
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = updateSql;
+                cmd.CommandType = CommandType.Text;
+                cmd.Transaction = sqlTransaction;
+                UpdateCommandParameters(entity, cmd);
+                i = cmd.ExecuteNonQuery();
+            }
+            return i;
+        }
+
+        /// <summary>
+        /// Base Method for Delete Data
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="deleteSql"></param>
+        /// <param name="sqlTransaction"></param>
+        /// <returns></returns>
+        public int Delete(int id, string deleteSql, IDbTransaction sqlTransaction)
+        {
+            int i = 0;
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = deleteSql;
+                cmd.CommandType = CommandType.Text;
+                cmd.Transaction = sqlTransaction;
+                DeleteCommandParameters(id, cmd);
+                i = cmd.ExecuteNonQuery();
+            }
+            return i;
+        }
+
+        /// <summary>
+        /// Base Method for Populate Data by key
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="getByIdSql"></param>
+        /// <returns></returns>
+        public TEntity GetById(int id, string getByIdSql)
+        {
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = getByIdSql;
+                cmd.CommandType = CommandType.Text;
+                GetByIdCommandParameters(id, cmd);
+                using (IDataReader reader = cmd.ExecuteReader())
+                {
+                    return Map(reader);
+                }
             }
         }
 
-        public abstract TEntity Map(IDataRecord record);
+        /// <summary>
+        /// Base Method for Populate All Data
+        /// </summary>
+        /// <param name="getAllSql"></param>
+        /// <returns></returns>
+        public IEnumerable<TEntity> GetAll(string getAllSql)
+        {
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = getAllSql;
+                cmd.CommandType = CommandType.Text;
+                using (IDataReader reader = cmd.ExecuteReader())
+                {
+                    return MapCollection(reader);
+                }
+            }
+        }
 
-        public abstract TEntity Map(DataRow row);
+        protected abstract void InsertCommandParameters(TEntity entity, IDbCommand cmd);
 
-        #endregion Helpers
+        protected abstract void UpdateCommandParameters(TEntity entity, IDbCommand cmd);
 
-        #region CRUD
+        protected abstract void DeleteCommandParameters(int id, IDbCommand cmd);
 
-        public abstract void Create(TEntity entity);
+        protected abstract void GetByIdCommandParameters(int id, IDbCommand cmd);
 
-        public abstract void Delete(TEntity entity);
+        protected abstract TEntity Map(IDataReader reader);
 
-        public abstract void Delete(int id);
-
-        public abstract TEntity Get(int id);
-
-        public abstract TEntity Get(object key);
-
-        public abstract ICollection<TEntity> GetAll();
-
-        public abstract ICollection<TEntity> Select();
-
-        public abstract void Update(TEntity entity);
-
-        #endregion CRUD
+        protected abstract List<TEntity> MapCollection(IDataReader reader);
     }
 }

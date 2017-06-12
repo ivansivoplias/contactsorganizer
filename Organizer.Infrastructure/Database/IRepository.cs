@@ -1,27 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 
-namespace Organizer.Infrastructure
+namespace Organizer.Infrastructure.Database
 {
-    public interface IRepository<TEntity>
+    public interface IRepository<T> where T : IEntity
     {
-        TEntity Get(int id);
+        int Insert(T entity, string insertSql, IDbTransaction sqlTransaction);
 
-        TEntity Get(object key);
+        int Update(T entity, string updateSql, IDbTransaction sqlTransaction);
 
-        ICollection<TEntity> GetAll();
+        int Delete(int id, string deleteSql, IDbTransaction sqlTransaction);
 
-        ICollection<TEntity> Select();
+        T GetById(int id, string getByIdSql);
 
-        #region CRUD operations
-
-        void Create(TEntity entity);
-
-        void Update(TEntity entity);
-
-        void Delete(TEntity entity);
-
-        void Delete(int id);
-
-        #endregion CRUD operations
+        IEnumerable<T> GetAll(string getAllSql);
     }
 }

@@ -1,36 +1,83 @@
-﻿using Organizer.DAL.Repository;
-using Organizer.Infrastructure;
+﻿using Organizer.Infrastructure.Database;
+using System;
+using System.Data;
 
-namespace Organizer.DAL
+namespace Organizer.DAL.UnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private readonly IDbContext _context;
+        private IDatabaseContextFactory _factory;
+        private IDbContext _context;
+        public IDbTransaction Transaction { get; private set; }
 
-        private readonly IRepositoryProvider _repositoryProvider;
-
-        public UnitOfWork(IDbContext context)
+        /// <summary>
+        /// Constructor which will initialize the datacontext factory
+        /// </summary>
+        /// <param name="factory">datacontext factory</param>
+        public UnitOfWork(IDatabaseContextFactory factory)
         {
-            _context = context;
-            _repositoryProvider = new RepositoryProvider();
+            _factory = factory;
         }
 
-        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : IEntity
+        /// <summary>
+        /// Following method will use to Commit or Rollback memory data into database
+        /// </summary>
+        public void Commit()
         {
-            var repositoryType = typeof(IRepository<TEntity>);
-            var repositoryName = repositoryType.Name;
-
-            return _repositoryProvider.GetRepositoryForKey<TEntity>(repositoryName, _context);
+            if (Transaction != null)
+            {
+                try
+                {
+                    Transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    Transaction.Rollback();
+                }
+                Transaction.Dispose();
+                Transaction = null;
+            }
+            else
+            {
+                throw new NullReferenceException("Tryed commit not opened transaction");
+            }
         }
 
-        public void SaveChanges()
+        /// <summary>
+        /// Define a property of context class
+        /// </summary>
+        public IDbContext DataContext
         {
-            _context.SaveChanges();
+            get { return _context ?? (_context = _factory.Context()); }
         }
 
+        /// <summary>
+        /// Begin a database transaction
+        /// </summary>
+        /// <returns>Transaction</returns>
+        public IDbTransaction BeginTransaction()
+        {
+            if (Transaction != null)
+            {
+                throw new NullReferenceException("Not finished previous transaction");
+            }
+            Transaction = _context.Connection.BeginTransaction();
+            return Transaction;
+        }
+
+        /// <summary>
+        /// dispose a Transaction.
+        /// </summary>
         public void Dispose()
         {
-            _context.Dispose();
+            if (Transaction != null)
+            {
+                Transaction.Dispose();
+            }
+            if (_context != null)
+            {
+                _context.Dispose();
+            }
         }
     }
 }

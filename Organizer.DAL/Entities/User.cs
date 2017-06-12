@@ -1,13 +1,13 @@
-﻿using Organizer.Infrastructure;
-
-namespace Organizer.DAL.Entities
+﻿namespace Organizer.DAL.Entities
 {
-    public class User : IEntity
+    public class User : BaseEntity
     {
-        public int Id { get; set; }
+        public string Login { get; set; }
 
-        public string Username { get; set; }
+        public string Password { get; set; }
 
-        public string PasswordHash { get; set; }
+        public override string IdColumnName => "UserId";
+
+        public override string TableName => "Users";
     }
 }

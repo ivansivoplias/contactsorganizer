@@ -40,11 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\IConnectionFactory.cs" />
+    <Compile Include="Database\IConnectionStringFactory.cs" />
+    <Compile Include="Database\IDatabaseContextFactory.cs" />
     <Compile Include="Database\IDbContext.cs" />
     <Compile Include="Database\IEntity.cs" />
     <Compile Include="Database\IRepository.cs" />
-    <Compile Include="Database\IRepositoryProvider.cs" />
     <Compile Include="Database\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
