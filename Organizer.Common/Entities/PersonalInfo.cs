@@ -8,7 +8,6 @@ namespace Organizer.Common.Entities
         public string Lastname { get; set; }
         public string MiddleName { get; set; }
         public string Nickname { get; set; }
-        public Dictionary<string, string> AdditionalContacts { get; set; }
         public string Email { get; set; }
 
         public override string IdColumnName => "PersonalInfoId";

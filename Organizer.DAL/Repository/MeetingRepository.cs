@@ -20,6 +20,7 @@ namespace Organizer.DAL.Repository
         protected override void InsertCommandParameters(Meeting entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@Description", entity.Description);
+            cmd.Parameters.AddWithValue("@MeetingName", entity.MeetingName);
             cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
             cmd.Parameters.AddWithValue("@NotificationDate", entity.NotificationDate);
             cmd.Parameters.AddWithValue("@SendNotifications", entity.SendNotifications);
@@ -34,6 +35,7 @@ namespace Organizer.DAL.Repository
         protected override void UpdateCommandParameters(Meeting entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
+            cmd.Parameters.AddWithValue("@MeetingName", entity.MeetingName);
             cmd.Parameters.AddWithValue("@Description", entity.Description);
             cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
             cmd.Parameters.AddWithValue("@NotificationDate", entity.NotificationDate);
@@ -76,6 +78,7 @@ namespace Organizer.DAL.Repository
                 while (reader.Read())
                 {
                     meeting.Id = Convert.ToInt32(reader[meeting.IdColumnName].ToString());
+                    meeting.MeetingName = reader["MeetingName"].ToString();
                     meeting.Description = reader["Description"].ToString();
                     meeting.MeetingDate = DateTime.Parse(reader["Password"].ToString());
                     meeting.NotificationDate = DateTime.Parse(reader["NotificationDate"].ToString());
@@ -100,6 +103,7 @@ namespace Organizer.DAL.Repository
                 {
                     var meeting = new Meeting();
                     meeting.Id = Convert.ToInt32(reader[meeting.IdColumnName].ToString());
+                    meeting.MeetingName = reader["MeetingName"].ToString();
                     meeting.Description = reader["Description"].ToString();
                     meeting.MeetingDate = DateTime.Parse(reader["Password"].ToString());
                     meeting.NotificationDate = DateTime.Parse(reader["NotificationDate"].ToString());

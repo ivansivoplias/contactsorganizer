@@ -26,9 +26,6 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@Lastname", entity.Lastname);
             cmd.Parameters.AddWithValue("@MiddleName", entity.MiddleName);
             cmd.Parameters.AddWithValue("@Nickname", entity.Nickname);
-
-            cmd.Parameters.AddWithValue("@AdditionalContacts", GetCsvStringFromDictionary(entity.AdditionalContacts));
-
             cmd.Parameters.AddWithValue("@Email", entity.Email);
         }
 
@@ -44,7 +41,6 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@Lastname", entity.Lastname);
             cmd.Parameters.AddWithValue("@MiddleName", entity.MiddleName);
             cmd.Parameters.AddWithValue("@Nickname", entity.Nickname);
-            cmd.Parameters.AddWithValue("@AdditionalContacts", GetCsvStringFromDictionary(entity.AdditionalContacts));
             cmd.Parameters.AddWithValue("@Email", entity.Email);
         }
 
@@ -88,13 +84,6 @@ namespace Organizer.DAL.Repository
                     personalInfo.MiddleName = reader["MiddleName"].ToString();
                     personalInfo.Nickname = reader["Nickname"].ToString();
 
-                    var i = reader.GetOrdinal("AdditionalContacts");
-
-                    if (!reader.IsDBNull(i))
-                    {
-                        personalInfo.AdditionalContacts = GetDictionaryFromCsvString(reader["AdditionalContacts"].ToString());
-                    }
-
                     personalInfo.Email = reader["Email"].ToString();
                 }
             }
@@ -119,59 +108,12 @@ namespace Organizer.DAL.Repository
                     personalInfo.Lastname = reader["Lastname"].ToString();
                     personalInfo.MiddleName = reader["MiddleName"].ToString();
                     personalInfo.Nickname = reader["Nickname"].ToString();
-
-                    var i = reader.GetOrdinal("AdditionalContacts");
-
-                    if (!reader.IsDBNull(i))
-                    {
-                        personalInfo.AdditionalContacts = GetDictionaryFromCsvString(reader["AdditionalContacts"].ToString());
-                    }
-
                     personalInfo.Email = reader["Email"].ToString();
 
                     personalInfoList.Add(personalInfo);
                 }
             }
             return personalInfoList;
-        }
-
-        private string GetCsvStringFromDictionary(Dictionary<string, string> dictionary)
-        {
-            string result = string.Empty;
-            if (dictionary != null && dictionary.Any())
-            {
-                var i = 0;
-                var stringBuilder = new StringBuilder();
-                foreach (var item in dictionary)
-                {
-                    stringBuilder.Append($"{item.Key}={item.Value}");
-                    if (i != dictionary.Count - 1)
-                    {
-                        stringBuilder.Append(",");
-                    }
-                    i++;
-                }
-
-                result = stringBuilder.ToString();
-            }
-            return result;
-        }
-
-        private Dictionary<string, string> GetDictionaryFromCsvString(string csvString)
-        {
-            var result = new Dictionary<string, string>();
-
-            if (!string.IsNullOrEmpty(csvString))
-            {
-                var keyValuePairs = csvString.Split(',');
-                foreach (var pair in keyValuePairs)
-                {
-                    var keyValues = pair.Split('=');
-                    result.Add(keyValues[0], keyValues[1]);
-                }
-            }
-
-            return result;
         }
     }
 }

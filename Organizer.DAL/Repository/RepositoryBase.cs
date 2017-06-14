@@ -8,7 +8,7 @@ namespace Organizer.DAL.Repository
 {
     public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : IEntity
     {
-        private SqlConnection _connection;
+        protected SqlConnection _connection;
         protected readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
