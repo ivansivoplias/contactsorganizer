@@ -4,10 +4,11 @@ using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
 using Organizer.Common;
 using Organizer.Common.Entities;
+using Organizer.DAL.Abstract;
 
 namespace Organizer.DAL.Repository
 {
-    public class NoteRepository : RepositoryBase<Note>
+    public class NoteRepository : RepositoryBase<Note>, INoteRepository
     {
         public NoteRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
@@ -185,6 +186,46 @@ namespace Organizer.DAL.Repository
             {
                 setter(value);
             }
+        }
+
+        public IEnumerable<Note> FilterByCreationDate(int userId, DateTime date)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Note> FilterByLastChangeDate(int userId, DateTime lastChangeDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Note> FilterByNoteType(int userId, NoteType noteType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Note> FilterByCurrentState(int userId, State state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Note> FilterByPriority(int userId, Priority priority)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Note> FilterByCreationBetween(int userId, DateTime startLimit, DateTime endLimit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Note> FilterByStartDate(int userId, DateTime startDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Note> FilterByEndDate(int userId, DateTime endDate)
+        {
+            throw new NotImplementedException();
         }
     }
 }

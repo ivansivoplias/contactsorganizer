@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
 using Organizer.Common.Entities;
+using Organizer.DAL.Abstract;
 
 namespace Organizer.DAL.Repository
 {
-    public class MeetingRepository : RepositoryBase<Meeting>
+    public class MeetingRepository : RepositoryBase<Meeting>, IMeetingRepository
     {
         public MeetingRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
@@ -113,6 +114,16 @@ namespace Organizer.DAL.Repository
                 }
             }
             return meetings;
+        }
+
+        public IEnumerable<Meeting> FilterByMeetingDate(int userId, DateTime meetingDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Meeting> FilterByMeetingName(int userId, string meetingName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

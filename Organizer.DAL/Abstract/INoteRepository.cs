@@ -1,4 +1,5 @@
-﻿using Organizer.Common.Entities;
+﻿using Organizer.Common;
+using Organizer.Common.Entities;
 using Organizer.Infrastructure.Database;
 using System;
 using System.Collections.Generic;
