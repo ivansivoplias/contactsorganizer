@@ -16,7 +16,7 @@ namespace Organizer.DAL.Context
         /// If data context remain null then initialize new context
         /// </summary>
         /// <returns>dataContext</returns>
-        public IDbContext Context()
+        public IDbContext MakeContext()
         {
             return dataContext ?? (dataContext = new DbContext(_connectionString));
         }

@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\IConnectionStringFactory.cs" />
     <Compile Include="Database\IDatabaseContextFactory.cs" />
     <Compile Include="Database\IDbContext.cs" />
     <Compile Include="Database\IEntity.cs" />

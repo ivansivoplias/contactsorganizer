@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionStringFactory.cs" />
     <Compile Include="Context\DatabaseContextFactory.cs" />
     <Compile Include="Context\DbContext.cs" />
     <Compile Include="Abstract\IContactRepository.cs" />

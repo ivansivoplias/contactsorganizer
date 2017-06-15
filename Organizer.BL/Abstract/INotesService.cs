@@ -1,4 +1,4 @@
-﻿using Organizer.DAL.Entities;
+﻿using Organizer.Common.Entities;
 using System.Collections.Generic;
 
 namespace Organizer.BL.Abstract

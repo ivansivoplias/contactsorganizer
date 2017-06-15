@@ -1,6 +1,7 @@
 ﻿using Organizer.Infrastructure.Database;
 using System;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Organizer.DAL.UnitOfWork
 {
@@ -8,7 +9,7 @@ namespace Organizer.DAL.UnitOfWork
     {
         private IDatabaseContextFactory _factory;
         private IDbContext _context;
-        public IDbTransaction Transaction { get; private set; }
+        public SqlTransaction Transaction { get; private set; }
 
         /// <summary>
         /// Constructor which will initialize the datacontext factory
@@ -48,14 +49,14 @@ namespace Organizer.DAL.UnitOfWork
         /// </summary>
         public IDbContext DataContext
         {
-            get { return _context ?? (_context = _factory.Context()); }
+            get { return _context ?? (_context = _factory.MakeContext()); }
         }
 
         /// <summary>
         /// Begin a database transaction
         /// </summary>
         /// <returns>Transaction</returns>
-        public IDbTransaction BeginTransaction()
+        public SqlTransaction BeginTransaction()
         {
             if (Transaction != null)
             {

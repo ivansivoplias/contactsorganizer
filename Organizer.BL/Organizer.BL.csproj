@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Organizer.Common\Organizer.Common.csproj">
+      <Project>{AD5F05A7-CC04-40AC-8A25-C97303A5B081}</Project>
+      <Name>Organizer.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Organizer.DAL\Organizer.DAL.csproj">
       <Project>{e741d9b8-2490-4859-8f02-ceeb8913de52}</Project>
       <Name>Organizer.DAL</Name>
