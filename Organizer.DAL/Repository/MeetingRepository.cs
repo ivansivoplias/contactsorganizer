@@ -118,12 +118,48 @@ namespace Organizer.DAL.Repository
 
         public IEnumerable<Meeting> FilterByMeetingDate(int userId, DateTime meetingDate)
         {
-            throw new NotImplementedException();
+            IEnumerable<Meeting> result = null;
+
+            var meetingTable = new Meeting().TableName;
+            var query = $"SELECT * FROM {meetingTable} "
+                + "WHERE UserId = @UserId AND MeetingDate = @MeetingDate";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@MeetingDate", meetingDate);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
 
         public IEnumerable<Meeting> FilterByMeetingName(int userId, string meetingName)
         {
-            throw new NotImplementedException();
+            IEnumerable<Meeting> result = null;
+
+            var meetingTable = new Meeting().TableName;
+            var query = $"SELECT * FROM {meetingTable} "
+                + "WHERE UserId = @UserId AND MeetingName = @MeetingName";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@MeetingName", meetingName);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
     }
 }

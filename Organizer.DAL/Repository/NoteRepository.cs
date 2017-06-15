@@ -190,42 +190,187 @@ namespace Organizer.DAL.Repository
 
         public IEnumerable<Note> FilterByCreationDate(int userId, DateTime date)
         {
-            throw new NotImplementedException();
+            IEnumerable<Note> result = null;
+
+            var noteTable = new Note().TableName;
+            var query = $"SELECT * FROM {noteTable} "
+                + "WHERE UserId = @UserId AND CreationDate = @CreationDate";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@CreationDate", date);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
 
         public IEnumerable<Note> FilterByLastChangeDate(int userId, DateTime lastChangeDate)
         {
-            throw new NotImplementedException();
+            IEnumerable<Note> result = null;
+
+            var noteTable = new Note().TableName;
+            var query = $"SELECT * FROM {noteTable} "
+                + "WHERE UserId = @UserId AND LastChangeDate = @LastChangeDate";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@LastChangeDate", lastChangeDate);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
 
         public IEnumerable<Note> FilterByNoteType(int userId, NoteType noteType)
         {
-            throw new NotImplementedException();
+            IEnumerable<Note> result = null;
+
+            var noteTable = new Note().TableName;
+            var query = $"SELECT * FROM {noteTable} "
+                + "WHERE UserId = @UserId AND NoteType = @NoteType";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@NoteType", noteType.ToString());
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
 
         public IEnumerable<Note> FilterByCurrentState(int userId, State state)
         {
-            throw new NotImplementedException();
+            IEnumerable<Note> result = null;
+
+            var noteTable = new Note().TableName;
+            var query = $"SELECT * FROM {noteTable} "
+                + "WHERE UserId = @UserId AND State = @State";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@State", state.ToString());
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
 
         public IEnumerable<Note> FilterByPriority(int userId, Priority priority)
         {
-            throw new NotImplementedException();
+            IEnumerable<Note> result = null;
+
+            var noteTable = new Note().TableName;
+            var query = $"SELECT * FROM {noteTable} "
+                + "WHERE UserId = @UserId AND Priority = @Priority";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@Priority", priority.ToString());
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
 
         public IEnumerable<Note> FilterByCreationBetween(int userId, DateTime startLimit, DateTime endLimit)
         {
-            throw new NotImplementedException();
+            IEnumerable<Note> result = null;
+
+            var noteTable = new Note().TableName;
+            var query = $"SELECT * FROM {noteTable} "
+                + "WHERE UserId = @UserId AND СreationDate BETWEEN @StartLimit AND @EndLimit";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@StartLimit", startLimit);
+                cmd.Parameters.AddWithValue("@EndLimit", endLimit);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
 
         public IEnumerable<Note> FilterByStartDate(int userId, DateTime startDate)
         {
-            throw new NotImplementedException();
+            IEnumerable<Note> result = null;
+
+            var noteTable = new Note().TableName;
+            var query = $"SELECT * FROM {noteTable} "
+                + "WHERE UserId = @UserId AND StartDate = @StartDate";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@StartDate", startDate);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
 
         public IEnumerable<Note> FilterByEndDate(int userId, DateTime endDate)
         {
-            throw new NotImplementedException();
+            IEnumerable<Note> result = null;
+
+            var noteTable = new Note().TableName;
+            var query = $"SELECT * FROM {noteTable} "
+                + "WHERE UserId = @UserId AND EndDate = @EndDate";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@EndDate", endDate);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
     }
 }
