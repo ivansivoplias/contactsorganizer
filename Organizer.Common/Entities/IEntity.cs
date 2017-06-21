@@ -1,4 +1,4 @@
-﻿namespace Organizer.Infrastructure.Database
+﻿namespace Organizer.Common.Entities
 {
     public interface IEntity
     {

@@ -12,7 +12,8 @@ namespace Organizer.DI
     {
         public static void Initialize(ContainerBuilder builder, string connectionString)
         {
-            builder.Register(x => new DatabaseContextFactory(connectionString));
+            builder.Register(x => new DatabaseContextFactory(connectionString))
+                .As<IDatabaseContextFactory>();
 
             builder.Register(x =>
             {

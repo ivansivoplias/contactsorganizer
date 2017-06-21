@@ -21,8 +21,6 @@ namespace Organizer.DAL.Repository
         protected override void InsertCommandParameters(Contact entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@PrimaryPhone", entity.PrimaryPhone);
-            string secondaryPhones = string.Join(",", entity.SecondaryPhones);
-            cmd.Parameters.AddWithValue("@SecondaryPhones", entity.SecondaryPhones);
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
@@ -35,8 +33,6 @@ namespace Organizer.DAL.Repository
         {
             cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
             cmd.Parameters.AddWithValue("@PrimaryPhone", entity.PrimaryPhone);
-            string secondaryPhones = string.Join(",", entity.SecondaryPhones);
-            cmd.Parameters.AddWithValue("@SecondaryPhones", entity.SecondaryPhones);
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
@@ -76,7 +72,6 @@ namespace Organizer.DAL.Repository
                 {
                     contact.Id = Convert.ToInt32(reader[contact.IdColumnName].ToString());
                     contact.PrimaryPhone = reader["PrimaryPhone"].ToString();
-                    contact.SecondaryPhones = reader["SecondaryPhones"].ToString().Split(',');
                     contact.UserId = Convert.ToInt32(reader["UserId"].ToString());
                 }
             }
@@ -98,36 +93,11 @@ namespace Organizer.DAL.Repository
                     var contact = new Contact();
                     contact.Id = Convert.ToInt32(reader[contact.IdColumnName].ToString());
                     contact.PrimaryPhone = reader["PrimaryPhone"].ToString();
-                    contact.SecondaryPhones = reader["SecondaryPhones"].ToString().Split(',');
                     contact.UserId = Convert.ToInt32(reader["UserId"].ToString());
                     contacts.Add(contact);
                 }
             }
             return contacts;
-        }
-
-        public IEnumerable<Contact> FilterByPhone(int userId, string phone)
-        {
-            IEnumerable<Contact> result = null;
-
-            var contactTable = new Contact().TableName;
-            string query = $"SELECT * FROM {contactTable}" +
-                " WHERE UserId = @UserId AND (PrimaryPhone = @Phone" +
-                " OR CHARINDEX(SecondaryPhones, @Phone) > 0)";
-
-            using (var cmd = _connection.CreateCommand())
-            {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@Phone", phone);
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    result = MapCollection(reader);
-                }
-            }
-
-            return result;
         }
 
         public IEnumerable<Contact> FilterBySocialInfo(int userId, SocialInfo socialInfo)

@@ -1,4 +1,5 @@
 ﻿using System;
+using Organizer.Common.Enums;
 
 namespace Organizer.Common.Entities
 {

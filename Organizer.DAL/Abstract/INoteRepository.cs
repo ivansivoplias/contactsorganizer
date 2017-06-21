@@ -1,11 +1,8 @@
-﻿using Organizer.Common;
-using Organizer.Common.Entities;
+﻿using Organizer.Common.Entities;
 using Organizer.Infrastructure.Database;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Organizer.Common.Enums;
 
 namespace Organizer.DAL.Abstract
 {

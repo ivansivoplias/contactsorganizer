@@ -52,6 +52,7 @@
     <Compile Include="Repository\NoteRepository.cs" />
     <Compile Include="Repository\PersonalInfoRepository.cs" />
     <Compile Include="Repository\RepositoryBase.cs" />
+    <Compile Include="Repository\SocialInfoRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
   </ItemGroup>

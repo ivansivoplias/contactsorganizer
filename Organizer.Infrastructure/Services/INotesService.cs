@@ -1,7 +1,9 @@
-﻿using Organizer.Common.Entities;
+﻿using System;
 using System.Collections.Generic;
+using Organizer.Common.Entities;
+using Organizer.Common.Enums;
 
-namespace Organizer.BL.Abstract
+namespace Organizer.Infrastructure.Services
 {
     public interface INotesService
     {
@@ -14,5 +16,21 @@ namespace Organizer.BL.Abstract
         ICollection<Note> GetNotes(User user);
 
         Note GetNote(int noteId);
+
+        ICollection<Note> GetNotesByCreationDate(User user, DateTime creationDate);
+
+        ICollection<Note> GetNotesByLastChangeDate(User user, DateTime lastChangeDate);
+
+        ICollection<Note> GetNotesByNoteType(User user, NoteType noteType);
+
+        ICollection<Note> GetNotesByCurrentState(User user, State state);
+
+        ICollection<Note> GetNotesByPriority(User user, Priority priority);
+
+        ICollection<Note> GetNotesCreatedBetween(User user, DateTime start, DateTime end);
+        
+        ICollection<Note> GetNotesByStartDate(User user, DateTime startDate);
+
+        ICollection<Note> GetNotesByEndDate(User user, DateTime endDate);
     }
 }

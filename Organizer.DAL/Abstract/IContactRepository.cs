@@ -6,8 +6,6 @@ namespace Organizer.DAL.Abstract
 {
     public interface IContactRepository : IRepository<Contact>
     {
-        IEnumerable<Contact> FilterByPhone(int userId, string phone);
-
         IEnumerable<Contact> FilterBySocialInfo(int userId, SocialInfo socialInfo);
 
         IEnumerable<Contact> FilterByFirstName(int userId, string firstName);

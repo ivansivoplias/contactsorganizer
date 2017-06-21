@@ -1,4 +1,4 @@
-﻿namespace Organizer.Common
+﻿namespace Organizer.Common.Enums
 {
     public enum Priority
     {

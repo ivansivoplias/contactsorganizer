@@ -1,6 +1,9 @@
 ﻿using Organizer.UI.Properties;
 using System.Configuration;
 using System.Windows;
+using Autofac;
+using Organizer.DI;
+using Organizer.Infrastructure.Database;
 
 namespace Organizer.UI
 {
@@ -9,17 +12,30 @@ namespace Organizer.UI
     /// </summary>
     public partial class App : Application
     {
+        public static IContainer Containter { get; private set; }
+
+        public static string ConnectionString { get; private set; }
+
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            ConnectionStringSettings connectionString;
             if (Settings.Default.InHomework)
             {
-                connectionString = ConfigurationManager.ConnectionStrings["HomeDb"];
+                ConnectionString = ConfigurationManager.ConnectionStrings["HomeDb"].ConnectionString;
             }
             else
             {
-                connectionString = ConfigurationManager.ConnectionStrings["SyvopliasDb"];
+                ConnectionString = ConfigurationManager.ConnectionStrings["SyvopliasDb"].ConnectionString;
             }
+
+            SetupContainer();
+        }
+
+        private static void SetupContainer()
+        {
+            var containerBuilder = new ContainerBuilder();
+            AutofacInitializer.Initialize(containerBuilder, ConnectionString);
+
+            Containter = containerBuilder.Build();
         }
     }
 }

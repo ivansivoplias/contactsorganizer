@@ -1,11 +1,11 @@
-﻿using Organizer.Common.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Organizer.Common.Entities;
 
-namespace Organizer.BL.Abstract
+namespace Organizer.Infrastructure.Services
 {
     public interface IUserService
     {
-        User Login(string userName, string passWord);
+        User Login(string userName, string password);
 
         void Logout(User user);
 

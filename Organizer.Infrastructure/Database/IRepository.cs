@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using Organizer.Common.Entities;
 
 namespace Organizer.Infrastructure.Database
 {

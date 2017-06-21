@@ -1,6 +1,4 @@
-﻿using Organizer.Infrastructure.Database;
-
-namespace Organizer.Common.Entities
+﻿namespace Organizer.Common.Entities
 {
     public abstract class BaseEntity : IEntity
     {

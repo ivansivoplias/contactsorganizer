@@ -4,6 +4,7 @@ using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
 using Organizer.Common;
 using Organizer.Common.Entities;
+using Organizer.Common.Enums;
 using Organizer.DAL.Abstract;
 
 namespace Organizer.DAL.Repository
