@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Organizer.DAL.Repository
 {
-    public class SocialInfoRepository : RepositoryBase<SocialInfo>
+    public class SocialInfoRepository : RepositoryBase<SocialInfo>, ISocialInfoRepository
     {
         private readonly string _socialInfoId;
         private readonly string _socialInfoTable;
@@ -110,6 +110,25 @@ namespace Organizer.DAL.Repository
         public override IEnumerable<SocialInfo> GetAll()
         {
             return GetAll($"SELECT * FROM {_socialInfoTable}");
+        }
+
+        public IEnumerable<SocialInfo> GetContactSocials(int contactId)
+        {
+            IEnumerable<SocialInfo> list = null;
+            var query = $"SELECT * FROM {_socialInfoTable} WHERE ContactId = @ContactId";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@ContactId", contactId);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    list = MapCollection(reader);
+                }
+            }
+
+            return list;
         }
     }
 }
