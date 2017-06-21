@@ -7,14 +7,14 @@ namespace Organizer.Infrastructure.Database
 {
     public interface IRepository<T> where T : IEntity
     {
-        int Insert(T entity, string insertSql, SqlTransaction sqlTransaction);
+        int Insert(T entity, SqlTransaction sqlTransaction);
 
-        int Update(T entity, string updateSql, SqlTransaction sqlTransaction);
+        int Update(T entity, SqlTransaction sqlTransaction);
 
-        int Delete(int id, string deleteSql, SqlTransaction sqlTransaction);
+        int Delete(int id, SqlTransaction sqlTransaction);
 
-        T GetById(int id, string getByIdSql);
+        T GetById(int id);
 
-        IEnumerable<T> GetAll(string getAllSql);
+        IEnumerable<T> GetAll();
     }
 }

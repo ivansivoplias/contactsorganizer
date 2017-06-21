@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
 using Organizer.Common.Entities;
-using Organizer.DAL.Abstract;
 
 namespace Organizer.DAL.Repository
 {
     public class MeetingRepository : RepositoryBase<Meeting>, IMeetingRepository
     {
+        private readonly string _meetingId;
+        private readonly string _meetingTable;
+
         public MeetingRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
+            var meeting = new Meeting();
+            _meetingId = meeting.IdColumnName;
+            _meetingTable = meeting.TableName;
         }
 
-        /// <summary>
-        /// Passes the parameters for Insert Statement
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cmd"></param>
         protected override void InsertCommandParameters(Meeting entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@Description", entity.Description);
@@ -28,11 +28,6 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
-        /// <summary>
-        /// Passes the parameters for Update Statement
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cmd"></param>
         protected override void UpdateCommandParameters(Meeting entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
@@ -44,33 +39,18 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
-        /// <summary>
-        /// Passes the parameters to command for Delete Statement
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cmd"></param>
         protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
             var idColumnName = new Meeting().IdColumnName;
             cmd.Parameters.AddWithValue($"@{idColumnName}", id);
         }
 
-        /// <summary>
-        /// Passes the parameters to command for populate by key statement
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cmd"></param>
         protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
             var idColumnName = new Meeting().IdColumnName;
             cmd.Parameters.AddWithValue($"@{idColumnName}", id);
         }
 
-        /// <summary>
-        /// Maps data for populate by key statement
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
         protected override Meeting Map(SqlDataReader reader)
         {
             var meeting = new Meeting();
@@ -90,11 +70,6 @@ namespace Organizer.DAL.Repository
             return meeting;
         }
 
-        /// <summary>
-        /// Maps data for populate all statement
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
         protected override List<Meeting> MapCollection(SqlDataReader reader)
         {
             var meetings = new List<Meeting>();
@@ -160,6 +135,43 @@ namespace Organizer.DAL.Repository
             }
 
             return result;
+        }
+
+        public override int Insert(Meeting entity, SqlTransaction sqlTransaction)
+        {
+            var query = $"INSERT INTO {_meetingTable} (Description, MeetingName, MeetingDate, " +
+                "NotificationDate, SendNotifications, UserId)" +
+                " VALUES(@Description, @MeetingName, @MeetingDate, " +
+                "@NotificationDate, @SendNotifications, @UserId)";
+            return Insert(entity, query, sqlTransaction);
+        }
+
+        public override int Update(Meeting entity, SqlTransaction sqlTransaction)
+        {
+            var query = $"UPDATE {_meetingTable} SET MeetingName = @MeetingName," +
+                " Description = @Description, MeetingDate = @MeetingDate, " +
+                "NotificationDate = @NotificationDate, SendNotifications = @SendNotifications," +
+                " UserId = @Userid" +
+                $" WHERE {_meetingId} = @{_meetingId}";
+            return Update(entity, query, sqlTransaction);
+        }
+
+        public override int Delete(int id, SqlTransaction sqlTransaction)
+        {
+            var query = $"DELETE FROM {_meetingTable} WHERE {_meetingId} = @{_meetingId}";
+            return Delete(id, query, sqlTransaction);
+        }
+
+        public override Meeting GetById(int id)
+        {
+            var query = $"SELECT TOP 1 * FROM {_meetingTable} WHERE {_meetingId} = @{_meetingId}";
+
+            return GetById(id, query);
+        }
+
+        public override IEnumerable<Meeting> GetAll()
+        {
+            return GetAll($"SELECT * FROM {_meetingTable}");
         }
     }
 }

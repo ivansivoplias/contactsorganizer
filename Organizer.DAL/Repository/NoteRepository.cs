@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
-using Organizer.Common;
 using Organizer.Common.Entities;
 using Organizer.Common.Enums;
-using Organizer.DAL.Abstract;
 
 namespace Organizer.DAL.Repository
 {
     public class NoteRepository : RepositoryBase<Note>, INoteRepository
     {
+        private readonly string _noteTable;
+        private readonly string _noteId;
+
         public NoteRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
+            var note = new Note();
+            _noteId = note.IdColumnName;
+            _noteTable = note.TableName;
         }
 
-        /// <summary>
-        /// Passes the parameters for Insert Statement
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cmd"></param>
         protected override void InsertCommandParameters(Note entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@NoteText", entity.NoteText);
@@ -39,14 +38,9 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
-        /// <summary>
-        /// Passes the parameters for Update Statement
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cmd"></param>
         protected override void UpdateCommandParameters(Note entity, SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
+            cmd.Parameters.AddWithValue($"@{_noteId}", entity.Id);
             cmd.Parameters.AddWithValue("@NoteText", entity.NoteText);
             cmd.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
             cmd.Parameters.AddWithValue("@LastChangeDate", entity.LastChangeDate);
@@ -64,33 +58,16 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
-        /// <summary>
-        /// Passes the parameters to command for Delete Statement
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cmd"></param>
         protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
-            var idColumnName = new Note().IdColumnName;
-            cmd.Parameters.AddWithValue($"@{idColumnName}", id);
+            cmd.Parameters.AddWithValue($"@{_noteId}", id);
         }
 
-        /// <summary>
-        /// Passes the parameters to command for populate by key statement
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cmd"></param>
         protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
-            var idColumnName = new Note().IdColumnName;
-            cmd.Parameters.AddWithValue($"@{idColumnName}", id);
+            cmd.Parameters.AddWithValue($"@{_noteId}", id);
         }
 
-        /// <summary>
-        /// Maps data for populate by key statement
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
         protected override Note Map(SqlDataReader reader)
         {
             var note = new Note();
@@ -98,7 +75,7 @@ namespace Organizer.DAL.Repository
             {
                 while (reader.Read())
                 {
-                    note.Id = Convert.ToInt32(reader[note.IdColumnName].ToString());
+                    note.Id = Convert.ToInt32(reader[_noteId].ToString());
 
                     TryParseDateTime(reader, "CreationDate", (x) => note.CreationDate = x);
 
@@ -122,11 +99,6 @@ namespace Organizer.DAL.Repository
             return note;
         }
 
-        /// <summary>
-        /// Maps data for populate all statement
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
         protected override List<Note> MapCollection(SqlDataReader reader)
         {
             var notes = new List<Note>();
@@ -135,7 +107,7 @@ namespace Organizer.DAL.Repository
                 while (reader.Read())
                 {
                     var note = new Note();
-                    note.Id = Convert.ToInt32(reader[note.IdColumnName].ToString());
+                    note.Id = Convert.ToInt32(reader[_noteId].ToString());
 
                     TryParseDateTime(reader, "CreationDate", (x) => note.CreationDate = x);
 
@@ -193,8 +165,7 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Note> result = null;
 
-            var noteTable = new Note().TableName;
-            var query = $"SELECT * FROM {noteTable} "
+            var query = $"SELECT * FROM {_noteTable} "
                 + "WHERE UserId = @UserId AND CreationDate = @CreationDate";
 
             using (var cmd = _connection.CreateCommand())
@@ -216,8 +187,7 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Note> result = null;
 
-            var noteTable = new Note().TableName;
-            var query = $"SELECT * FROM {noteTable} "
+            var query = $"SELECT * FROM {_noteTable} "
                 + "WHERE UserId = @UserId AND LastChangeDate = @LastChangeDate";
 
             using (var cmd = _connection.CreateCommand())
@@ -239,8 +209,7 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Note> result = null;
 
-            var noteTable = new Note().TableName;
-            var query = $"SELECT * FROM {noteTable} "
+            var query = $"SELECT * FROM {_noteTable} "
                 + "WHERE UserId = @UserId AND NoteType = @NoteType";
 
             using (var cmd = _connection.CreateCommand())
@@ -262,8 +231,7 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Note> result = null;
 
-            var noteTable = new Note().TableName;
-            var query = $"SELECT * FROM {noteTable} "
+            var query = $"SELECT * FROM {_noteTable} "
                 + "WHERE UserId = @UserId AND State = @State";
 
             using (var cmd = _connection.CreateCommand())
@@ -285,8 +253,7 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Note> result = null;
 
-            var noteTable = new Note().TableName;
-            var query = $"SELECT * FROM {noteTable} "
+            var query = $"SELECT * FROM {_noteTable} "
                 + "WHERE UserId = @UserId AND Priority = @Priority";
 
             using (var cmd = _connection.CreateCommand())
@@ -308,8 +275,7 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Note> result = null;
 
-            var noteTable = new Note().TableName;
-            var query = $"SELECT * FROM {noteTable} "
+            var query = $"SELECT * FROM {_noteTable} "
                 + "WHERE UserId = @UserId AND СreationDate BETWEEN @StartLimit AND @EndLimit";
 
             using (var cmd = _connection.CreateCommand())
@@ -332,8 +298,7 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Note> result = null;
 
-            var noteTable = new Note().TableName;
-            var query = $"SELECT * FROM {noteTable} "
+            var query = $"SELECT * FROM {_noteTable} "
                 + "WHERE UserId = @UserId AND StartDate = @StartDate";
 
             using (var cmd = _connection.CreateCommand())
@@ -355,8 +320,7 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Note> result = null;
 
-            var noteTable = new Note().TableName;
-            var query = $"SELECT * FROM {noteTable} "
+            var query = $"SELECT * FROM {_noteTable} "
                 + "WHERE UserId = @UserId AND EndDate = @EndDate";
 
             using (var cmd = _connection.CreateCommand())
@@ -372,6 +336,43 @@ namespace Organizer.DAL.Repository
             }
 
             return result;
+        }
+
+        public override int Insert(Note entity, SqlTransaction sqlTransaction)
+        {
+            var query = $"INSERT INTO {_noteTable} (NoteText, CreationDate, LastChangeDate, " +
+                "NoteType, State, Priority, StartDate, EndDate, UserId)" +
+                " VALUES(@NoteText, @CreationDate, @LastChangeDate, " +
+                "@NoteType, @State, @Priority, @StartDate, @EndDate, @UserId)";
+            return Insert(entity, query, sqlTransaction);
+        }
+
+        public override int Update(Note entity, SqlTransaction sqlTransaction)
+        {
+            var query = $"UPDATE {_noteTable} SET NoteText = @NoteText," +
+                " CreationDate = @CreationDate, LastChangeDate = @LastChangeDate, " +
+                "NoteType = @NoteType, State = @State, Priority = @Priority," +
+                " StartDate = @StartDate, EndDate = @EndDate, UserId = @Userid" +
+                $" WHERE {_noteId} = @{_noteId}";
+            return Update(entity, query, sqlTransaction);
+        }
+
+        public override int Delete(int id, SqlTransaction sqlTransaction)
+        {
+            var query = $"DELETE FROM {_noteTable} WHERE {_noteId} = @{_noteId}";
+            return Delete(id, query, sqlTransaction);
+        }
+
+        public override Note GetById(int id)
+        {
+            var query = $"SELECT TOP 1 * FROM {_noteTable} WHERE {_noteId} = @{_noteId}";
+
+            return GetById(id, query);
+        }
+
+        public override IEnumerable<Note> GetAll()
+        {
+            return GetAll($"SELECT * FROM {_noteTable}");
         }
     }
 }

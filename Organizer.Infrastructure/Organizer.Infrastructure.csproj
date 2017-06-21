@@ -40,10 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\Repositories\IContactRepository.cs" />
     <Compile Include="Database\IDatabaseContextFactory.cs" />
     <Compile Include="Database\IDbContext.cs" />
+    <Compile Include="Database\Repositories\IMeetingRepository.cs" />
+    <Compile Include="Database\Repositories\INoteRepository.cs" />
     <Compile Include="Database\IRepository.cs" />
     <Compile Include="Database\IUnitOfWork.cs" />
+    <Compile Include="Database\Repositories\ISocialInfoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IContactService.cs" />
     <Compile Include="Services\INotesService.cs" />
@@ -55,5 +59,6 @@
       <Name>Organizer.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

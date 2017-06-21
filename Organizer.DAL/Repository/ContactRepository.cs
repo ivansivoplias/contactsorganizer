@@ -3,32 +3,27 @@ using System.Collections.Generic;
 using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
 using Organizer.Common.Entities;
-using Organizer.DAL.Abstract;
 
 namespace Organizer.DAL.Repository
 {
     public class ContactRepository : RepositoryBase<Contact>, IContactRepository
     {
+        private readonly string _contactTable;
+        private readonly string _contactId;
+
         public ContactRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
+            var cont = new Contact();
+            _contactId = cont.IdColumnName;
+            _contactTable = cont.TableName;
         }
 
-        /// <summary>
-        /// Passes the parameters for Insert Statement
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cmd"></param>
         protected override void InsertCommandParameters(Contact entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@PrimaryPhone", entity.PrimaryPhone);
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
-        /// <summary>
-        /// Passes the parameters for Update Statement
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cmd"></param>
         protected override void UpdateCommandParameters(Contact entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
@@ -36,33 +31,16 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
-        /// <summary>
-        /// Passes the parameters to command for Delete Statement
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cmd"></param>
         protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
-            var idColumnName = new Contact().IdColumnName;
-            cmd.Parameters.AddWithValue($"@{idColumnName}", id);
+            cmd.Parameters.AddWithValue($"@{_contactId}", id);
         }
 
-        /// <summary>
-        /// Passes the parameters to command for populate by key statement
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cmd"></param>
         protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
-            var idColumnName = new Contact().IdColumnName;
-            cmd.Parameters.AddWithValue($"@{idColumnName}", id);
+            cmd.Parameters.AddWithValue($"@{_contactId}", id);
         }
 
-        /// <summary>
-        /// Maps data for populate by key statement
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
         protected override Contact Map(SqlDataReader reader)
         {
             var contact = new Contact();
@@ -70,7 +48,7 @@ namespace Organizer.DAL.Repository
             {
                 while (reader.Read())
                 {
-                    contact.Id = Convert.ToInt32(reader[contact.IdColumnName].ToString());
+                    contact.Id = Convert.ToInt32(reader[_contactId].ToString());
                     contact.PrimaryPhone = reader["PrimaryPhone"].ToString();
                     contact.UserId = Convert.ToInt32(reader["UserId"].ToString());
                 }
@@ -78,11 +56,6 @@ namespace Organizer.DAL.Repository
             return contact;
         }
 
-        /// <summary>
-        /// Maps data for populate all statement
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
         protected override List<Contact> MapCollection(SqlDataReader reader)
         {
             var contacts = new List<Contact>();
@@ -91,7 +64,7 @@ namespace Organizer.DAL.Repository
                 while (reader.Read())
                 {
                     var contact = new Contact();
-                    contact.Id = Convert.ToInt32(reader[contact.IdColumnName].ToString());
+                    contact.Id = Convert.ToInt32(reader[_contactId].ToString());
                     contact.PrimaryPhone = reader["PrimaryPhone"].ToString();
                     contact.UserId = Convert.ToInt32(reader["UserId"].ToString());
                     contacts.Add(contact);
@@ -104,11 +77,9 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Contact> result = null;
 
-            var contactTable = new Contact().TableName;
-            var contactId = new Contact().IdColumnName;
             var socialInfoTable = socialInfo.TableName;
-            string query = $"SELECT * FROM {contactTable} " +
-                $"INNER JOIN {socialInfoTable} ON {contactTable}.{contactId} = {socialInfoTable}.ContactId "
+            string query = $"SELECT * FROM {_contactTable} " +
+                $"INNER JOIN {socialInfoTable} ON {_contactTable}.{_contactId} = {socialInfoTable}.ContactId "
                 + "WHERE UserId = @UserId AND AppName = @AppName AND AppId = @AppId";
 
             using (var cmd = _connection.CreateCommand())
@@ -132,12 +103,10 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Contact> result = null;
 
-            var contactTable = new Contact().TableName;
-            var contactId = new Contact().IdColumnName;
             var personalInfoTable = new PersonalInfo().TableName;
             var personalInfoId = new PersonalInfo().IdColumnName;
-            string query = $"SELECT * FROM {contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {contactTable}.{contactId} = {personalInfoTable}.{personalInfoId}"
+            string query = $"SELECT * FROM {_contactTable} " +
+                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
                 + " WHERE UserId = @UserId AND FirstName = @FirstName";
 
             using (var cmd = _connection.CreateCommand())
@@ -159,12 +128,10 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Contact> result = null;
 
-            var contactTable = new Contact().TableName;
-            var contactId = new Contact().IdColumnName;
             var personalInfoTable = new PersonalInfo().TableName;
             var personalInfoId = new PersonalInfo().IdColumnName;
-            string query = $"SELECT * FROM {contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {contactTable}.{contactId} = {personalInfoTable}.{personalInfoId}"
+            string query = $"SELECT * FROM {_contactTable} " +
+                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
                 + " WHERE UserId = @UserId AND Lastname = @LastName";
 
             using (var cmd = _connection.CreateCommand())
@@ -186,12 +153,10 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Contact> result = null;
 
-            var contactTable = new Contact().TableName;
-            var contactId = new Contact().IdColumnName;
             var personalInfoTable = new PersonalInfo().TableName;
             var personalInfoId = new PersonalInfo().IdColumnName;
-            string query = $"SELECT * FROM {contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {contactTable}.{contactId} = {personalInfoTable}.{personalInfoId}"
+            string query = $"SELECT * FROM {_contactTable} " +
+                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
                 + " WHERE UserId = @UserId AND MiddleName = @MiddleName";
 
             using (var cmd = _connection.CreateCommand())
@@ -213,12 +178,10 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Contact> result = null;
 
-            var contactTable = new Contact().TableName;
-            var contactId = new Contact().IdColumnName;
             var personalInfoTable = info.TableName;
             var personalInfoId = info.IdColumnName;
-            string query = $"SELECT * FROM {contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {contactTable}.{contactId} = {personalInfoTable}.{personalInfoId}"
+            string query = $"SELECT * FROM {_contactTable} " +
+                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
                 + " WHERE UserId = @UserId AND FirstName = @FirstName" +
                 " AND Lastname = @LastName AND" +
                 " MiddleName = @MiddleName AND Nickname = @NickName AND Email = @Email";
@@ -246,12 +209,10 @@ namespace Organizer.DAL.Repository
         {
             Contact result = null;
 
-            var contactTable = new Contact().TableName;
-            var contactId = new Contact().IdColumnName;
             var personalInfoTable = new PersonalInfo().TableName;
             var personalInfoId = new PersonalInfo().IdColumnName;
-            string query = $"SELECT TOP 1 * FROM {contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {contactTable}.{contactId} = {personalInfoTable}.{personalInfoId}"
+            string query = $"SELECT TOP 1 * FROM {_contactTable} " +
+                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
                 + " WHERE UserId = @UserId AND Nickname = @NickName";
 
             using (var cmd = _connection.CreateCommand())
@@ -273,8 +234,7 @@ namespace Organizer.DAL.Repository
         {
             Contact result = null;
 
-            var contactTable = new Contact().TableName;
-            string query = $"SELECT TOP 1 * FROM {contactTable}" +
+            string query = $"SELECT TOP 1 * FROM {_contactTable}" +
                 " WHERE UserId = @UserId AND PrimaryPhone = @Phone";
 
             using (var cmd = _connection.CreateCommand())
@@ -296,12 +256,10 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Contact> result = null;
 
-            var contactTable = new Contact().TableName;
-            var contactId = new Contact().IdColumnName;
             var personalInfoTable = new PersonalInfo().TableName;
             var personalInfoId = new PersonalInfo().IdColumnName;
-            string query = $"SELECT * FROM {contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {contactTable}.{contactId} = {personalInfoTable}.{personalInfoId}"
+            string query = $"SELECT * FROM {_contactTable} " +
+                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
                 + " WHERE UserId = @UserId AND Email = @Email";
 
             using (var cmd = _connection.CreateCommand())
@@ -317,6 +275,38 @@ namespace Organizer.DAL.Repository
             }
 
             return result;
+        }
+
+        public override int Insert(Contact entity, SqlTransaction sqlTransaction)
+        {
+            var query = $"INSERT INTO {_contactTable} (PrimaryPhone, UserId)" +
+                " VALUES(@PrimaryPhone, @UserId)";
+            return Insert(entity, query, sqlTransaction);
+        }
+
+        public override int Update(Contact entity, SqlTransaction sqlTransaction)
+        {
+            var query = $"UPDATE {_contactTable} SET PrimaryPhone = @PrimaryPhone," +
+                $" UserId = @UserId, WHERE {_contactId} = @{_contactId}";
+            return Update(entity, query, sqlTransaction);
+        }
+
+        public override int Delete(int id, SqlTransaction sqlTransaction)
+        {
+            var query = $"DELETE FROM {_contactTable} WHERE {_contactId} = @{_contactId}";
+            return Delete(id, query, sqlTransaction);
+        }
+
+        public override Contact GetById(int id)
+        {
+            var query = $"SELECT TOP 1 * FROM {_contactTable} WHERE {_contactId} = @{_contactId}";
+
+            return GetById(id, query);
+        }
+
+        public override IEnumerable<Contact> GetAll()
+        {
+            return GetAll($"SELECT * FROM {_contactTable}");
         }
     }
 }

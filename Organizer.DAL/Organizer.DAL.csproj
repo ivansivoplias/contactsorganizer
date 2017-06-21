@@ -43,9 +43,6 @@
   <ItemGroup>
     <Compile Include="Context\DatabaseContextFactory.cs" />
     <Compile Include="Context\DbContext.cs" />
-    <Compile Include="Abstract\IContactRepository.cs" />
-    <Compile Include="Abstract\IMeetingRepository.cs" />
-    <Compile Include="Abstract\INoteRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ContactRepository.cs" />
     <Compile Include="Repository\MeetingRepository.cs" />
@@ -54,7 +51,7 @@
     <Compile Include="Repository\RepositoryBase.cs" />
     <Compile Include="Repository\SocialInfoRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
-    <Compile Include="UnitOfWork\UnitOfWork.cs" />
+    <Compile Include="UoW\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Organizer.Common\Organizer.Common.csproj">

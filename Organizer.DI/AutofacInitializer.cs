@@ -1,9 +1,8 @@
 ﻿using Autofac;
 using Organizer.Common.Entities;
-using Organizer.DAL.Abstract;
 using Organizer.DAL.Context;
 using Organizer.DAL.Repository;
-using Organizer.DAL.UnitOfWork;
+using Organizer.DAL.UoW;
 using Organizer.Infrastructure.Database;
 
 namespace Organizer.DI

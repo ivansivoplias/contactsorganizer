@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
 using Organizer.Common.Entities;
-using System.Text;
-using System.Linq;
 
 namespace Organizer.DAL.Repository
 {
     public class PersonalInfoRepository : RepositoryBase<PersonalInfo>
     {
+        private readonly string _personalInfoTable;
+        private readonly string _personalInfoId;
+
         public PersonalInfoRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
+            var pers = new PersonalInfo();
+            _personalInfoId = pers.IdColumnName;
+            _personalInfoTable = pers.TableName;
         }
 
-        /// <summary>
-        /// Passes the parameters for Insert Statement
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cmd"></param>
         protected override void InsertCommandParameters(PersonalInfo entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
@@ -29,11 +28,6 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@Email", entity.Email);
         }
 
-        /// <summary>
-        /// Passes the parameters for Update Statement
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cmd"></param>
         protected override void UpdateCommandParameters(PersonalInfo entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
@@ -44,33 +38,18 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@Email", entity.Email);
         }
 
-        /// <summary>
-        /// Passes the parameters to command for Delete Statement
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cmd"></param>
         protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
             var idColumnName = new PersonalInfo().IdColumnName;
             cmd.Parameters.AddWithValue($"@{idColumnName}", id);
         }
 
-        /// <summary>
-        /// Passes the parameters to command for populate by key statement
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cmd"></param>
         protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
             var idColumnName = new PersonalInfo().IdColumnName;
             cmd.Parameters.AddWithValue($"@{idColumnName}", id);
         }
 
-        /// <summary>
-        /// Maps data for populate by key statement
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
         protected override PersonalInfo Map(SqlDataReader reader)
         {
             var personalInfo = new PersonalInfo();
@@ -90,11 +69,6 @@ namespace Organizer.DAL.Repository
             return personalInfo;
         }
 
-        /// <summary>
-        /// Maps data for populate all statement
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
         protected override List<PersonalInfo> MapCollection(SqlDataReader reader)
         {
             var personalInfoList = new List<PersonalInfo>();
@@ -114,6 +88,42 @@ namespace Organizer.DAL.Repository
                 }
             }
             return personalInfoList;
+        }
+
+        public override int Insert(PersonalInfo entity, SqlTransaction sqlTransaction)
+        {
+            var query = $"INSERT INTO {_personalInfoTable} ({_personalInfoId}, FirstName, Lastname, MiddleName, " +
+                "Nickname, Email)" +
+                $" VALUES(@{_personalInfoId}, @FirstName, @Lastname, @MiddleName, " +
+                "@Nickname, @Email)";
+            return Insert(entity, query, sqlTransaction);
+        }
+
+        public override int Update(PersonalInfo entity, SqlTransaction sqlTransaction)
+        {
+            var query = $"UPDATE {_personalInfoTable} SET FirstName = @FirstName," +
+                " Lastname = @Lastname, MiddleName = @MiddleName, " +
+                "Nickname = @Nickname, Email = @Email" +
+                $" WHERE {_personalInfoId} = @{_personalInfoId}";
+            return Update(entity, query, sqlTransaction);
+        }
+
+        public override int Delete(int id, SqlTransaction sqlTransaction)
+        {
+            var query = $"DELETE FROM {_personalInfoTable} WHERE {_personalInfoId} = @{_personalInfoId}";
+            return Delete(id, query, sqlTransaction);
+        }
+
+        public override PersonalInfo GetById(int id)
+        {
+            var query = $"SELECT TOP 1 * FROM {_personalInfoTable} WHERE {_personalInfoId} = @{_personalInfoId}";
+
+            return GetById(id, query);
+        }
+
+        public override IEnumerable<PersonalInfo> GetAll()
+        {
+            return GetAll($"SELECT * FROM {_personalInfoTable}");
         }
     }
 }

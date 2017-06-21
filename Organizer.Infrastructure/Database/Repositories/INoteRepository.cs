@@ -1,10 +1,9 @@
 ﻿using Organizer.Common.Entities;
-using Organizer.Infrastructure.Database;
 using System;
 using System.Collections.Generic;
 using Organizer.Common.Enums;
 
-namespace Organizer.DAL.Abstract
+namespace Organizer.Infrastructure.Database
 {
     public interface INoteRepository : IRepository<Note>
     {

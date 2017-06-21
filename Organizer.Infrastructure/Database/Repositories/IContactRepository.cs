@@ -1,8 +1,7 @@
 ﻿using Organizer.Common.Entities;
-using Organizer.Infrastructure.Database;
 using System.Collections.Generic;
 
-namespace Organizer.DAL.Abstract
+namespace Organizer.Infrastructure.Database
 {
     public interface IContactRepository : IRepository<Contact>
     {

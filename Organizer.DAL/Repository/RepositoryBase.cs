@@ -12,10 +12,6 @@ namespace Organizer.DAL.Repository
         protected SqlConnection _connection;
         protected readonly IUnitOfWork _unitOfWork;
 
-        /// <summary>
-        /// Initialize the connection
-        /// </summary>
-        /// <param name="unitOfWork">UnitOfWork</param>
         public RepositoryBase(IUnitOfWork unitOfWork)
         {
             if (unitOfWork == null)
@@ -26,14 +22,7 @@ namespace Organizer.DAL.Repository
             _connection = _unitOfWork.DataContext.Connection;
         }
 
-        /// <summary>
-        /// Base Method for Insert Data
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="insertSql"></param>
-        /// <param name="sqlTransaction"></param>
-        /// <returns></returns>
-        public int Insert(TEntity entity, string insertSql, SqlTransaction sqlTransaction)
+        protected int Insert(TEntity entity, string insertSql, SqlTransaction sqlTransaction)
         {
             int i = 0;
             try
@@ -54,14 +43,7 @@ namespace Organizer.DAL.Repository
             return i;
         }
 
-        /// <summary>
-        /// Base Method for Update Data
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="updateSql"></param>
-        /// <param name="sqlTransaction"></param>
-        /// <returns></returns>
-        public int Update(TEntity entity, string updateSql, SqlTransaction sqlTransaction)
+        protected int Update(TEntity entity, string updateSql, SqlTransaction sqlTransaction)
         {
             int i = 0;
             using (var cmd = _connection.CreateCommand())
@@ -75,14 +57,7 @@ namespace Organizer.DAL.Repository
             return i;
         }
 
-        /// <summary>
-        /// Base Method for Delete Data
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="deleteSql"></param>
-        /// <param name="sqlTransaction"></param>
-        /// <returns></returns>
-        public int Delete(int id, string deleteSql, SqlTransaction sqlTransaction)
+        protected int Delete(int id, string deleteSql, SqlTransaction sqlTransaction)
         {
             int i = 0;
             using (var cmd = _connection.CreateCommand())
@@ -96,13 +71,7 @@ namespace Organizer.DAL.Repository
             return i;
         }
 
-        /// <summary>
-        /// Base Method for Populate Data by key
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="getByIdSql"></param>
-        /// <returns></returns>
-        public TEntity GetById(int id, string getByIdSql)
+        protected TEntity GetById(int id, string getByIdSql)
         {
             using (var cmd = _connection.CreateCommand())
             {
@@ -116,12 +85,7 @@ namespace Organizer.DAL.Repository
             }
         }
 
-        /// <summary>
-        /// Base Method for Populate All Data
-        /// </summary>
-        /// <param name="getAllSql"></param>
-        /// <returns></returns>
-        public IEnumerable<TEntity> GetAll(string getAllSql)
+        protected IEnumerable<TEntity> GetAll(string getAllSql)
         {
             using (var cmd = _connection.CreateCommand())
             {
@@ -145,5 +109,15 @@ namespace Organizer.DAL.Repository
         protected abstract TEntity Map(SqlDataReader reader);
 
         protected abstract List<TEntity> MapCollection(SqlDataReader reader);
+
+        public abstract int Insert(TEntity entity, SqlTransaction sqlTransaction);
+
+        public abstract int Update(TEntity entity, SqlTransaction sqlTransaction);
+
+        public abstract int Delete(int id, SqlTransaction sqlTransaction);
+
+        public abstract TEntity GetById(int id);
+
+        public abstract IEnumerable<TEntity> GetAll();
     }
 }

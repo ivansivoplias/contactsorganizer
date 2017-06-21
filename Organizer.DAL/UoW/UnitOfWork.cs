@@ -3,7 +3,7 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace Organizer.DAL.UnitOfWork
+namespace Organizer.DAL.UoW
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
