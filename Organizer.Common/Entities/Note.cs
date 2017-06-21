@@ -5,6 +5,8 @@ namespace Organizer.Common.Entities
 {
     public class Note : BaseEntity
     {
+        public string Caption { get; set; }
+
         public string NoteText { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastChangeDate { get; set; }

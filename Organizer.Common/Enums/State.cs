@@ -2,6 +2,7 @@
 {
     public enum State
     {
+        None = 0,
         Inactive,
         Active,
         InProgress,

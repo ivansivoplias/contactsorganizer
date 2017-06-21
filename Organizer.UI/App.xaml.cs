@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Windows;
 using Autofac;
 using Organizer.DI;
-using Organizer.Infrastructure.Database;
+using Organizer.Common.Entities;
 
 namespace Organizer.UI
 {
@@ -15,6 +15,8 @@ namespace Organizer.UI
         public static IContainer Containter { get; private set; }
 
         public static string ConnectionString { get; private set; }
+
+        public static User CurrentUser { get; set; }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {

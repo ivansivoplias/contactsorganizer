@@ -2,8 +2,8 @@
 {
     public enum NoteType
     {
+        None = 0,
         Diary,
-        Todo,
-        Other
+        Todo
     }
 }

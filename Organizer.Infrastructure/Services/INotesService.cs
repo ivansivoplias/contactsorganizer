@@ -28,7 +28,7 @@ namespace Organizer.Infrastructure.Services
         ICollection<Note> GetNotesByPriority(User user, Priority priority);
 
         ICollection<Note> GetNotesCreatedBetween(User user, DateTime start, DateTime end);
-        
+
         ICollection<Note> GetNotesByStartDate(User user, DateTime startDate);
 
         ICollection<Note> GetNotesByEndDate(User user, DateTime endDate);

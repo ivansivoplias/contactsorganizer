@@ -21,6 +21,7 @@ namespace Organizer.DAL.Repository
 
         protected override void InsertCommandParameters(Note entity, SqlCommand cmd)
         {
+            cmd.Parameters.AddWithValue("@Caption", entity.Caption);
             cmd.Parameters.AddWithValue("@NoteText", entity.NoteText);
             cmd.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
             cmd.Parameters.AddWithValue("@LastChangeDate", entity.LastChangeDate);
@@ -41,6 +42,7 @@ namespace Organizer.DAL.Repository
         protected override void UpdateCommandParameters(Note entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue($"@{_noteId}", entity.Id);
+            cmd.Parameters.AddWithValue("@Caption", entity.Caption);
             cmd.Parameters.AddWithValue("@NoteText", entity.NoteText);
             cmd.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
             cmd.Parameters.AddWithValue("@LastChangeDate", entity.LastChangeDate);
@@ -83,6 +85,8 @@ namespace Organizer.DAL.Repository
 
                     note.NoteText = reader["NoteText"].ToString();
 
+                    note.Caption = reader["Caption"].ToString();
+
                     TryParseEnum<NoteType>(reader, "NoteType", (x) => note.NoteType = x);
 
                     TryParseEnum<State>(reader, "State", (x) => note.State = x);
@@ -114,6 +118,8 @@ namespace Organizer.DAL.Repository
                     TryParseDateTime(reader, "LastChangeDate", (x) => note.LastChangeDate = x);
 
                     note.NoteText = reader["NoteText"].ToString();
+
+                    note.Caption = reader["Caption"].ToString();
 
                     TryParseEnum<NoteType>(reader, "NoteType", (x) => note.NoteType = x);
 
@@ -340,16 +346,16 @@ namespace Organizer.DAL.Repository
 
         public override int Insert(Note entity, SqlTransaction sqlTransaction)
         {
-            var query = $"INSERT INTO {_noteTable} (NoteText, CreationDate, LastChangeDate, " +
+            var query = $"INSERT INTO {_noteTable} (Caption, NoteText, CreationDate, LastChangeDate, " +
                 "NoteType, State, Priority, StartDate, EndDate, UserId)" +
-                " VALUES(@NoteText, @CreationDate, @LastChangeDate, " +
+                " VALUES(@Caption, @NoteText, @CreationDate, @LastChangeDate, " +
                 "@NoteType, @State, @Priority, @StartDate, @EndDate, @UserId)";
             return Insert(entity, query, sqlTransaction);
         }
 
         public override int Update(Note entity, SqlTransaction sqlTransaction)
         {
-            var query = $"UPDATE {_noteTable} SET NoteText = @NoteText," +
+            var query = $"UPDATE {_noteTable} SET Caption = @Caption, NoteText = @NoteText," +
                 " CreationDate = @CreationDate, LastChangeDate = @LastChangeDate, " +
                 "NoteType = @NoteType, State = @State, Priority = @Priority," +
                 " StartDate = @StartDate, EndDate = @EndDate, UserId = @Userid" +
@@ -373,6 +379,28 @@ namespace Organizer.DAL.Repository
         public override IEnumerable<Note> GetAll()
         {
             return GetAll($"SELECT * FROM {_noteTable}");
+        }
+
+        public IEnumerable<Note> FilterByCaption(int userId, string caption)
+        {
+            IEnumerable<Note> result = null;
+
+            var query = $"SELECT * FROM {_noteTable} "
+                + "WHERE UserId = @UserId AND Caption = @Caption";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@Caption", caption);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
         }
     }
 }

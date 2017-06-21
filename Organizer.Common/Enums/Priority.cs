@@ -2,6 +2,7 @@
 {
     public enum Priority
     {
+        None = 0,
         Minor,
         Average,
         Major,

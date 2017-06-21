@@ -23,7 +23,7 @@ namespace Organizer.Infrastructure.Services
         ICollection<Contact> GetContacsBySocialInfo(User user, SocialInfo info);
 
         ICollection<Contact> GetContactsByFirstName(User user, string firstName);
-        
+
         ICollection<Contact> GetContactsByLastName(User user, string lastName);
 
         ICollection<Contact> GetContactsByMiddleName(User user, string middleName);

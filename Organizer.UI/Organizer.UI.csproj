@@ -119,9 +119,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Organizer.DAL\Organizer.DAL.csproj">
-      <Project>{E741D9B8-2490-4859-8F02-CEEB8913DE52}</Project>
-      <Name>Organizer.DAL</Name>
+    <ProjectReference Include="..\Organizer.Common\Organizer.Common.csproj">
+      <Project>{AD5F05A7-CC04-40AC-8A25-C97303A5B081}</Project>
+      <Name>Organizer.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Organizer.DI\Organizer.DI.csproj">
       <Project>{90775428-1836-4113-aed3-cbde7f110236}</Project>
@@ -145,7 +145,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
