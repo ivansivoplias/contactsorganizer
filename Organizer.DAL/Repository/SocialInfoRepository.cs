@@ -47,9 +47,10 @@ namespace Organizer.DAL.Repository
 
         protected override SocialInfo Map(SqlDataReader reader)
         {
-            var socialInfo = new SocialInfo();
+            SocialInfo socialInfo = null;
             if (reader.HasRows)
             {
+                socialInfo = new SocialInfo();
                 while (reader.Read())
                 {
                     socialInfo.Id = Convert.ToInt32(reader[socialInfo.IdColumnName].ToString());
@@ -64,9 +65,10 @@ namespace Organizer.DAL.Repository
 
         protected override List<SocialInfo> MapCollection(SqlDataReader reader)
         {
-            var socials = new List<SocialInfo>();
+            List<SocialInfo> socials = null;
             if (reader.HasRows)
             {
+                socials = new List<SocialInfo>();
                 while (reader.Read())
                 {
                     var socialInfo = new SocialInfo();

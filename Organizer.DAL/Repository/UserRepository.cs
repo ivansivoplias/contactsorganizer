@@ -45,9 +45,10 @@ namespace Organizer.DAL.Repository
 
         protected override User Map(SqlDataReader reader)
         {
-            var user = new User();
+            User user = null;
             if (reader.HasRows)
             {
+                user = new User();
                 while (reader.Read())
                 {
                     user.Id = Convert.ToInt32(reader[user.IdColumnName].ToString());
@@ -60,9 +61,10 @@ namespace Organizer.DAL.Repository
 
         protected override List<User> MapCollection(SqlDataReader reader)
         {
-            var users = new List<User>();
+            List<User> users = null;
             if (reader.HasRows)
             {
+                users = new List<User>();
                 while (reader.Read())
                 {
                     var person = new User();

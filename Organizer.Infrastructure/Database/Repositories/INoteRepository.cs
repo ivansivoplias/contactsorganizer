@@ -7,6 +7,8 @@ namespace Organizer.Infrastructure.Database
 {
     public interface INoteRepository : IRepository<Note>
     {
+        Note GetNoteByCaption(string caption);
+
         IEnumerable<Note> FilterByCreationDate(int userId, DateTime date);
 
         IEnumerable<Note> FilterByLastChangeDate(int userId, DateTime lastChangeDate);

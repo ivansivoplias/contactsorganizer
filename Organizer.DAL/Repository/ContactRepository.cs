@@ -44,9 +44,11 @@ namespace Organizer.DAL.Repository
 
         protected override Contact Map(SqlDataReader reader)
         {
-            var contact = new Contact();
+            Contact contact = null;
             if (reader.HasRows)
             {
+                contact = new Contact();
+
                 while (reader.Read())
                 {
                     contact.Id = Convert.ToInt32(reader[_contactId].ToString());
@@ -59,9 +61,10 @@ namespace Organizer.DAL.Repository
 
         protected override List<Contact> MapCollection(SqlDataReader reader)
         {
-            var contacts = new List<Contact>();
+            List<Contact> contacts = null;
             if (reader.HasRows)
             {
+                contacts = new List<Contact>();
                 while (reader.Read())
                 {
                     var contact = new Contact();
@@ -86,7 +89,6 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@ContactId", socialInfo.ContactId),
                     new SqlParameter("@AppId", socialInfo.AppId.MakeLikeExpression()),
                     new SqlParameter("@AppName", socialInfo.AppName));
 

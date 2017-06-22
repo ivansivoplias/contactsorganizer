@@ -52,9 +52,10 @@ namespace Organizer.DAL.Repository
 
         protected override PersonalInfo Map(SqlDataReader reader)
         {
-            var personalInfo = new PersonalInfo();
+            PersonalInfo personalInfo = null;
             if (reader.HasRows)
             {
+                personalInfo = new PersonalInfo();
                 while (reader.Read())
                 {
                     personalInfo.Id = Convert.ToInt32(reader[personalInfo.IdColumnName].ToString());
@@ -71,9 +72,10 @@ namespace Organizer.DAL.Repository
 
         protected override List<PersonalInfo> MapCollection(SqlDataReader reader)
         {
-            var personalInfoList = new List<PersonalInfo>();
+            List<PersonalInfo> personalInfoList = null;
             if (reader.HasRows)
             {
+                personalInfoList = new List<PersonalInfo>();
                 while (reader.Read())
                 {
                     var personalInfo = new PersonalInfo();

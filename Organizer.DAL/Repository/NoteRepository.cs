@@ -73,9 +73,11 @@ namespace Organizer.DAL.Repository
 
         protected override Note Map(SqlDataReader reader)
         {
-            var note = new Note();
+            Note note = null;
             if (reader.HasRows)
             {
+                note = new Note();
+
                 while (reader.Read())
                 {
                     note.Id = Convert.ToInt32(reader[_noteId].ToString());
@@ -106,9 +108,10 @@ namespace Organizer.DAL.Repository
 
         protected override List<Note> MapCollection(SqlDataReader reader)
         {
-            var notes = new List<Note>();
+            List<Note> notes = null;
             if (reader.HasRows)
             {
+                notes = new List<Note>();
                 while (reader.Read())
                 {
                     var note = new Note();
@@ -388,6 +391,26 @@ namespace Organizer.DAL.Repository
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
+                }
+            }
+
+            return result;
+        }
+
+        public Note GetNoteByCaption(string caption)
+        {
+            Note result = null;
+
+            var query = $"SELECT * FROM {_noteTable} "
+                + "WHERE UserId = @UserId AND Caption = @Caption";
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@Caption", caption));
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = Map(reader);
                 }
             }
 

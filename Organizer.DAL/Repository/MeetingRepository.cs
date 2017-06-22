@@ -54,9 +54,10 @@ namespace Organizer.DAL.Repository
 
         protected override Meeting Map(SqlDataReader reader)
         {
-            var meeting = new Meeting();
+            Meeting meeting = null;
             if (reader.HasRows)
             {
+                meeting = new Meeting();
                 while (reader.Read())
                 {
                     meeting.Id = Convert.ToInt32(reader[meeting.IdColumnName].ToString());
@@ -73,9 +74,10 @@ namespace Organizer.DAL.Repository
 
         protected override List<Meeting> MapCollection(SqlDataReader reader)
         {
-            var meetings = new List<Meeting>();
+            List<Meeting> meetings = null;
             if (reader.HasRows)
             {
+                meetings = new List<Meeting>();
                 while (reader.Read())
                 {
                     var meeting = new Meeting();
