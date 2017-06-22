@@ -5,13 +5,13 @@ namespace Organizer.Infrastructure.Database
 {
     public interface IContactRepository : IRepository<Contact>
     {
-        IEnumerable<Contact> FilterBySocialInfo(int userId, SocialInfo socialInfo);
+        IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, SocialInfo socialInfo);
 
-        IEnumerable<Contact> FilterByFirstName(int userId, string firstName);
+        IEnumerable<Contact> FilterByFirstNameStartsWith(int userId, string firstName);
 
-        IEnumerable<Contact> FilterByLastName(int userId, string lastName);
+        IEnumerable<Contact> FilterByLastNameStartsWith(int userId, string lastName);
 
-        IEnumerable<Contact> FilterByMiddleName(int userId, string middleName);
+        IEnumerable<Contact> FilterByMiddleNameStartsWith(int userId, string middleName);
 
         IEnumerable<Contact> FilterByPersonalInfo(int userId, PersonalInfo info);
 
@@ -19,6 +19,6 @@ namespace Organizer.Infrastructure.Database
 
         Contact FindByPrimaryPhone(int userId, string phone);
 
-        IEnumerable<Contact> FilterByEmail(int userId, string email);
+        IEnumerable<Contact> FilterByEmailStartsWith(int userId, string email);
     }
 }

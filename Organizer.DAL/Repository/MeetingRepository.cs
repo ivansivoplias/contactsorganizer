@@ -115,7 +115,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Meeting> FilterByMeetingName(int userId, string meetingName)
+        public IEnumerable<Meeting> FilterByMeetingNameLike(int userId, string meetingName)
         {
             IEnumerable<Meeting> result = null;
 

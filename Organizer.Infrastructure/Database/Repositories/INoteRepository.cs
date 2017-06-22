@@ -25,6 +25,6 @@ namespace Organizer.Infrastructure.Database
 
         IEnumerable<Note> FilterByEndDate(int userId, DateTime endDate);
 
-        IEnumerable<Note> FilterByCaption(int userId, string caption);
+        IEnumerable<Note> FilterByCaptionLike(int userId, string caption);
     }
 }

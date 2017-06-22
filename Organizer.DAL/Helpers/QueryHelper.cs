@@ -17,5 +17,15 @@ namespace Organizer.DAL.Helpers
         {
             return $"%{source}%";
         }
+
+        public static string MakeStartsWithLikeExpression(this string source)
+        {
+            return $"{source}%";
+        }
+
+        public static string MakeEndsWithLikeExpression(this string source)
+        {
+            return $"%{source}";
+        }
     }
 }

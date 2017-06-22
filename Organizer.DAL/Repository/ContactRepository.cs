@@ -77,7 +77,7 @@ namespace Organizer.DAL.Repository
             return contacts;
         }
 
-        public IEnumerable<Contact> FilterBySocialInfo(int userId, SocialInfo socialInfo)
+        public IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, SocialInfo socialInfo)
         {
             IEnumerable<Contact> result = null;
 
@@ -101,7 +101,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Contact> FilterByFirstName(int userId, string firstName)
+        public IEnumerable<Contact> FilterByFirstNameStartsWith(int userId, string firstName)
         {
             IEnumerable<Contact> result = null;
 
@@ -109,12 +109,12 @@ namespace Organizer.DAL.Repository
             var personalInfoId = new PersonalInfo().IdColumnName;
             string query = $"SELECT * FROM {_contactTable} " +
                 $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
-                + " WHERE UserId = @UserId AND FirstName = @FirstName";
+                + " WHERE UserId = @UserId AND FirstName LIKE @FirstName";
 
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@FirstName", firstName));
+                    new SqlParameter("@FirstName", firstName.MakeStartsWithLikeExpression()));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -125,7 +125,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Contact> FilterByLastName(int userId, string lastName)
+        public IEnumerable<Contact> FilterByLastNameStartsWith(int userId, string lastName)
         {
             IEnumerable<Contact> result = null;
 
@@ -133,12 +133,12 @@ namespace Organizer.DAL.Repository
             var personalInfoId = new PersonalInfo().IdColumnName;
             string query = $"SELECT * FROM {_contactTable} " +
                 $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
-                + " WHERE UserId = @UserId AND Lastname = @LastName";
+                + " WHERE UserId = @UserId AND Lastname LIKE @LastName";
 
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@LastName", lastName));
+                    new SqlParameter("@LastName", lastName.MakeStartsWithLikeExpression()));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -149,7 +149,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Contact> FilterByMiddleName(int userId, string middleName)
+        public IEnumerable<Contact> FilterByMiddleNameStartsWith(int userId, string middleName)
         {
             IEnumerable<Contact> result = null;
 
@@ -157,12 +157,12 @@ namespace Organizer.DAL.Repository
             var personalInfoId = new PersonalInfo().IdColumnName;
             string query = $"SELECT * FROM {_contactTable} " +
                 $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
-                + " WHERE UserId = @UserId AND MiddleName = @MiddleName";
+                + " WHERE UserId = @UserId AND MiddleName LIKE @MiddleName";
 
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@MiddleName", middleName));
+                    new SqlParameter("@MiddleName", middleName.MakeStartsWithLikeExpression()));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -248,7 +248,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Contact> FilterByEmail(int userId, string email)
+        public IEnumerable<Contact> FilterByEmailStartsWith(int userId, string email)
         {
             IEnumerable<Contact> result = null;
 
@@ -261,7 +261,7 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@Email", email.MakeLikeExpression()));
+                    new SqlParameter("@Email", email.MakeStartsWithLikeExpression()));
 
                 using (var reader = cmd.ExecuteReader())
                 {

@@ -376,7 +376,7 @@ namespace Organizer.DAL.Repository
             return GetAll($"SELECT * FROM {_noteTable}");
         }
 
-        public IEnumerable<Note> FilterByCaption(int userId, string caption)
+        public IEnumerable<Note> FilterByCaptionLike(int userId, string caption)
         {
             IEnumerable<Note> result = null;
 
