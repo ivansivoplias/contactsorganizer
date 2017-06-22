@@ -34,7 +34,7 @@ namespace Organizer.DAL.UoW
             }
             else
             {
-                throw new TransactionCommitException();
+                throw new TransactionCommitFailedException();
             }
         }
 
