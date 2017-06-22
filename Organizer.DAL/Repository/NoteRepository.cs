@@ -397,7 +397,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public Note GetNoteByCaption(string caption)
+        public Note GetNoteByCaption(int userId, string caption)
         {
             Note result = null;
 
@@ -406,7 +406,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@Caption", caption));
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@Caption", caption));
 
                 using (var reader = cmd.ExecuteReader())
                 {
