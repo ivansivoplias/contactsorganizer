@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
 using Organizer.Common.Entities;
+using Organizer.DAL.Helpers;
 
 namespace Organizer.DAL.Repository
 {
@@ -101,9 +102,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@MeetingDate", meetingDate);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId), new SqlParameter("@MeetingDate", meetingDate));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -120,13 +119,12 @@ namespace Organizer.DAL.Repository
 
             var meetingTable = new Meeting().TableName;
             var query = $"SELECT * FROM {meetingTable} "
-                + "WHERE UserId = @UserId AND MeetingName = @MeetingName";
+                + "WHERE UserId = @UserId AND MeetingName LIKE @MeetingName";
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@MeetingName", meetingName);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@MeetingName", meetingName.MakeLikeExpression()));
 
                 using (var reader = cmd.ExecuteReader())
                 {

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Organizer.Common.Entities;
 
 namespace Organizer.Infrastructure.Services
@@ -11,8 +10,6 @@ namespace Organizer.Infrastructure.Services
         void RemoveContact(Contact contact);
 
         void EditContact(Contact contact);
-
-        Contact GetContact(string phone);
 
         Contact GetContact(int id);
 

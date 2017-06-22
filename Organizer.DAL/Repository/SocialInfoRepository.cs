@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
+using Organizer.DAL.Helpers;
 
 namespace Organizer.DAL.Repository
 {
@@ -119,8 +120,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@ContactId", contactId);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@ContactId", contactId));
 
                 using (var reader = cmd.ExecuteReader())
                 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
 using Organizer.Common.Entities;
+using Organizer.DAL.Helpers;
 
 namespace Organizer.DAL.Repository
 {
@@ -80,15 +81,14 @@ namespace Organizer.DAL.Repository
             var socialInfoTable = socialInfo.TableName;
             string query = $"SELECT * FROM {_contactTable} " +
                 $"INNER JOIN {socialInfoTable} ON {_contactTable}.{_contactId} = {socialInfoTable}.ContactId "
-                + "WHERE UserId = @UserId AND AppName = @AppName AND AppId = @AppId";
+                + "WHERE UserId = @UserId AND AppName = @AppName AND AppId LIKE @AppId";
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@ContactId", socialInfo.ContactId);
-                cmd.Parameters.AddWithValue("@AppId", socialInfo.AppId);
-                cmd.Parameters.AddWithValue("@AppName", socialInfo.AppName);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@ContactId", socialInfo.ContactId),
+                    new SqlParameter("@AppId", socialInfo.AppId.MakeLikeExpression()),
+                    new SqlParameter("@AppName", socialInfo.AppName));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -111,9 +111,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@FirstName", firstName);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@FirstName", firstName));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -136,9 +135,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@LastName", lastName);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@LastName", lastName));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -161,9 +159,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@MiddleName", middleName);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@MiddleName", middleName));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -188,13 +185,12 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@FirstName", info.FirstName);
-                cmd.Parameters.AddWithValue("@LastName", info.Lastname);
-                cmd.Parameters.AddWithValue("@MiddleName", info.MiddleName);
-                cmd.Parameters.AddWithValue("@NickName", info.Nickname);
-                cmd.Parameters.AddWithValue("@Email", info.Email);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@FirstName", info.FirstName),
+                    new SqlParameter("@LastName", info.Lastname),
+                    new SqlParameter("@MiddleName", info.MiddleName),
+                    new SqlParameter("@NickName", info.Nickname),
+                    new SqlParameter("@Email", info.Email));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -217,9 +213,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@NickName", nickname);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@NickName", nickname));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -239,9 +234,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@Phone", phone);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@Phone", phone));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -260,13 +254,12 @@ namespace Organizer.DAL.Repository
             var personalInfoId = new PersonalInfo().IdColumnName;
             string query = $"SELECT * FROM {_contactTable} " +
                 $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
-                + " WHERE UserId = @UserId AND Email = @Email";
+                + " WHERE UserId = @UserId AND Email LIKE @Email";
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@Email", email);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@Email", email.MakeLikeExpression()));
 
                 using (var reader = cmd.ExecuteReader())
                 {

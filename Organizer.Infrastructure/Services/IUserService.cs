@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Organizer.Common.Entities;
+﻿using Organizer.Common.Entities;
 
 namespace Organizer.Infrastructure.Services
 {
@@ -7,10 +6,6 @@ namespace Organizer.Infrastructure.Services
     {
         User Login(string userName, string password);
 
-        void Logout(User user);
-
         User Register(User newUser);
-
-        ICollection<string> GetLatestActivities(User user);
     }
 }

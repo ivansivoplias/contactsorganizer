@@ -7,9 +7,6 @@ using Organizer.Common.Entities;
 
 namespace Organizer.UI
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         public static IContainer Containter { get; private set; }

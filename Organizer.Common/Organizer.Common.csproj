@@ -50,6 +50,8 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\NoteType.cs" />
     <Compile Include="Enums\Priority.cs" />
+    <Compile Include="Exceptions\TransactionAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\TransactionCommitException.cs" />
     <Compile Include="Helpers\CollectionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Enums\State.cs" />

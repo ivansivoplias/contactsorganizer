@@ -17,6 +17,8 @@ namespace Organizer.Infrastructure.Services
 
         Note GetNote(int noteId);
 
+        Note GetNoteByCaption(User id, string caption);
+
         ICollection<Note> GetNotesByCreationDate(User user, DateTime creationDate);
 
         ICollection<Note> GetNotesByLastChangeDate(User user, DateTime lastChangeDate);

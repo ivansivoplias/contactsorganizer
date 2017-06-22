@@ -4,6 +4,7 @@ using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
 using Organizer.Common.Entities;
 using Organizer.Common.Enums;
+using Organizer.DAL.Helpers;
 
 namespace Organizer.DAL.Repository
 {
@@ -176,9 +177,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@CreationDate", date);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@CreationDate", date));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -198,9 +198,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@LastChangeDate", lastChangeDate);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@LastChangeDate", lastChangeDate));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -220,9 +219,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@NoteType", noteType.ToString());
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@NoteType", noteType.ToString()));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -242,9 +240,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@State", state.ToString());
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@State", state.ToString()));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -264,9 +261,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@Priority", priority.ToString());
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId), new SqlParameter("@Priority", priority.ToString()));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -286,10 +281,9 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@StartLimit", startLimit);
-                cmd.Parameters.AddWithValue("@EndLimit", endLimit);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@StartLimit", startLimit),
+                    new SqlParameter("@EndLimit", endLimit));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -309,9 +303,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@StartDate", startDate);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@StartDate", startDate));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -331,9 +324,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@EndDate", endDate);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@EndDate", endDate));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -386,13 +378,12 @@ namespace Organizer.DAL.Repository
             IEnumerable<Note> result = null;
 
             var query = $"SELECT * FROM {_noteTable} "
-                + "WHERE UserId = @UserId AND Caption = @Caption";
+                + "WHERE UserId = @UserId AND Caption LIKE @Caption";
 
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@Caption", caption);
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@Caption", caption.MakeLikeExpression()));
 
                 using (var reader = cmd.ExecuteReader())
                 {

@@ -1,4 +1,5 @@
-﻿using Organizer.Infrastructure.Database;
+﻿using Organizer.Common.Exceptions;
+using Organizer.Infrastructure.Database;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,18 +12,11 @@ namespace Organizer.DAL.UoW
         private IDbContext _context;
         public SqlTransaction Transaction { get; private set; }
 
-        /// <summary>
-        /// Constructor which will initialize the datacontext factory
-        /// </summary>
-        /// <param name="factory">datacontext factory</param>
         public UnitOfWork(IDatabaseContextFactory factory)
         {
             _factory = factory;
         }
 
-        /// <summary>
-        /// Following method will use to Commit or Rollback memory data into database
-        /// </summary>
         public void Commit()
         {
             if (Transaction != null)
@@ -40,35 +34,25 @@ namespace Organizer.DAL.UoW
             }
             else
             {
-                throw new NullReferenceException("Tryed commit not opened transaction");
+                throw new TransactionCommitException();
             }
         }
 
-        /// <summary>
-        /// Define a property of context class
-        /// </summary>
         public IDbContext DataContext
         {
             get { return _context ?? (_context = _factory.MakeContext()); }
         }
 
-        /// <summary>
-        /// Begin a database transaction
-        /// </summary>
-        /// <returns>Transaction</returns>
         public SqlTransaction BeginTransaction()
         {
             if (Transaction != null)
             {
-                throw new NullReferenceException("Not finished previous transaction");
+                throw new TransactionAlreadyExistsException();
             }
             Transaction = _context.Connection.BeginTransaction();
             return Transaction;
         }
 
-        /// <summary>
-        /// dispose a Transaction.
-        /// </summary>
         public void Dispose()
         {
             if (Transaction != null)
