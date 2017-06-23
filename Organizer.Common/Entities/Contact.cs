@@ -10,9 +10,5 @@ namespace Organizer.Common.Entities
 
         public string PrimaryPhone { get; set; }
         public int UserId { get; set; }
-
-        public PersonalInfo PersonalInformation { get; set; }
-
-        public ICollection<SocialInfo> Socials { get; set; }
     }
 }

@@ -80,11 +80,7 @@ namespace Organizer.DAL.Repository
         public IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, SocialInfo socialInfo)
         {
             IEnumerable<Contact> result = null;
-
-            var socialInfoTable = socialInfo.TableName;
-            string query = $"SELECT * FROM {_contactTable} " +
-                $"INNER JOIN {socialInfoTable} ON {_contactTable}.{_contactId} = {socialInfoTable}.ContactId "
-                + "WHERE UserId = @UserId AND AppName = @AppName AND AppId LIKE @AppId";
+            string query = ContactQueries.GetFilterBySocialInfoQuery();
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -107,9 +103,7 @@ namespace Organizer.DAL.Repository
 
             var personalInfoTable = new PersonalInfo().TableName;
             var personalInfoId = new PersonalInfo().IdColumnName;
-            string query = $"SELECT * FROM {_contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
-                + " WHERE UserId = @UserId AND FirstName LIKE @FirstName";
+            string query = ContactQueries.GetFilterByFirstNameQuery();
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -128,12 +122,7 @@ namespace Organizer.DAL.Repository
         public IEnumerable<Contact> FilterByLastNameStartsWith(int userId, string lastName)
         {
             IEnumerable<Contact> result = null;
-
-            var personalInfoTable = new PersonalInfo().TableName;
-            var personalInfoId = new PersonalInfo().IdColumnName;
-            string query = $"SELECT * FROM {_contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
-                + " WHERE UserId = @UserId AND Lastname LIKE @LastName";
+            string query = ContactQueries.GetFilterByLastNameQuery();
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -152,12 +141,7 @@ namespace Organizer.DAL.Repository
         public IEnumerable<Contact> FilterByMiddleNameStartsWith(int userId, string middleName)
         {
             IEnumerable<Contact> result = null;
-
-            var personalInfoTable = new PersonalInfo().TableName;
-            var personalInfoId = new PersonalInfo().IdColumnName;
-            string query = $"SELECT * FROM {_contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
-                + " WHERE UserId = @UserId AND MiddleName LIKE @MiddleName";
+            string query = ContactQueries.GetFilterByMiddleNameQuery();
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -176,14 +160,7 @@ namespace Organizer.DAL.Repository
         public IEnumerable<Contact> FilterByPersonalInfo(int userId, PersonalInfo info)
         {
             IEnumerable<Contact> result = null;
-
-            var personalInfoTable = info.TableName;
-            var personalInfoId = info.IdColumnName;
-            string query = $"SELECT * FROM {_contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
-                + " WHERE UserId = @UserId AND FirstName = @FirstName" +
-                " AND Lastname = @LastName AND" +
-                " MiddleName = @MiddleName AND Nickname = @NickName AND Email = @Email";
+            string query = ContactQueries.GetFilterByPersonalInfoQuery();
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -206,12 +183,7 @@ namespace Organizer.DAL.Repository
         public Contact FindByNickName(int userId, string nickname)
         {
             Contact result = null;
-
-            var personalInfoTable = new PersonalInfo().TableName;
-            var personalInfoId = new PersonalInfo().IdColumnName;
-            string query = $"SELECT TOP 1 * FROM {_contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
-                + " WHERE UserId = @UserId AND Nickname = @NickName";
+            string query = ContactQueries.GetFindByNicknameQuery();
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -231,8 +203,7 @@ namespace Organizer.DAL.Repository
         {
             Contact result = null;
 
-            string query = $"SELECT TOP 1 * FROM {_contactTable}" +
-                " WHERE UserId = @UserId AND PrimaryPhone = @Phone";
+            string query = ContactQueries.GetFindByPrimaryPhoneQuery();
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -251,12 +222,7 @@ namespace Organizer.DAL.Repository
         public IEnumerable<Contact> FilterByEmailStartsWith(int userId, string email)
         {
             IEnumerable<Contact> result = null;
-
-            var personalInfoTable = new PersonalInfo().TableName;
-            var personalInfoId = new PersonalInfo().IdColumnName;
-            string query = $"SELECT * FROM {_contactTable} " +
-                $"INNER JOIN {personalInfoTable} ON {_contactTable}.{_contactId} = {personalInfoTable}.{personalInfoId}"
-                + " WHERE UserId = @UserId AND Email LIKE @Email";
+            string query = ContactQueries.GetFilterByEmailQuery();
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -274,34 +240,32 @@ namespace Organizer.DAL.Repository
 
         public override int Insert(Contact entity, SqlTransaction sqlTransaction)
         {
-            var query = $"INSERT INTO {_contactTable} (PrimaryPhone, UserId)" +
-                " VALUES(@PrimaryPhone, @UserId)";
+            var query = ContactQueries.GetInsertQuery();
             return Insert(entity, query, sqlTransaction);
         }
 
         public override int Update(Contact entity, SqlTransaction sqlTransaction)
         {
-            var query = $"UPDATE {_contactTable} SET PrimaryPhone = @PrimaryPhone," +
-                $" UserId = @UserId, WHERE {_contactId} = @{_contactId}";
+            var query = ContactQueries.GetUpdateQuery();
             return Update(entity, query, sqlTransaction);
         }
 
         public override int Delete(int id, SqlTransaction sqlTransaction)
         {
-            var query = $"DELETE FROM {_contactTable} WHERE {_contactId} = @{_contactId}";
+            var query = ContactQueries.GetDeleteQuery();
             return Delete(id, query, sqlTransaction);
         }
 
         public override Contact GetById(int id)
         {
-            var query = $"SELECT TOP 1 * FROM {_contactTable} WHERE {_contactId} = @{_contactId}";
+            var query = ContactQueries.GetGetByIdQuery();
 
             return GetById(id, query);
         }
 
         public override IEnumerable<Contact> GetAll()
         {
-            return GetAll($"SELECT * FROM {_contactTable}");
+            return GetAll(ContactQueries.GetGetAllQuery());
         }
     }
 }
