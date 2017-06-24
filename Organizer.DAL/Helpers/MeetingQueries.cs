@@ -63,6 +63,15 @@
                 " WHERE UserId = @UserId";
         }
 
+        public static string GetFindByMeetingNameQuery()
+        {
+            return "SELECT TOP 1 Meetings.MeetingId, MeetingName," +
+                " Meetings.Description, MeetingDate," +
+                " NotificationDate, SendNotifications, Meetings.UserId "
+                + $"FROM {MeetingTable}" +
+                " WHERE MeetingName = @MeetingName";
+        }
+
         public static string GetAllQuery()
         {
             return "SELECT Meetings.MeetingId, MeetingName," +

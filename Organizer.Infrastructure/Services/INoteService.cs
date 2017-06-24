@@ -5,7 +5,7 @@ using Organizer.Common.DTO;
 
 namespace Organizer.Infrastructure.Services
 {
-    public interface INotesService
+    public interface INoteService
     {
         void AddNote(NoteDto note);
 

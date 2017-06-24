@@ -172,5 +172,23 @@ namespace Organizer.DAL.Repository
 
             return result;
         }
+
+        public Meeting FindByMeetingName(string meetingName)
+        {
+            Meeting result = null;
+            var query = MeetingQueries.GetFindByMeetingNameQuery();
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@MeetingName", meetingName));
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = Map(reader);
+                }
+            }
+
+            return result;
+        }
     }
 }

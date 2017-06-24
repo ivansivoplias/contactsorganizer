@@ -6,7 +6,6 @@ using Organizer.Common.DTO;
 using AutoMapper;
 using Organizer.Infrastructure.Database;
 using Organizer.DAL.Repository;
-using System.Collections.Generic;
 using GameStore.Common.Hasher;
 
 namespace Organizer.BL.Services
@@ -54,8 +53,7 @@ namespace Organizer.BL.Services
             UserDto result = null;
             var user = Mapper.Map<User>(newUser);
             var hasher = Sha512Hasher.GetInstance();
-            var hashedPass = hasher.ComputeHash(newUser.Password, null);
-            user.Password = hashedPass;
+            user.Password = hasher.ComputeHash(newUser.Password, null);
 
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)

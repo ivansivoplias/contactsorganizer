@@ -8,6 +8,8 @@ namespace Organizer.Infrastructure.Database
     {
         IEnumerable<Meeting> GetUserMeetings(int userId);
 
+        Meeting FindByMeetingName(string meetingName);
+
         IEnumerable<Meeting> FilterByMeetingDate(int userId, DateTime meetingDate);
 
         IEnumerable<Meeting> FilterByMeetingNameLike(int userId, string meetingName);
