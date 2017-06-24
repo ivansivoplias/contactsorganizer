@@ -101,7 +101,7 @@
 
         public static string GetGetByIdQuery()
         {
-            return "SELECT Notes.NoteId, Notes.Caption, Notes.NoteText," +
+            return "SELECT TOP 1 Notes.NoteId, Notes.Caption, Notes.NoteText," +
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} " +
@@ -127,7 +127,7 @@
 
         public static string GetNoteByCaptionQuery()
         {
-            return "SELECT Notes.NoteId, Notes.Caption, Notes.NoteText," +
+            return "SELECT TOP 1 Notes.NoteId, Notes.Caption, Notes.NoteText," +
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "

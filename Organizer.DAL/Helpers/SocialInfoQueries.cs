@@ -24,17 +24,22 @@
 
         public static string GetGetByIdQuery()
         {
-            return $"SELECT TOP 1 * FROM {SocialInfoTable} WHERE {SocialInfoId} = @{SocialInfoId}";
+            return "SELECT TOP 1 SocialInfo.SocialInfoId, SocialInfo.ContactId, AppName, AppId"
+                + $"FROM {SocialInfoTable} "
+                + $"WHERE {SocialInfoId} = @{SocialInfoId}";
         }
 
         public static string GetAllQuery()
         {
-            return $"SELECT * FROM {SocialInfoTable}";
+            return "SELECT SocialInfo.SocialInfoId, SocialInfo.ContactId, AppName, AppId "
+                + $"FROM {SocialInfoTable}";
         }
 
         public static string GetContactSocialsQuery()
         {
-            return $"SELECT * FROM {SocialInfoTable} WHERE ContactId = @ContactId";
+            return "SELECT SocialInfo.SocialInfoId, SocialInfo.ContactId, AppName, AppId "
+                + $"FROM {SocialInfoTable} " +
+                "WHERE ContactId = @ContactId";
         }
     }
 }

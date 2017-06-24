@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Organizer.DAL.Helpers
+﻿namespace Organizer.DAL.Helpers
 {
     public static class MeetingQueries
     {
@@ -13,13 +7,19 @@ namespace Organizer.DAL.Helpers
 
         public static string GetFilterByMeetingDateQuery()
         {
-            return $"SELECT * FROM {MeetingTable} "
+            return "SELECT Meetings.MeetingId, MeetingName," +
+                " Meetings.Description, MeetingDate," +
+                " NotificationDate, SendNotifications, Meetings.UserId "
+                + $"FROM {MeetingTable}"
                 + "WHERE UserId = @UserId AND MeetingDate = @MeetingDate";
         }
 
         public static string GetFilterByMeetingName()
         {
-            return $"SELECT * FROM {MeetingTable} "
+            return "SELECT Meetings.MeetingId, MeetingName," +
+                " Meetings.Description, MeetingDate," +
+                " NotificationDate, SendNotifications, Meetings.UserId "
+                + $"FROM {MeetingTable}"
                 + "WHERE UserId = @UserId AND MeetingName LIKE @MeetingName";
         }
 
@@ -47,12 +47,19 @@ namespace Organizer.DAL.Helpers
 
         public static string GetGetByIdQuery()
         {
-            return $"SELECT TOP 1 * FROM {MeetingTable} WHERE {MeetingId} = @{MeetingId}";
+            return "SELECT TOP 1 Meetings.MeetingId, MeetingName," +
+                " Meetings.Description, MeetingDate," +
+                " NotificationDate, SendNotifications, Meetings.UserId "
+                + $"FROM {MeetingTable}" +
+                $" WHERE {MeetingId} = @{MeetingId}";
         }
 
         public static string GetAllQuery()
         {
-            return $"SELECT * FROM {MeetingTable}";
+            return "SELECT Meetings.MeetingId, MeetingName," +
+                " Meetings.Description, MeetingDate," +
+                " NotificationDate, SendNotifications, Meetings.UserId "
+                + $"FROM {MeetingTable}";
         }
     }
 }

@@ -28,7 +28,7 @@
 
         public static string GetGetByIdQuery()
         {
-            return "SELECT PersonalInfo.PersonalInfoId, PersonalInfo.FirstName," +
+            return "SELECT TOP 1 PersonalInfo.PersonalInfoId, PersonalInfo.FirstName," +
                 " PersonalInfo.Lastname, PersonalInfo.MiddleName," +
                 " PersonalInfo.Nickname, PersonalInfo.Email "
                 + $"FROM {PersonalInfoTable}" +

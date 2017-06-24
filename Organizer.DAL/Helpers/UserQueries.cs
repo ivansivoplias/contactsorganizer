@@ -24,12 +24,15 @@
 
         public static string GetGetByIdQuery()
         {
-            return $"SELECT TOP 1 * FROM {UserTable} WHERE {UserId} = @{UserId}";
+            return "SELECT TOP 1 UserId, Login, Password "
+                + $"FROM {UserTable} " +
+                $"WHERE {UserId} = @{UserId}";
         }
 
         public static string GetAllQuery()
         {
-            return $"SELECT * FROM {UserTable}";
+            return "SELECT UserId, Login, Password "
+                + $"FROM {UserTable}";
         }
     }
 }
