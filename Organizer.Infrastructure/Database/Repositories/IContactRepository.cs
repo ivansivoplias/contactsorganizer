@@ -19,6 +19,8 @@ namespace Organizer.Infrastructure.Database
 
         Contact FindByPrimaryPhone(int userId, string phone);
 
+        IEnumerable<Contact> GetUserContacts(int userId);
+
         IEnumerable<Contact> FilterByEmailStartsWith(int userId, string email);
     }
 }

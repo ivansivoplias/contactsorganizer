@@ -1,6 +1,6 @@
-﻿namespace Organizer.Common.Entities
+﻿namespace Organizer.Common.DTO
 {
-    public class PersonalInfo : BaseEntity
+    public class PersonalInfoDto : BaseDto
     {
         public string FirstName { get; set; }
 

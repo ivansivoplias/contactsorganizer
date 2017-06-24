@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Organizer.DAL.UoW
 {
-    public class UnitOfWork : IUnitOfWork, IDisposable
+    public class UnitOfWork : IUnitOfWork
     {
         private IDatabaseContextFactory _factory;
         private IDbContext _context;

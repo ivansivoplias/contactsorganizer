@@ -1,11 +1,11 @@
-﻿using Organizer.Common.Entities;
+﻿using Organizer.Common.DTO;
 
 namespace Organizer.Infrastructure.Services
 {
     public interface IUserService
     {
-        User Login(string userName, string password);
+        UserDto Login(string userName, string password);
 
-        User Register(User newUser);
+        UserDto Register(UserDto newUser);
     }
 }

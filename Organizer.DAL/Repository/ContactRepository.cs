@@ -254,6 +254,24 @@ namespace Organizer.DAL.Repository
             return GetById(id, query);
         }
 
+        public IEnumerable<Contact> GetUserContacts(int userId)
+        {
+            IEnumerable<Contact> result = null;
+            string query = ContactQueries.GetUserContactsQuery();
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId));
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
+        }
+
         public override IEnumerable<Contact> GetAll()
         {
             return GetAll(ContactQueries.GetGetAllQuery());

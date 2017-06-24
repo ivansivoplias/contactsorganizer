@@ -54,6 +54,15 @@
                 $" WHERE {MeetingId} = @{MeetingId}";
         }
 
+        public static string GetUserMeetingsQuery()
+        {
+            return "SELECT Meetings.MeetingId, MeetingName," +
+                " Meetings.Description, MeetingDate," +
+                " NotificationDate, SendNotifications, Meetings.UserId "
+                + $"FROM {MeetingTable}" +
+                " WHERE UserId = @UserId";
+        }
+
         public static string GetAllQuery()
         {
             return "SELECT Meetings.MeetingId, MeetingName," +

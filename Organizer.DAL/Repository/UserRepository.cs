@@ -99,5 +99,22 @@ namespace Organizer.DAL.Repository
         {
             return GetAll(UserQueries.GetAllQuery());
         }
+
+        public User FindByLogin(string login)
+        {
+            User result = null;
+            var query = UserQueries.FindByLoginQuery();
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@Login", login));
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = Map(reader);
+                }
+            }
+
+            return result;
+        }
     }
 }

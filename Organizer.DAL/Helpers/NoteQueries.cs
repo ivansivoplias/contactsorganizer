@@ -108,6 +108,15 @@
                 $"WHERE {NoteId} = @{NoteId}";
         }
 
+        public static string GetUserNotesQuery()
+        {
+            return "SELECT Notes.NoteId, Notes.Caption, Notes.NoteText," +
+                " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
+                " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
+                $" FROM {NoteTable} "
+                + "WHERE UserId = @UserId";
+        }
+
         public static string GetAllQuery()
         {
             return "SELECT Notes.NoteId, Notes.Caption, Notes.NoteText," +

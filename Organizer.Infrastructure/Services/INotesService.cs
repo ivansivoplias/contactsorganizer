@@ -1,38 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using Organizer.Common.Entities;
 using Organizer.Common.Enums;
+using Organizer.Common.DTO;
 
 namespace Organizer.Infrastructure.Services
 {
     public interface INotesService
     {
-        void AddNote(Note note);
+        void AddNote(NoteDto note);
 
-        void RemoveNote(Note note);
+        void RemoveNote(NoteDto note);
 
-        void EditNote(Note note);
+        void EditNote(NoteDto note);
 
-        ICollection<Note> GetNotes(User user);
+        ICollection<NoteDto> GetNotes(UserDto user);
 
-        Note GetNote(int noteId);
+        NoteDto GetNote(int noteId);
 
-        Note GetNoteByCaption(User id, string caption);
+        NoteDto GetNoteByCaption(UserDto user, string caption);
 
-        ICollection<Note> GetNotesByCreationDate(User user, DateTime creationDate);
+        ICollection<NoteDto> GetNotesByCreationDate(UserDto user, DateTime creationDate);
 
-        ICollection<Note> GetNotesByLastChangeDate(User user, DateTime lastChangeDate);
+        ICollection<NoteDto> GetNotesByLastChangeDate(UserDto user, DateTime lastChangeDate);
 
-        ICollection<Note> GetNotesByNoteType(User user, NoteType noteType);
+        ICollection<NoteDto> GetNotesByNoteType(UserDto user, NoteType noteType);
 
-        ICollection<Note> GetNotesByCurrentState(User user, State state);
+        ICollection<NoteDto> GetNotesByCurrentState(UserDto user, State state);
 
-        ICollection<Note> GetNotesByPriority(User user, Priority priority);
+        ICollection<NoteDto> GetNotesByPriority(UserDto user, Priority priority);
 
-        ICollection<Note> GetNotesCreatedBetween(User user, DateTime start, DateTime end);
+        ICollection<NoteDto> GetNotesCreatedBetween(UserDto user, DateTime start, DateTime end);
 
-        ICollection<Note> GetNotesByStartDate(User user, DateTime startDate);
+        ICollection<NoteDto> GetNotesByStartDate(UserDto user, DateTime startDate);
 
-        ICollection<Note> GetNotesByEndDate(User user, DateTime endDate);
+        ICollection<NoteDto> GetNotesByEndDate(UserDto user, DateTime endDate);
     }
 }

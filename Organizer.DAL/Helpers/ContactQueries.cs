@@ -76,6 +76,12 @@
             return $"SELECT Contacts.ContactId AS ContactId, PrimaryPhone, UserId FROM {ContactTable}";
         }
 
+        public static string GetUserContactsQuery()
+        {
+            return $"SELECT Contacts.ContactId AS ContactId, PrimaryPhone, UserId" +
+                $" FROM {ContactTable} WHERE UserId = @UserId";
+        }
+
         public static string GetUpdateQuery()
         {
             return $"UPDATE {ContactTable} SET PrimaryPhone = @PrimaryPhone," +

@@ -154,5 +154,23 @@ namespace Organizer.DAL.Repository
         {
             return GetAll(MeetingQueries.GetAllQuery());
         }
+
+        public IEnumerable<Meeting> GetUserMeetings(int userId)
+        {
+            IEnumerable<Meeting> result = null;
+            var query = MeetingQueries.GetUserMeetingsQuery();
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId));
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
+        }
     }
 }

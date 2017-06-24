@@ -1,36 +1,36 @@
 ﻿using System.Collections.Generic;
-using Organizer.Common.Entities;
+using Organizer.Common.DTO;
 
 namespace Organizer.Infrastructure.Services
 {
     public interface IContactService
     {
-        void AddContact(Contact contact);
+        void AddContact(ContactDto contact);
 
-        void RemoveContact(Contact contact);
+        void RemoveContact(ContactDto contact);
 
-        void EditContact(Contact contact);
+        void EditContact(ContactDto contact);
 
-        Contact GetContact(int id);
+        ContactDto GetContact(int id);
 
-        ICollection<Contact> GetContacts(User user);
+        ICollection<ContactDto> GetContacts(UserDto user);
 
-        ICollection<Contact> GetContactsByPhone(User user, string phone);
+        ICollection<ContactDto> GetContactsByPhone(UserDto user, string phone);
 
-        ICollection<Contact> GetContacsBySocialInfo(User user, SocialInfo info);
+        ICollection<ContactDto> GetContacsBySocialInfo(UserDto user, SocialInfoDto info);
 
-        ICollection<Contact> GetContactsByFirstName(User user, string firstName);
+        ICollection<ContactDto> GetContactsByFirstName(UserDto user, string firstName);
 
-        ICollection<Contact> GetContactsByLastName(User user, string lastName);
+        ICollection<ContactDto> GetContactsByLastName(UserDto user, string lastName);
 
-        ICollection<Contact> GetContactsByMiddleName(User user, string middleName);
+        ICollection<ContactDto> GetContactsByMiddleName(UserDto user, string middleName);
 
-        ICollection<Contact> GetContactsByPersonalInfo(User user, PersonalInfo info);
+        ICollection<ContactDto> GetContactsByPersonalInfo(UserDto user, PersonalInfoDto info);
 
-        Contact FindByNickName(User user, string nickName);
+        ContactDto FindByNickName(UserDto user, string nickName);
 
-        Contact FindByPrimaryPhone(User user, string phone);
+        ContactDto FindByPrimaryPhone(UserDto user, string phone);
 
-        ICollection<Contact> GetContactsByEmail(User user, string email);
+        ICollection<ContactDto> GetContactsByEmail(UserDto user, string email);
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Organizer.Common.Entities
+﻿namespace Organizer.Common.Entities
 {
     public class Contact : BaseEntity
     {

@@ -29,6 +29,13 @@
                 $"WHERE {UserId} = @{UserId}";
         }
 
+        public static string FindByLoginQuery()
+        {
+            return "SELECT TOP 1 UserId, Login, Password "
+                + $"FROM {UserTable} " +
+                $"WHERE Login = @Login";
+        }
+
         public static string GetAllQuery()
         {
             return "SELECT UserId, Login, Password "

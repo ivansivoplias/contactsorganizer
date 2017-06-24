@@ -393,5 +393,24 @@ namespace Organizer.DAL.Repository
 
             return result;
         }
+
+        public IEnumerable<Note> GetUserNotes(int userId)
+        {
+            IEnumerable<Note> result = null;
+
+            var query = NoteQueries.GetUserNotesQuery();
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId));
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
+        }
     }
 }

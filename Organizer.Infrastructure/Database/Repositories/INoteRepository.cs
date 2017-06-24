@@ -9,6 +9,8 @@ namespace Organizer.Infrastructure.Database
     {
         Note GetNoteByCaption(int userId, string caption);
 
+        IEnumerable<Note> GetUserNotes(int userId);
+
         IEnumerable<Note> FilterByCreationDate(int userId, DateTime date);
 
         IEnumerable<Note> FilterByLastChangeDate(int userId, DateTime lastChangeDate);
