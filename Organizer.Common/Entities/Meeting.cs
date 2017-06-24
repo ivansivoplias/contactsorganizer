@@ -10,9 +10,5 @@ namespace Organizer.Common.Entities
         public DateTime NotificationDate { get; set; }
         public bool SendNotifications { get; set; }
         public int UserId { get; set; }
-
-        public override string IdColumnName => "MeetingId";
-
-        public override string TableName => "dbo.Meetings";
     }
 }

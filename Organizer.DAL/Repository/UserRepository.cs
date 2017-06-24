@@ -1,4 +1,5 @@
 ﻿using Organizer.Common.Entities;
+using Organizer.DAL.Helpers;
 using Organizer.Infrastructure.Database;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,8 @@ namespace Organizer.DAL.Repository
 {
     public class UserRepository : RepositoryBase<User>
     {
-        private readonly string _userId;
-        private readonly string _userTable;
-
         public UserRepository(IUnitOfWork uow) : base(uow)
         {
-            var user = new User();
-            _userId = user.IdColumnName;
-            _userTable = user.TableName;
         }
 
         protected override void InsertCommandParameters(User entity, SqlCommand cmd)
@@ -26,21 +21,19 @@ namespace Organizer.DAL.Repository
 
         protected override void UpdateCommandParameters(User entity, SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
+            cmd.Parameters.AddWithValue($"@{UserQueries.UserId}", entity.Id);
             cmd.Parameters.AddWithValue("@Login", entity.Login);
             cmd.Parameters.AddWithValue("@Password", entity.Password);
         }
 
         protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
-            var idColumnName = new User().IdColumnName;
-            cmd.Parameters.AddWithValue($"@{idColumnName}", id);
+            cmd.Parameters.AddWithValue($"@{UserQueries.UserId}", id);
         }
 
         protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
-            var idColumnName = new User().IdColumnName;
-            cmd.Parameters.AddWithValue($"@{idColumnName}", id);
+            cmd.Parameters.AddWithValue($"@{UserQueries.UserId}", id);
         }
 
         protected override User Map(SqlDataReader reader)
@@ -51,7 +44,7 @@ namespace Organizer.DAL.Repository
                 user = new User();
                 while (reader.Read())
                 {
-                    user.Id = Convert.ToInt32(reader[user.IdColumnName].ToString());
+                    user.Id = Convert.ToInt32(reader[UserQueries.UserId].ToString());
                     user.Login = reader["Login"].ToString();
                     user.Password = reader["Password"].ToString();
                 }
@@ -68,7 +61,7 @@ namespace Organizer.DAL.Repository
                 while (reader.Read())
                 {
                     var person = new User();
-                    person.Id = Convert.ToInt32(reader[person.IdColumnName].ToString());
+                    person.Id = Convert.ToInt32(reader[UserQueries.UserId].ToString());
                     person.Login = reader["Login"].ToString();
                     person.Password = reader["Password"].ToString();
                     users.Add(person);
@@ -79,34 +72,32 @@ namespace Organizer.DAL.Repository
 
         public override int Insert(User entity, SqlTransaction sqlTransaction)
         {
-            var query = $"INSERT INTO {_userTable} (Login, Password)" +
-                " VALUES(@Login, @Password)";
+            var query = UserQueries.GetInsertQuery();
             return Insert(entity, query, sqlTransaction);
         }
 
         public override int Update(User entity, SqlTransaction sqlTransaction)
         {
-            var query = $"UPDATE {_userTable} SET Login = @Login," +
-                $" Password = @Password WHERE {_userId} = @{_userId}";
+            var query = UserQueries.GetUpdateQuery();
             return Update(entity, query, sqlTransaction);
         }
 
         public override int Delete(int id, SqlTransaction sqlTransaction)
         {
-            var query = $"DELETE FROM {_userTable} WHERE {_userId} = @{_userId}";
+            var query = UserQueries.GetDeleteQuery();
             return Delete(id, query, sqlTransaction);
         }
 
         public override User GetById(int id)
         {
-            var query = $"SELECT TOP 1 * FROM {_userTable} WHERE {_userId} = @{_userId}";
+            var query = UserQueries.GetGetByIdQuery();
 
             return GetById(id, query);
         }
 
         public override IEnumerable<User> GetAll()
         {
-            return GetAll($"SELECT * FROM {_userTable}");
+            return GetAll(UserQueries.GetAllQuery());
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Organizer.UI", "Organizer.UI\Organizer.UI.csproj", "{256789DE-23FA-4570-B631-5462E03E0E7F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{90775428-1836-4113-AED3-CBDE7F110236} = {90775428-1836-4113-AED3-CBDE7F110236}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Organizer.Common", "Organizer.Common\Organizer.Common.csproj", "{AD5F05A7-CC04-40AC-8A25-C97303A5B081}"
 EndProject

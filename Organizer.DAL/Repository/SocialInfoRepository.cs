@@ -9,14 +9,8 @@ namespace Organizer.DAL.Repository
 {
     public class SocialInfoRepository : RepositoryBase<SocialInfo>, ISocialInfoRepository
     {
-        private readonly string _socialInfoId;
-        private readonly string _socialInfoTable;
-
         public SocialInfoRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            var social = new SocialInfo();
-            _socialInfoId = social.IdColumnName;
-            _socialInfoTable = social.TableName;
         }
 
         protected override void InsertCommandParameters(SocialInfo entity, SqlCommand cmd)
@@ -28,21 +22,19 @@ namespace Organizer.DAL.Repository
 
         protected override void UpdateCommandParameters(SocialInfo entity, SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
+            cmd.Parameters.AddWithValue($"@{SocialInfoQueries.SocialInfoId}", entity.Id);
             cmd.Parameters.AddWithValue("@AppName", entity.AppName);
             cmd.Parameters.AddWithValue("@AppId", entity.AppId);
         }
 
         protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
-            var idColumnName = new SocialInfo().IdColumnName;
-            cmd.Parameters.AddWithValue($"@{idColumnName}", id);
+            cmd.Parameters.AddWithValue($"@{SocialInfoQueries.SocialInfoId}", id);
         }
 
         protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
-            var idColumnName = new SocialInfo().IdColumnName;
-            cmd.Parameters.AddWithValue($"@{idColumnName}", id);
+            cmd.Parameters.AddWithValue($"@{SocialInfoQueries.SocialInfoId}", id);
         }
 
         protected override SocialInfo Map(SqlDataReader reader)
@@ -53,7 +45,7 @@ namespace Organizer.DAL.Repository
                 socialInfo = new SocialInfo();
                 while (reader.Read())
                 {
-                    socialInfo.Id = Convert.ToInt32(reader[socialInfo.IdColumnName].ToString());
+                    socialInfo.Id = Convert.ToInt32(reader[SocialInfoQueries.SocialInfoId].ToString());
                     socialInfo.ContactId = Convert.ToInt32(reader["ContactId"].ToString());
 
                     socialInfo.AppName = reader["AppName"].ToString();
@@ -72,7 +64,7 @@ namespace Organizer.DAL.Repository
                 while (reader.Read())
                 {
                     var socialInfo = new SocialInfo();
-                    socialInfo.Id = Convert.ToInt32(reader[socialInfo.IdColumnName].ToString());
+                    socialInfo.Id = Convert.ToInt32(reader[SocialInfoQueries.SocialInfoId].ToString());
                     socialInfo.ContactId = Convert.ToInt32(reader["ContactId"].ToString());
 
                     socialInfo.AppName = reader["AppName"].ToString();
@@ -85,40 +77,38 @@ namespace Organizer.DAL.Repository
 
         public override int Insert(SocialInfo entity, SqlTransaction sqlTransaction)
         {
-            var query = $"INSERT INTO {_socialInfoTable} (ContactId, AppName, AppId)" +
-                " VALUES(@ContactId, @AppName, @AppId)";
+            var query = SocialInfoQueries.GetInsertQuery();
             return Insert(entity, query, sqlTransaction);
         }
 
         public override int Update(SocialInfo entity, SqlTransaction sqlTransaction)
         {
-            var query = $"UPDATE {_socialInfoTable} SET AppName = @AppName, AppId = @AppId" +
-                $" WHERE {_socialInfoId} = @{_socialInfoId}";
+            var query = SocialInfoQueries.GetUpdateQuery();
             return Update(entity, query, sqlTransaction);
         }
 
         public override int Delete(int id, SqlTransaction sqlTransaction)
         {
-            var query = $"DELETE FROM {_socialInfoTable} WHERE {_socialInfoId} = @{_socialInfoId}";
+            var query = SocialInfoQueries.GetDeleteQuery();
             return Delete(id, query, sqlTransaction);
         }
 
         public override SocialInfo GetById(int id)
         {
-            var query = $"SELECT TOP 1 * FROM {_socialInfoTable} WHERE {_socialInfoId} = @{_socialInfoId}";
+            var query = SocialInfoQueries.GetGetByIdQuery();
 
             return GetById(id, query);
         }
 
         public override IEnumerable<SocialInfo> GetAll()
         {
-            return GetAll($"SELECT * FROM {_socialInfoTable}");
+            return GetAll(SocialInfoQueries.GetAllQuery());
         }
 
         public IEnumerable<SocialInfo> GetContactSocials(int contactId)
         {
             IEnumerable<SocialInfo> list = null;
-            var query = $"SELECT * FROM {_socialInfoTable} WHERE ContactId = @ContactId";
+            var query = SocialInfoQueries.GetContactSocialsQuery();
 
             using (var cmd = _connection.CreateCommand())
             {

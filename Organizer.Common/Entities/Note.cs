@@ -18,9 +18,5 @@ namespace Organizer.Common.Entities
         public DateTime? EndDate { get; set; }
 
         public int UserId { get; set; }
-
-        public override string IdColumnName => "NoteId";
-
-        public override string TableName => "dbo.Notes";
     }
 }

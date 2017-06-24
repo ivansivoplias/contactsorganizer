@@ -9,14 +9,8 @@ namespace Organizer.DAL.Repository
 {
     public class MeetingRepository : RepositoryBase<Meeting>, IMeetingRepository
     {
-        private readonly string _meetingId;
-        private readonly string _meetingTable;
-
         public MeetingRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            var meeting = new Meeting();
-            _meetingId = meeting.IdColumnName;
-            _meetingTable = meeting.TableName;
         }
 
         protected override void InsertCommandParameters(Meeting entity, SqlCommand cmd)
@@ -31,7 +25,7 @@ namespace Organizer.DAL.Repository
 
         protected override void UpdateCommandParameters(Meeting entity, SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
+            cmd.Parameters.AddWithValue($"@{MeetingQueries.MeetingId}", entity.Id);
             cmd.Parameters.AddWithValue("@MeetingName", entity.MeetingName);
             cmd.Parameters.AddWithValue("@Description", entity.Description);
             cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
@@ -42,14 +36,12 @@ namespace Organizer.DAL.Repository
 
         protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
-            var idColumnName = new Meeting().IdColumnName;
-            cmd.Parameters.AddWithValue($"@{idColumnName}", id);
+            cmd.Parameters.AddWithValue($"@{MeetingQueries.MeetingId}", id);
         }
 
         protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
-            var idColumnName = new Meeting().IdColumnName;
-            cmd.Parameters.AddWithValue($"@{idColumnName}", id);
+            cmd.Parameters.AddWithValue($"@{MeetingQueries.MeetingId}", id);
         }
 
         protected override Meeting Map(SqlDataReader reader)
@@ -60,7 +52,7 @@ namespace Organizer.DAL.Repository
                 meeting = new Meeting();
                 while (reader.Read())
                 {
-                    meeting.Id = Convert.ToInt32(reader[meeting.IdColumnName].ToString());
+                    meeting.Id = Convert.ToInt32(reader[MeetingQueries.MeetingId].ToString());
                     meeting.MeetingName = reader["MeetingName"].ToString();
                     meeting.Description = reader["Description"].ToString();
                     meeting.MeetingDate = DateTime.Parse(reader["Password"].ToString());
@@ -81,7 +73,7 @@ namespace Organizer.DAL.Repository
                 while (reader.Read())
                 {
                     var meeting = new Meeting();
-                    meeting.Id = Convert.ToInt32(reader[meeting.IdColumnName].ToString());
+                    meeting.Id = Convert.ToInt32(reader[MeetingQueries.MeetingId].ToString());
                     meeting.MeetingName = reader["MeetingName"].ToString();
                     meeting.Description = reader["Description"].ToString();
                     meeting.MeetingDate = DateTime.Parse(reader["Password"].ToString());
@@ -98,13 +90,12 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Meeting> result = null;
 
-            var meetingTable = new Meeting().TableName;
-            var query = $"SELECT * FROM {meetingTable} "
-                + "WHERE UserId = @UserId AND MeetingDate = @MeetingDate";
+            var query = MeetingQueries.GetFilterByMeetingDateQuery();
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId), new SqlParameter("@MeetingDate", meetingDate));
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
+                    new SqlParameter("@MeetingDate", meetingDate));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -118,10 +109,7 @@ namespace Organizer.DAL.Repository
         public IEnumerable<Meeting> FilterByMeetingNameLike(int userId, string meetingName)
         {
             IEnumerable<Meeting> result = null;
-
-            var meetingTable = new Meeting().TableName;
-            var query = $"SELECT * FROM {meetingTable} "
-                + "WHERE UserId = @UserId AND MeetingName LIKE @MeetingName";
+            var query = MeetingQueries.GetFilterByMeetingName();
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -139,39 +127,32 @@ namespace Organizer.DAL.Repository
 
         public override int Insert(Meeting entity, SqlTransaction sqlTransaction)
         {
-            var query = $"INSERT INTO {_meetingTable} (Description, MeetingName, MeetingDate, " +
-                "NotificationDate, SendNotifications, UserId)" +
-                " VALUES(@Description, @MeetingName, @MeetingDate, " +
-                "@NotificationDate, @SendNotifications, @UserId)";
+            var query = MeetingQueries.GetInsertQuery();
             return Insert(entity, query, sqlTransaction);
         }
 
         public override int Update(Meeting entity, SqlTransaction sqlTransaction)
         {
-            var query = $"UPDATE {_meetingTable} SET MeetingName = @MeetingName," +
-                " Description = @Description, MeetingDate = @MeetingDate, " +
-                "NotificationDate = @NotificationDate, SendNotifications = @SendNotifications," +
-                " UserId = @Userid" +
-                $" WHERE {_meetingId} = @{_meetingId}";
+            var query = MeetingQueries.GetUpdateQuery();
             return Update(entity, query, sqlTransaction);
         }
 
         public override int Delete(int id, SqlTransaction sqlTransaction)
         {
-            var query = $"DELETE FROM {_meetingTable} WHERE {_meetingId} = @{_meetingId}";
+            var query = MeetingQueries.GetDeleteQuery();
             return Delete(id, query, sqlTransaction);
         }
 
         public override Meeting GetById(int id)
         {
-            var query = $"SELECT TOP 1 * FROM {_meetingTable} WHERE {_meetingId} = @{_meetingId}";
+            var query = MeetingQueries.GetGetByIdQuery();
 
             return GetById(id, query);
         }
 
         public override IEnumerable<Meeting> GetAll()
         {
-            return GetAll($"SELECT * FROM {_meetingTable}");
+            return GetAll(MeetingQueries.GetAllQuery());
         }
     }
 }

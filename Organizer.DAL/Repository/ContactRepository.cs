@@ -9,14 +9,8 @@ namespace Organizer.DAL.Repository
 {
     public class ContactRepository : RepositoryBase<Contact>, IContactRepository
     {
-        private readonly string _contactTable;
-        private readonly string _contactId;
-
         public ContactRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            var cont = new Contact();
-            _contactId = cont.IdColumnName;
-            _contactTable = cont.TableName;
         }
 
         protected override void InsertCommandParameters(Contact entity, SqlCommand cmd)
@@ -27,19 +21,18 @@ namespace Organizer.DAL.Repository
 
         protected override void UpdateCommandParameters(Contact entity, SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue($"@{entity.IdColumnName}", entity.Id);
+            cmd.Parameters.AddWithValue($"@{ContactQueries.ContactId}", entity.Id);
             cmd.Parameters.AddWithValue("@PrimaryPhone", entity.PrimaryPhone);
-            cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
         protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue($"@{_contactId}", id);
+            cmd.Parameters.AddWithValue($"@{ContactQueries.ContactId}", id);
         }
 
         protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue($"@{_contactId}", id);
+            cmd.Parameters.AddWithValue($"@{ContactQueries.ContactId}", id);
         }
 
         protected override Contact Map(SqlDataReader reader)
@@ -51,7 +44,7 @@ namespace Organizer.DAL.Repository
 
                 while (reader.Read())
                 {
-                    contact.Id = Convert.ToInt32(reader[_contactId].ToString());
+                    contact.Id = Convert.ToInt32(reader[ContactQueries.ContactId].ToString());
                     contact.PrimaryPhone = reader["PrimaryPhone"].ToString();
                     contact.UserId = Convert.ToInt32(reader["UserId"].ToString());
                 }
@@ -68,7 +61,7 @@ namespace Organizer.DAL.Repository
                 while (reader.Read())
                 {
                     var contact = new Contact();
-                    contact.Id = Convert.ToInt32(reader[_contactId].ToString());
+                    contact.Id = Convert.ToInt32(reader[ContactQueries.ContactId].ToString());
                     contact.PrimaryPhone = reader["PrimaryPhone"].ToString();
                     contact.UserId = Convert.ToInt32(reader["UserId"].ToString());
                     contacts.Add(contact);
@@ -101,8 +94,6 @@ namespace Organizer.DAL.Repository
         {
             IEnumerable<Contact> result = null;
 
-            var personalInfoTable = new PersonalInfo().TableName;
-            var personalInfoId = new PersonalInfo().IdColumnName;
             string query = ContactQueries.GetFilterByFirstNameQuery();
 
             using (var cmd = _connection.CreateCommand())

@@ -7,9 +7,5 @@
         public string AppName { get; set; }
 
         public string AppId { get; set; }
-
-        public override string IdColumnName => "SocialInfoId";
-
-        public override string TableName => "dbo.SocialInfo";
     }
 }
