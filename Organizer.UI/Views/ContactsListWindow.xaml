@@ -1,0 +1,81 @@
+﻿<Window x:Class="Organizer.UI.Views.ContactsListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Organizer.UI.Views"
+        mc:Ignorable="d"
+        Title="ContactsListWindow" Height="432.667" Width="664.279">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Padding="10" TextAlignment="Center"
+                       Text="Contacts list"
+                       FontSize="25"
+                       FontFamily="Verdana"
+                       FontStyle="Normal"
+                       FontWeight="DemiBold" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button Margin="5" Padding="7"
+                    FontFamily="Tahoma"
+                    FontSize="14"
+                    FontStyle="Normal"
+                    FontWeight="Light"
+                    Content="Add contact" />
+            <Button Margin="5" Padding="7"
+                    FontFamily="Tahoma"
+                    FontSize="14"
+                    FontStyle="Normal"
+                    FontWeight="Light"
+                    Content="Edit contact" />
+            <Button Margin="5" Padding="7"
+                    FontFamily="Tahoma"
+                    FontSize="14"
+                    FontStyle="Normal"
+                    FontWeight="Light"
+                    Content="Remove contact" />
+            <Button Margin="5" Padding="7"
+                    FontFamily="Tahoma"
+                    FontSize="14"
+                    FontStyle="Normal"
+                    FontWeight="Light"
+                    Content="View contact details" />
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <ListView Name="contactsList" ItemsSource="{Binding Contacts}"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="120"
+                                        DisplayMemberBinding="{Binding Path=PrimaryPhone}" Header="Основной телефон">
+                        </GridViewColumn>
+                        <GridViewColumn Width="100"
+                                        DisplayMemberBinding="{Binding Path=PersonalInfo.FirstName}" Header="Имя">
+                        </GridViewColumn>
+                        <GridViewColumn Width="100"
+                                        DisplayMemberBinding="{Binding Path=PersonalInfo.MiddleName}" Header="По-отчеству">
+                        </GridViewColumn>
+                        <GridViewColumn Width="100"
+                                        DisplayMemberBinding="{Binding Path=PersonalInfo.LastName}" Header="Фамилия">
+                        </GridViewColumn>
+                        <GridViewColumn Width="100"
+                                        DisplayMemberBinding="{Binding Path=PersonalInfo.Nickname}" Header="Никнейм">
+                        </GridViewColumn>
+                        <GridViewColumn Width="100"
+                                        DisplayMemberBinding="{Binding Path=PersonalInfo.Email}" Header="Е-мейл">
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,4 +1,6 @@
-﻿using Organizer.Common.DTO;
+﻿using Autofac;
+using Organizer.Common.DTO;
+using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
 using System.Collections.Generic;
@@ -34,6 +36,8 @@ namespace Organizer.UI.ViewModels
 
         public ContactsListViewModel()
         {
+            var contactsList = App.Containter.Resolve<IContactService>().GetContacts(App.CurrentUser)?.ToList();
+            _contacts = new ObservableCollection<ContactDto>();
             _pageNumber = 1;
             _addContactCommand = Command.CreateCommand("Add contact", "AddContact", GetType(), AddContact);
             _deleteContactCommand = Command.CreateCommand("Delete contact", "DeleteContact", GetType(), DeleteContact);

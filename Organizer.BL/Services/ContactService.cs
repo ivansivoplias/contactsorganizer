@@ -171,10 +171,12 @@ namespace Organizer.BL.Services
 
                 var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, mappedSocial);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
-
-                foreach (var mapped in result)
+                if (result != null)
                 {
-                    GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    foreach (var mapped in result)
+                    {
+                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    }
                 }
             }
 
@@ -208,9 +210,12 @@ namespace Organizer.BL.Services
                 var dbContacts = contactRepo.GetUserContacts(user.Id);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
-                foreach (var mapped in result)
+                if (result != null)
                 {
-                    GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    foreach (var mapped in result)
+                    {
+                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    }
                 }
             }
 
@@ -228,9 +233,12 @@ namespace Organizer.BL.Services
                 var dbContacts = contactRepo.FilterByEmailStartsWith(user.Id, email);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
-                foreach (var mapped in result)
+                if (result != null)
                 {
-                    GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    foreach (var mapped in result)
+                    {
+                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    }
                 }
             }
 
@@ -248,9 +256,12 @@ namespace Organizer.BL.Services
                 var dbContacts = contactRepo.FilterByFirstNameStartsWith(user.Id, firstName);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
-                foreach (var mapped in result)
+                if (result != null)
                 {
-                    GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    foreach (var mapped in result)
+                    {
+                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    }
                 }
             }
 
@@ -268,9 +279,12 @@ namespace Organizer.BL.Services
                 var dbContacts = contactRepo.FilterByLastNameStartsWith(user.Id, lastName);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
-                foreach (var mapped in result)
+                if (result != null)
                 {
-                    GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    foreach (var mapped in result)
+                    {
+                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    }
                 }
             }
 
@@ -288,9 +302,12 @@ namespace Organizer.BL.Services
                 var dbContacts = contactRepo.FilterByMiddleNameStartsWith(user.Id, middleName);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
-                foreach (var mapped in result)
+                if (result != null)
                 {
-                    GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    foreach (var mapped in result)
+                    {
+                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    }
                 }
             }
 
@@ -309,9 +326,12 @@ namespace Organizer.BL.Services
                 var dbContacts = contactRepo.FilterByPersonalInfo(user.Id, mappedInfo);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
-                foreach (var mapped in result)
+                if (result != null)
                 {
-                    GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    foreach (var mapped in result)
+                    {
+                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    }
                 }
             }
 
@@ -334,9 +354,12 @@ namespace Organizer.BL.Services
                 var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, social);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
-                foreach (var mapped in result)
+                if (result != null)
                 {
-                    GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    foreach (var mapped in result)
+                    {
+                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    }
                 }
             }
 

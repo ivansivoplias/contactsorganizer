@@ -32,6 +32,13 @@ namespace Organizer.UI.Views
 
         private void OpenContactsMessageHandler(object sender, EventArgs e)
         {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var viewModel = new ContactsListViewModel();
+                var contactsList = new ContactsListWindow(viewModel);
+                contactsList.Show();
+                this.Close();
+            });
         }
 
         private void OpenNotesMessageHandler(object sender, EventArgs e)
