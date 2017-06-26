@@ -37,8 +37,7 @@ namespace Organizer.UI
 
             var service = Containter.Resolve<IUserService>();
             var loginViewModel = new LoginViewModel(service);
-            var window = new LoginWindow(loginViewModel);
-            MainWindow = window;
+            MainWindow = new LoginWindow(loginViewModel);
             MainWindow.Show();
         }
 

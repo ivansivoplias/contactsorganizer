@@ -3,6 +3,7 @@ using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +21,11 @@ namespace Organizer.UI.ViewModels
         private Command _exitCommand;
         private IUserService _service;
 
-        public event EventHandler LoginMessage = delegate { };
+        public event EventHandler LoginSuccessfulMessage = delegate { };
 
         public event EventHandler LoginFailedMessage = delegate { };
 
-        public event EventHandler RegistrationMessage = delegate { };
+        public event EventHandler RegistrationSuccessfulMessage = delegate { };
 
         public event EventHandler RegistrationFailedMessage = delegate { };
 
@@ -73,24 +74,26 @@ namespace Organizer.UI.ViewModels
             {
                 var user = _service.Login(Login, Password);
                 App.CurrentUser = user;
-                LoginMessage.Invoke(null, EventArgs.Empty);
+                LoginSuccessfulMessage.Invoke(null, EventArgs.Empty);
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
                 LoginFailedMessage.Invoke(null, EventArgs.Empty);
             }
         }
 
         private void Register()
         {
-            //RegistrationMessage.Invoke(null, EventArgs.Empty);
-
             try
             {
                 var user = _service.Register(new UserDto() { Login = Login, Password = Password });
+                App.CurrentUser = user;
+                RegistrationSuccessfulMessage.Invoke(null, EventArgs.Empty);
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
                 RegistrationFailedMessage.Invoke(null, EventArgs.Empty);
             }
         }

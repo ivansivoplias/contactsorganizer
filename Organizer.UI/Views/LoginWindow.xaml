@@ -34,8 +34,8 @@
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Grid.Row="1" Grid.Column="0"
                    Content="{Binding PasswordText}" />
-            <TextBox VerticalAlignment="Center" Margin="0 0 25 0"  Padding="10" Grid.Row="1" Grid.Column="1"
-                     Text="{Binding Password}" />
+            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 0"  Padding="10" Grid.Row="1" Grid.Column="1"
+                     KeyUp="PasswordBox_KeyUp" />
         </Grid>
 
         <Grid Grid.Row="2">
@@ -45,7 +45,7 @@
             </Grid.ColumnDefinitions>
 
             <Button Height="80" Grid.Column="0" Margin="20" Content="Login" Command="{Binding LoginCommand}" />
-            <Button Height="80" Grid.Column="1" Margin="20" Content="Password" Command="{Binding RegisterCommand}" />
+            <Button Height="80" Grid.Column="1" Margin="20" Content="Register me!" Command="{Binding RegisterCommand}" />
         </Grid>
     </Grid>
 </Window>

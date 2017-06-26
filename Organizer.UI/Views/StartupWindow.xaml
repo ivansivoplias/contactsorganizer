@@ -1,0 +1,53 @@
+﻿<Window x:Class="Organizer.UI.Views.StartupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Organizer.UI.Views"
+        mc:Ignorable="d"
+        Title="StartupWindow" Height="400" Width="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Padding="3" TextAlignment="Left" FontSize="20" Grid.Column="0" Text="{Binding CurrentUserText}" />
+            <TextBlock Padding="3" TextAlignment="Left" FontSize="20" Grid.Column="1" Text="{Binding CurrenUserName}" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0">
+                <Button Height="50" Margin="15" MinWidth="250" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Command="{Binding OpenContactsCommand}"
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+            </StackPanel>
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1">
+                <Button Height="50" Margin="15" MinWidth="250" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Command="{Binding OpenNotesCommand}"
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+            </StackPanel>
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0">
+                <Button Height="50" Margin="15" MinWidth="250" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Command="{Binding OpenTodosCommand}"
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+            </StackPanel>
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1">
+                <Button Height="50" Margin="15" MinWidth="250" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Command="{Binding OpenMeetingsCommand}"
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
