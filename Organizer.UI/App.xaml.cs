@@ -3,7 +3,12 @@ using System.Configuration;
 using System.Windows;
 using Autofac;
 using Organizer.DI;
-using Organizer.Common.Entities;
+using System;
+using Organizer.Common.DTO;
+using Organizer.UI.MapperConfiguration;
+using Organizer.UI.Views;
+using Organizer.UI.ViewModels;
+using Organizer.Infrastructure.Services;
 
 namespace Organizer.UI
 {
@@ -13,7 +18,7 @@ namespace Organizer.UI
 
         public static string ConnectionString { get; private set; }
 
-        public static User CurrentUser { get; set; }
+        public static UserDto CurrentUser { get; set; }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
@@ -27,12 +32,21 @@ namespace Organizer.UI
             }
 
             SetupContainer();
+
+            UIMapperConfigurator.Configure();
+
+            var service = Containter.Resolve<IUserService>();
+            var loginViewModel = new LoginViewModel(service);
+            var window = new LoginWindow(loginViewModel);
+            MainWindow = window;
+            MainWindow.Show();
         }
 
         private static void SetupContainer()
         {
+            Func<IContainer> factory = () => Containter;
             var containerBuilder = new ContainerBuilder();
-            AutofacInitializer.Initialize(containerBuilder, ConnectionString);
+            AutofacInitializer.Initialize(containerBuilder, ConnectionString, factory);
 
             Containter = containerBuilder.Build();
         }
