@@ -1,4 +1,6 @@
-﻿using Organizer.Common.DTO;
+﻿using Autofac;
+using GameStore.Common.Hasher;
+using Organizer.Common.DTO;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
@@ -59,9 +61,9 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        public LoginViewModel(IUserService service)
+        public LoginViewModel()
         {
-            _service = service;
+            _service = App.Containter.Resolve<IUserService>();
 
             _loginCommand = Command.CreateCommand("Login", "Login", GetType(), LogIn);
             _registerCommand = Command.CreateCommand("Register", "Register", GetType(), Register);
@@ -72,8 +74,10 @@ namespace Organizer.UI.ViewModels
         {
             try
             {
-                var user = _service.Login(Login, Password);
-                App.CurrentUser = user;
+                App.CurrentUser = _service.Login(Login, Password);
+
+                SaveUserInSettings();
+
                 LoginSuccessfulMessage.Invoke(null, EventArgs.Empty);
             }
             catch (Exception e)
@@ -87,8 +91,8 @@ namespace Organizer.UI.ViewModels
         {
             try
             {
-                var user = _service.Register(new UserDto() { Login = Login, Password = Password });
-                App.CurrentUser = user;
+                App.CurrentUser = _service.Register(new UserDto() { Login = Login, Password = Password });
+                SaveUserInSettings();
                 RegistrationSuccessfulMessage.Invoke(null, EventArgs.Empty);
             }
             catch (Exception e)
@@ -96,6 +100,17 @@ namespace Organizer.UI.ViewModels
                 Debug.WriteLine(e.Message);
                 RegistrationFailedMessage.Invoke(null, EventArgs.Empty);
             }
+        }
+
+        private void SaveUserInSettings()
+        {
+            var settings = Properties.Settings.Default;
+
+            settings.IsUserLoggedIn = true;
+            settings.UserLogin = App.CurrentUser.Login;
+            settings.UserPassword = App.CurrentUser.Password;
+
+            settings.Save();
         }
 
         public override void RegisterCommandsForWindow(Window window)

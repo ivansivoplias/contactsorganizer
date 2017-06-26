@@ -37,7 +37,8 @@ namespace Organizer.UI.Views
 
         private void RegistrationSucceededMessageHandler(object sender, EventArgs e)
         {
-            MessageBox.Show("Registration succeeded. User successfully created in db.", "Registration succeeded!");
+            OpenStartupWindow();
+            //MessageBox.Show("Registration succeeded. User successfully created in db.", "Registration succeeded!");
         }
 
         private void LoginFailedMessageHandler(object sender, EventArgs e)
@@ -47,7 +48,19 @@ namespace Organizer.UI.Views
 
         private void LoginSucceededMessageHandler(object sender, EventArgs e)
         {
-            MessageBox.Show("Login succeeded. User successfully logged in.", "Login succeeded!");
+            OpenStartupWindow();
+            //MessageBox.Show("Login succeeded. User successfully logged in.", "Login succeeded!");
+        }
+
+        private void OpenStartupWindow()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var startupViewModel = new StartupViewModel();
+                var startupWindow = new StartupWindow(startupViewModel);
+                startupWindow.Show();
+                this.Close();
+            });
         }
 
         private void OnClosing(object sender, CancelEventArgs e)

@@ -22,7 +22,9 @@ namespace Organizer.UI
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            if (Settings.Default.InHomework)
+            var settings = Settings.Default;
+
+            if (settings.InHomework)
             {
                 ConnectionString = ConfigurationManager.ConnectionStrings["HomeDb"].ConnectionString;
             }
@@ -35,10 +37,20 @@ namespace Organizer.UI
 
             UIMapperConfigurator.Configure();
 
-            var service = Containter.Resolve<IUserService>();
-            var loginViewModel = new LoginViewModel(service);
-            MainWindow = new LoginWindow(loginViewModel);
-            MainWindow.Show();
+            if (!settings.IsUserLoggedIn)
+            {
+                var loginViewModel = new LoginViewModel();
+                MainWindow = new LoginWindow(loginViewModel);
+                MainWindow.Show();
+            }
+            else
+            {
+                var userService = Containter.Resolve<IUserService>();
+                CurrentUser = userService.Login(settings.UserLogin, settings.UserPassword, true);
+                var startupViewModel = new StartupViewModel();
+                MainWindow = new StartupWindow(startupViewModel);
+                MainWindow.Show();
+            }
         }
 
         private static void SetupContainer()

@@ -17,7 +17,12 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBlock Padding="3" TextAlignment="Left" FontSize="20" Grid.Column="0" Text="{Binding CurrentUserText}" />
-            <TextBlock Padding="3" TextAlignment="Left" FontSize="20" Grid.Column="1" Text="{Binding CurrenUserName}" />
+            <StackPanel  Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Padding="3" TextAlignment="Left" FontSize="20" Text="{Binding CurrentUserName}" />
+                <Button Height="40" Margin="15 0 0 0" MinWidth="100" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Command="{Binding LogoutCommand}"
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+            </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>

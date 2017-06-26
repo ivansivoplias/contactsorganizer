@@ -19,7 +19,7 @@ namespace Organizer.BL.Services
             _container = container;
         }
 
-        public UserDto Login(string userName, string password)
+        public UserDto Login(string userName, string password, bool isHashed = false)
         {
             UserDto user = null;
             var hasher = Sha512Hasher.GetInstance();
@@ -31,7 +31,7 @@ namespace Organizer.BL.Services
                 var dbUser = userRepository.FindByLogin(userName);
                 if (dbUser != null)
                 {
-                    if (hasher.VerifyHash(password, dbUser.Password))
+                    if (hasher.VerifyHash(password, dbUser.Password) || isHashed && dbUser.Password.Equals(password))
                     {
                         user = Mapper.Map<UserDto>(dbUser);
                     }

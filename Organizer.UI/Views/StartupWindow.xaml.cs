@@ -1,18 +1,7 @@
 ﻿using Organizer.UI.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Organizer.UI.Views
 {
@@ -26,18 +15,56 @@ namespace Organizer.UI.Views
         public StartupWindow(StartupViewModel viewModel)
         {
             _viewModel = viewModel;
+            _viewModel.OpenContactsMessage += OpenContactsMessageHandler;
+            _viewModel.OpenMeetingsMessage += OpenMeetingsMessageHandler;
+            _viewModel.OpenNotesMessage += OpenNotesMessageHandler;
+            _viewModel.OpenTodosMessage += OpenTodosMessageHandler;
+            _viewModel.LogoutMessage += LogoutMessageHandler;
 
             _viewModel.RegisterCommandsForWindow(this);
+
+            this.DataContext = _viewModel;
 
             Closing += OnClosing;
 
             InitializeComponent();
         }
 
+        private void OpenContactsMessageHandler(object sender, EventArgs e)
+        {
+        }
+
+        private void OpenNotesMessageHandler(object sender, EventArgs e)
+        {
+        }
+
+        private void OpenTodosMessageHandler(object sender, EventArgs e)
+        {
+        }
+
+        private void OpenMeetingsMessageHandler(object sender, EventArgs e)
+        {
+        }
+
+        private void LogoutMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var loginViewModel = new LoginViewModel();
+                var loginWindow = new LoginWindow(loginViewModel);
+                loginWindow.Show();
+                this.Close();
+            });
+        }
+
         private void OnClosing(object sender, CancelEventArgs e)
         {
             Closing -= OnClosing;
 
+            _viewModel.OpenContactsMessage -= OpenContactsMessageHandler;
+            _viewModel.OpenMeetingsMessage -= OpenMeetingsMessageHandler;
+            _viewModel.OpenNotesMessage -= OpenNotesMessageHandler;
+            _viewModel.OpenTodosMessage -= OpenTodosMessageHandler;
             _viewModel?.UnregisterCommandsForWindow(this);
         }
     }

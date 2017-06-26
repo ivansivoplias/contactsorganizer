@@ -12,6 +12,7 @@ namespace Organizer.UI.ViewModels
         private Command _openTodosCommand;
         private Command _openMeetingsCommand;
         private Command _closeCommand;
+        private Command _logOutCommand;
 
         public event EventHandler OpenContactsMessage = delegate { };
 
@@ -20,6 +21,8 @@ namespace Organizer.UI.ViewModels
         public event EventHandler OpenTodosMessage = delegate { };
 
         public event EventHandler OpenMeetingsMessage = delegate { };
+
+        public event EventHandler LogoutMessage = delegate { };
 
         public string CurrentUserText => "Current User:";
 
@@ -30,27 +33,46 @@ namespace Organizer.UI.ViewModels
         public ICommand OpenTodosCommand => _openTodosCommand;
         public ICommand OpenMeetingsCommand => _openMeetingsCommand;
         public ICommand CloseCommand => _closeCommand;
+        public ICommand LogoutCommand => _logOutCommand;
 
         public StartupViewModel()
         {
-            _openContactsCommand = Command.CreateCommand("Open contacts!", "OpenContacts", GetType(), null);
-            _openNotesCommand = Command.CreateCommand("Open contacts!", "OpenContacts", GetType(), null);
-            _openTodosCommand = Command.CreateCommand("Open contacts!", "OpenContacts", GetType(), null);
-            _openMeetingsCommand = Command.CreateCommand("Open contacts!", "OpenContacts", GetType(), null);
+            _openContactsCommand = Command.CreateCommand("Open contacts list", "OpenContacts", GetType(), OpenContacts);
+            _openNotesCommand = Command.CreateCommand("Open notes list", "OpenNotes", GetType(), OpenNotes);
+            _openTodosCommand = Command.CreateCommand("Open todo list", "OpenTodos", GetType(), OpenTodos);
+            _openMeetingsCommand = Command.CreateCommand("Open meetings list", "OpenMeetings", GetType(), OpenMeetings);
             _closeCommand = Command.CreateCommand("Close", "Close", GetType(), () => App.Current.Shutdown());
+            _logOutCommand = Command.CreateCommand("Log out", "Logout", GetType(), Logout);
+        }
+
+        private void Logout()
+        {
+            var settings = Properties.Settings.Default;
+            settings.IsUserLoggedIn = false;
+            settings.UserLogin = "";
+            settings.UserPassword = "";
+            settings.Save();
+            LogoutMessage.Invoke(null, EventArgs.Empty);
         }
 
         public override void RegisterCommandsForWindow(Window window)
         {
             Command.RegisterCommandBinding(window, _openContactsCommand);
-            Command.RegisterCommandBinding(window, _openContactsCommand);
-            Command.RegisterCommandBinding(window, _openContactsCommand);
-            Command.RegisterCommandBinding(window, _openContactsCommand);
+            Command.RegisterCommandBinding(window, _openNotesCommand);
+            Command.RegisterCommandBinding(window, _openTodosCommand);
+            Command.RegisterCommandBinding(window, _openMeetingsCommand);
+            Command.RegisterCommandBinding(window, _logOutCommand);
             Command.RegisterCommandBinding(window, _closeCommand);
         }
 
         public override void UnregisterCommandsForWindow(Window window)
         {
+            Command.UnregisterCommandBinding(window, _openContactsCommand);
+            Command.UnregisterCommandBinding(window, _openNotesCommand);
+            Command.UnregisterCommandBinding(window, _openTodosCommand);
+            Command.UnregisterCommandBinding(window, _openMeetingsCommand);
+            Command.UnregisterCommandBinding(window, _logOutCommand);
+            Command.UnregisterCommandBinding(window, _closeCommand);
         }
 
         private void OpenContacts()
