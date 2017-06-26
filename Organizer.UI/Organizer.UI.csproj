@@ -81,6 +81,7 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
+    <Compile Include="ViewModels\ContactsListViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\StartupViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
