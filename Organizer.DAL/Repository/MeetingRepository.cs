@@ -99,8 +99,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@MeetingDate", meetingDate));
+                QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFilterByMeetingDateParams(userId, meetingDate));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -123,8 +122,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@MeetingName", meetingName.MakeLikeExpression()));
+                QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFilterByMeetingNameParams(userId, meetingName));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -177,7 +175,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId));
+                QueryHelper.SetupCommand(cmd, query, MeetingParams.GetGetUserMeetingsParams(userId));
 
                 using (var reader = cmd.ExecuteReader())
                 {

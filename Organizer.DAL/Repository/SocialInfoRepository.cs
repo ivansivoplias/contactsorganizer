@@ -117,7 +117,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@ContactId", contactId));
+                QueryHelper.SetupCommand(cmd, query, SocialInfoParams.GetGetContactSocialsParams(contactId));
 
                 using (var reader = cmd.ExecuteReader())
                 {

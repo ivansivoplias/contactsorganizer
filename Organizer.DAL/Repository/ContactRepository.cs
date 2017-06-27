@@ -132,8 +132,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@LastName", lastName.MakeStartsWithLikeExpression()));
+                QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByLastnameParams(userId, lastName));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -156,8 +155,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@MiddleName", middleName.MakeStartsWithLikeExpression()));
+                QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByMiddleNameParams(userId, middleName));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -180,12 +178,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@FirstName", info.FirstName),
-                    new SqlParameter("@LastName", info.Lastname),
-                    new SqlParameter("@MiddleName", info.MiddleName),
-                    new SqlParameter("@NickName", info.Nickname),
-                    new SqlParameter("@Email", info.Email));
+                QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByPersonalInfoParams(userId, info));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -247,8 +240,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@Email", email.MakeStartsWithLikeExpression()));
+                QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByEmailParams(userId, email));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -296,7 +288,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId));
+                QueryHelper.SetupCommand(cmd, query, ContactParams.GetGetUserContactsParams(userId));
 
                 using (var reader = cmd.ExecuteReader())
                 {

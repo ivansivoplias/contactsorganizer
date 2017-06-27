@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.SqlClient;
 
 namespace Organizer.DAL.Helpers
 {
@@ -7,6 +8,7 @@ namespace Organizer.DAL.Helpers
         public static void SetupCommand(SqlCommand command, string query, params SqlParameter[] parameters)
         {
             command.CommandText = query;
+            command.CommandType = CommandType.Text;
             foreach (var param in parameters)
             {
                 command.Parameters.Add(param);

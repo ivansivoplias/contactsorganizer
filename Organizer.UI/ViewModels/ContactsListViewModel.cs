@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -17,6 +15,7 @@ namespace Organizer.UI.ViewModels
     {
         private int _pageNumber;
         private const int _numberOnPage = 10;
+        private IContactService _contactService;
 
         private ObservableCollection<ContactDto> _contacts;
         private ContactDto _selected;
@@ -26,6 +25,14 @@ namespace Organizer.UI.ViewModels
         private Command _viewContactCommand;
         private Command _fetchNextPageCommand;
 
+        public event EventHandler AddContactMessage = delegate { };
+
+        public event EventHandler DeleteContactMessage = delegate { };
+
+        public event EventHandler EditContactMessage = delegate { };
+
+        public event EventHandler ViewContactMessage = delegate { };
+
         public ICommand AddContactCommand => _addContactCommand;
         public ICommand DeleteContactCommand => _deleteContactCommand;
         public ICommand EditContactCommand => _editContactCommand;
@@ -34,34 +41,52 @@ namespace Organizer.UI.ViewModels
 
         public ICollection<ContactDto> Contacts => _contacts;
 
+        public ContactDto SelectedContact
+        {
+            get { return _selected; }
+            set
+            {
+                _selected = value;
+                OnPropertyChanged(nameof(SelectedContact));
+            }
+        }
+
         public ContactsListViewModel()
         {
             _pageNumber = 1;
+            _selected = null;
 
-            var contactsList = App.Containter.Resolve<IContactService>().GetContacts(App.CurrentUser, _numberOnPage, _pageNumber)?.ToList();
-            _contacts = new ObservableCollection<ContactDto>();
-            _pageNumber = 1;
+            _contactService = App.Containter.Resolve<IContactService>();
+
+            var contactsList = _contactService.GetContacts(App.CurrentUser, _numberOnPage, _pageNumber)?.ToList();
+
+            _contacts = new ObservableCollection<ContactDto>(contactsList);
+
             _addContactCommand = Command.CreateCommand("Add contact", "AddContact", GetType(), AddContact);
-            _deleteContactCommand = Command.CreateCommand("Delete contact", "DeleteContact", GetType(), DeleteContact);
-            _editContactCommand = Command.CreateCommand("Edit contact", "EditContact", GetType(), EditContact);
-            _viewContactCommand = Command.CreateCommand("View contact details", "ViewContact", GetType(), ViewContactDetails);
+            _deleteContactCommand = Command.CreateCommand("Delete contact", "DeleteContact", GetType(), DeleteContact, () => _selected != null);
+            _editContactCommand = Command.CreateCommand("Edit contact", "EditContact", GetType(), EditContact, () => _selected != null);
+            _viewContactCommand = Command.CreateCommand("View contact details", "ViewContact", GetType(), ViewContactDetails, () => _selected != null);
             _fetchNextPageCommand = Command.CreateCommand("Next page", "FetchNextPage", GetType(), FetchNextPage);
         }
 
         private void AddContact()
         {
+            AddContactMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void DeleteContact()
         {
+            DeleteContactMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void EditContact()
         {
+            EditContactMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void ViewContactDetails()
         {
+            ViewContactMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void FetchNextPage()

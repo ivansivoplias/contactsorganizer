@@ -43,14 +43,18 @@
   <ItemGroup>
     <Compile Include="Context\DatabaseContextFactory.cs" />
     <Compile Include="Context\DbContext.cs" />
-    <Compile Include="Helpers\BaseQueries.cs" />
-    <Compile Include="Helpers\ContactQueries.cs" />
-    <Compile Include="Helpers\MeetingQueries.cs" />
-    <Compile Include="Helpers\NoteQueries.cs" />
-    <Compile Include="Helpers\PersonalInfoQueries.cs" />
+    <Compile Include="Helpers\MeetingParams.cs" />
+    <Compile Include="Helpers\NoteParams.cs" />
+    <Compile Include="Helpers\QueryParams\ContactParams.cs" />
+    <Compile Include="Helpers\Queries\BaseQueries.cs" />
+    <Compile Include="Helpers\Queries\ContactQueries.cs" />
+    <Compile Include="Helpers\Queries\MeetingQueries.cs" />
+    <Compile Include="Helpers\Queries\NoteQueries.cs" />
+    <Compile Include="Helpers\Queries\PersonalInfoQueries.cs" />
     <Compile Include="Helpers\QueryHelper.cs" />
-    <Compile Include="Helpers\SocialInfoQueries.cs" />
-    <Compile Include="Helpers\UserQueries.cs" />
+    <Compile Include="Helpers\Queries\SocialInfoQueries.cs" />
+    <Compile Include="Helpers\Queries\UserQueries.cs" />
+    <Compile Include="Helpers\SocialInfoParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ContactRepository.cs" />
     <Compile Include="Repository\MeetingRepository.cs" />

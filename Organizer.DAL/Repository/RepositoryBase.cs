@@ -141,13 +141,12 @@ namespace Organizer.DAL.Repository
             return count;
         }
 
-        public int FilteredCount(string filterSql)
+        public int FilteredCount(string filterSql, SqlParameter[] parameters)
         {
             var count = -1;
             using (var cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = BaseQueries.GetFilteredCountQuery(filterSql);
-                cmd.CommandType = CommandType.Text;
+                QueryHelper.SetupCommand(cmd, filterSql, parameters);
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.HasRows)

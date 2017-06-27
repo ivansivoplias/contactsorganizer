@@ -19,6 +19,6 @@ namespace Organizer.Infrastructure.Database
 
         int Count();
 
-        int FilteredCount(string filterSql);
+        int FilteredCount(string filterSql, SqlParameter[] parameters);
     }
 }
