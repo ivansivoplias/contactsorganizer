@@ -11,7 +11,10 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND CreationDate = @CreationDate";
+                + "WHERE UserId = @UserId AND CreationDate = @CreationDate "
+                + "ORDER BY Notes.CreationDate " +
+                "OFFSET @PageSize *(@PageNumber - 1) ROWS " +
+                "FETCH NEXT @PageSize ROWS ONLY";
         }
 
         public static string GetFilterByLastChangeDateQuery()
@@ -20,7 +23,10 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND LastChangeDate = @LastChangeDate";
+                + "WHERE UserId = @UserId AND LastChangeDate = @LastChangeDate "
+                + "ORDER BY Notes.LastChangeDate " +
+                "OFFSET @PageSize *(@PageNumber - 1) ROWS " +
+                "FETCH NEXT @PageSize ROWS ONLY";
         }
 
         public static string GetFilterByNoteTypeQuery()
@@ -29,7 +35,10 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND NoteType = @NoteType";
+                + "WHERE UserId = @UserId AND NoteType = @NoteType "
+                + "ORDER BY Notes.NoteType " +
+                "OFFSET @PageSize *(@PageNumber - 1) ROWS " +
+                "FETCH NEXT @PageSize ROWS ONLY";
         }
 
         public static string GetFilterByStateQuery()
@@ -38,7 +47,10 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND State = @State";
+                + "WHERE UserId = @UserId AND State = @State "
+                + "ORDER BY Notes.State " +
+                "OFFSET @PageSize *(@PageNumber - 1) ROWS " +
+                "FETCH NEXT @PageSize ROWS ONLY";
         }
 
         public static string GetFilterByPriorityQuery()
@@ -47,7 +59,10 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND Priority = @Priority";
+                + "WHERE UserId = @UserId AND Priority = @Priority "
+                + "ORDER BY Notes.Priority " +
+                "OFFSET @PageSize *(@PageNumber - 1) ROWS " +
+                "FETCH NEXT @PageSize ROWS ONLY";
         }
 
         public static string GetFilterByCreationBetweenQuery()
@@ -56,7 +71,10 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND СreationDate BETWEEN @StartLimit AND @EndLimit";
+                + "WHERE UserId = @UserId AND СreationDate BETWEEN @StartLimit AND @EndLimit "
+                + "ORDER BY Notes.CreationDate " +
+                "OFFSET @PageSize *(@PageNumber - 1) ROWS " +
+                "FETCH NEXT @PageSize ROWS ONLY";
         }
 
         public static string GetFilterByStartDateQuery()
@@ -65,7 +83,10 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND StartDate = @StartDate";
+                + "WHERE UserId = @UserId AND StartDate = @StartDate "
+                + "ORDER BY Notes.StartDate " +
+                "OFFSET @PageSize *(@PageNumber - 1) ROWS " +
+                "FETCH NEXT @PageSize ROWS ONLY";
         }
 
         public static string GetFilterByEndDateQuery()
@@ -74,7 +95,10 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND EndDate = @EndDate";
+                + "WHERE UserId = @UserId AND EndDate = @EndDate "
+                + "ORDER BY Notes.EndDate " +
+                "OFFSET @PageSize *(@PageNumber - 1) ROWS " +
+                "FETCH NEXT @PageSize ROWS ONLY";
         }
 
         public static string GetInsertQuery()
@@ -131,7 +155,10 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND Caption LIKE @Caption";
+                + "WHERE UserId = @UserId AND Caption LIKE @Caption "
+                + "ORDER BY Notes.Caption " +
+                "OFFSET @PageSize *(@PageNumber - 1) ROWS " +
+                "FETCH NEXT @PageSize ROWS ONLY";
         }
 
         public static string GetNoteByCaptionQuery()
