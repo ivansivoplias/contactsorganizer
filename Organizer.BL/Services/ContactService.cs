@@ -160,7 +160,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContacsBySocialInfo(UserDto user, SocialInfoDto info)
+        public ICollection<ContactDto> GetContacsBySocialInfo(UserDto user, SocialInfoDto info, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -169,7 +169,7 @@ namespace Organizer.BL.Services
                 var mappedSocial = Mapper.Map<SocialInfo>(info);
                 var contactRepo = new ContactRepository(unitOfWork);
 
-                var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, mappedSocial);
+                var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, mappedSocial, pageSize, page);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
                 if (result != null)
                 {
@@ -199,7 +199,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContacts(UserDto user)
+        public ICollection<ContactDto> GetContacts(UserDto user, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -207,7 +207,7 @@ namespace Organizer.BL.Services
             {
                 var contactRepo = new ContactRepository(unitOfWork);
 
-                var dbContacts = contactRepo.GetUserContacts(user.Id);
+                var dbContacts = contactRepo.GetUserContacts(user.Id, pageSize, page);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                 if (result != null)
@@ -222,7 +222,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByEmail(UserDto user, string email)
+        public ICollection<ContactDto> GetContactsByEmail(UserDto user, string email, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -230,7 +230,7 @@ namespace Organizer.BL.Services
             {
                 var contactRepo = new ContactRepository(unitOfWork);
 
-                var dbContacts = contactRepo.FilterByEmailStartsWith(user.Id, email);
+                var dbContacts = contactRepo.FilterByEmailStartsWith(user.Id, email, pageSize, page);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                 if (result != null)
@@ -245,7 +245,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByFirstName(UserDto user, string firstName)
+        public ICollection<ContactDto> GetContactsByFirstName(UserDto user, string firstName, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -253,7 +253,7 @@ namespace Organizer.BL.Services
             {
                 var contactRepo = new ContactRepository(unitOfWork);
 
-                var dbContacts = contactRepo.FilterByFirstNameStartsWith(user.Id, firstName);
+                var dbContacts = contactRepo.FilterByFirstNameStartsWith(user.Id, firstName, pageSize, page);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                 if (result != null)
@@ -268,7 +268,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByLastName(UserDto user, string lastName)
+        public ICollection<ContactDto> GetContactsByLastName(UserDto user, string lastName, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -276,7 +276,7 @@ namespace Organizer.BL.Services
             {
                 var contactRepo = new ContactRepository(unitOfWork);
 
-                var dbContacts = contactRepo.FilterByLastNameStartsWith(user.Id, lastName);
+                var dbContacts = contactRepo.FilterByLastNameStartsWith(user.Id, lastName, pageSize, page);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                 if (result != null)
@@ -291,7 +291,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByMiddleName(UserDto user, string middleName)
+        public ICollection<ContactDto> GetContactsByMiddleName(UserDto user, string middleName, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -299,7 +299,7 @@ namespace Organizer.BL.Services
             {
                 var contactRepo = new ContactRepository(unitOfWork);
 
-                var dbContacts = contactRepo.FilterByMiddleNameStartsWith(user.Id, middleName);
+                var dbContacts = contactRepo.FilterByMiddleNameStartsWith(user.Id, middleName, pageSize, page);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                 if (result != null)
@@ -314,7 +314,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByPersonalInfo(UserDto user, PersonalInfoDto info)
+        public ICollection<ContactDto> GetContactsByPersonalInfo(UserDto user, PersonalInfoDto info, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -323,7 +323,7 @@ namespace Organizer.BL.Services
                 var mappedInfo = Mapper.Map<PersonalInfo>(info);
                 var contactRepo = new ContactRepository(unitOfWork);
 
-                var dbContacts = contactRepo.FilterByPersonalInfo(user.Id, mappedInfo);
+                var dbContacts = contactRepo.FilterByPersonalInfo(user.Id, mappedInfo, pageSize, page);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                 if (result != null)
@@ -338,7 +338,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByPhone(UserDto user, string phone)
+        public ICollection<ContactDto> GetContactsByPhone(UserDto user, string phone, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -351,7 +351,7 @@ namespace Organizer.BL.Services
                     AppName = "Additional Phone",
                     AppId = phone
                 };
-                var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, social);
+                var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, social, pageSize, page);
                 result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                 if (result != null)

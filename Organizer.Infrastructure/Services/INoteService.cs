@@ -13,26 +13,26 @@ namespace Organizer.Infrastructure.Services
 
         void EditNote(NoteDto note);
 
-        ICollection<NoteDto> GetNotes(UserDto user);
+        ICollection<NoteDto> GetNotes(UserDto user, int pageSize, int page);
 
         NoteDto GetNote(int noteId);
 
         NoteDto GetNoteByCaption(UserDto user, string caption);
 
-        ICollection<NoteDto> GetNotesByCreationDate(UserDto user, DateTime creationDate);
+        ICollection<NoteDto> GetNotesByCreationDate(UserDto user, DateTime creationDate, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByLastChangeDate(UserDto user, DateTime lastChangeDate);
+        ICollection<NoteDto> GetNotesByLastChangeDate(UserDto user, DateTime lastChangeDate, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByNoteType(UserDto user, NoteType noteType);
+        ICollection<NoteDto> GetNotesByNoteType(UserDto user, NoteType noteType, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByCurrentState(UserDto user, State state);
+        ICollection<NoteDto> GetNotesByCurrentState(UserDto user, State state, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByPriority(UserDto user, Priority priority);
+        ICollection<NoteDto> GetNotesByPriority(UserDto user, Priority priority, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesCreatedBetween(UserDto user, DateTime start, DateTime end);
+        ICollection<NoteDto> GetNotesCreatedBetween(UserDto user, DateTime start, DateTime end, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByStartDate(UserDto user, DateTime startDate);
+        ICollection<NoteDto> GetNotesByStartDate(UserDto user, DateTime startDate, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByEndDate(UserDto user, DateTime endDate);
+        ICollection<NoteDto> GetNotesByEndDate(UserDto user, DateTime endDate, int pageSize, int page);
     }
 }

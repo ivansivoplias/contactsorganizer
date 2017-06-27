@@ -16,10 +16,10 @@ namespace Organizer.Infrastructure.Services
 
         MeetingDto GetMeetingByName(string meetingName);
 
-        ICollection<MeetingDto> GetUserMeetings(UserDto user);
+        ICollection<MeetingDto> GetUserMeetings(UserDto user, int pageSize, int page);
 
-        ICollection<MeetingDto> FilterByMeetingDate(UserDto user, DateTime meetingDate);
+        ICollection<MeetingDto> FilterByMeetingDate(UserDto user, DateTime meetingDate, int pageSize, int page);
 
-        ICollection<MeetingDto> FilterByMeetingName(UserDto user, string meetingName);
+        ICollection<MeetingDto> FilterByMeetingName(UserDto user, string meetingName, int pageSize, int page);
     }
 }

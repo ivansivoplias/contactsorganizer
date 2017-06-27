@@ -36,7 +36,9 @@ namespace Organizer.UI.ViewModels
 
         public ContactsListViewModel()
         {
-            var contactsList = App.Containter.Resolve<IContactService>().GetContacts(App.CurrentUser)?.ToList();
+            _pageNumber = 1;
+
+            var contactsList = App.Containter.Resolve<IContactService>().GetContacts(App.CurrentUser, _numberOnPage, _pageNumber)?.ToList();
             _contacts = new ObservableCollection<ContactDto>();
             _pageNumber = 1;
             _addContactCommand = Command.CreateCommand("Add contact", "AddContact", GetType(), AddContact);

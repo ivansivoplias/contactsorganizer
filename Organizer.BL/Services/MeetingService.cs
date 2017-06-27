@@ -49,7 +49,7 @@ namespace Organizer.BL.Services
             }
         }
 
-        public ICollection<MeetingDto> FilterByMeetingDate(UserDto user, DateTime meetingDate)
+        public ICollection<MeetingDto> FilterByMeetingDate(UserDto user, DateTime meetingDate, int pageSize, int page)
         {
             ICollection<MeetingDto> result = null;
 
@@ -58,14 +58,14 @@ namespace Organizer.BL.Services
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
 
-                var meetings = meetingRepo.FilterByMeetingDate(user.Id, meetingDate);
+                var meetings = meetingRepo.FilterByMeetingDate(user.Id, meetingDate, pageSize, page);
                 result = Mapper.Map<ICollection<MeetingDto>>(meetings);
             }
 
             return result;
         }
 
-        public ICollection<MeetingDto> FilterByMeetingName(UserDto user, string meetingName)
+        public ICollection<MeetingDto> FilterByMeetingName(UserDto user, string meetingName, int pageSize, int page)
         {
             ICollection<MeetingDto> result = null;
 
@@ -74,7 +74,7 @@ namespace Organizer.BL.Services
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
 
-                var meetings = meetingRepo.FilterByMeetingNameLike(user.Id, meetingName);
+                var meetings = meetingRepo.FilterByMeetingNameLike(user.Id, meetingName, pageSize, page);
                 result = Mapper.Map<ICollection<MeetingDto>>(meetings);
             }
 
@@ -113,7 +113,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<MeetingDto> GetUserMeetings(UserDto user)
+        public ICollection<MeetingDto> GetUserMeetings(UserDto user, int pageSize, int page)
         {
             ICollection<MeetingDto> result = null;
 
@@ -122,7 +122,7 @@ namespace Organizer.BL.Services
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
 
-                var meetings = meetingRepo.GetUserMeetings(user.Id);
+                var meetings = meetingRepo.GetUserMeetings(user.Id, pageSize, page);
                 result = Mapper.Map<ICollection<MeetingDto>>(meetings);
             }
 

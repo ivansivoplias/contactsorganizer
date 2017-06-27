@@ -25,15 +25,9 @@ namespace Organizer.BL.MapperConfiguration
                 .ForSourceMember(x => x.PersonalInfo, opt => opt.Ignore())
                 .ForSourceMember(x => x.Socials, opt => opt.Ignore());
 
-            CreateMap<User, UserDto>()
-                .ForMember(x => x.Meetings, opt => opt.Ignore())
-                .ForMember(x => x.Notes, opt => opt.Ignore())
-                .ForMember(x => x.Contacts, opt => opt.Ignore());
+            CreateMap<User, UserDto>();
 
-            CreateMap<UserDto, User>()
-                .ForSourceMember(x => x.Meetings, opt => opt.Ignore())
-                .ForSourceMember(x => x.Notes, opt => opt.Ignore())
-                .ForSourceMember(x => x.Contacts, opt => opt.Ignore());
+            CreateMap<UserDto, User>();
         }
     }
 }
