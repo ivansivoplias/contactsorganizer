@@ -1,16 +1,12 @@
-﻿using Organizer.Infrastructure.Services;
+﻿using Autofac;
+using AutoMapper;
+using Organizer.Common.DTO;
+using Organizer.Common.Entities;
+using Organizer.DAL.Repository;
+using Organizer.Infrastructure.Database;
+using Organizer.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Organizer.Common.DTO;
-using Autofac;
-using Organizer.Infrastructure.Database;
-using Organizer.DAL.Repository;
-using Organizer.Common.Entities;
-using AutoMapper;
-using System.Data.SqlClient;
 
 namespace Organizer.BL.Services
 {

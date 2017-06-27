@@ -1,7 +1,6 @@
 ﻿using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Database;
 using System;
-using System.Data;
 using System.Data.SqlClient;
 
 namespace Organizer.DAL.UoW

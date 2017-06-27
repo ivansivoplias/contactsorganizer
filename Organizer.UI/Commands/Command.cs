@@ -23,7 +23,7 @@ namespace Organizer.UI.Commands
         public static Command CreateAsyncCommand(string text, string name, Type ownerType, Func<Task> execute, Func<bool> canExecute = null)
         {
             var command =
-                new Command(text, name, ownerType, canExecute, async () => await execute()) {_isAsyncCommand = true};
+                new Command(text, name, ownerType, canExecute, async () => await execute()) { _isAsyncCommand = true };
             return command;
         }
 

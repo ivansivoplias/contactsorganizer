@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Organizer.Infrastructure.Database;
-using System.Data.SqlClient;
-using Organizer.Common.Entities;
+﻿using Organizer.Common.Entities;
 using Organizer.Common.Enums;
 using Organizer.DAL.Helpers;
+using Organizer.Infrastructure.Database;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Organizer.DAL.Repository
 {

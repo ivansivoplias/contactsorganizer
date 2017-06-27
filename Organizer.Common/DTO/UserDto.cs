@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Organizer.Common.DTO
+﻿namespace Organizer.Common.DTO
 {
     public class UserDto : BaseDto
     {

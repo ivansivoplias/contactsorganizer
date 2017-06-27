@@ -1,12 +1,12 @@
-﻿using Organizer.Infrastructure.Services;
-using System;
-using Organizer.Common.Entities;
-using Autofac;
-using Organizer.Common.DTO;
+﻿using Autofac;
 using AutoMapper;
-using Organizer.Infrastructure.Database;
-using Organizer.DAL.Repository;
 using GameStore.Common.Hasher;
+using Organizer.Common.DTO;
+using Organizer.Common.Entities;
+using Organizer.DAL.Repository;
+using Organizer.Infrastructure.Database;
+using Organizer.Infrastructure.Services;
+using System;
 
 namespace Organizer.BL.Services
 {

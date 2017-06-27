@@ -1,5 +1,5 @@
-﻿using System;
-using Organizer.Common.Enums;
+﻿using Organizer.Common.Enums;
+using System;
 
 namespace Organizer.Common.Entities
 {

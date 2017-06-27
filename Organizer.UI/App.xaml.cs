@@ -1,14 +1,14 @@
-﻿using Organizer.UI.Properties;
+﻿using Autofac;
+using Organizer.Common.DTO;
+using Organizer.DI;
+using Organizer.Infrastructure.Services;
+using Organizer.UI.MapperConfiguration;
+using Organizer.UI.Properties;
+using Organizer.UI.ViewModels;
+using Organizer.UI.Views;
+using System;
 using System.Configuration;
 using System.Windows;
-using Autofac;
-using Organizer.DI;
-using System;
-using Organizer.Common.DTO;
-using Organizer.UI.MapperConfiguration;
-using Organizer.UI.Views;
-using Organizer.UI.ViewModels;
-using Organizer.Infrastructure.Services;
 
 namespace Organizer.UI
 {

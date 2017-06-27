@@ -1,7 +1,7 @@
 ﻿using Organizer.Common.Entities;
+using Organizer.Common.Enums;
 using System;
 using System.Collections.Generic;
-using Organizer.Common.Enums;
 
 namespace Organizer.Infrastructure.Database
 {

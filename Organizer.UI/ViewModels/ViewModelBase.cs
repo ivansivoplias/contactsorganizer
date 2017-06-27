@@ -1,3 +1,4 @@
+using Organizer.UI.Helpers;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -5,7 +6,6 @@ using System.Linq.Expressions;
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
-using Organizer.UI.Helpers;
 
 namespace Organizer.UI.ViewModels
 {

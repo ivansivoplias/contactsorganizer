@@ -1,7 +1,7 @@
 ﻿using Organizer.UI.Commands;
 using System;
-using System.Windows.Input;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Organizer.UI.ViewModels
 {

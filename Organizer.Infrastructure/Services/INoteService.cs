@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Organizer.Common.DTO;
 using Organizer.Common.Enums;
-using Organizer.Common.DTO;
+using System;
+using System.Collections.Generic;
 
 namespace Organizer.Infrastructure.Services
 {

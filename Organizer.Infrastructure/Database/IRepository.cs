@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using Organizer.Common.Entities;
+using System.Collections.Generic;
 using System.Data.SqlClient;
-using Organizer.Common.Entities;
 
 namespace Organizer.Infrastructure.Database
 {

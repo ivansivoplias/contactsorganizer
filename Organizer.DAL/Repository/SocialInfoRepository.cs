@@ -1,9 +1,9 @@
 ﻿using Organizer.Common.Entities;
+using Organizer.DAL.Helpers;
+using Organizer.Infrastructure.Database;
 using System;
 using System.Collections.Generic;
-using Organizer.Infrastructure.Database;
 using System.Data.SqlClient;
-using Organizer.DAL.Helpers;
 
 namespace Organizer.DAL.Repository
 {

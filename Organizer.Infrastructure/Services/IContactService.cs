@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Organizer.Common.DTO;
+﻿using Organizer.Common.DTO;
+using System.Collections.Generic;
 
 namespace Organizer.Infrastructure.Services
 {

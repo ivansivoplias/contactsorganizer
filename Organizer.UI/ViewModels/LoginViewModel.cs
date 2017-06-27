@@ -1,14 +1,9 @@
 ﻿using Autofac;
-using GameStore.Common.Hasher;
 using Organizer.Common.DTO;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
