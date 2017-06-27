@@ -122,5 +122,10 @@ namespace Organizer.DAL.Repository
 
             return list;
         }
+
+        public override int Count()
+        {
+            return Count(SocialInfoQueries.SocialInfoTable);
+        }
     }
 }

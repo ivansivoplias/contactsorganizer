@@ -114,5 +114,10 @@ namespace Organizer.DAL.Repository
         {
             return GetAll(PersonalInfoQueries.GetAllQuery());
         }
+
+        public override int Count()
+        {
+            return Count(PersonalInfoQueries.PersonalInfoTable);
+        }
     }
 }

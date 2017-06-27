@@ -116,5 +116,10 @@ namespace Organizer.DAL.Repository
 
             return result;
         }
+
+        public override int Count()
+        {
+            return Count(UserQueries.UserTable);
+        }
     }
 }

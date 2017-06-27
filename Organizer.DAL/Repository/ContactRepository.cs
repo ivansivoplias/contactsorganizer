@@ -276,5 +276,10 @@ namespace Organizer.DAL.Repository
         {
             return GetAll(ContactQueries.GetGetAllQuery());
         }
+
+        public override int Count()
+        {
+            return Count(ContactQueries.ContactTable);
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using Organizer.Common.Entities;
+using Organizer.DAL.Helpers;
 
 namespace Organizer.DAL.Repository
 {
@@ -119,5 +120,43 @@ namespace Organizer.DAL.Repository
         public abstract TEntity GetById(int id);
 
         public abstract IEnumerable<TEntity> GetAll();
+
+        public abstract int Count();
+
+        protected int Count(string tableName)
+        {
+            var count = -1;
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = BaseQueries.GetCountQuery(tableName);
+                cmd.CommandType = CommandType.Text;
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        count = reader.GetInt32(0);
+                    }
+                }
+            }
+            return count;
+        }
+
+        public int FilteredCount(string filterSql)
+        {
+            var count = -1;
+            using (var cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = BaseQueries.GetFilteredCountQuery(filterSql);
+                cmd.CommandType = CommandType.Text;
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        count = reader.GetInt32(0);
+                    }
+                }
+            }
+            return count;
+        }
     }
 }

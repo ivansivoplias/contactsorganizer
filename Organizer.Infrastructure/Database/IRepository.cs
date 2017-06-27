@@ -16,5 +16,9 @@ namespace Organizer.Infrastructure.Database
         T GetById(int id);
 
         IEnumerable<T> GetAll();
+
+        int Count();
+
+        int FilteredCount(string filterSql);
     }
 }
