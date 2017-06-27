@@ -5,22 +5,22 @@ namespace Organizer.Infrastructure.Database
 {
     public interface IContactRepository : IRepository<Contact>
     {
-        IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, SocialInfo socialInfo, int pageSize = 10, int page = 1);
+        IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, SocialInfo socialInfo, int? pageSize = null, int? page = null);
 
-        IEnumerable<Contact> FilterByFirstNameStartsWith(int userId, string firstName, int pageSize = 10, int page = 1);
+        IEnumerable<Contact> FilterByFirstNameStartsWith(int userId, string firstName, int? pageSize = null, int? page = null);
 
-        IEnumerable<Contact> FilterByLastNameStartsWith(int userId, string lastName, int pageSize = 10, int page = 1);
+        IEnumerable<Contact> FilterByLastNameStartsWith(int userId, string lastName, int? pageSize = null, int? page = null);
 
-        IEnumerable<Contact> FilterByMiddleNameStartsWith(int userId, string middleName, int pageSize = 10, int page = 1);
+        IEnumerable<Contact> FilterByMiddleNameStartsWith(int userId, string middleName, int? pageSize = null, int? page = null);
 
-        IEnumerable<Contact> FilterByPersonalInfo(int userId, PersonalInfo info, int pageSize = 10, int page = 1);
+        IEnumerable<Contact> FilterByPersonalInfo(int userId, PersonalInfo info, int? pageSize = null, int? page = null);
 
         Contact FindByNickName(int userId, string nickname);
 
         Contact FindByPrimaryPhone(int userId, string phone);
 
-        IEnumerable<Contact> GetUserContacts(int userId, int pageSize = 10, int page = 1);
+        IEnumerable<Contact> GetUserContacts(int userId, int? pageSize = null, int? page = null);
 
-        IEnumerable<Contact> FilterByEmailStartsWith(int userId, string email, int pageSize = 10, int page = 1);
+        IEnumerable<Contact> FilterByEmailStartsWith(int userId, string email, int? pageSize = null, int? page = null);
     }
 }

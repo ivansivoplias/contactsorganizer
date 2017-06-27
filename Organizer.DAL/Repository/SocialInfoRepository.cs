@@ -105,10 +105,15 @@ namespace Organizer.DAL.Repository
             return GetAll(SocialInfoQueries.GetAllQuery());
         }
 
-        public IEnumerable<SocialInfo> GetContactSocials(int contactId)
+        public IEnumerable<SocialInfo> GetContactSocials(int contactId, int? pageSize = null, int? page = null)
         {
             IEnumerable<SocialInfo> list = null;
             var query = SocialInfoQueries.GetContactSocialsQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging(SocialInfoQueries.SocialInfoId, pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {

@@ -164,19 +164,22 @@ namespace Organizer.DAL.Repository
             }
         }
 
-        public IEnumerable<Note> FilterByCreationDate(int userId, DateTime date, int pageSize = 10, int page = 1)
+        public IEnumerable<Note> FilterByCreationDate(int userId, DateTime date, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
             var query = NoteQueries.GetFilterByCreationDateQuery();
 
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("CreationDate", pageSize.Value, page.Value);
+            }
+
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query,
                     new SqlParameter("@UserId", userId),
-                    new SqlParameter("@CreationDate", date),
-                    new SqlParameter("@PageSize", pageSize),
-                    new SqlParameter("@PageNumber", page));
+                    new SqlParameter("@CreationDate", date));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -187,18 +190,21 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByLastChangeDate(int userId, DateTime lastChangeDate, int pageSize = 10, int page = 1)
+        public IEnumerable<Note> FilterByLastChangeDate(int userId, DateTime lastChangeDate, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
             var query = NoteQueries.GetFilterByLastChangeDateQuery();
 
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("LastChangeDate", pageSize.Value, page.Value);
+            }
+
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@LastChangeDate", lastChangeDate),
-                    new SqlParameter("@PageSize", pageSize),
-                    new SqlParameter("@PageNumber", page));
+                    new SqlParameter("@LastChangeDate", lastChangeDate));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -209,18 +215,21 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByNoteType(int userId, NoteType noteType, int pageSize = 10, int page = 1)
+        public IEnumerable<Note> FilterByNoteType(int userId, NoteType noteType, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
             var query = NoteQueries.GetFilterByNoteTypeQuery();
 
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("NoteType", pageSize.Value, page.Value);
+            }
+
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@NoteType", noteType.ToString()),
-                    new SqlParameter("@PageSize", pageSize),
-                    new SqlParameter("@PageNumber", page));
+                    new SqlParameter("@NoteType", noteType.ToString()));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -231,18 +240,21 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByCurrentState(int userId, State state, int pageSize = 10, int page = 1)
+        public IEnumerable<Note> FilterByCurrentState(int userId, State state, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
             var query = NoteQueries.GetFilterByStateQuery();
 
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("State", pageSize.Value, page.Value);
+            }
+
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@State", state.ToString()),
-                    new SqlParameter("@PageSize", pageSize),
-                    new SqlParameter("@PageNumber", page));
+                    new SqlParameter("@State", state.ToString()));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -253,19 +265,22 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByPriority(int userId, Priority priority, int pageSize = 10, int page = 1)
+        public IEnumerable<Note> FilterByPriority(int userId, Priority priority, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
             var query = NoteQueries.GetFilterByPriorityQuery();
 
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("Priority", pageSize.Value, page.Value);
+            }
+
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query,
                     new SqlParameter("@UserId", userId),
-                    new SqlParameter("@Priority", priority.ToString()),
-                    new SqlParameter("@PageSize", pageSize),
-                    new SqlParameter("@PageNumber", page));
+                    new SqlParameter("@Priority", priority.ToString()));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -276,19 +291,22 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByCreationBetween(int userId, DateTime startLimit, DateTime endLimit, int pageSize = 10, int page = 1)
+        public IEnumerable<Note> FilterByCreationBetween(int userId, DateTime startLimit, DateTime endLimit, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
             var query = NoteQueries.GetFilterByCreationBetweenQuery();
 
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("CreationDate", pageSize.Value, page.Value);
+            }
+
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
                     new SqlParameter("@StartLimit", startLimit),
-                    new SqlParameter("@EndLimit", endLimit),
-                    new SqlParameter("@PageSize", pageSize),
-                    new SqlParameter("@PageNumber", page));
+                    new SqlParameter("@EndLimit", endLimit));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -299,18 +317,21 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByStartDate(int userId, DateTime startDate, int pageSize = 10, int page = 1)
+        public IEnumerable<Note> FilterByStartDate(int userId, DateTime startDate, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
             var query = NoteQueries.GetFilterByStartDateQuery();
 
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("StartDate", pageSize.Value, page.Value);
+            }
+
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@StartDate", startDate),
-                    new SqlParameter("@PageSize", pageSize),
-                    new SqlParameter("@PageNumber", page));
+                    new SqlParameter("@StartDate", startDate));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -321,18 +342,21 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByEndDate(int userId, DateTime endDate, int pageSize = 10, int page = 1)
+        public IEnumerable<Note> FilterByEndDate(int userId, DateTime endDate, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
             var query = NoteQueries.GetFilterByEndDateQuery();
 
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("EndDate", pageSize.Value, page.Value);
+            }
+
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@EndDate", endDate),
-                    new SqlParameter("@PageSize", pageSize),
-                    new SqlParameter("@PageNumber", page));
+                    new SqlParameter("@EndDate", endDate));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -373,18 +397,21 @@ namespace Organizer.DAL.Repository
             return GetAll(NoteQueries.GetAllQuery());
         }
 
-        public IEnumerable<Note> FilterByCaptionLike(int userId, string caption, int pageSize = 10, int page = 1)
+        public IEnumerable<Note> FilterByCaptionLike(int userId, string caption, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
             var query = NoteQueries.GetFilterByCaptionQuery();
 
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("Caption", pageSize.Value, page.Value);
+            }
+
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@Caption", caption.MakeLikeExpression()),
-                    new SqlParameter("@PageSize", pageSize),
-                    new SqlParameter("@PageNumber", page));
+                    new SqlParameter("@Caption", caption.MakeLikeExpression()));
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -415,18 +442,21 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> GetUserNotes(int userId, int pageSize = 10, int page = 1)
+        public IEnumerable<Note> GetUserNotes(int userId, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
             var query = NoteQueries.GetUserNotesQuery();
 
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("Caption", pageSize.Value, page.Value);
+            }
+
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query,
-                    new SqlParameter("@UserId", userId),
-                    new SqlParameter("@PageSize", pageSize),
-                    new SqlParameter("@PageNumber", page));
+                    new SqlParameter("@UserId", userId));
 
                 using (var reader = cmd.ExecuteReader())
                 {

@@ -70,10 +70,15 @@ namespace Organizer.DAL.Repository
             return contacts;
         }
 
-        public IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, SocialInfo socialInfo)
+        public IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, SocialInfo socialInfo, int? pageSize = null, int? page = null)
         {
             IEnumerable<Contact> result = null;
             string query = ContactQueries.GetFilterBySocialInfoQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("AppName", pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -90,11 +95,16 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Contact> FilterByFirstNameStartsWith(int userId, string firstName)
+        public IEnumerable<Contact> FilterByFirstNameStartsWith(int userId, string firstName, int? pageSize = null, int? page = null)
         {
             IEnumerable<Contact> result = null;
 
             string query = ContactQueries.GetFilterByFirstNameQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("FirstName", pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -110,10 +120,15 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Contact> FilterByLastNameStartsWith(int userId, string lastName)
+        public IEnumerable<Contact> FilterByLastNameStartsWith(int userId, string lastName, int? pageSize = null, int? page = null)
         {
             IEnumerable<Contact> result = null;
             string query = ContactQueries.GetFilterByLastNameQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("Lastname", pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -129,10 +144,15 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Contact> FilterByMiddleNameStartsWith(int userId, string middleName)
+        public IEnumerable<Contact> FilterByMiddleNameStartsWith(int userId, string middleName, int? pageSize = null, int? page = null)
         {
             IEnumerable<Contact> result = null;
             string query = ContactQueries.GetFilterByMiddleNameQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("MiddleName", pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -148,10 +168,15 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Contact> FilterByPersonalInfo(int userId, PersonalInfo info)
+        public IEnumerable<Contact> FilterByPersonalInfo(int userId, PersonalInfo info, int? pageSize = null, int? page = null)
         {
             IEnumerable<Contact> result = null;
             string query = ContactQueries.GetFilterByPersonalInfoQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("FirstName", pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -210,10 +235,15 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Contact> FilterByEmailStartsWith(int userId, string email)
+        public IEnumerable<Contact> FilterByEmailStartsWith(int userId, string email, int? pageSize = null, int? page = null)
         {
             IEnumerable<Contact> result = null;
             string query = ContactQueries.GetFilterByEmailQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("Email", pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -254,10 +284,15 @@ namespace Organizer.DAL.Repository
             return GetById(id, query);
         }
 
-        public IEnumerable<Contact> GetUserContacts(int userId)
+        public IEnumerable<Contact> GetUserContacts(int userId, int? pageSize = null, int? page = null)
         {
             IEnumerable<Contact> result = null;
             string query = ContactQueries.GetUserContactsQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging(ContactQueries.ContactId, pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {

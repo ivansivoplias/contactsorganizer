@@ -27,5 +27,12 @@ namespace Organizer.DAL.Helpers
         {
             return $"%{source}";
         }
+
+        public static string AddPaging(this string query, string orderBy, int pageSize, int pageNumber)
+        {
+            return $"{query} ORDER BY {orderBy} " +
+                $"OFFSET {pageSize * (pageNumber - 1)} ROWS " +
+                $"FETCH NEXT {pageSize} ROWS ONLY";
+        }
     }
 }

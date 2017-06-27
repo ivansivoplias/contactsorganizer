@@ -86,11 +86,16 @@ namespace Organizer.DAL.Repository
             return meetings;
         }
 
-        public IEnumerable<Meeting> FilterByMeetingDate(int userId, DateTime meetingDate)
+        public IEnumerable<Meeting> FilterByMeetingDate(int userId, DateTime meetingDate, int? pageSize = null, int? page = null)
         {
             IEnumerable<Meeting> result = null;
 
             var query = MeetingQueries.GetFilterByMeetingDateQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("MeetingDate", pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -106,10 +111,15 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Meeting> FilterByMeetingNameLike(int userId, string meetingName)
+        public IEnumerable<Meeting> FilterByMeetingNameLike(int userId, string meetingName, int? pageSize = null, int? page = null)
         {
             IEnumerable<Meeting> result = null;
             var query = MeetingQueries.GetFilterByMeetingName();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("MeetingName", pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {
@@ -155,10 +165,15 @@ namespace Organizer.DAL.Repository
             return GetAll(MeetingQueries.GetAllQuery());
         }
 
-        public IEnumerable<Meeting> GetUserMeetings(int userId)
+        public IEnumerable<Meeting> GetUserMeetings(int userId, int? pageSize = null, int? page = null)
         {
             IEnumerable<Meeting> result = null;
             var query = MeetingQueries.GetUserMeetingsQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging(MeetingQueries.MeetingId, pageSize.Value, page.Value);
+            }
 
             using (var cmd = _connection.CreateCommand())
             {
