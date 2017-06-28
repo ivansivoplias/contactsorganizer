@@ -54,10 +54,9 @@ namespace Organizer.DAL.Repository
 
         protected override List<User> MapCollection(SqlDataReader reader)
         {
-            List<User> users = null;
+            List<User> users = new List<User>();
             if (reader.HasRows)
             {
-                users = new List<User>();
                 while (reader.Read())
                 {
                     var person = new User();

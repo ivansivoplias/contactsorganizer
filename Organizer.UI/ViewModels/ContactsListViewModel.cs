@@ -60,7 +60,7 @@ namespace Organizer.UI.ViewModels
 
             var contactsList = _contactService.GetContacts(App.CurrentUser, _numberOnPage, _pageNumber)?.ToList();
 
-            _contacts = new ObservableCollection<ContactDto>(contactsList);
+            _contacts = new ObservableCollection<ContactDto>(contactsList ?? new List<ContactDto>());
 
             _addContactCommand = Command.CreateCommand("Add contact", "AddContact", GetType(), AddContact);
             _deleteContactCommand = Command.CreateCommand("Delete contact", "DeleteContact", GetType(), DeleteContact, () => _selected != null);

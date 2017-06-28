@@ -101,10 +101,9 @@ namespace Organizer.DAL.Repository
 
         protected override List<Note> MapCollection(SqlDataReader reader)
         {
-            List<Note> notes = null;
+            List<Note> notes = new List<Note>();
             if (reader.HasRows)
             {
-                notes = new List<Note>();
                 while (reader.Read())
                 {
                     var note = new Note();

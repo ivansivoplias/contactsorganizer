@@ -57,10 +57,9 @@ namespace Organizer.DAL.Repository
 
         protected override List<SocialInfo> MapCollection(SqlDataReader reader)
         {
-            List<SocialInfo> socials = null;
+            List<SocialInfo> socials = new List<SocialInfo>();
             if (reader.HasRows)
             {
-                socials = new List<SocialInfo>();
                 while (reader.Read())
                 {
                     var socialInfo = new SocialInfo();

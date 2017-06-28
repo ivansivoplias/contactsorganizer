@@ -22,60 +22,86 @@
                        FontWeight="DemiBold" />
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
-            <Button Margin="5" Padding="7"
-                    FontFamily="Tahoma"
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="0"
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
                     FontSize="14"
                     FontStyle="Normal"
-                    FontWeight="Light"
-                    Content="Add contact" />
-            <Button Margin="5" Padding="7"
-                    FontFamily="Tahoma"
+                    FontWeight="ExtraLight"
+                    Command="{Binding AddContactCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add contact'}" />
+            <Button
+                Grid.Column="1"
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
                     FontSize="14"
                     FontStyle="Normal"
-                    FontWeight="Light"
-                    Content="Edit contact" />
-            <Button Margin="5" Padding="7"
-                    FontFamily="Tahoma"
+                    Command="{Binding EditContactCommand}"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit contact'}" />
+
+            <Button
+                Grid.Column="2"
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
                     FontSize="14"
                     FontStyle="Normal"
-                    FontWeight="Light"
-                    Content="Remove contact" />
-            <Button Margin="5" Padding="7"
-                    FontFamily="Tahoma"
+                    Command="{Binding DeleteContactCommand}"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Remove contact'}" />
+
+            <Button
+                Grid.Column="3"
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
                     FontSize="14"
+                    Command="{Binding ViewContactCommand}"
                     FontStyle="Normal"
-                    FontWeight="Light"
-                    Content="View contact details" />
-        </StackPanel>
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View details'}" />
+        </Grid>
 
         <Grid Grid.Row="2">
-            <ListView Name="contactsList" ItemsSource="{Binding Contacts}"
+            <DataGrid Name="contactsList" ItemsSource="{Binding Contacts}"
                       VerticalAlignment="Stretch"
-                      HorizontalAlignment="Stretch">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="120"
-                                        DisplayMemberBinding="{Binding Path=PrimaryPhone}" Header="Основной телефон">
-                        </GridViewColumn>
-                        <GridViewColumn Width="100"
-                                        DisplayMemberBinding="{Binding Path=PersonalInfo.FirstName}" Header="Имя">
-                        </GridViewColumn>
-                        <GridViewColumn Width="100"
-                                        DisplayMemberBinding="{Binding Path=PersonalInfo.MiddleName}" Header="По-отчеству">
-                        </GridViewColumn>
-                        <GridViewColumn Width="100"
-                                        DisplayMemberBinding="{Binding Path=PersonalInfo.LastName}" Header="Фамилия">
-                        </GridViewColumn>
-                        <GridViewColumn Width="100"
-                                        DisplayMemberBinding="{Binding Path=PersonalInfo.Nickname}" Header="Никнейм">
-                        </GridViewColumn>
-                        <GridViewColumn Width="100"
-                                        DisplayMemberBinding="{Binding Path=PersonalInfo.Email}" Header="Е-мейл">
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                      HorizontalAlignment="Stretch"
+                      AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Header="Основной телефон"
+                        Width="*"
+                        Binding="{Binding Path=PrimaryPhone}" />
+                    <DataGridTextColumn
+                        Header="Имя"
+                        Width="*"
+                        Binding="{Binding Path=PersonalInfo.FirstName}" />
+                    <DataGridTextColumn
+                        Header="По-отчеству"
+                        Width="*"
+                        Binding="{Binding Path=PersonalInfo.MiddleName}" />
+                    <DataGridTextColumn
+                        Header="Фамилия"
+                        Width="*"
+                        Binding="{Binding Path=PersonalInfo.LastName}" />
+                    <DataGridTextColumn
+                        Header="Никнейм"
+                        Width="*"
+                        Binding="{Binding Path=PersonalInfo.Nickname}" />
+                    <DataGridTextColumn
+                        Header="Е-мейл"
+                        Width="*"
+                        Binding="{Binding Path=PersonalInfo.Email}" />
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </Window>

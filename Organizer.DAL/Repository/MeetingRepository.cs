@@ -66,10 +66,9 @@ namespace Organizer.DAL.Repository
 
         protected override List<Meeting> MapCollection(SqlDataReader reader)
         {
-            List<Meeting> meetings = null;
+            var meetings = new List<Meeting>();
             if (reader.HasRows)
             {
-                meetings = new List<Meeting>();
                 while (reader.Read())
                 {
                     var meeting = new Meeting();

@@ -54,10 +54,9 @@ namespace Organizer.DAL.Repository
 
         protected override List<Contact> MapCollection(SqlDataReader reader)
         {
-            List<Contact> contacts = null;
+            var contacts = new List<Contact>();
             if (reader.HasRows)
             {
-                contacts = new List<Contact>();
                 while (reader.Read())
                 {
                     var contact = new Contact();
