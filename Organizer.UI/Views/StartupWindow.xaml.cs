@@ -43,10 +43,22 @@ namespace Organizer.UI.Views
 
         private void OpenNotesMessageHandler(object sender, EventArgs e)
         {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var notesList = new NotesListWindow();
+                notesList.Show();
+                this.Close();
+            });
         }
 
         private void OpenTodosMessageHandler(object sender, EventArgs e)
         {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var todoList = new TodoListWindow();
+                todoList.Show();
+                this.Close();
+            });
         }
 
         private void OpenMeetingsMessageHandler(object sender, EventArgs e)

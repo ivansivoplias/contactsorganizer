@@ -5,8 +5,158 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="TodoListWindow" Height="300" Width="300">
+        Title="TodoListWindow" Height="504" Width="1078.2">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Todo list"
+                       FontFamily="Comic Sans MS"
+                       FontStyle="Italic"
+                       FontSize="20"
+                       Margin="10"
+                       TextAlignment="Center" />
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Search:"
+                       FontFamily="Verdana"
+                       FontSize="16"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center"
+                       Margin="10" />
+
+            <TextBox Grid.Column="1"
+                     Padding="3"
+                     Height="30"
+                     Margin="5 10" />
+
+            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <Button Height="30"
+                        Width="120"
+                        Padding="5"
+                        FontFamily="Comic Sans MS"
+                        FontStyle="Italic"
+                        FontSize="14"
+                        Margin="10"
+                        Command="{Binding SearchCommand}"
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
+
+                <GroupBox Header="Search type" Padding="5" Margin="10">
+                    <StackPanel>
+                        <RadioButton GroupName="SearchType" Margin="3" Content="Todo caption" />
+                        <RadioButton GroupName="SearchType" Margin="3" Content="Creation date" />
+                        <RadioButton GroupName="SearchType" Margin="3" Content="Last change date" />
+                        <RadioButton GroupName="SearchType" Margin="3" Content="State" />
+                        <RadioButton GroupName="SearchType" Margin="3" Content="Priority" />
+                        <RadioButton GroupName="SearchType" Margin="3" Content="Start date" />
+                        <RadioButton GroupName="SearchType" Margin="3" Content="End date" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="0.2*" />
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Notes}"
+                      Margin="10"
+                      CanUserResizeColumns="False"
+                      AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Caption}"
+                                        Header="Название задания"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding NoteText}"
+                                        Header="Описание задания"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding CreationDate}"
+                                        Header="Дата создания"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding LastChangeDate}"
+                                        Header="Дата изменения"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding State}"
+                                        Header="Состояние"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding Priority}"
+                                        Header="Приоритет"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding StartDate}"
+                                        Header="Дата начала"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding EndDate}"
+                                        Header="Дата завершения"
+                                        Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center">
+                <Button
+                Margin="10 5" Padding="3"
+                    FontFamily="Comic Sans MS"
+                    FontSize="14"
+                    FontStyle="Normal"
+                    FontWeight="ExtraLight"
+                    Command="{Binding AddTodoCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add todo'}" />
+                <Button
+                Margin="10 5" Padding="3"
+                    FontFamily="Comic Sans MS"
+                    FontSize="14"
+                    FontStyle="Normal"
+                    Command="{Binding EditTodoCommand}"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit todo'}" />
+
+                <Button
+                Margin="10 5" Padding="3"
+                    FontFamily="Comic Sans MS"
+                    FontSize="14"
+                    FontStyle="Normal"
+                    Command="{Binding DeleteTodoCommand}"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Remove todo'}" />
+
+                <Button
+                Margin="10 5" Padding="3"
+                    FontFamily="Comic Sans MS"
+                    FontSize="14"
+                    Command="{Binding ViewTodoCommand}"
+                    FontStyle="Normal"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View details'}" />
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="3">
+            <Button Height="40"
+                    Width="200"
+                    FontFamily="Comic Sans MS"
+                    FontStyle="Italic"
+                    Margin="0 15"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
+                    Command="{Binding BackCommand}" />
+        </StackPanel>
     </Grid>
 </Window>

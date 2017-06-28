@@ -48,6 +48,46 @@
                        Text="{Binding NoteText, FallbackValue='A very looooooooong story....'}"
                        VerticalAlignment="Center" />
             </Grid>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                    <TextBlock
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="Дата создания:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+                    <TextBlock
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="{Binding CreationDate, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <TextBlock
+                       Text="Дата изменения:"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+                    <TextBlock
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="{Binding LastChangeDate, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       VerticalAlignment="Center" />
+                </StackPanel>
+            </Grid>
         </StackPanel>
 
         <Grid Grid.Row="2">

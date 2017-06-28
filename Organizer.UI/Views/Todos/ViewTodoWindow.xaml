@@ -5,8 +5,189 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewTodoWindow" Height="300" Width="300">
+        Title="ViewTodoWindow" Height="431.965" Width="616.955"
+        ResizeMode="NoResize">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="{Binding Caption, FallbackValue='Hard task'}"
+                       TextAlignment="Center"
+                       Padding="7"
+                       FontSize="20"
+                       FontFamily="Comic Sans MS"
+                       FontStyle="Italic" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                       Grid.Column="0"
+                       Text="Текст задания:"
+                       FontFamily="Comic Sans MS"
+                       Padding="5"
+                       FontSize="12"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Top" />
+
+                <TextBlock
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Height="100"
+                       Text="{Binding NoteText, FallbackValue='A very long and hard task....'}"
+                       VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                       Grid.Column="0"
+                       Text="Состояние:"
+                       FontFamily="Comic Sans MS"
+                       Padding="5"
+                       FontSize="12"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Top" />
+
+                <TextBlock
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="{Binding State, FallbackValue='Active'}"
+                       VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                       Grid.Column="0"
+                       Text="Приоритет:"
+                       FontFamily="Comic Sans MS"
+                       Padding="5"
+                       FontSize="12"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Top" />
+
+                <TextBlock
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="{Binding Priority, FallbackValue='Average'}"
+                       VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                       Grid.Column="0"
+                       Text="Дата начала:"
+                       FontFamily="Comic Sans MS"
+                       Padding="5"
+                       FontSize="12"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Top" />
+
+                <TextBlock
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="{Binding StartDate, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                       Grid.Column="0"
+                       Text="Дата завершения:"
+                       FontFamily="Comic Sans MS"
+                       Padding="5"
+                       FontSize="12"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Top" />
+
+                <TextBlock
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="{Binding EndDate, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                    <TextBlock
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="Дата создания:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+                    <TextBlock
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="{Binding CreationDate, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <TextBlock
+                       Text="Дата изменения:"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+                    <TextBlock
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="{Binding LastChangeDate, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       VerticalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Button
+                FontFamily="Comic Sans MS"
+                Height="30"
+                Margin="120 10"
+                Command="{Binding BackCommand}"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back'}" />
+        </Grid>
     </Grid>
 </Window>
