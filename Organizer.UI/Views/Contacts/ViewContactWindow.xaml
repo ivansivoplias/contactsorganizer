@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewContactWindow" Height="300" Width="300">
+        Title="ViewContactWindow" Height="358.5" Width="594">
     <Grid>
-        
     </Grid>
 </Window>
