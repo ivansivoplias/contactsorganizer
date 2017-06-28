@@ -45,6 +45,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       Text="{Binding Caption}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -67,6 +68,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       Text="{Binding NoteText}"
                        Height="200"
                        VerticalAlignment="Center" />
             </Grid>
@@ -90,10 +92,9 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       ItemsSource="{Binding States}"
+                       SelectedValue="{Binding State}"
                        VerticalAlignment="Center">
-                    <ComboBoxItem Content="Active" />
-                    <ComboBoxItem Content="Inactive" />
-                    <ComboBoxItem Content="Closed" />
                 </ComboBox>
             </Grid>
 
@@ -116,10 +117,9 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       ItemsSource="{Binding Priorities}"
+                       SelectedValue="{Binding Priority}"
                        VerticalAlignment="Center">
-                    <ComboBoxItem Content="Minor" />
-                    <ComboBoxItem Content="Average" />
-                    <ComboBoxItem Content="Major" />
                 </ComboBox>
             </Grid>
 
@@ -142,6 +142,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       SelectedDate="{Binding StartDate}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -164,6 +165,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       SelectedDate="{Binding EndDate}"
                        VerticalAlignment="Center" />
             </Grid>
         </StackPanel>

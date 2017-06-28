@@ -44,6 +44,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       Text="{Binding MeetingName}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -67,6 +68,7 @@
                        FontSize="12"
                        Padding="5"
                        Height="200"
+                       Text="{Binding Description}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -89,6 +91,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       SelectedDate="{Binding MeetingDate}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -111,6 +114,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       SelectedDate="{Binding NotificationDate}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -135,6 +139,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       IsChecked="{Binding SendNotifications}"
                        VerticalAlignment="Center" />
             </Grid>
         </StackPanel>

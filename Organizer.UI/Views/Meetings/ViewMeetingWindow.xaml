@@ -125,7 +125,7 @@
                 FontFamily="Comic Sans MS"
                 Height="30"
                 Margin="120 10"
-                Command="{Binding SaveCommand}"
+                Command="{Binding BackCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back'}" />
         </Grid>
     </Grid>

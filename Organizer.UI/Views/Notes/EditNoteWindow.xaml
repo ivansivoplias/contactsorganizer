@@ -45,6 +45,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
+                       Text="{Binding Caption}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -68,6 +69,7 @@
                        FontSize="12"
                        Padding="5"
                        Height="200"
+                       Text="{Binding NoteText}"
                        VerticalAlignment="Center" />
             </Grid>
         </StackPanel>

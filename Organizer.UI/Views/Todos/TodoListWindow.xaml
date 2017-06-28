@@ -71,7 +71,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="0.2*" />
             </Grid.ColumnDefinitions>
-            <DataGrid Grid.Column="0" ItemsSource="{Binding Notes}"
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Todos}"
                       Margin="10"
                       CanUserResizeColumns="False"
                       AutoGenerateColumns="False">
