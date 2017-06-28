@@ -5,8 +5,92 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="EditNoteWindow" Height="300" Width="300">
+        Title="EditNoteWindow" Height="387.338" Width="616.955"
+        ResizeMode="NoResize">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="{Binding EditNoteHeader, FallbackValue='Edit note'}"
+                       TextAlignment="Center"
+                       Padding="7"
+                       FontSize="20"
+                       FontFamily="Comic Sans MS"
+                       FontStyle="Italic" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                       Grid.Column="0"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Text="Название заметки:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+                <TextBox
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                       Grid.Column="0"
+                       Text="Текст заметки:"
+                       FontFamily="Comic Sans MS"
+                       Padding="5"
+                       FontSize="12"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Top" />
+
+                <TextBox
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Height="200"
+                       VerticalAlignment="Center" />
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                FontFamily="Comic Sans MS"
+                Height="30"
+                Margin="30 10"
+                Command="{Binding SaveCommand}"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
+
+            <Button Grid.Column="1"
+                FontFamily="Comic Sans MS"
+                Height="30"
+                Margin="30 10"
+                Command="{Binding CancelCommand}"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
+        </Grid>
     </Grid>
 </Window>

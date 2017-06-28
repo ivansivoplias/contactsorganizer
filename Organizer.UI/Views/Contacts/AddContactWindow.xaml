@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="AddContactWindow" Height="393.22" Width="647.458">
+        Title="AddContactWindow" Height="598.569" Width="647.458"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -23,68 +24,144 @@
                        FontStyle="Italic" />
         </StackPanel>
 
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.3*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="1">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0"
+                <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Text="Основной телефон:"
-                       TextAlignment="Center"
+                       Padding="5"
+                       TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-            <TextBlock Grid.Row="1"
+                <TextBox
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Text="{Binding PrimaryPhone, FallbackValue='+38565656548'}"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
                        Grid.Column="0"
                        Text="Имя:"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
-                       TextAlignment="Center"
+                       Padding="5"
+                       TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-            <TextBlock Grid.Row="2"
+                <TextBox
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Text="{Binding FirstName, FallbackValue='John'}"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+            </Grid>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
+                       Padding="5"
                        Text="По-отчеству:"
-                       TextAlignment="Center"
+                       TextAlignment="Justify"
                        VerticalAlignment="Center" />
-
-            <TextBlock Grid.Row="3"
+                <TextBox
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Text="{Binding MiddleName, FallbackValue='Phenimor'}"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+            </Grid>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="3"
                        Grid.Column="0"
                        Text="Фамилия:"
                        FontFamily="Comic Sans MS"
+                       Padding="5"
                        FontSize="12"
-                       TextAlignment="Center"
+                       TextAlignment="Justify"
                        VerticalAlignment="Center" />
-
-            <TextBlock Grid.Row="4"
+                <TextBox
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Text="{Binding LastName, FallbackValue='Cooper'}"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+            </Grid>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="4"
                        Grid.Column="0"
                        Text="Никнейм:"
+                       Padding="5"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
-                       TextAlignment="Center"
+                       TextAlignment="Justify"
                        VerticalAlignment="Center" />
-
-            <TextBlock Grid.Row="5"
+                <TextBox
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Text="{Binding NickName, FallbackValue='JohnCooper'}"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+            </Grid>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="5"
                        Grid.Column="0"
                        Text="Е-мейл:"
+                       Padding="5"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
-                       TextAlignment="Center"
+                       TextAlignment="Justify"
                        VerticalAlignment="Center" />
-        </Grid>
+                <TextBox
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Text="{Binding Email, FallbackValue='john.cooper@mail.com'}"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+            </Grid>
+        </StackPanel>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

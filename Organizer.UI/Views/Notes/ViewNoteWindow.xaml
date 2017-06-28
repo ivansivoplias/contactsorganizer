@@ -5,8 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewNoteWindow" Height="300" Width="300">
+        Title="ViewNoteWindow" Height="387.338" Width="616.955"
+        ResizeMode="NoResize">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="{Binding Caption, FallbackValue='Very good dinner'}"
+                       TextAlignment="Center"
+                       Padding="7"
+                       FontSize="20"
+                       FontFamily="Comic Sans MS"
+                       FontStyle="Italic" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                       Grid.Column="0"
+                       Text="Текст заметки:"
+                       FontFamily="Comic Sans MS"
+                       Padding="5"
+                       FontSize="12"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Top" />
+
+                <TextBlock
+                       Grid.Column="1"
+                       FontFamily="Comic Sans MS"
+                       FontSize="12"
+                       Padding="5"
+                       Height="200"
+                       Text="{Binding NoteText, FallbackValue='A very looooooooong story....'}"
+                       VerticalAlignment="Center" />
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Button
+                FontFamily="Comic Sans MS"
+                Height="30"
+                Margin="120 10"
+                Command="{Binding BackCommand}"
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to notes list'}" />
+        </Grid>
     </Grid>
 </Window>
