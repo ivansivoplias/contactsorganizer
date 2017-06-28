@@ -71,7 +71,7 @@
         </Grid>
 
         <Grid Grid.Row="2">
-            <DataGrid Name="contactsList" ItemsSource="{Binding Contacts}"
+            <DataGrid Name="contactsList" ItemsSource="{Binding Contacts, Mode=OneWay}"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch"
                       AutoGenerateColumns="False">

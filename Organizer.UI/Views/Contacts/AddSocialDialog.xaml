@@ -30,7 +30,7 @@
                        Padding="5"
                        Margin="5 10" />
             <ComboBox Width="150" Padding="5" Margin="5 10"
-                      ItemsSource="{Binding StandartSocials}"
+                      ItemsSource="{Binding StandartSocials, Mode=OneWay}"
                       SelectedValue="{Binding AppName}">
             </ComboBox>
         </StackPanel>

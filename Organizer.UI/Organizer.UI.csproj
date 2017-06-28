@@ -80,9 +80,12 @@
     </ApplicationDefinition>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
+    <Compile Include="Helpers\SocialsHelper.cs" />
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
     <Compile Include="ViewModels\AddContactViewModel.cs" />
+    <Compile Include="ViewModels\AddSocialViewModel.cs" />
     <Compile Include="ViewModels\ContactsListViewModel.cs" />
+    <Compile Include="ViewModels\EditSocialViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\StartupViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -290,6 +293,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Convertors\" />
+    <Folder Include="ValidationRules\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

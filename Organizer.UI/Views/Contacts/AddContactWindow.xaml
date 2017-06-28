@@ -168,7 +168,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="0.2*" />
             </Grid.ColumnDefinitions>
-            <DataGrid Grid.Column="0" ItemsSource="{Binding Socials}"
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Socials, Mode=OneWay}"
+                      SelectedItem="{Binding SelectedSocial}"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn
@@ -195,7 +196,7 @@
 
                 <Button
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Delete social'}"
-                        Command="{Binding DeleteSocialCommand}"
+                        Command="{Binding RemoveSocialCommand}"
                         Margin="10" />
             </StackPanel>
         </Grid>
