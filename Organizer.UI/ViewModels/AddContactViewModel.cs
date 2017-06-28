@@ -4,6 +4,7 @@ using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Organizer.UI.ViewModels
 {
@@ -19,6 +20,8 @@ namespace Organizer.UI.ViewModels
         public event EventHandler AddSocialMessage = delegate { };
 
         public event EventHandler CancelMessage = delegate { };
+
+        public ICommand AddSocialCommand => _addSocialCommand;
 
         public string PrimaryPhone
         {
@@ -70,13 +73,27 @@ namespace Organizer.UI.ViewModels
             }
         }
 
+        public string Email
+        {
+            get { return _personalInfo.Email; }
+            set
+            {
+                _personalInfo.Email = value;
+                OnPropertyChanged(nameof(Email));
+            }
+        }
+
         public AddContactViewModel()
         {
+            _contact = new ContactDto();
+
+            _personalInfo = new PersonalInfoDto();
+
             _contactService = App.Containter.Resolve<IContactService>();
 
             _saveCommand = Command.CreateCommand("Save contact", "SubmitContact", GetType(), Save);
 
-            _addSocialCommand = Command.CreateCommand("Add socials", "AddSocials", GetType(), AddSocials);
+            _addSocialCommand = Command.CreateCommand("Add socials", "AddSocials", GetType(), AddSocial);
 
             _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
@@ -90,7 +107,7 @@ namespace Organizer.UI.ViewModels
             CancelMessage.Invoke(null, EventArgs.Empty);
         }
 
-        private void AddSocials()
+        private void AddSocial()
         {
             AddSocialMessage.Invoke(null, EventArgs.Empty);
         }

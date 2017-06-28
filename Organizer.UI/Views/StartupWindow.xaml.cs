@@ -51,6 +51,12 @@ namespace Organizer.UI.Views
 
         private void OpenMeetingsMessageHandler(object sender, EventArgs e)
         {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var meetingsWindow = new MeetingsListWindow();
+                meetingsWindow.Show();
+                this.Close();
+            });
         }
 
         private void LogoutMessageHandler(object sender, EventArgs e)

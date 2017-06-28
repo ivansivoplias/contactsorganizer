@@ -58,9 +58,9 @@ namespace Organizer.UI.ViewModels
 
             _contactService = App.Containter.Resolve<IContactService>();
 
-            var contactsList = _contactService.GetContacts(App.CurrentUser, _numberOnPage, _pageNumber)?.ToList();
+            var contactsList = _contactService.GetContacts(App.CurrentUser, _numberOnPage, _pageNumber).ToList();
 
-            _contacts = new ObservableCollection<ContactDto>(contactsList ?? new List<ContactDto>());
+            _contacts = new ObservableCollection<ContactDto>(contactsList);
 
             _addContactCommand = Command.CreateCommand("Add contact", "AddContact", GetType(), AddContact);
             _deleteContactCommand = Command.CreateCommand("Delete contact", "DeleteContact", GetType(), DeleteContact, () => _selected != null);

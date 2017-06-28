@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Organizer.UI.Views
 {
     /// <summary>
-    /// Interaction logic for AddContactWindow.xaml
+    /// Interaction logic for MeetingsListWindow.xaml
     /// </summary>
-    public partial class AddContactWindow : Window
+    public partial class MeetingsListWindow : Window
     {
-        public AddContactWindow()
+        public MeetingsListWindow()
         {
             InitializeComponent();
         }

@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -88,6 +89,42 @@
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="0.2*" />
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Socials}"
+                      AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Header="App name"
+                        Width="*"
+                        Binding="{Binding AppName}" />
+                    <DataGridTextColumn
+                        Header="App id"
+                        Width="*"
+                        Binding="{Binding AppId}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Column="1"
+                        Orientation="Vertical">
+                <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add social'}"
+                        Command="{Binding AddSocialCommand}"
+                        Margin="10" />
+
+                <Button
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit social'}"
+                        Command="{Binding EditSocialCommand}"
+                        Margin="10" />
+
+                <Button
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Delete social'}"
+                        Command="{Binding DeleteSocialCommand}"
+                        Margin="10" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
@@ -100,13 +137,6 @@
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
             <Button Grid.Column="1"
-                FontFamily="Comic Sans MS"
-                Height="30"
-                Margin="30 10"
-                Command="{Binding AddSocialsCommand}"
-                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add socials'}" />
-
-            <Button Grid.Column="2"
                 FontFamily="Comic Sans MS"
                 Height="30"
                 Margin="30 10"

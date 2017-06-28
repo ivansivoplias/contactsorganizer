@@ -90,25 +90,117 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\AddContactWindow.xaml.cs">
+    <Compile Include="Views\Contacts\AddContactWindow.xaml.cs">
       <DependentUpon>AddContactWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ContactsListWindow.xaml.cs">
+    <Compile Include="Views\Meetings\AddMeetingWindow.xaml.cs">
+      <DependentUpon>AddMeetingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notes\NotesListWindow.xaml.cs">
+      <DependentUpon>NotesListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notes\AddNoteWindow.xaml.cs">
+      <DependentUpon>AddNoteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contacts\AddSocialDialog.xaml.cs">
+      <DependentUpon>AddSocialDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Todos\TodoListWindow.xaml.cs">
+      <DependentUpon>TodoListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Todos\AddTodoWindow.xaml.cs">
+      <DependentUpon>AddTodoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contacts\ContactsListWindow.xaml.cs">
       <DependentUpon>ContactsListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contacts\EditContactWindow.xaml.cs">
+      <DependentUpon>EditContactWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Meetings\EditMeetingWindow.xaml.cs">
+      <DependentUpon>EditMeetingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notes\EditNoteWindow.xaml.cs">
+      <DependentUpon>EditNoteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contacts\EditSocialWindow.xaml.cs">
+      <DependentUpon>EditSocialWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Todos\EditTodoWindow.xaml.cs">
+      <DependentUpon>EditTodoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Meetings\MeetingsListWindow.xaml.cs">
+      <DependentUpon>MeetingsListWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StartupWindow.xaml.cs">
       <DependentUpon>StartupWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contacts\ViewContactWindow.xaml.cs">
+      <DependentUpon>ViewContactWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Meetings\ViewMeetingWindow.xaml.cs">
+      <DependentUpon>ViewMeetingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notes\ViewNoteWindow.xaml.cs">
+      <DependentUpon>ViewNoteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Todos\ViewTodoWindow.xaml.cs">
+      <DependentUpon>ViewTodoWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Styles\OrganizerMainStyle.xaml" />
     <Page Include="Themes\Generic.xaml" />
-    <Page Include="Views\AddContactWindow.xaml">
+    <Page Include="Views\Contacts\AddContactWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ContactsListWindow.xaml">
+    <Page Include="Views\Meetings\AddMeetingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notes\NotesListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notes\AddNoteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts\AddSocialDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Todos\TodoListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Todos\AddTodoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts\ContactsListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts\EditContactWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Meetings\EditMeetingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notes\EditNoteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts\EditSocialWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Todos\EditTodoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,7 +208,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Meetings\MeetingsListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\StartupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts\ViewContactWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Meetings\ViewMeetingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notes\ViewNoteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Todos\ViewTodoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
