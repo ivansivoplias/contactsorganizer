@@ -67,6 +67,7 @@
                 <ColumnDefinition Width="0.2*" />
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" ItemsSource="{Binding Meetings}"
+                      SelectedItem="{Binding SelectedMeeting}"
                       Margin="10"
                       CanUserResizeColumns="False"
                       AutoGenerateColumns="False">

@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding MeetingName, FallbackValue='Meeting name'}"
+            <TextBlock Text="{Binding MeetingName, Mode=OneWay, FallbackValue='Meeting name'}"
                        TextAlignment="Center"
                        Padding="7"
                        FontSize="20"
@@ -43,7 +43,7 @@
                        FontSize="12"
                        Padding="5"
                        Height="100"
-                       Text="{Binding Description, FallbackValue='Просто мега длинное описание'}"
+                       Text="{Binding Description, Mode=OneWay, FallbackValue='Просто мега длинное описание'}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -66,7 +66,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
-                       Text="{Binding MeetingDate, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       Text="{Binding MeetingDate, Mode=OneWay, FallbackValue='01.02.2222 18:00.00.0000'}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -89,7 +89,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="12"
                        Padding="5"
-                       Text="{Binding NotificationDate, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       Text="{Binding NotificationDate, Mode=OneWay, FallbackValue='01.02.2222 18:00.00.0000'}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -111,7 +111,7 @@
                 <CheckBox
                        IsThreeState="False"
                        IsEnabled="False"
-                       IsChecked="{Binding SendNotifications, FallbackValue=True}"
+                       IsChecked="{Binding SendNotifications, Mode=OneWay, FallbackValue=True}"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="12"

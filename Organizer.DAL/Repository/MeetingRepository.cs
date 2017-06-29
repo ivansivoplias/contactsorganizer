@@ -55,7 +55,7 @@ namespace Organizer.DAL.Repository
                     meeting.Id = Convert.ToInt32(reader[MeetingQueries.MeetingId].ToString());
                     meeting.MeetingName = reader["MeetingName"].ToString();
                     meeting.Description = reader["Description"].ToString();
-                    meeting.MeetingDate = DateTime.Parse(reader["Password"].ToString());
+                    meeting.MeetingDate = DateTime.Parse(reader["MeetingDate"].ToString());
                     meeting.NotificationDate = DateTime.Parse(reader["NotificationDate"].ToString());
                     meeting.SendNotifications = bool.Parse(reader["SendNotifications"].ToString());
                     meeting.UserId = Convert.ToInt32(reader["UserId"].ToString());
@@ -75,7 +75,7 @@ namespace Organizer.DAL.Repository
                     meeting.Id = Convert.ToInt32(reader[MeetingQueries.MeetingId].ToString());
                     meeting.MeetingName = reader["MeetingName"].ToString();
                     meeting.Description = reader["Description"].ToString();
-                    meeting.MeetingDate = DateTime.Parse(reader["Password"].ToString());
+                    meeting.MeetingDate = DateTime.Parse(reader["MeetingDate"].ToString());
                     meeting.NotificationDate = DateTime.Parse(reader["NotificationDate"].ToString());
                     meeting.SendNotifications = bool.Parse(reader["SendNotifications"].ToString());
                     meeting.UserId = Convert.ToInt32(reader["UserId"].ToString());

@@ -82,13 +82,18 @@
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\SocialsHelper.cs" />
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
-    <Compile Include="ViewModels\AddContactViewModel.cs" />
-    <Compile Include="ViewModels\AddSocialViewModel.cs" />
-    <Compile Include="ViewModels\ContactDetailsViewModel.cs" />
-    <Compile Include="ViewModels\ContactsListViewModel.cs" />
-    <Compile Include="ViewModels\EditContactViewModel.cs" />
-    <Compile Include="ViewModels\EditSocialViewModel.cs" />
+    <Compile Include="ValidationRules\MeetingDateValidationRule.cs" />
+    <Compile Include="ViewModels\MeetingDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Meetings\EditMeetingViewModel.cs" />
+    <Compile Include="ViewModels\Meetings\AddMeetingViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\AddContactViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\AddSocialViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\ContactDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\ContactsListViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\EditContactViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\EditSocialViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Meetings\MeetingsListViewModel.cs" />
     <Compile Include="ViewModels\StartupViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="App.xaml.cs">
@@ -297,7 +302,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Convertors\" />
-    <Folder Include="ValidationRules\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -65,7 +65,8 @@ namespace Organizer.UI.Views
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var meetingsWindow = new MeetingsListWindow();
+                var meetingsListViewModel = new MeetingsListViewModel();
+                var meetingsWindow = new MeetingsListWindow(meetingsListViewModel);
                 meetingsWindow.Show();
                 this.Close();
             });

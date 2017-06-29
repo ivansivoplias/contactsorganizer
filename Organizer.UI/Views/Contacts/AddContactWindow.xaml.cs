@@ -84,6 +84,11 @@ namespace Organizer.UI.Views
         {
             this.Closing -= OnClosing;
 
+            _viewModel.AddSocialMessage -= AddSocialMessageHandler;
+            _viewModel.EditSocialMessage -= EditSocialMessageHandler;
+            _viewModel.CancelMessage -= CancelMessageHandler;
+            _viewModel.SaveMessage -= SaveMessageHandler;
+
             _viewModel.UnregisterCommandsForWindow(this);
         }
     }
