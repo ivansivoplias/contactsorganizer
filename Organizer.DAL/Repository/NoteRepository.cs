@@ -134,7 +134,7 @@ namespace Organizer.DAL.Repository
             return notes;
         }
 
-        public IEnumerable<Note> FilterByCreationDate(int userId, DateTime date, int? pageSize = null, int? page = null)
+        public IEnumerable<Note> FilterByCreationDate(int userId, DateTime date, NoteType noteType, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
@@ -147,7 +147,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByCreationDateParams(userId, date));
+                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByCreationDateParams(userId, date, noteType));
 
                 if (_unitOfWork.Transaction != null)
                 {
@@ -163,7 +163,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByLastChangeDate(int userId, DateTime lastChangeDate, int? pageSize = null, int? page = null)
+        public IEnumerable<Note> FilterByLastChangeDate(int userId, DateTime lastChangeDate, NoteType noteType, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
@@ -176,7 +176,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByLastChangeDateParams(userId, lastChangeDate));
+                QueryHelper.SetupCommand(cmd, query,
+                    NoteParams.GetFilterByLastChangeDateParams(userId, lastChangeDate, noteType));
 
                 if (_unitOfWork.Transaction != null)
                 {
@@ -221,7 +222,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByCurrentState(int userId, State state, int? pageSize = null, int? page = null)
+        public IEnumerable<Note> FilterByCurrentState(int userId, State state, NoteType noteType, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
@@ -234,7 +235,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByStateParams(userId, state));
+                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByStateParams(userId, state, noteType));
 
                 if (_unitOfWork.Transaction != null)
                 {
@@ -250,7 +251,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByPriority(int userId, Priority priority, int? pageSize = null, int? page = null)
+        public IEnumerable<Note> FilterByPriority(int userId, Priority priority, NoteType noteType, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
@@ -263,7 +264,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByPriorityParams(userId, priority));
+                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByPriorityParams(userId, priority, noteType));
 
                 if (_unitOfWork.Transaction != null)
                 {
@@ -279,7 +280,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByCreationBetween(int userId, DateTime startLimit, DateTime endLimit, int? pageSize = null, int? page = null)
+        public IEnumerable<Note> FilterByCreationBetween(int userId, DateTime startLimit, DateTime endLimit, NoteType noteType, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
@@ -292,7 +293,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByCreationBetweenParams(userId, startLimit, endLimit));
+                QueryHelper.SetupCommand(cmd, query,
+                    NoteParams.GetFilterByCreationBetweenParams(userId, startLimit, endLimit, noteType));
 
                 if (_unitOfWork.Transaction != null)
                 {
@@ -308,7 +310,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByStartDate(int userId, DateTime startDate, int? pageSize = null, int? page = null)
+        public IEnumerable<Note> FilterByStartDate(int userId, DateTime startDate, NoteType noteType, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
@@ -321,7 +323,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByStartDateParams(userId, startDate));
+                QueryHelper.SetupCommand(cmd, query,
+                    NoteParams.GetFilterByStartDateParams(userId, startDate, noteType));
 
                 if (_unitOfWork.Transaction != null)
                 {
@@ -337,7 +340,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Note> FilterByEndDate(int userId, DateTime endDate, int? pageSize = null, int? page = null)
+        public IEnumerable<Note> FilterByEndDate(int userId, DateTime endDate, NoteType noteType, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
@@ -350,7 +353,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByEndDateParams(userId, endDate));
+                QueryHelper.SetupCommand(cmd, query,
+                    NoteParams.GetFilterByEndDateParams(userId, endDate, noteType));
 
                 if (_unitOfWork.Transaction != null)
                 {
@@ -396,7 +400,7 @@ namespace Organizer.DAL.Repository
             return GetAll(NoteQueries.GetAllQuery());
         }
 
-        public IEnumerable<Note> FilterByCaptionLike(int userId, string caption, int? pageSize = null, int? page = null)
+        public IEnumerable<Note> FilterByCaptionLike(int userId, string caption, NoteType noteType, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
 
@@ -409,7 +413,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByCaptionParams(userId, caption));
+                QueryHelper.SetupCommand(cmd, query,
+                    NoteParams.GetFilterByCaptionParams(userId, caption, noteType));
 
                 if (_unitOfWork.Transaction != null)
                 {

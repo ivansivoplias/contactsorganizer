@@ -83,6 +83,8 @@
     <Compile Include="Helpers\SocialsHelper.cs" />
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
     <Compile Include="ValidationRules\MeetingDateValidationRule.cs" />
+    <Compile Include="ViewModels\Todos\AddTodoViewModel.cs" />
+    <Compile Include="ViewModels\Todos\EditTodoViewModel.cs" />
     <Compile Include="ViewModels\Notes\AddNoteViewModel.cs" />
     <Compile Include="ViewModels\Notes\EditNoteViewModel.cs" />
     <Compile Include="ViewModels\Meetings\MeetingDetailsViewModel.cs" />
@@ -99,11 +101,13 @@
     <Compile Include="ViewModels\Notes\NoteDetailsViewModel.cs" />
     <Compile Include="ViewModels\Notes\NotesListViewModel.cs" />
     <Compile Include="ViewModels\StartupViewModel.cs" />
+    <Compile Include="ViewModels\Todos\TodoListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\Todos\ViewTodoViewModel.cs" />
     <Compile Include="Views\Contacts\AddContactWindow.xaml.cs">
       <DependentUpon>AddContactWindow.xaml</DependentUpon>
     </Compile>
@@ -306,7 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Convertors\" />
-    <Folder Include="ViewModels\Todos\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

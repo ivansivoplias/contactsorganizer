@@ -11,22 +11,22 @@ namespace Organizer.Infrastructure.Database
 
         IEnumerable<Note> GetUserNotes(int userId, int? pageSize = null, int? page = null);
 
-        IEnumerable<Note> FilterByCreationDate(int userId, DateTime date, int? pageSize = null, int? page = null);
+        IEnumerable<Note> FilterByCreationDate(int userId, DateTime date, NoteType noteType, int? pageSize = null, int? page = null);
 
-        IEnumerable<Note> FilterByLastChangeDate(int userId, DateTime lastChangeDate, int? pageSize = null, int? page = null);
+        IEnumerable<Note> FilterByLastChangeDate(int userId, DateTime lastChangeDate, NoteType noteType, int? pageSize = null, int? page = null);
 
         IEnumerable<Note> FilterByNoteType(int userId, NoteType noteType, int? pageSize = null, int? page = null);
 
-        IEnumerable<Note> FilterByCurrentState(int userId, State state, int? pageSize = null, int? page = null);
+        IEnumerable<Note> FilterByCurrentState(int userId, State state, NoteType noteType, int? pageSize = null, int? page = null);
 
-        IEnumerable<Note> FilterByPriority(int userId, Priority priority, int? pageSize = null, int? page = null);
+        IEnumerable<Note> FilterByPriority(int userId, Priority priority, NoteType noteType, int? pageSize = null, int? page = null);
 
-        IEnumerable<Note> FilterByCreationBetween(int userId, DateTime startLimit, DateTime endLimit, int? pageSize = null, int? page = null);
+        IEnumerable<Note> FilterByCreationBetween(int userId, DateTime startLimit, DateTime endLimit, NoteType noteType, int? pageSize = null, int? page = null);
 
-        IEnumerable<Note> FilterByStartDate(int userId, DateTime startDate, int? pageSize = null, int? page = null);
+        IEnumerable<Note> FilterByStartDate(int userId, DateTime startDate, NoteType noteType, int? pageSize = null, int? page = null);
 
-        IEnumerable<Note> FilterByEndDate(int userId, DateTime endDate, int? pageSize = null, int? page = null);
+        IEnumerable<Note> FilterByEndDate(int userId, DateTime endDate, NoteType noteType, int? pageSize = null, int? page = null);
 
-        IEnumerable<Note> FilterByCaptionLike(int userId, string caption, int? pageSize = null, int? page = null);
+        IEnumerable<Note> FilterByCaptionLike(int userId, string caption, NoteType noteType, int? pageSize = null, int? page = null);
     }
 }

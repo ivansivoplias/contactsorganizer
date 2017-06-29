@@ -95,7 +95,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByCreationDate(UserDto user, DateTime creationDate, int pageSize, int page)
+        public ICollection<NoteDto> GetNotesByCaptionLike(UserDto user, string caption, NoteType noteType, int pageSize, int page)
         {
             ICollection<NoteDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -103,14 +103,14 @@ namespace Organizer.BL.Services
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNotes = noteRepo.FilterByCreationDate(user.Id, creationDate, pageSize, page);
+                var dbNotes = noteRepo.FilterByCaptionLike(user.Id, caption, noteType, pageSize, page);
                 result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByCurrentState(UserDto user, State state, int pageSize, int page)
+        public ICollection<NoteDto> GetNotesByCreationDate(UserDto user, DateTime creationDate, NoteType noteType, int pageSize, int page)
         {
             ICollection<NoteDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -118,14 +118,14 @@ namespace Organizer.BL.Services
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNotes = noteRepo.FilterByCurrentState(user.Id, state, pageSize, page);
+                var dbNotes = noteRepo.FilterByCreationDate(user.Id, creationDate, noteType, pageSize, page);
                 result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByEndDate(UserDto user, DateTime endDate, int pageSize, int page)
+        public ICollection<NoteDto> GetNotesByCurrentState(UserDto user, State state, NoteType noteType, int pageSize, int page)
         {
             ICollection<NoteDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -133,14 +133,14 @@ namespace Organizer.BL.Services
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNotes = noteRepo.FilterByEndDate(user.Id, endDate, pageSize, page);
+                var dbNotes = noteRepo.FilterByCurrentState(user.Id, state, noteType, pageSize, page);
                 result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByLastChangeDate(UserDto user, DateTime lastChangeDate, int pageSize, int page)
+        public ICollection<NoteDto> GetNotesByEndDate(UserDto user, DateTime endDate, NoteType noteType, int pageSize, int page)
         {
             ICollection<NoteDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -148,7 +148,22 @@ namespace Organizer.BL.Services
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNotes = noteRepo.FilterByLastChangeDate(user.Id, lastChangeDate, pageSize, page);
+                var dbNotes = noteRepo.FilterByEndDate(user.Id, endDate, noteType, pageSize, page);
+                result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+            }
+
+            return result;
+        }
+
+        public ICollection<NoteDto> GetNotesByLastChangeDate(UserDto user, DateTime lastChangeDate, NoteType noteType, int pageSize, int page)
+        {
+            ICollection<NoteDto> result = null;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                var dbNotes = noteRepo.FilterByLastChangeDate(user.Id, lastChangeDate, noteType, pageSize, page);
                 result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
             }
 
@@ -170,7 +185,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByPriority(UserDto user, Priority priority, int pageSize, int page)
+        public ICollection<NoteDto> GetNotesByPriority(UserDto user, Priority priority, NoteType noteType, int pageSize, int page)
         {
             ICollection<NoteDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -178,14 +193,14 @@ namespace Organizer.BL.Services
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNotes = noteRepo.FilterByPriority(user.Id, priority, pageSize, page);
+                var dbNotes = noteRepo.FilterByPriority(user.Id, priority, noteType, pageSize, page);
                 result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByStartDate(UserDto user, DateTime startDate, int pageSize, int page)
+        public ICollection<NoteDto> GetNotesByStartDate(UserDto user, DateTime startDate, NoteType noteType, int pageSize, int page)
         {
             ICollection<NoteDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -193,14 +208,14 @@ namespace Organizer.BL.Services
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNotes = noteRepo.FilterByStartDate(user.Id, startDate, pageSize, page);
+                var dbNotes = noteRepo.FilterByStartDate(user.Id, startDate, noteType, pageSize, page);
                 result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesCreatedBetween(UserDto user, DateTime start, DateTime end, int pageSize, int page)
+        public ICollection<NoteDto> GetNotesCreatedBetween(UserDto user, DateTime start, DateTime end, NoteType noteType, int pageSize, int page)
         {
             ICollection<NoteDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -208,7 +223,7 @@ namespace Organizer.BL.Services
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNotes = noteRepo.FilterByCreationBetween(user.Id, start, end, pageSize, page);
+                var dbNotes = noteRepo.FilterByCreationBetween(user.Id, start, end, noteType, pageSize, page);
                 result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
             }
 

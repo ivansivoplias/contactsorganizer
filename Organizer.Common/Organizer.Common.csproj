@@ -57,6 +57,10 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\NoteType.cs" />
     <Compile Include="Enums\Priority.cs" />
+    <Compile Include="Enums\SearchTypes\ContactSearchType.cs" />
+    <Compile Include="Enums\SearchTypes\DiarySearchType.cs" />
+    <Compile Include="Enums\SearchTypes\MeetingSearchType.cs" />
+    <Compile Include="Enums\SearchTypes\TodoSearchType.cs" />
     <Compile Include="Exceptions\TransactionAlreadyExistsException.cs" />
     <Compile Include="Exceptions\TransactionCommitFailedException.cs" />
     <Compile Include="Helpers\CollectionHelper.cs" />

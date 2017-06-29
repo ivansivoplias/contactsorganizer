@@ -6,21 +6,23 @@ namespace Organizer.DAL.Helpers
 {
     public static class NoteParams
     {
-        public static SqlParameter[] GetFilterByCreationDateParams(int userId, DateTime date)
+        public static SqlParameter[] GetFilterByCreationDateParams(int userId, DateTime date, NoteType noteType)
         {
             return new SqlParameter[]
             {
                     new SqlParameter("@UserId", userId),
-                    new SqlParameter("@CreationDate", date)
+                    new SqlParameter("@CreationDate", date),
+                    new SqlParameter("@NoteType", noteType.ToString())
             };
         }
 
-        public static SqlParameter[] GetFilterByLastChangeDateParams(int userId, DateTime lastChangeDate)
+        public static SqlParameter[] GetFilterByLastChangeDateParams(int userId, DateTime lastChangeDate, NoteType noteType)
         {
             return new SqlParameter[]
             {
                     new SqlParameter("@UserId", userId),
-                    new SqlParameter("@LastChangeDate", lastChangeDate)
+                    new SqlParameter("@LastChangeDate", lastChangeDate),
+                    new SqlParameter("@NoteType", noteType.ToString())
             };
         }
 
@@ -33,58 +35,64 @@ namespace Organizer.DAL.Helpers
             };
         }
 
-        public static SqlParameter[] GetFilterByStateParams(int userId, State state)
+        public static SqlParameter[] GetFilterByStateParams(int userId, State state, NoteType noteType)
         {
             return new SqlParameter[]
             {
                 new SqlParameter("@UserId", userId),
-                new SqlParameter("@State", state.ToString())
+                new SqlParameter("@State", state.ToString()),
+                new SqlParameter("@NoteType", noteType.ToString())
             };
         }
 
-        public static SqlParameter[] GetFilterByPriorityParams(int userId, Priority priority)
+        public static SqlParameter[] GetFilterByPriorityParams(int userId, Priority priority, NoteType noteType)
         {
             return new SqlParameter[]
             {
                 new SqlParameter("@UserId", userId),
-                new SqlParameter("@Priority", priority.ToString())
+                new SqlParameter("@Priority", priority.ToString()),
+                new SqlParameter("@NoteType", noteType.ToString())
             };
         }
 
-        public static SqlParameter[] GetFilterByCreationBetweenParams(int userId, DateTime startLimit, DateTime endLimit)
+        public static SqlParameter[] GetFilterByCreationBetweenParams(int userId, DateTime startLimit, DateTime endLimit, NoteType noteType)
         {
             return new SqlParameter[]
             {
                 new SqlParameter("@UserId", userId),
                 new SqlParameter("@StartLimit", startLimit),
-                new SqlParameter("@EndLimit", endLimit)
+                new SqlParameter("@EndLimit", endLimit),
+                new SqlParameter("@NoteType", noteType.ToString())
             };
         }
 
-        public static SqlParameter[] GetFilterByStartDateParams(int userId, DateTime startDate)
+        public static SqlParameter[] GetFilterByStartDateParams(int userId, DateTime startDate, NoteType noteType)
         {
             return new SqlParameter[]
             {
                     new SqlParameter("@UserId", userId),
-                    new SqlParameter("@StartDate", startDate)
+                    new SqlParameter("@StartDate", startDate),
+                    new SqlParameter("@NoteType", noteType.ToString())
             };
         }
 
-        public static SqlParameter[] GetFilterByEndDateParams(int userId, DateTime endDate)
+        public static SqlParameter[] GetFilterByEndDateParams(int userId, DateTime endDate, NoteType noteType)
         {
             return new SqlParameter[]
             {
                     new SqlParameter("@UserId", userId),
-                    new SqlParameter("@EndDate", endDate)
+                    new SqlParameter("@EndDate", endDate),
+                    new SqlParameter("@NoteType", noteType.ToString())
             };
         }
 
-        public static SqlParameter[] GetFilterByCaptionParams(int userId, string caption)
+        public static SqlParameter[] GetFilterByCaptionParams(int userId, string caption, NoteType noteType)
         {
             return new SqlParameter[]
             {
                 new SqlParameter("@UserId", userId),
-                new SqlParameter("@Caption", caption.MakeLikeExpression())
+                new SqlParameter("@Caption", caption.MakeLikeExpression()),
+                new SqlParameter("@NoteType", noteType.ToString())
             };
         }
 
