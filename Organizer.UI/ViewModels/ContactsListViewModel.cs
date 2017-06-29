@@ -23,9 +23,12 @@ namespace Organizer.UI.ViewModels
         private Command _deleteContactCommand;
         private Command _editContactCommand;
         private Command _viewContactCommand;
+        private Command _backCommand;
         private Command _fetchNextPageCommand;
 
         public event EventHandler AddContactMessage = delegate { };
+
+        public event EventHandler BackMessage = delegate { };
 
         public event EventHandler DeleteContactMessage = delegate { };
 
@@ -37,6 +40,7 @@ namespace Organizer.UI.ViewModels
         public ICommand DeleteContactCommand => _deleteContactCommand;
         public ICommand EditContactCommand => _editContactCommand;
         public ICommand ViewContactCommand => _viewContactCommand;
+        public ICommand BackCommand => _backCommand;
         public ICommand FetchNextPageCommand => _fetchNextPageCommand;
 
         public ICollection<ContactDto> Contacts => _contacts;
@@ -63,10 +67,17 @@ namespace Organizer.UI.ViewModels
             _contacts = new ObservableCollection<ContactDto>(contactsList);
 
             _addContactCommand = Command.CreateCommand("Add contact", "AddContact", GetType(), AddContact);
-            _deleteContactCommand = Command.CreateCommand("Delete contact", "DeleteContact", GetType(), DeleteContact, () => _selected != null);
-            _editContactCommand = Command.CreateCommand("Edit contact", "EditContact", GetType(), EditContact, () => _selected != null);
-            _viewContactCommand = Command.CreateCommand("View contact details", "ViewContact", GetType(), ViewContactDetails, () => _selected != null);
+            _deleteContactCommand = Command.CreateCommand("Delete contact", "DeleteContact", GetType(),
+                DeleteContact, () => _selected != null);
+
+            _editContactCommand = Command.CreateCommand("Edit contact", "EditContact", GetType(),
+                EditContact, () => _selected != null);
+
+            _viewContactCommand = Command.CreateCommand("View contact details", "ViewContact", GetType(),
+                ViewContactDetails, () => _selected != null);
+
             _fetchNextPageCommand = Command.CreateCommand("Next page", "FetchNextPage", GetType(), FetchNextPage);
+            _backCommand = Command.CreateCommand("Back to main menu", "BackCommand", GetType(), Back);
         }
 
         private void AddContact()
@@ -76,7 +87,38 @@ namespace Organizer.UI.ViewModels
 
         private void DeleteContact()
         {
-            DeleteContactMessage.Invoke(null, EventArgs.Empty);
+            var res = MessageBox.Show("Are you sure that you want to delete this contact?",
+                "Delete contact confirmation", MessageBoxButton.YesNo);
+
+            if (res == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    _contactService.RemoveContact(_selected);
+
+                    var contactsList = _contactService.GetContacts(App.CurrentUser, _numberOnPage, _pageNumber).ToList();
+
+                    _contacts.Clear();
+
+                    _contacts = null;
+
+                    _contacts = new ObservableCollection<ContactDto>(contactsList);
+
+                    OnPropertyChanged(nameof(Contacts));
+
+                    DeleteContactMessage.Invoke(null, EventArgs.Empty);
+                }
+                catch
+                {
+                    MessageBox.Show("Delete operation failed. An uncatched error occur\nwhile deleting a contact.",
+                        "Delete failed");
+                }
+            }
+        }
+
+        private void Back()
+        {
+            BackMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void EditContact()
@@ -99,6 +141,7 @@ namespace Organizer.UI.ViewModels
             Command.RegisterCommandBinding(window, _deleteContactCommand);
             Command.RegisterCommandBinding(window, _editContactCommand);
             Command.RegisterCommandBinding(window, _viewContactCommand);
+            Command.RegisterCommandBinding(window, _backCommand);
             Command.RegisterCommandBinding(window, _fetchNextPageCommand);
         }
 
@@ -108,6 +151,7 @@ namespace Organizer.UI.ViewModels
             Command.UnregisterCommandBinding(window, _deleteContactCommand);
             Command.UnregisterCommandBinding(window, _editContactCommand);
             Command.UnregisterCommandBinding(window, _viewContactCommand);
+            Command.UnregisterCommandBinding(window, _backCommand);
             Command.UnregisterCommandBinding(window, _fetchNextPageCommand);
         }
     }

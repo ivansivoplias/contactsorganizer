@@ -48,7 +48,7 @@ namespace Organizer.DAL.UoW
             {
                 throw new TransactionAlreadyExistsException();
             }
-            Transaction = _context.Connection.BeginTransaction();
+            Transaction = DataContext.Connection.BeginTransaction();
             return Transaction;
         }
 

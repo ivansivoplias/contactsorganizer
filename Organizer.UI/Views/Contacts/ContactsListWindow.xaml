@@ -9,8 +9,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel>
@@ -25,53 +25,11 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Button
-                Grid.Column="0"
-                Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                    FontSize="14"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
-                    Command="{Binding AddContactCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add contact'}" />
-            <Button
-                Grid.Column="1"
-                Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                    FontSize="14"
-                    FontStyle="Normal"
-                    Command="{Binding EditContactCommand}"
-                    FontWeight="ExtraLight"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit contact'}" />
-
-            <Button
-                Grid.Column="2"
-                Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                    FontSize="14"
-                    FontStyle="Normal"
-                    Command="{Binding DeleteContactCommand}"
-                    FontWeight="ExtraLight"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Remove contact'}" />
-
-            <Button
-                Grid.Column="3"
-                Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                    FontSize="14"
-                    Command="{Binding ViewContactCommand}"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View details'}" />
-        </Grid>
-
-        <Grid Grid.Row="2">
             <DataGrid Name="contactsList" ItemsSource="{Binding Contacts, Mode=OneWay}"
+                      Grid.Column="0"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch"
                       SelectedItem="{Binding SelectedContact}"
@@ -103,6 +61,54 @@
                         Binding="{Binding Path=PersonalInfo.Email}" />
                 </DataGrid.Columns>
             </DataGrid>
+
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center">
+                <Button
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
+                    FontSize="14"
+                    FontStyle="Normal"
+                    FontWeight="ExtraLight"
+                    Command="{Binding AddContactCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add contact'}" />
+                <Button
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
+                    FontSize="14"
+                    FontStyle="Normal"
+                    Command="{Binding EditContactCommand}"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit contact'}" />
+
+                <Button
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
+                    FontSize="14"
+                    FontStyle="Normal"
+                    Command="{Binding DeleteContactCommand}"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Remove contact'}" />
+
+                <Button
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
+                    FontSize="14"
+                    Command="{Binding ViewContactCommand}"
+                    FontStyle="Normal"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View details'}" />
+            </StackPanel>
         </Grid>
+
+        <StackPanel Grid.Row="2">
+            <Button Height="40"
+                    Width="200"
+                    FontFamily="Comic Sans MS"
+                    FontStyle="Italic"
+                    Margin="0 15"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
+                    Command="{Binding BackCommand}" />
+        </StackPanel>
     </Grid>
 </Window>

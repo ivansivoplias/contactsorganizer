@@ -16,6 +16,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddContactMessage += AddContactMessageHandler;
+            _viewModel.BackMessage += BackMessageHandler;
             _viewModel.EditContactMessage += EditContactMessageHandler;
             _viewModel.ViewContactMessage += ViewContactMessageHandler;
 
@@ -54,6 +55,20 @@ namespace Organizer.UI.Views
             });
         }
 
+        private void BackMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var startupViewModel = new StartupViewModel();
+
+                var startupWindow = new StartupWindow(startupViewModel);
+
+                startupWindow.Show();
+
+                this.Close();
+            });
+        }
+
         private void AddContactMessageHandler(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -72,6 +87,7 @@ namespace Organizer.UI.Views
         {
             this.Closing -= OnClosing;
 
+            _viewModel.BackMessage -= BackMessageHandler;
             _viewModel.AddContactMessage -= AddContactMessageHandler;
             _viewModel.EditContactMessage -= EditContactMessageHandler;
             _viewModel.ViewContactMessage -= ViewContactMessageHandler;
