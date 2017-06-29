@@ -64,6 +64,7 @@
     <Compile Include="Exceptions\TransactionAlreadyExistsException.cs" />
     <Compile Include="Exceptions\TransactionCommitFailedException.cs" />
     <Compile Include="Helpers\CollectionHelper.cs" />
+    <Compile Include="Helpers\EnumExtentions.cs" />
     <Compile Include="Helpers\PaginationHelper.cs" />
     <Compile Include="Helpers\SHA512Hasher.cs" />
     <Compile Include="Pagination\Page.cs" />

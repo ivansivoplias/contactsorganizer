@@ -79,10 +79,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Convertors\EnumToBooleanConvertor.cs" />
+    <Compile Include="Helpers\BindingProxy.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\SocialsHelper.cs" />
+    <Compile Include="Helpers\Wrapper.cs" />
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
     <Compile Include="ValidationRules\MeetingDateValidationRule.cs" />
+    <Compile Include="ValidationRules\TodoSearchValidationRule.cs" />
     <Compile Include="ViewModels\Todos\AddTodoViewModel.cs" />
     <Compile Include="ViewModels\Todos\EditTodoViewModel.cs" />
     <Compile Include="ViewModels\Notes\AddNoteViewModel.cs" />
@@ -308,8 +312,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Convertors\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

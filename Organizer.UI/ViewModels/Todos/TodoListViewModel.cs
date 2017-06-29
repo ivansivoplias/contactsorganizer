@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
 using Organizer.Common.Enums;
+using Organizer.Common.Enums.SearchTypes;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
@@ -19,6 +20,8 @@ namespace Organizer.UI.ViewModels
         private int _pageNumber;
         private const int _numberOnPage = 10;
         private INoteService _noteService;
+        private TodoSearchType _currentSearchType;
+        private string _searchValue;
 
         private ObservableCollection<NoteDto> _todoNotes;
         private NoteDto _selected;
@@ -29,15 +32,37 @@ namespace Organizer.UI.ViewModels
         private Command _backCommand;
         private Command _fetchNextPageCommand;
 
-        public event EventHandler AddNoteMessage = delegate { };
+        public TodoSearchType SearchType
+        {
+            get { return _currentSearchType; }
+            set
+            {
+                if (_currentSearchType == value)
+                    return;
+                _currentSearchType = value;
+                OnPropertyChanged(nameof(SearchType));
+            }
+        }
+
+        public string SearchValue
+        {
+            get { return _searchValue; }
+            set
+            {
+                _searchValue = value;
+                OnPropertyChanged(nameof(SearchValue));
+            }
+        }
+
+        public event EventHandler AddTodoMessage = delegate { };
 
         public event EventHandler BackMessage = delegate { };
 
-        public event EventHandler DeleteMeetingMessage = delegate { };
+        public event EventHandler DeleteTodoMessage = delegate { };
 
-        public event EventHandler EditNoteMessage = delegate { };
+        public event EventHandler EditTodoMessage = delegate { };
 
-        public event EventHandler ViewNoteMessage = delegate { };
+        public event EventHandler ViewTodoMessage = delegate { };
 
         public ICommand AddTodoCommand => _addTodoCommand;
         public ICommand DeleteTodoCommand => _deleteTodoCommand;
@@ -62,6 +87,7 @@ namespace Organizer.UI.ViewModels
         {
             _pageNumber = 1;
             _selected = null;
+            _currentSearchType = TodoSearchType.Default;
 
             _noteService = App.Containter.Resolve<INoteService>();
 
@@ -86,7 +112,7 @@ namespace Organizer.UI.ViewModels
 
         private void AddTodo()
         {
-            AddNoteMessage.Invoke(null, EventArgs.Empty);
+            AddTodoMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void DeleteTodo()
@@ -100,8 +126,7 @@ namespace Organizer.UI.ViewModels
                 {
                     _noteService.RemoveNote(_selected);
 
-                    var notesList = _noteService
-                        .GetNotesByNoteType(App.CurrentUser, NoteType.Todo, _numberOnPage, _pageNumber).ToList();
+                    var notesList = SearchNotes();
 
                     _todoNotes.Clear();
 
@@ -111,7 +136,7 @@ namespace Organizer.UI.ViewModels
 
                     OnPropertyChanged(nameof(Todos));
 
-                    DeleteMeetingMessage.Invoke(null, EventArgs.Empty);
+                    DeleteTodoMessage.Invoke(null, EventArgs.Empty);
                 }
                 catch
                 {
@@ -128,16 +153,83 @@ namespace Organizer.UI.ViewModels
 
         private void EditTodo()
         {
-            EditNoteMessage.Invoke(null, EventArgs.Empty);
+            EditTodoMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void ViewTodoDetails()
         {
-            ViewNoteMessage.Invoke(null, EventArgs.Empty);
+            ViewTodoMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void FetchNextPage()
         {
+        }
+
+        private List<NoteDto> SearchNotes()
+        {
+            List<NoteDto> result;
+
+            switch (_currentSearchType)
+            {
+                case TodoSearchType.ByCreationDate:
+                    var date = DateTime.Parse(_searchValue);
+                    result = _noteService
+                        .GetNotesByCreationDate(App.CurrentUser, date, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .ToList();
+                    break;
+
+                case TodoSearchType.ByLastChangeDate:
+                    var lastChangeDate = DateTime.Parse(_searchValue);
+                    result = _noteService
+                        .GetNotesByLastChangeDate(App.CurrentUser, lastChangeDate, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .ToList();
+                    break;
+
+                case TodoSearchType.ByState:
+                    var state = (State)Enum.Parse(typeof(State), _searchValue);
+                    result = _noteService
+                        .GetNotesByCurrentState(App.CurrentUser, state, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .ToList();
+                    break;
+
+                case TodoSearchType.ByPriority:
+                    var priority = (Priority)Enum.Parse(typeof(Priority), _searchValue);
+                    result = _noteService
+                        .GetNotesByPriority(App.CurrentUser, priority, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .ToList();
+                    break;
+
+                case TodoSearchType.CreatedBetween:
+                    var dates = _searchValue.Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => x.Trim()).ToArray();
+                    var startDate = DateTime.Parse(dates[0]);
+                    var endDate = DateTime.Parse(dates[1]);
+                    result = _noteService
+                        .GetNotesCreatedBetween(App.CurrentUser, startDate, endDate, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .ToList();
+                    break;
+
+                case TodoSearchType.ByStartDate:
+                    var start = DateTime.Parse(_searchValue);
+                    result = _noteService
+                        .GetNotesByStartDate(App.CurrentUser, start, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .ToList();
+                    break;
+
+                case TodoSearchType.ByEndDate:
+                    var end = DateTime.Parse(_searchValue);
+                    result = _noteService
+                        .GetNotesByEndDate(App.CurrentUser, end, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .ToList();
+                    break;
+
+                default:
+                    result = _noteService
+                        .GetNotesByNoteType(App.CurrentUser, NoteType.Todo, _numberOnPage, _pageNumber).ToList();
+                    break;
+            }
+
+            return result;
         }
 
         public override void RegisterCommandsForWindow(Window window)

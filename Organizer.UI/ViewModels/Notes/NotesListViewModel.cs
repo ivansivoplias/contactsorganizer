@@ -31,7 +31,7 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler BackMessage = delegate { };
 
-        public event EventHandler DeleteMeetingMessage = delegate { };
+        public event EventHandler DeleteNoteMessage = delegate { };
 
         public event EventHandler EditNoteMessage = delegate { };
 
@@ -108,7 +108,7 @@ namespace Organizer.UI.ViewModels
 
                     OnPropertyChanged(nameof(Notes));
 
-                    DeleteMeetingMessage.Invoke(null, EventArgs.Empty);
+                    DeleteNoteMessage.Invoke(null, EventArgs.Empty);
                 }
                 catch
                 {

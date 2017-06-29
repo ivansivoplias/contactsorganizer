@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Organizer.UI.ViewModels;
+using System;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Organizer.UI.Views
 {
@@ -19,9 +10,88 @@ namespace Organizer.UI.Views
     /// </summary>
     public partial class TodoListWindow : Window
     {
-        public TodoListWindow()
+        private TodoListViewModel _viewModel;
+
+        public TodoListWindow(TodoListViewModel viewModel)
         {
+            _viewModel = viewModel;
+            _viewModel.AddTodoMessage += AddTodoMessageHandler;
+            _viewModel.BackMessage += BackMessageHandler;
+            _viewModel.EditTodoMessage += EditTodoMessageHandler;
+            _viewModel.ViewTodoMessage += ViewTodoMessageHandler;
+
+            this.DataContext = _viewModel;
+            this.Closing += OnClosing;
+
+            _viewModel.RegisterCommandsForWindow(this);
             InitializeComponent();
+        }
+
+        private void EditTodoMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var editTodoViewModel = new EditTodoViewModel(_viewModel.SelectedTodo);
+
+                var editTodoWindow = new EditTodoWindow(editTodoViewModel);
+
+                editTodoWindow.Show();
+
+                this.Close();
+            });
+        }
+
+        private void ViewTodoMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var viewTodoViewModel = new ViewTodoViewModel(_viewModel.SelectedTodo);
+
+                var viewTodoWindow = new ViewTodoWindow(viewTodoViewModel);
+
+                viewTodoWindow.Show();
+
+                this.Close();
+            });
+        }
+
+        private void BackMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var startupViewModel = new StartupViewModel();
+
+                var startupWindow = new StartupWindow(startupViewModel);
+
+                startupWindow.Show();
+
+                this.Close();
+            });
+        }
+
+        private void AddTodoMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var addTodoViewModel = new AddTodoViewModel();
+
+                var addTodoWindow = new AddTodoWindow(addTodoViewModel);
+
+                addTodoWindow.Show();
+
+                this.Close();
+            });
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            this.Closing -= OnClosing;
+
+            _viewModel.BackMessage -= BackMessageHandler;
+            _viewModel.AddTodoMessage -= AddTodoMessageHandler;
+            _viewModel.EditTodoMessage -= EditTodoMessageHandler;
+            _viewModel.ViewTodoMessage -= ViewTodoMessageHandler;
+            _viewModel.UnregisterCommandsForWindow(this);
         }
     }
 }

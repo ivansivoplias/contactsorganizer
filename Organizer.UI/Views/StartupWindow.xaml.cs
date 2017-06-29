@@ -56,7 +56,8 @@ namespace Organizer.UI.Views
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var todoList = new TodoListWindow();
+                var viewModel = new TodoListViewModel();
+                var todoList = new TodoListWindow(viewModel);
                 todoList.Show();
                 this.Close();
             });

@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Organizer.UI.ViewModels;
+using System;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Organizer.UI.Views
 {
@@ -19,9 +10,51 @@ namespace Organizer.UI.Views
     /// </summary>
     public partial class AddTodoWindow : Window
     {
-        public AddTodoWindow()
+        private AddTodoViewModel _viewModel;
+
+        public AddTodoWindow(AddTodoViewModel viewModel)
         {
+            _viewModel = viewModel;
+            _viewModel.CancelMessage += CancelMessageHandler;
+            _viewModel.SaveMessage += SaveMessageHandler;
+
+            this.DataContext = _viewModel;
+            this.Closing += OnClosing;
+
+            _viewModel.RegisterCommandsForWindow(this);
+
             InitializeComponent();
+        }
+
+        private void SaveMessageHandler(object sender, EventArgs e)
+        {
+            SetupNotesListForm();
+        }
+
+        private void CancelMessageHandler(object sender, EventArgs e)
+        {
+            SetupNotesListForm();
+        }
+
+        private void SetupNotesListForm()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var viewModel = new TodoListViewModel();
+                var todosList = new TodoListWindow(viewModel);
+                todosList.Show();
+                this.Close();
+            });
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            this.Closing -= OnClosing;
+
+            _viewModel.CancelMessage -= CancelMessageHandler;
+            _viewModel.SaveMessage -= SaveMessageHandler;
+
+            _viewModel.UnregisterCommandsForWindow(this);
         }
     }
 }
