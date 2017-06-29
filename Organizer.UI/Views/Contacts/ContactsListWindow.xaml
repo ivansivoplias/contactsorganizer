@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ContactsListWindow" Height="432.667" Width="664.279">
+        Title="ContactsListWindow" Height="518.667" Width="1090.279">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -30,6 +30,7 @@
 
             <DataGrid Name="contactsList" ItemsSource="{Binding Contacts, Mode=OneWay}"
                       Grid.Column="0"
+                       FontSize="16"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch"
                       SelectedItem="{Binding SelectedContact}"
@@ -67,7 +68,7 @@
                 <Button
                 Margin="5" Padding="7"
                     FontFamily="Verdana"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     FontWeight="ExtraLight"
                     Command="{Binding AddContactCommand}"
@@ -75,7 +76,7 @@
                 <Button
                 Margin="5" Padding="7"
                     FontFamily="Verdana"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     Command="{Binding EditContactCommand}"
                     FontWeight="ExtraLight"
@@ -84,7 +85,7 @@
                 <Button
                 Margin="5" Padding="7"
                     FontFamily="Verdana"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     Command="{Binding DeleteContactCommand}"
                     FontWeight="ExtraLight"
@@ -93,7 +94,7 @@
                 <Button
                 Margin="5" Padding="7"
                     FontFamily="Verdana"
-                    FontSize="14"
+                       FontSize="16"
                     Command="{Binding ViewContactCommand}"
                     FontStyle="Normal"
                     FontWeight="ExtraLight"
@@ -106,6 +107,7 @@
                     Width="200"
                     FontFamily="Comic Sans MS"
                     FontStyle="Italic"
+                    FontSize="16"
                     Margin="0 15"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
                     Command="{Binding BackCommand}" />

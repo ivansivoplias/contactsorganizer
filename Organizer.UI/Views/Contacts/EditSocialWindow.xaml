@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="EditSocialWindow" Height="260" Width="580"
+        Title="EditSocialWindow" Height="271" Width="580"
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
@@ -27,9 +27,11 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Choose from predefined socials:"
+                       FontSize="16"
                        Padding="5"
                        Margin="5 10" />
             <ComboBox Width="150" Padding="5" Margin="5 10"
+                       FontSize="16"
                       ItemsSource="{Binding StandartSocials, Mode=OneWay}"
                       SelectedValue="{Binding AppName}">
             </ComboBox>
@@ -37,16 +39,20 @@
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="App name:"
+                       FontSize="16"
                        Padding="5"
                        Margin="5 10" />
             <TextBox MinWidth="120"
+                       FontSize="16"
                        Padding="5"
                        Text="{Binding AppName}"
                        Margin="5 10" />
             <TextBlock Text="App id:"
+                       FontSize="16"
                        Padding="5"
                        Margin="5 10" />
             <TextBox MinWidth="120"
+                       FontSize="16"
                      Padding="5"
                        Text="{Binding AppId}"
                        Margin="5 10" />
@@ -63,7 +69,7 @@
                     Padding="5"
                     Margin="15 12"
                     FontFamily="Comic Sans MS"
-                    FontSize="15"
+                       FontSize="16"
                     Command="{Binding SaveCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
@@ -72,7 +78,7 @@
                     Padding="5"
                     Margin="15 12"
                     FontFamily="Comic Sans MS"
-                    FontSize="15"
+                       FontSize="16"
                     Command="{Binding CancelCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

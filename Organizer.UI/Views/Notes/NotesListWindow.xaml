@@ -47,7 +47,7 @@
                         Padding="5"
                         FontFamily="Comic Sans MS"
                         FontStyle="Italic"
-                        FontSize="14"
+                       FontSize="16"
                         Margin="10"
                         Command="{Binding SearchCommand}"
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
@@ -70,6 +70,7 @@
             <DataGrid Grid.Column="0" ItemsSource="{Binding Notes}"
                       SelectedItem="{Binding SelectedNote}"
                       Margin="10"
+                       FontSize="16"
                       CanUserResizeColumns="False"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
@@ -96,7 +97,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     FontWeight="ExtraLight"
                     Command="{Binding AddNoteCommand}"
@@ -104,7 +105,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     Command="{Binding EditNoteCommand}"
                     FontWeight="ExtraLight"
@@ -113,7 +114,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     Command="{Binding DeleteNoteCommand}"
                     FontWeight="ExtraLight"
@@ -122,7 +123,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     Command="{Binding ViewNoteCommand}"
                     FontStyle="Normal"
                     FontWeight="ExtraLight"
@@ -135,6 +136,7 @@
                     Width="200"
                     FontFamily="Comic Sans MS"
                     FontStyle="Italic"
+                       FontSize="16"
                     Margin="0 15"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
                     Command="{Binding BackCommand}" />

@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding Caption, FallbackValue='Very good dinner'}"
+            <TextBlock Text="{Binding Caption, Mode=OneWay}"
                        TextAlignment="Center"
                        Padding="7"
                        FontSize="20"
@@ -35,17 +35,17 @@
                        Text="Текст заметки:"
                        FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Height="200"
-                       Text="{Binding NoteText, FallbackValue='A very looooooooong story....'}"
+                       Text="{Binding NoteText, Mode=OneWay}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -58,7 +58,7 @@
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                     <TextBlock
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="Дата создания:"
                        TextAlignment="Justify"
@@ -66,25 +66,25 @@
 
                     <TextBlock
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
-                       Text="{Binding CreationDate, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       Text="{Binding CreationDate, Mode=OneWay}"
                        VerticalAlignment="Center" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
                     <TextBlock
                        Text="Дата изменения:"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                     <TextBlock
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
-                       Text="{Binding LastChangeDate, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       Text="{Binding LastChangeDate, Mode=OneWay}"
                        VerticalAlignment="Center" />
                 </StackPanel>
             </Grid>
@@ -95,8 +95,9 @@
                 FontFamily="Comic Sans MS"
                 Height="30"
                 Margin="120 10"
+                       FontSize="16"
                 Command="{Binding BackCommand}"
-                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to notes list'}" />
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
         </Grid>
     </Grid>
 </Window>

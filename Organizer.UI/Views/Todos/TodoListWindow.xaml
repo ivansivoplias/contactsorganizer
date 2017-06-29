@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="TodoListWindow" Height="504" Width="1078.2">
+        Title="TodoListWindow" Height="567.417" Width="1417.539">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -47,7 +47,7 @@
                         Padding="5"
                         FontFamily="Comic Sans MS"
                         FontStyle="Italic"
-                        FontSize="14"
+                       FontSize="16"
                         Margin="10"
                         Command="{Binding SearchCommand}"
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
@@ -73,6 +73,7 @@
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" ItemsSource="{Binding Todos}"
                       Margin="10"
+                       FontSize="16"
                       CanUserResizeColumns="False"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
@@ -115,7 +116,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     FontWeight="ExtraLight"
                     Command="{Binding AddTodoCommand}"
@@ -123,7 +124,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     Command="{Binding EditTodoCommand}"
                     FontWeight="ExtraLight"
@@ -132,7 +133,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     Command="{Binding DeleteTodoCommand}"
                     FontWeight="ExtraLight"
@@ -141,7 +142,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     Command="{Binding ViewTodoCommand}"
                     FontStyle="Normal"
                     FontWeight="ExtraLight"
@@ -155,6 +156,7 @@
                     FontFamily="Comic Sans MS"
                     FontStyle="Italic"
                     Margin="0 15"
+                       FontSize="16"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
                     Command="{Binding BackCommand}" />
         </StackPanel>

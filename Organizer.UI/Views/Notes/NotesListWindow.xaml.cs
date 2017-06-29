@@ -45,13 +45,13 @@ namespace Organizer.UI.Views
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                //var viewMeetingViewModel = new MeetingDetailsViewModel(_viewModel.SelectedNote);
+                var viewNoteViewModel = new NoteDetailsViewModel(_viewModel.SelectedNote);
 
-                //var viewMeetingWindow = new ViewMeetingWindow(viewMeetingViewModel);
+                var viewNoteWindow = new ViewNoteWindow(viewNoteViewModel);
 
-                //viewMeetingWindow.Show();
+                viewNoteWindow.Show();
 
-                //this.Close();
+                this.Close();
             });
         }
 

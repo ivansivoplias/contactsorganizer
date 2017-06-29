@@ -33,14 +33,14 @@
                        Text="Описание:"
                        FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Height="100"
                        Text="{Binding Description, Mode=OneWay, FallbackValue='Просто мега длинное описание'}"
@@ -55,7 +55,7 @@
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="Дата митинга:"
                        TextAlignment="Justify"
@@ -64,7 +64,7 @@
                 <TextBlock
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="{Binding MeetingDate, Mode=OneWay, FallbackValue='01.02.2222 18:00.00.0000'}"
                        VerticalAlignment="Center" />
@@ -79,7 +79,7 @@
                        Grid.Column="0"
                        Text="Дата оповещения:"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -87,7 +87,7 @@
                 <TextBlock
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="{Binding NotificationDate, Mode=OneWay, FallbackValue='01.02.2222 18:00.00.0000'}"
                        VerticalAlignment="Center" />
@@ -103,7 +103,7 @@
                        Grid.Column="0"
                        Text="Посылать нотификации?"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -114,7 +114,7 @@
                        IsChecked="{Binding SendNotifications, Mode=OneWay, FallbackValue=True}"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        VerticalAlignment="Center" />
             </Grid>
@@ -125,6 +125,7 @@
                 FontFamily="Comic Sans MS"
                 Height="30"
                 Margin="120 10"
+                       FontSize="16"
                 Command="{Binding BackCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back'}" />
         </Grid>

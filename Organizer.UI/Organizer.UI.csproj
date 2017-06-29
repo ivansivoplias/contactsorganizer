@@ -96,6 +96,7 @@
     <Compile Include="ViewModels\Contacts\EditSocialViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\Meetings\MeetingsListViewModel.cs" />
+    <Compile Include="ViewModels\Notes\NoteDetailsViewModel.cs" />
     <Compile Include="ViewModels\Notes\NotesListViewModel.cs" />
     <Compile Include="ViewModels\StartupViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />

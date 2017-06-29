@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="EditContactWindow" Height="598.569" Width="647.458"
+        Title="EditContactWindow" Height="692.384" Width="767.7"
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
@@ -34,7 +34,7 @@
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Text="Основной телефон:"
                        Padding="5"
                        TextAlignment="Justify"
@@ -43,8 +43,8 @@
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
-                       Text="{Binding PrimaryPhone, FallbackValue='+38565656548'}"
+                       FontSize="16"
+                       Text="{Binding PrimaryPhone}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -59,7 +59,7 @@
                        Grid.Column="0"
                        Text="Имя:"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -67,8 +67,8 @@
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
-                       Text="{Binding FirstName, FallbackValue='John'}"
+                       FontSize="16"
+                       Text="{Binding FirstName}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -81,7 +81,7 @@
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="По-отчеству:"
                        TextAlignment="Justify"
@@ -89,8 +89,8 @@
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
-                       Text="{Binding MiddleName, FallbackValue='Phenimor'}"
+                       FontSize="16"
+                       Text="{Binding MiddleName}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -105,14 +105,14 @@
                        Text="Фамилия:"
                        FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
-                       Text="{Binding LastName, FallbackValue='Cooper'}"
+                       FontSize="16"
+                       Text="{Binding LastName}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -127,14 +127,14 @@
                        Text="Никнейм:"
                        Padding="5"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
-                       Text="{Binding NickName, FallbackValue='JohnCooper'}"
+                       FontSize="16"
+                       Text="{Binding NickName}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -149,14 +149,14 @@
                        Text="Е-мейл:"
                        Padding="5"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
-                       Text="{Binding Email, FallbackValue='john.cooper@mail.com'}"
+                       FontSize="16"
+                       Text="{Binding Email}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -169,6 +169,7 @@
                 <ColumnDefinition Width="0.2*" />
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" ItemsSource="{Binding Socials, Mode=OneWay}"
+                       FontSize="16"
                       SelectedItem="{Binding SelectedSocial}"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
@@ -184,19 +185,23 @@
             </DataGrid>
 
             <StackPanel Grid.Column="1"
-                        Orientation="Vertical">
+                        Orientation="Vertical"
+                        VerticalAlignment="Center">
                 <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add social'}"
                         Command="{Binding AddSocialCommand}"
+                       FontSize="16"
                         Margin="10" />
 
                 <Button
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit social'}"
                         Command="{Binding EditSocialCommand}"
+                       FontSize="16"
                         Margin="10" />
 
                 <Button
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Delete social'}"
                         Command="{Binding RemoveSocialCommand}"
+                       FontSize="16"
                         Margin="10" />
             </StackPanel>
         </Grid>
@@ -209,6 +214,7 @@
 
             <Button
                 FontFamily="Comic Sans MS"
+                       FontSize="16"
                 Height="30"
                 Margin="30 10"
                 Command="{Binding SaveCommand}"
@@ -216,6 +222,7 @@
 
             <Button Grid.Column="1"
                 FontFamily="Comic Sans MS"
+                       FontSize="16"
                 Height="30"
                 Margin="30 10"
                 Command="{Binding CancelCommand}"

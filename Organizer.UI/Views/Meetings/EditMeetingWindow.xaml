@@ -33,7 +33,7 @@
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="Название митинга:"
                        TextAlignment="Justify"
@@ -42,7 +42,7 @@
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="{Binding MeetingName}"
                        VerticalAlignment="Center" />
@@ -58,14 +58,14 @@
                        Text="Описание:"
                        FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Height="200"
                        Text="{Binding Description}"
@@ -80,7 +80,7 @@
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="Дата митинга:"
                        TextAlignment="Justify"
@@ -89,7 +89,7 @@
                 <DatePicker
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        SelectedDate="{Binding MeetingDate}"
                        VerticalAlignment="Center" />
@@ -104,7 +104,7 @@
                        Grid.Column="0"
                        Text="Дата оповещения:"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -112,7 +112,7 @@
                 <DatePicker
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        SelectedDate="{Binding NotificationDate}"
                        VerticalAlignment="Center" />
@@ -128,7 +128,7 @@
                        Grid.Column="0"
                        Text="Посылать нотификации?"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -137,7 +137,7 @@
                        IsThreeState="False"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        IsChecked="{Binding SendNotifications}"
                        VerticalAlignment="Center" />
@@ -154,6 +154,7 @@
                 FontFamily="Comic Sans MS"
                 Height="30"
                 Margin="30 10"
+                FontSize="16"
                 Command="{Binding SaveCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
@@ -161,6 +162,7 @@
                 FontFamily="Comic Sans MS"
                 Height="30"
                 Margin="30 10"
+                FontSize="16"
                 Command="{Binding CancelCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

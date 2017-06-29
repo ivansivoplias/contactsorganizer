@@ -57,6 +57,7 @@ namespace Organizer.UI.ViewModels
         {
             try
             {
+                _note.LastChangeDate = DateTime.Now;
                 _noteService.EditNote(_note);
                 SaveMessage.Invoke(null, EventArgs.Empty);
             }

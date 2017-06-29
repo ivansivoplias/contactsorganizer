@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="MeetingsListWindow" Height="460" Width="814">
+        Title="MeetingsListWindow" Height="529" Width="1165">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -47,7 +47,7 @@
                         Padding="5"
                         FontFamily="Comic Sans MS"
                         FontStyle="Italic"
-                        FontSize="14"
+                       FontSize="16"
                         Margin="10"
                         Command="{Binding SearchCommand}"
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
@@ -68,6 +68,7 @@
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" ItemsSource="{Binding Meetings}"
                       SelectedItem="{Binding SelectedMeeting}"
+                       FontSize="16"
                       Margin="10"
                       CanUserResizeColumns="False"
                       AutoGenerateColumns="False">
@@ -99,7 +100,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     FontWeight="ExtraLight"
                     Command="{Binding AddMeetingCommand}"
@@ -107,7 +108,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     Command="{Binding EditMeetingCommand}"
                     FontWeight="ExtraLight"
@@ -116,7 +117,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     FontStyle="Normal"
                     Command="{Binding DeleteMeetingCommand}"
                     FontWeight="ExtraLight"
@@ -125,7 +126,7 @@
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
-                    FontSize="14"
+                       FontSize="16"
                     Command="{Binding ViewMeetingCommand}"
                     FontStyle="Normal"
                     FontWeight="ExtraLight"
@@ -137,6 +138,7 @@
             <Button Height="40"
                     Width="200"
                     FontFamily="Comic Sans MS"
+                       FontSize="16"
                     FontStyle="Italic"
                     Margin="0 15"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"

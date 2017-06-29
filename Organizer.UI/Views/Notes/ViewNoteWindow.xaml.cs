@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Organizer.UI.ViewModels;
+using System;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Organizer.UI.Views
 {
@@ -19,9 +10,37 @@ namespace Organizer.UI.Views
     /// </summary>
     public partial class ViewNoteWindow : Window
     {
-        public ViewNoteWindow()
+        private NoteDetailsViewModel _viewModel;
+
+        public ViewNoteWindow(NoteDetailsViewModel viewModel)
         {
+            _viewModel = viewModel;
+            _viewModel.BackMessage += BackMessageHandler;
+
+            this.DataContext = _viewModel;
+            this.Closing += OnClosing;
+
+            _viewModel.RegisterCommandsForWindow(this);
             InitializeComponent();
+        }
+
+        private void BackMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var viewModel = new NotesListViewModel();
+                var notesList = new NotesListWindow(viewModel);
+                notesList.Show();
+                this.Close();
+            });
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            this.Closing -= OnClosing;
+
+            _viewModel.BackMessage -= BackMessageHandler;
+            _viewModel.UnregisterCommandsForWindow(this);
         }
     }
 }

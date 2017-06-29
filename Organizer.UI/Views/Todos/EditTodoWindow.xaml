@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="EditTodoWindow" Height="541.576" Width="616.955"
+        Title="EditTodoWindow" Height="604.939" Width="744.877"
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
@@ -34,7 +34,7 @@
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="Название задания:"
                        TextAlignment="Justify"
@@ -43,7 +43,7 @@
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="{Binding Caption}"
                        VerticalAlignment="Center" />
@@ -59,14 +59,14 @@
                        Text="Описание задания:"
                        FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Height="200"
                        Text="{Binding NoteText}"
@@ -83,14 +83,14 @@
                        Text="Состояние:"
                        FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <ComboBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        ItemsSource="{Binding States}"
                        SelectedValue="{Binding State}"
@@ -108,14 +108,14 @@
                        Text="Приоритет:"
                        FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <ComboBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        ItemsSource="{Binding Priorities}"
                        SelectedValue="{Binding Priority}"
@@ -131,7 +131,7 @@
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="Дата начала:"
                        TextAlignment="Justify"
@@ -140,7 +140,7 @@
                 <DatePicker
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        SelectedDate="{Binding StartDate}"
                        VerticalAlignment="Center" />
@@ -155,7 +155,7 @@
                        Grid.Column="0"
                        Text="Дата завершения:"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -163,7 +163,7 @@
                 <DatePicker
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        SelectedDate="{Binding EndDate}"
                        VerticalAlignment="Center" />
@@ -180,6 +180,7 @@
                 FontFamily="Comic Sans MS"
                 Height="30"
                 Margin="30 10"
+                       FontSize="16"
                 Command="{Binding SaveCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
@@ -187,6 +188,7 @@
                 FontFamily="Comic Sans MS"
                 Height="30"
                 Margin="30 10"
+                       FontSize="16"
                 Command="{Binding CancelCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

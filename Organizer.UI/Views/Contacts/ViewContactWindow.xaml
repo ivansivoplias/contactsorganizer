@@ -33,7 +33,7 @@
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Text="Основной телефон:"
                        Padding="5"
                        TextAlignment="Justify"
@@ -42,7 +42,7 @@
                 <TextBlock
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Text="{Binding PrimaryPhone}"
                        Padding="5"
                        TextAlignment="Justify"
@@ -58,7 +58,7 @@
                        Grid.Column="0"
                        Text="Имя:"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -66,7 +66,7 @@
                 <TextBlock
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Text="{Binding FirstName}"
                        Padding="5"
                        TextAlignment="Justify"
@@ -80,7 +80,7 @@
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Padding="5"
                        Text="По-отчеству:"
                        TextAlignment="Justify"
@@ -88,7 +88,7 @@
                 <TextBlock
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Text="{Binding MiddleName}"
                        Padding="5"
                        TextAlignment="Justify"
@@ -104,13 +104,13 @@
                        Text="Фамилия:"
                        FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
                 <TextBlock
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Text="{Binding LastName}"
                        Padding="5"
                        TextAlignment="Justify"
@@ -126,13 +126,13 @@
                        Text="Никнейм:"
                        Padding="5"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
                 <TextBlock
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Text="{Binding NickName}"
                        Padding="5"
                        TextAlignment="Justify"
@@ -148,13 +148,13 @@
                        Text="Е-мейл:"
                        Padding="5"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
                 <TextBlock
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="12"
+                       FontSize="16"
                        Text="{Binding Email}"
                        Padding="5"
                        TextAlignment="Justify"
@@ -165,6 +165,7 @@
         <Grid Grid.Row="2">
             <DataGrid ItemsSource="{Binding Socials}"
                       AutoGenerateColumns="False"
+                       FontSize="16"
                       Margin="10">
                 <DataGrid.Columns>
                     <DataGridTextColumn
@@ -184,6 +185,7 @@
                 FontFamily="Comic Sans MS"
                 Height="30"
                 Margin="120 10"
+                FontSize="16"
                 Command="{Binding BackCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
         </Grid>
