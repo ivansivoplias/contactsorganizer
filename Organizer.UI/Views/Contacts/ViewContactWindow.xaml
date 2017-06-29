@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock Text="{Binding ViewContactHeader, FallbackValue='Contact data'}"
+            <TextBlock Text="{Binding ViewContactHeader}"
                        TextAlignment="Center"
                        Padding="7"
                        FontSize="20"
@@ -43,7 +43,7 @@
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
-                       Text="{Binding PrimaryPhone, FallbackValue='+38565656548'}"
+                       Text="{Binding PrimaryPhone}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -67,7 +67,7 @@
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
-                       Text="{Binding FirstName, FallbackValue='John'}"
+                       Text="{Binding FirstName}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -89,7 +89,7 @@
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
-                       Text="{Binding MiddleName, FallbackValue='Phenimor'}"
+                       Text="{Binding MiddleName}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -111,7 +111,7 @@
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
-                       Text="{Binding LastName, FallbackValue='Cooper'}"
+                       Text="{Binding LastName}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -133,7 +133,7 @@
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
-                       Text="{Binding NickName, FallbackValue='JohnCooper'}"
+                       Text="{Binding NickName}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -155,7 +155,7 @@
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="12"
-                       Text="{Binding Email, FallbackValue='john.cooper@mail.com'}"
+                       Text="{Binding Email}"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -185,7 +185,7 @@
                 Height="30"
                 Margin="120 10"
                 Command="{Binding BackCommand}"
-                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to contact list'}" />
+                Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
         </Grid>
     </Grid>
 </Window>

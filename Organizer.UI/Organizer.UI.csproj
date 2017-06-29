@@ -84,6 +84,7 @@
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
     <Compile Include="ViewModels\AddContactViewModel.cs" />
     <Compile Include="ViewModels\AddSocialViewModel.cs" />
+    <Compile Include="ViewModels\ContactDetailsViewModel.cs" />
     <Compile Include="ViewModels\ContactsListViewModel.cs" />
     <Compile Include="ViewModels\EditContactViewModel.cs" />
     <Compile Include="ViewModels\EditSocialViewModel.cs" />

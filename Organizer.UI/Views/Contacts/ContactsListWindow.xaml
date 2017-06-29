@@ -92,7 +92,7 @@
                     <DataGridTextColumn
                         Header="Фамилия"
                         Width="*"
-                        Binding="{Binding Path=PersonalInfo.LastName}" />
+                        Binding="{Binding Path=PersonalInfo.Lastname}" />
                     <DataGridTextColumn
                         Header="Никнейм"
                         Width="*"
