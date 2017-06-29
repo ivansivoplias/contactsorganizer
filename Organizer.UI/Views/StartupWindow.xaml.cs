@@ -45,7 +45,8 @@ namespace Organizer.UI.Views
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var notesList = new NotesListWindow();
+                var noteListViewModel = new NotesListViewModel();
+                var notesList = new NotesListWindow(noteListViewModel);
                 notesList.Show();
                 this.Close();
             });

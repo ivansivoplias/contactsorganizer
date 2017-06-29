@@ -17,6 +17,9 @@ namespace Organizer.BL.MapperConfiguration
             CreateMap<Meeting, MeetingDto>()
                 .ReverseMap();
 
+            CreateMap<Note, NoteDto>()
+                .ReverseMap();
+
             CreateMap<Contact, ContactDto>()
                 .ForMember(x => x.PersonalInfo, opt => opt.Ignore())
                 .ForMember(x => x.Socials, opt => opt.Ignore());

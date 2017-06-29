@@ -29,7 +29,7 @@ namespace Organizer.UI.ViewModels
         {
             _meeting = meeting;
 
-            _backCommand = Command.CreateCommand("Back", "BackCommand", GetType(), Back);
+            _backCommand = Command.CreateCommand("Back to meetings list", "BackCommand", GetType(), Back);
         }
 
         private void Back()

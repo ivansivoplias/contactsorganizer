@@ -83,7 +83,9 @@
     <Compile Include="Helpers\SocialsHelper.cs" />
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
     <Compile Include="ValidationRules\MeetingDateValidationRule.cs" />
-    <Compile Include="ViewModels\MeetingDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Notes\AddNoteViewModel.cs" />
+    <Compile Include="ViewModels\Notes\EditNoteViewModel.cs" />
+    <Compile Include="ViewModels\Meetings\MeetingDetailsViewModel.cs" />
     <Compile Include="ViewModels\Meetings\EditMeetingViewModel.cs" />
     <Compile Include="ViewModels\Meetings\AddMeetingViewModel.cs" />
     <Compile Include="ViewModels\Contacts\AddContactViewModel.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="ViewModels\Contacts\EditSocialViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\Meetings\MeetingsListViewModel.cs" />
+    <Compile Include="ViewModels\Notes\NotesListViewModel.cs" />
     <Compile Include="ViewModels\StartupViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="App.xaml.cs">
@@ -302,6 +305,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Convertors\" />
+    <Folder Include="ViewModels\Todos\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

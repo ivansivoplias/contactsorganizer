@@ -68,6 +68,7 @@
                 <ColumnDefinition Width="0.2*" />
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" ItemsSource="{Binding Notes}"
+                      SelectedItem="{Binding SelectedNote}"
                       Margin="10"
                       CanUserResizeColumns="False"
                       AutoGenerateColumns="False">
@@ -99,7 +100,7 @@
                     FontStyle="Normal"
                     FontWeight="ExtraLight"
                     Command="{Binding AddNoteCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add note'}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
                 <Button
                 Margin="10 5" Padding="3"
                     FontFamily="Comic Sans MS"
@@ -107,7 +108,7 @@
                     FontStyle="Normal"
                     Command="{Binding EditNoteCommand}"
                     FontWeight="ExtraLight"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit note'}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
 
                 <Button
                 Margin="10 5" Padding="3"
@@ -116,7 +117,7 @@
                     FontStyle="Normal"
                     Command="{Binding DeleteNoteCommand}"
                     FontWeight="ExtraLight"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Remove note'}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
 
                 <Button
                 Margin="10 5" Padding="3"
@@ -125,7 +126,7 @@
                     Command="{Binding ViewNoteCommand}"
                     FontStyle="Normal"
                     FontWeight="ExtraLight"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View details'}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
             </StackPanel>
         </Grid>
 

@@ -66,14 +66,14 @@ namespace Organizer.UI.ViewModels
 
             _meetings = new ObservableCollection<MeetingDto>(meetingsList);
 
-            _addMeetingCommand = Command.CreateCommand("Add contact", "AddContact", GetType(), AddMeeting);
-            _deleteMeetingCommand = Command.CreateCommand("Delete contact", "DeleteContact", GetType(),
+            _addMeetingCommand = Command.CreateCommand("Add meeting", "AddMeeting", GetType(), AddMeeting);
+            _deleteMeetingCommand = Command.CreateCommand("Delete meeting", "DeleteMeeting", GetType(),
                 DeleteMeeting, () => _selected != null);
 
-            _editMeetingCommand = Command.CreateCommand("Edit contact", "EditContact", GetType(),
+            _editMeetingCommand = Command.CreateCommand("Edit meeting", "EditMeeting", GetType(),
                 EditMeeting, () => _selected != null);
 
-            _viewMeetingCommand = Command.CreateCommand("View contact details", "ViewContact", GetType(),
+            _viewMeetingCommand = Command.CreateCommand("View meeting details", "ViewMeeting", GetType(),
                 ViewMeetingDetails, () => _selected != null);
 
             _fetchNextPageCommand = Command.CreateCommand("Next page", "FetchNextPage", GetType(), FetchNextPage);
@@ -87,8 +87,8 @@ namespace Organizer.UI.ViewModels
 
         private void DeleteMeeting()
         {
-            var res = MessageBox.Show("Are you sure that you want to delete this contact?",
-                "Delete contact confirmation", MessageBoxButton.YesNo);
+            var res = MessageBox.Show("Are you sure that you want to delete this meeting?",
+                "Delete meeting confirmation", MessageBoxButton.YesNo);
 
             if (res == MessageBoxResult.Yes)
             {
@@ -96,7 +96,8 @@ namespace Organizer.UI.ViewModels
                 {
                     _meetingService.RemoveMeeting(_selected);
 
-                    var meetingsList = _meetingService.GetUserMeetings(App.CurrentUser, _numberOnPage, _pageNumber).ToList();
+                    var meetingsList = _meetingService
+                        .GetUserMeetings(App.CurrentUser, _numberOnPage, _pageNumber).ToList();
 
                     _meetings.Clear();
 

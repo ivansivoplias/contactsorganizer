@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Organizer.UI.ViewModels;
+using System;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Organizer.UI.Views
 {
@@ -19,9 +10,88 @@ namespace Organizer.UI.Views
     /// </summary>
     public partial class NotesListWindow : Window
     {
-        public NotesListWindow()
+        private NotesListViewModel _viewModel;
+
+        public NotesListWindow(NotesListViewModel viewModel)
         {
+            _viewModel = viewModel;
+            _viewModel.AddNoteMessage += AddNoteMessageHandler;
+            _viewModel.BackMessage += BackMessageHandler;
+            _viewModel.EditNoteMessage += EditNoteMessageHandler;
+            _viewModel.ViewNoteMessage += ViewNoteMessageHandler;
+
+            this.DataContext = _viewModel;
+            this.Closing += OnClosing;
+
+            _viewModel.RegisterCommandsForWindow(this);
             InitializeComponent();
+        }
+
+        private void EditNoteMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var editNoteViewModel = new EditNoteViewModel(_viewModel.SelectedNote);
+
+                var editNoteWindow = new EditNoteWindow(editNoteViewModel);
+
+                editNoteWindow.Show();
+
+                this.Close();
+            });
+        }
+
+        private void ViewNoteMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                //var viewMeetingViewModel = new MeetingDetailsViewModel(_viewModel.SelectedNote);
+
+                //var viewMeetingWindow = new ViewMeetingWindow(viewMeetingViewModel);
+
+                //viewMeetingWindow.Show();
+
+                //this.Close();
+            });
+        }
+
+        private void BackMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var startupViewModel = new StartupViewModel();
+
+                var startupWindow = new StartupWindow(startupViewModel);
+
+                startupWindow.Show();
+
+                this.Close();
+            });
+        }
+
+        private void AddNoteMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var addNoteViewModel = new AddNoteViewModel();
+
+                var addNoteWindow = new AddNoteWindow(addNoteViewModel);
+
+                addNoteWindow.Show();
+
+                this.Close();
+            });
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            this.Closing -= OnClosing;
+
+            _viewModel.BackMessage -= BackMessageHandler;
+            _viewModel.AddNoteMessage -= AddNoteMessageHandler;
+            _viewModel.EditNoteMessage -= EditNoteMessageHandler;
+            _viewModel.ViewNoteMessage -= ViewNoteMessageHandler;
+            _viewModel.UnregisterCommandsForWindow(this);
         }
     }
 }
