@@ -78,7 +78,7 @@
 
         public static string GetUserContactsQuery()
         {
-            return $"SELECT Contacts.ContactId AS ContactId, PrimaryPhone, UserId" +
+            return $"SELECT {ContactTable}.ContactId AS ContactId, PrimaryPhone, UserId" +
                 $" FROM {ContactTable} WHERE UserId = @UserId";
         }
 

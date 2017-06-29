@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         xmlns:convertor="clr-namespace:Organizer.UI.Convertors"
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
@@ -43,14 +44,42 @@
                        VerticalAlignment="Center"
                        Margin="10" />
 
-            <TextBox Grid.Column="1"
+            <TextBox x:Name="searchBox" Grid.Column="1"
                      Padding="3"
                      Height="30"
                      Margin="5 10">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Validation.ErrorTemplate">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <DockPanel LastChildFill="True">
+                                        <TextBlock DockPanel.Dock="Right" Foreground="Red" FontSize="14" FontWeight="Bold"
+                                                   Padding="4"
+                                                       Text="*" />
+                                        <Border BorderBrush="Green" BorderThickness="1">
+                                            <AdornedElementPlaceholder Name="adornerPlaceholder" />
+                                        </Border>
+                                    </DockPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter Property="Foreground" Value="Red" />
+                                <Setter Property="ToolTip"
+                         Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
                 <TextBox.Text>
-                    <Binding Path="SearchValue" UpdateSourceTrigger="LostFocus">
+                    <Binding Path="SearchValue"
+                             NotifyOnValidationError="True"
+                             UpdateSourceTrigger="LostFocus">
                         <Binding.ValidationRules>
-                            <valid:TodoSearchValidationRule>
+                            <valid:TodoSearchValidationRule
+                                ValidatesOnTargetUpdated="True">
                                 <valid:TodoSearchValidationRule.Wrapper>
                                     <helper:Wrapper WrappedData="{Binding Data.SearchType, Source={StaticResource proxy}}" />
                                 </valid:TodoSearchValidationRule.Wrapper>
@@ -113,6 +142,11 @@
                        FontSize="16"
                       CanUserResizeColumns="False"
                       AutoGenerateColumns="False">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="ScrollViewer.ScrollChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=FetchNextPageCommand, Mode=OneWay}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Caption}"
                                         Header="Название задания"

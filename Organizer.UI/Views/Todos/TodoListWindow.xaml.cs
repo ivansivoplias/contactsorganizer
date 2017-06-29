@@ -2,6 +2,8 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace Organizer.UI.Views
 {
@@ -16,6 +18,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddTodoMessage += AddTodoMessageHandler;
+            _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
             _viewModel.BackMessage += BackMessageHandler;
             _viewModel.EditTodoMessage += EditTodoMessageHandler;
             _viewModel.ViewTodoMessage += ViewTodoMessageHandler;
@@ -83,11 +86,17 @@ namespace Organizer.UI.Views
             });
         }
 
+        private void SearchTypeChangedHandler(object sender, EventArgs e)
+        {
+            searchBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+        }
+
         private void OnClosing(object sender, CancelEventArgs e)
         {
             this.Closing -= OnClosing;
 
             _viewModel.BackMessage -= BackMessageHandler;
+            _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
             _viewModel.AddTodoMessage -= AddTodoMessageHandler;
             _viewModel.EditTodoMessage -= EditTodoMessageHandler;
             _viewModel.ViewTodoMessage -= ViewTodoMessageHandler;

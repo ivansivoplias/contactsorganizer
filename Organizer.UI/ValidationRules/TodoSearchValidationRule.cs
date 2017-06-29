@@ -18,7 +18,7 @@ namespace Organizer.UI.ValidationRules
 
             if (Enum.TryParse(Wrapper.WrappedData.ToString(), out wrappedEnum))
             {
-                if (stringValue == null && wrappedEnum != TodoSearchType.Default)
+                if (string.IsNullOrEmpty(stringValue) && wrappedEnum != TodoSearchType.Default)
                 {
                     return new ValidationResult(false, "Search value is empty.");
                 }

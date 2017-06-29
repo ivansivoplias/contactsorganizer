@@ -176,13 +176,7 @@ namespace Organizer.DAL.Repository
                     cmd.Transaction = _unitOfWork.Transaction;
                 }
 
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        count = reader.GetInt32(0);
-                    }
-                }
+                count = (int)cmd.ExecuteScalar();
             }
             return count;
         }
@@ -192,20 +186,16 @@ namespace Organizer.DAL.Repository
             var count = -1;
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, filterSql, parameters);
+                var filteredSql = BaseQueries.GetFilteredCountQuery(filterSql);
+
+                QueryHelper.SetupCommand(cmd, filteredSql, parameters);
 
                 if (_unitOfWork.Transaction != null)
                 {
                     cmd.Transaction = _unitOfWork.Transaction;
                 }
 
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        count = reader.GetInt32(0);
-                    }
-                }
+                count = (int)cmd.ExecuteScalar();
             }
             return count;
         }

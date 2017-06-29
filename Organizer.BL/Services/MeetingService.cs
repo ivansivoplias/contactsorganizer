@@ -2,11 +2,15 @@
 using AutoMapper;
 using Organizer.Common.DTO;
 using Organizer.Common.Entities;
+using Organizer.Common.Helpers;
+using Organizer.Common.Pagination;
+using Organizer.DAL.Helpers;
 using Organizer.DAL.Repository;
 using Organizer.Infrastructure.Database;
 using Organizer.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Organizer.BL.Services
 {
@@ -58,7 +62,12 @@ namespace Organizer.BL.Services
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
 
-                var meetings = meetingRepo.FilterByMeetingDate(user.Id, meetingDate, pageSize, page);
+                var filteredCount = meetingRepo.FilteredCount(MeetingQueries.GetFilterByMeetingDateQuery(),
+                    MeetingParams.GetFilterByMeetingDateParams(user.Id, meetingDate));
+
+                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                var meetings = meetingRepo.FilterByMeetingDate(user.Id, meetingDate, temp.PageSize, temp.PageNumber);
                 result = Mapper.Map<ICollection<MeetingDto>>(meetings);
             }
 
@@ -74,7 +83,12 @@ namespace Organizer.BL.Services
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
 
-                var meetings = meetingRepo.FilterByMeetingNameLike(user.Id, meetingName, pageSize, page);
+                var filteredCount = meetingRepo.FilteredCount(MeetingQueries.GetFilterByMeetingName(),
+                    MeetingParams.GetFilterByMeetingNameParams(user.Id, meetingName));
+
+                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                var meetings = meetingRepo.FilterByMeetingNameLike(user.Id, meetingName, temp.PageSize, temp.PageNumber);
                 result = Mapper.Map<ICollection<MeetingDto>>(meetings);
             }
 
@@ -122,7 +136,12 @@ namespace Organizer.BL.Services
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
 
-                var meetings = meetingRepo.GetUserMeetings(user.Id, pageSize, page);
+                var filteredCount = meetingRepo.FilteredCount(MeetingQueries.GetUserMeetingsQuery(),
+                    MeetingParams.GetGetUserMeetingsParams(user.Id));
+
+                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                var meetings = meetingRepo.GetUserMeetings(user.Id, temp.PageSize, temp.PageNumber);
                 result = Mapper.Map<ICollection<MeetingDto>>(meetings);
             }
 

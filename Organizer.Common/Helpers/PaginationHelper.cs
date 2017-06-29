@@ -15,12 +15,12 @@ namespace Organizer.Common.Helpers
 
             int pageNumber = page.PageNumber;
 
-            if (pageSize > totalCount)
+            if (pageSize > totalCount && totalCount > 0)
             {
                 pageSize = totalCount;
             }
 
-            if (pageSize * (pageNumber - 1) > totalCount)
+            if (pageSize * (pageNumber - 1) > totalCount && totalCount > 0)
             {
                 pageNumber = (int)Math.Ceiling((double)totalCount / pageSize);
             }

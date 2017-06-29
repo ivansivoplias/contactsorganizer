@@ -41,6 +41,7 @@ namespace Organizer.UI.ViewModels
                     return;
                 _currentSearchType = value;
                 OnPropertyChanged(nameof(SearchType));
+                SearchTypeChanged.Invoke(null, EventArgs.Empty);
             }
         }
 
@@ -55,6 +56,8 @@ namespace Organizer.UI.ViewModels
         }
 
         public event EventHandler AddTodoMessage = delegate { };
+
+        public event EventHandler SearchTypeChanged = delegate { };
 
         public event EventHandler BackMessage = delegate { };
 
@@ -163,6 +166,14 @@ namespace Organizer.UI.ViewModels
 
         private void FetchNextPage()
         {
+            _pageNumber++;
+            var notes = SearchNotes();
+            notes = _todoNotes.Union(notes).ToList();
+
+            _todoNotes.Clear();
+            _todoNotes = null;
+
+            _todoNotes = new ObservableCollection<NoteDto>(notes);
         }
 
         private List<NoteDto> SearchNotes()

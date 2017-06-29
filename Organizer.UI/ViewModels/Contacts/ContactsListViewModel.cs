@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Enums.SearchTypes;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
@@ -16,6 +17,8 @@ namespace Organizer.UI.ViewModels
         private int _pageNumber;
         private const int _numberOnPage = 10;
         private IContactService _contactService;
+        private ContactSearchType _currentSearchType;
+        private string _searchValue;
 
         private ObservableCollection<ContactDto> _contacts;
         private ContactDto _selected;
@@ -27,6 +30,8 @@ namespace Organizer.UI.ViewModels
         private Command _fetchNextPageCommand;
 
         public event EventHandler AddContactMessage = delegate { };
+
+        public event EventHandler SearchTypeChanged = delegate { };
 
         public event EventHandler BackMessage = delegate { };
 
@@ -42,6 +47,29 @@ namespace Organizer.UI.ViewModels
         public ICommand ViewContactCommand => _viewContactCommand;
         public ICommand BackCommand => _backCommand;
         public ICommand FetchNextPageCommand => _fetchNextPageCommand;
+
+        public ContactSearchType SearchType
+        {
+            get { return _currentSearchType; }
+            set
+            {
+                if (_currentSearchType == value)
+                    return;
+                _currentSearchType = value;
+                OnPropertyChanged(nameof(SearchType));
+                SearchTypeChanged.Invoke(null, EventArgs.Empty);
+            }
+        }
+
+        public string SearchValue
+        {
+            get { return _searchValue; }
+            set
+            {
+                _searchValue = value;
+                OnPropertyChanged(nameof(SearchValue));
+            }
+        }
 
         public ICollection<ContactDto> Contacts => _contacts;
 
