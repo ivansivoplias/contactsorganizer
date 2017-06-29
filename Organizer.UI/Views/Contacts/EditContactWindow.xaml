@@ -196,7 +196,7 @@
 
                 <Button
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Delete social'}"
-                        Command="{Binding DeleteSocialCommand}"
+                        Command="{Binding RemoveSocialCommand}"
                         Margin="10" />
             </StackPanel>
         </Grid>

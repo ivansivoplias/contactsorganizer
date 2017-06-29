@@ -61,7 +61,7 @@ namespace Organizer.UI.ViewModels
             _standartSocials = new ObservableCollection<string>(predefined);
 
             _submitCommand = Command.CreateCommand("Submit", "SaveCommand", GetType(), Submit);
-            _submitCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
+            _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
         private void Submit()

@@ -100,6 +100,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFilterByMeetingDateParams(userId, meetingDate));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -122,6 +127,11 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFilterByMeetingNameParams(userId, meetingName));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -176,6 +186,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, MeetingParams.GetGetUserMeetingsParams(userId));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -193,6 +208,11 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@MeetingName", meetingName));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {

@@ -7,6 +7,7 @@ using Organizer.Infrastructure.Database;
 using Organizer.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Organizer.BL.Services
 {
@@ -95,9 +96,11 @@ namespace Organizer.BL.Services
         {
             var socialRepo = new SocialInfoRepository(unitOfWork);
 
+            var dbSocials = socialRepo.GetContactSocials(contactId);
+
             foreach (var socialInfo in socials)
             {
-                var dbSocial = socialRepo.GetById(socialInfo.Id);
+                var dbSocial = dbSocials.FirstOrDefault(x => x.Id == (socialInfo.Id));
                 var mapped = Mapper.Map<SocialInfo>(socialInfo);
                 if (dbSocial != null)
                 {
@@ -108,6 +111,12 @@ namespace Organizer.BL.Services
                     mapped.ContactId = contactId;
                     socialRepo.Insert(mapped, unitOfWork.Transaction);
                 }
+            }
+
+            var deleted = dbSocials.Where(x => socials.FirstOrDefault(y => y.Id == x.Id) == null);
+            foreach (var del in deleted)
+            {
+                socialRepo.Delete(del.Id, unitOfWork.Transaction);
             }
         }
 

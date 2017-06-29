@@ -16,12 +16,27 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddContactMessage += AddContactMessageHandler;
+            _viewModel.EditContactMessage += EditContactMessageHandler;
 
             this.DataContext = _viewModel;
             this.Closing += OnClosing;
 
             _viewModel.RegisterCommandsForWindow(this);
             InitializeComponent();
+        }
+
+        private void EditContactMessageHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var editContactViewModel = new EditContactViewModel(_viewModel.SelectedContact);
+
+                var addContactWindow = new EditContactWindow(editContactViewModel);
+
+                addContactWindow.Show();
+
+                this.Close();
+            });
         }
 
         private void AddContactMessageHandler(object sender, EventArgs e)

@@ -134,35 +134,6 @@ namespace Organizer.DAL.Repository
             return notes;
         }
 
-        private object GetValueOrDbNull(object value)
-        {
-            return value ?? DBNull.Value;
-        }
-
-        private void TryParseEnum<TEnum>(SqlDataReader reader, string columnName, Action<TEnum> setter) where TEnum : struct, IComparable, IFormattable, IConvertible
-        {
-            var i = reader.GetOrdinal(columnName);
-
-            TEnum result;
-
-            if (!reader.IsDBNull(i) && Enum.TryParse(reader[columnName].ToString(), out result))
-            {
-                setter(result);
-            }
-        }
-
-        private void TryParseDateTime(SqlDataReader reader, string columnName, Action<DateTime> setter)
-        {
-            var i = reader.GetOrdinal(columnName);
-
-            DateTime value;
-
-            if (!reader.IsDBNull(i) && DateTime.TryParse(reader[columnName].ToString(), out value))
-            {
-                setter(value);
-            }
-        }
-
         public IEnumerable<Note> FilterByCreationDate(int userId, DateTime date, int? pageSize = null, int? page = null)
         {
             IEnumerable<Note> result = null;
@@ -177,6 +148,11 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByCreationDateParams(userId, date));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -202,6 +178,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByLastChangeDateParams(userId, lastChangeDate));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -225,6 +206,11 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByNoteTypeParams(userId, noteType));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -250,6 +236,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByStateParams(userId, state));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -273,6 +264,11 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByPriorityParams(userId, priority));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -298,6 +294,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByCreationBetweenParams(userId, startLimit, endLimit));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -322,6 +323,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByStartDateParams(userId, startDate));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -345,6 +351,11 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByEndDateParams(userId, endDate));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -400,6 +411,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByCaptionParams(userId, caption));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -419,6 +435,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
                     new SqlParameter("@Caption", caption));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -443,6 +464,11 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetGetUserNotesParams(userId));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {

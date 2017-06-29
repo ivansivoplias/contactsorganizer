@@ -85,6 +85,7 @@
     <Compile Include="ViewModels\AddContactViewModel.cs" />
     <Compile Include="ViewModels\AddSocialViewModel.cs" />
     <Compile Include="ViewModels\ContactsListViewModel.cs" />
+    <Compile Include="ViewModels\EditContactViewModel.cs" />
     <Compile Include="ViewModels\EditSocialViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\StartupViewModel.cs" />

@@ -85,6 +85,11 @@ namespace Organizer.DAL.Repository
                     new SqlParameter("@AppId", socialInfo.AppId.MakeLikeExpression()),
                     new SqlParameter("@AppName", socialInfo.AppName));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -110,6 +115,11 @@ namespace Organizer.DAL.Repository
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
                     new SqlParameter("@FirstName", firstName.MakeStartsWithLikeExpression()));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -132,6 +142,11 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByLastnameParams(userId, lastName));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -156,6 +171,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByMiddleNameParams(userId, middleName));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -179,6 +199,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByPersonalInfoParams(userId, info));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = MapCollection(reader);
@@ -197,6 +222,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
                     new SqlParameter("@NickName", nickname));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -217,6 +247,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
                     new SqlParameter("@Phone", phone));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -240,6 +275,11 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByEmailParams(userId, email));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -288,6 +328,11 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetGetUserContactsParams(userId));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {

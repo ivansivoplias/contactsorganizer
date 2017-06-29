@@ -16,21 +16,21 @@ namespace Organizer.DAL.Repository
         protected override void InsertCommandParameters(PersonalInfo entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue($"@{PersonalInfoQueries.PersonalInfoId}", entity.Id);
-            cmd.Parameters.AddWithValue("@FirstName", entity.FirstName);
-            cmd.Parameters.AddWithValue("@Lastname", entity.Lastname);
-            cmd.Parameters.AddWithValue("@MiddleName", entity.MiddleName);
-            cmd.Parameters.AddWithValue("@Nickname", entity.Nickname);
-            cmd.Parameters.AddWithValue("@Email", entity.Email);
+            cmd.Parameters.AddWithValue("@FirstName", GetValueOrDbNull(entity.FirstName));
+            cmd.Parameters.AddWithValue("@Lastname", GetValueOrDbNull(entity.Lastname));
+            cmd.Parameters.AddWithValue("@MiddleName", GetValueOrDbNull(entity.MiddleName));
+            cmd.Parameters.AddWithValue("@Nickname", GetValueOrDbNull(entity.Nickname));
+            cmd.Parameters.AddWithValue("@Email", GetValueOrDbNull(entity.Email));
         }
 
         protected override void UpdateCommandParameters(PersonalInfo entity, SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue($"@{PersonalInfoQueries.PersonalInfoId}", entity.Id);
-            cmd.Parameters.AddWithValue("@FirstName", entity.FirstName);
-            cmd.Parameters.AddWithValue("@Lastname", entity.Lastname);
-            cmd.Parameters.AddWithValue("@MiddleName", entity.MiddleName);
-            cmd.Parameters.AddWithValue("@Nickname", entity.Nickname);
-            cmd.Parameters.AddWithValue("@Email", entity.Email);
+            cmd.Parameters.AddWithValue("@FirstName", GetValueOrDbNull(entity.FirstName));
+            cmd.Parameters.AddWithValue("@Lastname", GetValueOrDbNull(entity.Lastname));
+            cmd.Parameters.AddWithValue("@MiddleName", GetValueOrDbNull(entity.MiddleName));
+            cmd.Parameters.AddWithValue("@Nickname", GetValueOrDbNull(entity.Nickname));
+            cmd.Parameters.AddWithValue("@Email", GetValueOrDbNull(entity.Email));
         }
 
         protected override void DeleteCommandParameters(int id, SqlCommand cmd)

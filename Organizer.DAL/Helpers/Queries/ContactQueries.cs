@@ -84,7 +84,7 @@
 
         public static string GetUpdateQuery()
         {
-            return $"UPDATE {ContactTable} SET PrimaryPhone = @PrimaryPhone," +
+            return $"UPDATE {ContactTable} SET PrimaryPhone = @PrimaryPhone" +
                 $" WHERE {ContactId} = @{ContactId}";
         }
 

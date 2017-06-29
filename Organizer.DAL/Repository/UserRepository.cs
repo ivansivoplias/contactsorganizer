@@ -107,6 +107,12 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@Login", login));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     result = Map(reader);

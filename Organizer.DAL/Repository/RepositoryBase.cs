@@ -79,6 +79,12 @@ namespace Organizer.DAL.Repository
                 cmd.CommandText = getByIdSql;
                 cmd.CommandType = CommandType.Text;
                 GetByIdCommandParameters(id, cmd);
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     return Map(reader);
@@ -92,10 +98,44 @@ namespace Organizer.DAL.Repository
             {
                 cmd.CommandText = getAllSql;
                 cmd.CommandType = CommandType.Text;
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     return MapCollection(reader);
                 }
+            }
+        }
+
+        protected object GetValueOrDbNull(object value)
+        {
+            return value ?? DBNull.Value;
+        }
+
+        protected void TryParseEnum<TEnum>(SqlDataReader reader, string columnName, Action<TEnum> setter) where TEnum : struct, IComparable, IFormattable, IConvertible
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            TEnum result;
+
+            if (!reader.IsDBNull(i) && Enum.TryParse(reader[columnName].ToString(), out result))
+            {
+                setter(result);
+            }
+        }
+
+        protected void TryParseDateTime(SqlDataReader reader, string columnName, Action<DateTime> setter)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            DateTime value;
+
+            if (!reader.IsDBNull(i) && DateTime.TryParse(reader[columnName].ToString(), out value))
+            {
+                setter(value);
             }
         }
 
@@ -130,6 +170,12 @@ namespace Organizer.DAL.Repository
             {
                 cmd.CommandText = BaseQueries.GetCountQuery(tableName);
                 cmd.CommandType = CommandType.Text;
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -147,6 +193,12 @@ namespace Organizer.DAL.Repository
             using (var cmd = _connection.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, filterSql, parameters);
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.HasRows)

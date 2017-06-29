@@ -70,7 +70,7 @@ namespace Organizer.UI.ViewModels
             _standartSocials = new ObservableCollection<string>(predefined);
 
             _saveCommand = Command.CreateCommand("Save", "SaveCommand", GetType(), Save);
-            _saveCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
+            _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
         private void Save()

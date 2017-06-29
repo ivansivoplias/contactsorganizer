@@ -118,6 +118,11 @@ namespace Organizer.DAL.Repository
             {
                 QueryHelper.SetupCommand(cmd, query, SocialInfoParams.GetGetContactSocialsParams(contactId));
 
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     list = MapCollection(reader);

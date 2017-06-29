@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace Organizer.UI.ViewModels
 {
-    public class AddContactViewModel : ViewModelBase
+    public class EditContactViewModel : ViewModelBase
     {
         private Command _saveCommand;
         private Command _addSocialCommand;
@@ -114,13 +114,13 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        public AddContactViewModel()
+        public EditContactViewModel(ContactDto edited)
         {
-            _contact = new ContactDto();
+            _contact = edited;
 
-            _personalInfo = new PersonalInfoDto();
+            _personalInfo = edited.PersonalInfo;
 
-            _socials = new ObservableCollection<SocialInfoDto>();
+            _socials = new ObservableCollection<SocialInfoDto>(_contact.Socials);
 
             _contactService = App.Containter.Resolve<IContactService>();
 
@@ -141,7 +141,7 @@ namespace Organizer.UI.ViewModels
 
             try
             {
-                _contactService.AddContact(_contact);
+                _contactService.EditContact(_contact);
                 SaveMessage.Invoke(null, EventArgs.Empty);
             }
             catch

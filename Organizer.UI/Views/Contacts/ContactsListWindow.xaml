@@ -74,6 +74,7 @@
             <DataGrid Name="contactsList" ItemsSource="{Binding Contacts, Mode=OneWay}"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch"
+                      SelectedItem="{Binding SelectedContact}"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn
