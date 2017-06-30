@@ -4,13 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:valid ="clr-namespace:Organizer.UI.ValidationRules"
         mc:Ignorable="d"
-        Title="AddNoteWindow" Height="387.338" Width="616.955"
+        Title="AddNoteWindow" Height="441.206" Width="616.955"
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -25,16 +26,16 @@
 
         <StackPanel Grid.Row="1">
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
                        Text="Название заметки:"
                        TextAlignment="Justify"
@@ -43,15 +44,22 @@
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
-                       Text="{Binding Caption}"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="Caption" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <valid:StringLengthValidationRule MinLength="5" MaxLength="60" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
@@ -59,18 +67,25 @@
                        Text="Текст заметки:"
                        FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="16"
+                       FontSize="14"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
                        Height="200"
-                       Text="{Binding NoteText}"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="NoteText" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <valid:StringLengthValidationRule MinLength="20" MaxLength="200" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
         </StackPanel>
 

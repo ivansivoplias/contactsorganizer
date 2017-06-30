@@ -25,6 +25,7 @@ namespace Organizer.UI.ViewModels
 
         private ObservableCollection<NoteDto> _todoNotes;
         private NoteDto _selected;
+        private Command _searchCommand;
         private Command _addTodoCommand;
         private Command _deleteTodoCommand;
         private Command _editTodoCommand;
@@ -55,6 +56,8 @@ namespace Organizer.UI.ViewModels
             }
         }
 
+        public bool IsSearchValueValid { get; set; }
+
         public event EventHandler AddTodoMessage = delegate { };
 
         public event EventHandler SearchTypeChanged = delegate { };
@@ -67,6 +70,9 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler ViewTodoMessage = delegate { };
 
+        public event EventHandler ValidateSearch = delegate { };
+
+        public ICommand SearchCommand => _searchCommand;
         public ICommand AddTodoCommand => _addTodoCommand;
         public ICommand DeleteTodoCommand => _deleteTodoCommand;
         public ICommand EditTodoCommand => _editTodoCommand;
@@ -105,6 +111,9 @@ namespace Organizer.UI.ViewModels
 
             _editTodoCommand = Command.CreateCommand("Edit todo", "EditTodo", GetType(),
                 EditTodo, () => _selected != null);
+
+            _searchCommand = Command.CreateCommand("Search", "Search", GetType(),
+                Search, SearchCanExecute);
 
             _viewTodoCommand = Command.CreateCommand("View todo details", "ViewTodo", GetType(),
                 ViewTodoDetails, () => _selected != null);
@@ -162,6 +171,25 @@ namespace Organizer.UI.ViewModels
         private void ViewTodoDetails()
         {
             ViewTodoMessage.Invoke(null, EventArgs.Empty);
+        }
+
+        private void Search()
+        {
+            if (IsSearchValueValid)
+            {
+                var list = SearchNotes();
+                _todoNotes.Clear();
+                _todoNotes = null;
+
+                _todoNotes = new ObservableCollection<NoteDto>(list);
+            }
+        }
+
+        private bool SearchCanExecute()
+        {
+            ValidateSearch.Invoke(null, EventArgs.Empty);
+
+            return IsSearchValueValid;
         }
 
         private void FetchNextPage()
@@ -245,6 +273,7 @@ namespace Organizer.UI.ViewModels
 
         public override void RegisterCommandsForWindow(Window window)
         {
+            Command.RegisterCommandBinding(window, _searchCommand);
             Command.RegisterCommandBinding(window, _addTodoCommand);
             Command.RegisterCommandBinding(window, _deleteTodoCommand);
             Command.RegisterCommandBinding(window, _editTodoCommand);
@@ -255,6 +284,7 @@ namespace Organizer.UI.ViewModels
 
         public override void UnregisterCommandsForWindow(Window window)
         {
+            Command.UnregisterCommandBinding(window, _searchCommand);
             Command.UnregisterCommandBinding(window, _addTodoCommand);
             Command.UnregisterCommandBinding(window, _deleteTodoCommand);
             Command.UnregisterCommandBinding(window, _editTodoCommand);

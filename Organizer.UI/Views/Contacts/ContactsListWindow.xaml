@@ -4,10 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:helper="clr-namespace:Organizer.UI.Helpers"
+        xmlns:convertor="clr-namespace:Organizer.UI.Convertors"
         mc:Ignorable="d"
-        Title="ContactsListWindow" Height="518.667" Width="1090.279">
+        Title="ContactsListWindow" Height="533.551" Width="1090.279">
     <Grid>
+        <Grid.Resources>
+            <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
+            <convertor:EnumToBooleanConverter x:Key="enumConvertor" />
+        </Grid.Resources>
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -23,6 +31,66 @@
         </StackPanel>
 
         <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Search:"
+                       FontFamily="Verdana"
+                       FontSize="16"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center"
+                       Margin="10" />
+
+            <TextBox Grid.Column="1"
+                     Padding="3"
+                     Height="30"
+                     Margin="5 10" />
+
+            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <Button Height="30"
+                        Width="120"
+                        Padding="5"
+                        FontFamily="Comic Sans MS"
+                        FontStyle="Italic"
+                       FontSize="16"
+                        Margin="10"
+                        Command="{Binding SearchCommand}"
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
+
+                <GroupBox Header="Search type" Padding="5" Margin="10">
+                    <StackPanel>
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=Default}" Margin="3" Content="Default" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByPrimaryPhone}" Margin="3" Content="Primary phone" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByNickName}" Margin="3" Content="Nickname" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByEmail}" Margin="3" Content="E-mail" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByFirstName}" Margin="3" Content="Firstname" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByLastName}" Margin="3" Content="Lastname" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByMiddleName}" Margin="3" Content="Middlename" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=BySocialInfo}" Margin="3" Content="By social id" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -102,7 +170,7 @@
             </StackPanel>
         </Grid>
 
-        <StackPanel Grid.Row="2">
+        <StackPanel Grid.Row="3">
             <Button Height="40"
                     Width="200"
                     FontFamily="Comic Sans MS"

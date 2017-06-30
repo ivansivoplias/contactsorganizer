@@ -11,30 +11,23 @@ using System.Windows.Input;
 
 namespace Organizer.UI.ViewModels
 {
-    public class LoginViewModel : ViewModelBase
+    public class RegistrationViewModel : ViewModelBase
     {
         private string _login;
         private SecureString _password;
-        private Command _loginCommand;
-        private Command _registerCommand;
-        private Command _exitCommand;
+        private SecureString _repeatedPassword;
+
         private IUserService _service;
 
-        public event EventHandler LoginSuccessfulMessage = delegate { };
-
-        public event EventHandler LoginFailedMessage = delegate { };
-
-        public event EventHandler RegistrationMessage = delegate { };
-
-        public ICommand LoginCommand => _loginCommand;
+        private Command _registerCommand;
 
         public ICommand RegisterCommand => _registerCommand;
 
-        public string LoginText => "Login";
+        public event EventHandler RegistrationSuccessfulMessage = delegate { };
 
-        public string PasswordText => "Password";
+        public event EventHandler RegistrationFailedMessage = delegate { };
 
-        public string HeaderText => "Login page";
+        public event EventHandler CheckValidationMessage = delegate { };
 
         public string Login
         {
@@ -56,35 +49,57 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        public LoginViewModel()
+        public SecureString RepeatedPassword
+        {
+            get { return _repeatedPassword; }
+            set
+            {
+                _repeatedPassword = value;
+                OnPropertyChanged(nameof(RepeatedPassword));
+            }
+        }
+
+        public bool IsModelValid { get; set; }
+
+        public string LoginText => "Login";
+
+        public string PasswordText => "Password";
+
+        public string RepeatePasswordText => "Repeate password";
+
+        public string HeaderText => "Register page";
+
+        public RegistrationViewModel()
         {
             _service = App.Containter.Resolve<IUserService>();
 
-            _loginCommand = Command.CreateCommand("Login", "Login", GetType(), LogIn);
-            _registerCommand = Command.CreateCommand("Register", "Register", GetType(), Register);
-            _exitCommand = Command.CreateCommand("Exit", "Exit", GetType(), () => Application.Current.Shutdown());
-        }
-
-        private void LogIn()
-        {
-            try
-            {
-                App.CurrentUser = _service.Login(Login, Password.SecureStringToString());
-
-                SaveUserInSettings();
-
-                LoginSuccessfulMessage.Invoke(null, EventArgs.Empty);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                LoginFailedMessage.Invoke(null, EventArgs.Empty);
-            }
+            _registerCommand = Command.CreateCommand("Register", "Register", GetType(), Register, RegisterCanExecute);
         }
 
         private void Register()
         {
-            RegistrationMessage.Invoke(null, EventArgs.Empty);
+            try
+            {
+                App.CurrentUser = _service.Register(new UserDto()
+                {
+                    Login = Login,
+                    Password = Password.SecureStringToString()
+                });
+                SaveUserInSettings();
+                RegistrationSuccessfulMessage.Invoke(null, EventArgs.Empty);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                RegistrationFailedMessage.Invoke(null, EventArgs.Empty);
+            }
+        }
+
+        private bool RegisterCanExecute()
+        {
+            CheckValidationMessage.Invoke(null, EventArgs.Empty);
+
+            return IsModelValid;
         }
 
         private void SaveUserInSettings()
@@ -100,16 +115,12 @@ namespace Organizer.UI.ViewModels
 
         public override void RegisterCommandsForWindow(Window window)
         {
-            Command.RegisterCommandBinding(window, _loginCommand);
             Command.RegisterCommandBinding(window, _registerCommand);
-            Command.RegisterCommandBinding(window, _exitCommand);
         }
 
         public override void UnregisterCommandsForWindow(Window window)
         {
-            Command.UnregisterCommandBinding(window, _loginCommand);
             Command.UnregisterCommandBinding(window, _registerCommand);
-            Command.UnregisterCommandBinding(window, _exitCommand);
         }
     }
 }

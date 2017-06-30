@@ -171,16 +171,25 @@ namespace Organizer.BL.Services
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterBySocialInfoQuery(),
                     ContactParams.GetFilterBySocialInfoParams(user.Id, mappedSocial));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
-
-                var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, mappedSocial, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
-                if (result != null)
+                if (filteredCount > 0)
                 {
-                    foreach (var mapped in result)
+                    var temp = PaginationHelper
+                        .CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                    var dbContacts = contactRepo
+                        .FilterBySocialInfoAppIdLike(user.Id, mappedSocial, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
+                    if (result != null)
                     {
-                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        foreach (var mapped in result)
+                        {
+                            GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        }
                     }
+                }
+                else
+                {
+                    result = new List<ContactDto>();
                 }
             }
 
@@ -214,17 +223,24 @@ namespace Organizer.BL.Services
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetUserContactsQuery(),
                     ContactParams.GetGetUserContactsParams(user.Id));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
-
-                var dbContacts = contactRepo.GetUserContacts(user.Id, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
-
-                if (result != null)
+                if (filteredCount > 0)
                 {
-                    foreach (var mapped in result)
+                    var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                    var dbContacts = contactRepo.GetUserContacts(user.Id, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
+
+                    if (result != null)
                     {
-                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        foreach (var mapped in result)
+                        {
+                            GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        }
                     }
+                }
+                else
+                {
+                    result = new List<ContactDto>();
                 }
             }
 
@@ -242,17 +258,24 @@ namespace Organizer.BL.Services
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByEmailQuery(),
                     ContactParams.GetFilterByEmailParams(user.Id, email));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
-
-                var dbContacts = contactRepo.FilterByEmailStartsWith(user.Id, email, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
-
-                if (result != null)
+                if (filteredCount > 0)
                 {
-                    foreach (var mapped in result)
+                    var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                    var dbContacts = contactRepo.FilterByEmailStartsWith(user.Id, email, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
+
+                    if (result != null)
                     {
-                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        foreach (var mapped in result)
+                        {
+                            GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        }
                     }
+                }
+                else
+                {
+                    result = new List<ContactDto>();
                 }
             }
 
@@ -270,17 +293,24 @@ namespace Organizer.BL.Services
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByFirstNameQuery(),
                     ContactParams.GetFilterByFirstNameParams(user.Id, firstName));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
-
-                var dbContacts = contactRepo.FilterByFirstNameStartsWith(user.Id, firstName, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
-
-                if (result != null)
+                if (filteredCount > 0)
                 {
-                    foreach (var mapped in result)
+                    var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                    var dbContacts = contactRepo.FilterByFirstNameStartsWith(user.Id, firstName, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
+
+                    if (result != null)
                     {
-                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        foreach (var mapped in result)
+                        {
+                            GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        }
                     }
+                }
+                else
+                {
+                    result = new List<ContactDto>();
                 }
             }
 
@@ -298,17 +328,24 @@ namespace Organizer.BL.Services
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByLastNameQuery(),
                     ContactParams.GetFilterByLastnameParams(user.Id, lastName));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
-
-                var dbContacts = contactRepo.FilterByLastNameStartsWith(user.Id, lastName, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
-
-                if (result != null)
+                if (filteredCount > 0)
                 {
-                    foreach (var mapped in result)
+                    var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                    var dbContacts = contactRepo.FilterByLastNameStartsWith(user.Id, lastName, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
+
+                    if (result != null)
                     {
-                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        foreach (var mapped in result)
+                        {
+                            GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        }
                     }
+                }
+                else
+                {
+                    result = new List<ContactDto>();
                 }
             }
 
@@ -326,17 +363,24 @@ namespace Organizer.BL.Services
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByMiddleNameQuery(),
                     ContactParams.GetFilterByMiddleNameParams(user.Id, middleName));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
-
-                var dbContacts = contactRepo.FilterByMiddleNameStartsWith(user.Id, middleName, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
-
-                if (result != null)
+                if (filteredCount > 0)
                 {
-                    foreach (var mapped in result)
+                    var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                    var dbContacts = contactRepo.FilterByMiddleNameStartsWith(user.Id, middleName, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
+
+                    if (result != null)
                     {
-                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        foreach (var mapped in result)
+                        {
+                            GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        }
                     }
+                }
+                else
+                {
+                    result = new List<ContactDto>();
                 }
             }
 
@@ -355,17 +399,24 @@ namespace Organizer.BL.Services
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByPersonalInfoQuery(),
                     ContactParams.GetFilterByPersonalInfoParams(user.Id, mappedInfo));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
-
-                var dbContacts = contactRepo.FilterByPersonalInfo(user.Id, mappedInfo, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
-
-                if (result != null)
+                if (filteredCount > 0)
                 {
-                    foreach (var mapped in result)
+                    var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                    var dbContacts = contactRepo.FilterByPersonalInfo(user.Id, mappedInfo, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
+
+                    if (result != null)
                     {
-                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        foreach (var mapped in result)
+                        {
+                            GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        }
                     }
+                }
+                else
+                {
+                    result = new List<ContactDto>();
                 }
             }
 
@@ -389,17 +440,24 @@ namespace Organizer.BL.Services
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterBySocialInfoQuery(),
                     ContactParams.GetFilterBySocialInfoParams(user.Id, social));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
-
-                var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, social, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
-
-                if (result != null)
+                if (filteredCount > 0)
                 {
-                    foreach (var mapped in result)
+                    var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+
+                    var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, social, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
+
+                    if (result != null)
                     {
-                        GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        foreach (var mapped in result)
+                        {
+                            GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                        }
                     }
+                }
+                else
+                {
+                    result = new List<ContactDto>();
                 }
             }
 

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         mc:Ignorable="d"
         Title="EditSocialWindow" Height="271" Width="580"
         ResizeMode="NoResize">
@@ -43,10 +44,17 @@
                        Padding="5"
                        Margin="5 10" />
             <TextBox MinWidth="120"
-                       FontSize="16"
                        Padding="5"
-                       Text="{Binding AppName}"
-                       Margin="5 10" />
+                       FontSize="16"
+                       Margin="5 10">
+                <TextBox.Text>
+                    <Binding Path="AppName" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:StringLengthValidationRule MinLength="4" MaxLength="30" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <TextBlock Text="App id:"
                        FontSize="16"
                        Padding="5"
@@ -54,8 +62,15 @@
             <TextBox MinWidth="120"
                        FontSize="16"
                      Padding="5"
-                       Text="{Binding AppId}"
-                       Margin="5 10" />
+                       Margin="5 10">
+                <TextBox.Text>
+                    <Binding Path="AppId" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:StringLengthValidationRule MinLength="4" MaxLength="40" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </StackPanel>
 
         <Grid Grid.Row="3">

@@ -20,6 +20,7 @@ namespace Organizer.UI.Views
             _viewModel.AddTodoMessage += AddTodoMessageHandler;
             _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
             _viewModel.BackMessage += BackMessageHandler;
+            _viewModel.ValidateSearch += ValidateSearchHandler;
             _viewModel.EditTodoMessage += EditTodoMessageHandler;
             _viewModel.ViewTodoMessage += ViewTodoMessageHandler;
 
@@ -42,6 +43,14 @@ namespace Organizer.UI.Views
 
                 this.Close();
             });
+        }
+
+        private void ValidateSearchHandler(object sender, EventArgs e)
+        {
+            bool searchValid = !searchBox.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool searchNotNull = !string.IsNullOrEmpty(_viewModel.SearchValue);
+
+            _viewModel.IsSearchValueValid = searchValid && searchNotNull;
         }
 
         private void ViewTodoMessageHandler(object sender, EventArgs e)
@@ -97,10 +106,31 @@ namespace Organizer.UI.Views
 
             _viewModel.BackMessage -= BackMessageHandler;
             _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
+            _viewModel.ValidateSearch -= ValidateSearchHandler;
             _viewModel.AddTodoMessage -= AddTodoMessageHandler;
             _viewModel.EditTodoMessage -= EditTodoMessageHandler;
             _viewModel.ViewTodoMessage -= ViewTodoMessageHandler;
             _viewModel.UnregisterCommandsForWindow(this);
+        }
+
+        private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            bool isBottom = IsScrollViewReachedTheBottom(e);
+            if (isBottom)
+            {
+                _viewModel.FetchNextPageCommand.Execute(null);
+            }
+        }
+
+        private bool IsScrollViewReachedTheBottom(ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeight - e.ViewportHeight == 0 && e.VerticalOffset != 0)
+                return true;
+            if (e.VerticalOffset == 0)
+                return false;
+            if (e.ExtentHeight - e.ViewportHeight - e.VerticalOffset == 0)
+                return true;
+            return false;
         }
     }
 }

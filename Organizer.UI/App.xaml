@@ -4,5 +4,10 @@
              xmlns:local="clr-namespace:Organizer.UI"
              Startup="OnStartup">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/OrganizerMainStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

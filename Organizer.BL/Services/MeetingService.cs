@@ -65,10 +65,17 @@ namespace Organizer.BL.Services
                 var filteredCount = meetingRepo.FilteredCount(MeetingQueries.GetFilterByMeetingDateQuery(),
                     MeetingParams.GetFilterByMeetingDateParams(user.Id, meetingDate));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+                if (filteredCount > 0)
+                {
+                    var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                var meetings = meetingRepo.FilterByMeetingDate(user.Id, meetingDate, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<MeetingDto>>(meetings);
+                    var meetings = meetingRepo.FilterByMeetingDate(user.Id, meetingDate, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<MeetingDto>>(meetings);
+                }
+                else
+                {
+                    result = new List<MeetingDto>();
+                }
             }
 
             return result;
@@ -86,10 +93,17 @@ namespace Organizer.BL.Services
                 var filteredCount = meetingRepo.FilteredCount(MeetingQueries.GetFilterByMeetingName(),
                     MeetingParams.GetFilterByMeetingNameParams(user.Id, meetingName));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+                if (filteredCount > 0)
+                {
+                    var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                var meetings = meetingRepo.FilterByMeetingNameLike(user.Id, meetingName, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<MeetingDto>>(meetings);
+                    var meetings = meetingRepo.FilterByMeetingNameLike(user.Id, meetingName, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<MeetingDto>>(meetings);
+                }
+                else
+                {
+                    result = new List<MeetingDto>();
+                }
             }
 
             return result;
@@ -139,10 +153,17 @@ namespace Organizer.BL.Services
                 var filteredCount = meetingRepo.FilteredCount(MeetingQueries.GetUserMeetingsQuery(),
                     MeetingParams.GetGetUserMeetingsParams(user.Id));
 
-                var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
+                if (filteredCount > 0)
+                {
+                    var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                var meetings = meetingRepo.GetUserMeetings(user.Id, temp.PageSize, temp.PageNumber);
-                result = Mapper.Map<ICollection<MeetingDto>>(meetings);
+                    var meetings = meetingRepo.GetUserMeetings(user.Id, temp.PageSize, temp.PageNumber);
+                    result = Mapper.Map<ICollection<MeetingDto>>(meetings);
+                }
+                else
+                {
+                    result = new List<MeetingDto>();
+                }
             }
 
             return result;

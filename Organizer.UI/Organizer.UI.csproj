@@ -82,11 +82,25 @@
     <Compile Include="Convertors\EnumToBooleanConvertor.cs" />
     <Compile Include="Helpers\BindingProxy.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
+    <Compile Include="Helpers\PasswordBoxAssistant.cs" />
+    <Compile Include="Helpers\SecureStringExtentions.cs" />
     <Compile Include="Helpers\SocialsHelper.cs" />
     <Compile Include="Helpers\Wrapper.cs" />
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
+    <Compile Include="ValidationRules\DateGreaterOrEqualTodayValidationRule.cs" />
+    <Compile Include="ValidationRules\DateGreaterThanTodayValidationRule.cs" />
+    <Compile Include="ValidationRules\EmailValidationRule.cs" />
+    <Compile Include="ValidationRules\LoginValidationRule.cs" />
     <Compile Include="ValidationRules\MeetingDateValidationRule.cs" />
+    <Compile Include="ValidationRules\NoteEndDateValidationRule.cs" />
+    <Compile Include="ValidationRules\NoteSearchValidationRule.cs" />
+    <Compile Include="ValidationRules\NotificationDateValidationRule.cs" />
+    <Compile Include="ValidationRules\PasswordValidationRule.cs" />
+    <Compile Include="ValidationRules\PhoneValidationRule.cs" />
+    <Compile Include="ValidationRules\RepeatedPasswordValidationRule.cs" />
+    <Compile Include="ValidationRules\StringLengthValidationRule.cs" />
     <Compile Include="ValidationRules\TodoSearchValidationRule.cs" />
+    <Compile Include="ViewModels\RegistrationViewModel.cs" />
     <Compile Include="ViewModels\Todos\AddTodoViewModel.cs" />
     <Compile Include="ViewModels\Todos\EditTodoViewModel.cs" />
     <Compile Include="ViewModels\Notes\AddNoteViewModel.cs" />
@@ -126,6 +140,9 @@
     </Compile>
     <Compile Include="Views\Contacts\AddSocialDialog.xaml.cs">
       <DependentUpon>AddSocialDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegistrationWindow.xaml.cs">
+      <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Todos\TodoListWindow.xaml.cs">
       <DependentUpon>TodoListWindow.xaml</DependentUpon>
@@ -193,6 +210,10 @@
     <Page Include="Views\Contacts\AddSocialDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegistrationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Todos\TodoListWindow.xaml">
       <SubType>Designer</SubType>

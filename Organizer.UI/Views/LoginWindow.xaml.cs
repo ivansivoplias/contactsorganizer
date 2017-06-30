@@ -18,8 +18,7 @@ namespace Organizer.UI.Views
             _viewModel = viewModel;
             _viewModel.RegisterCommandsForWindow(this);
 
-            _viewModel.RegistrationFailedMessage += RegistrationFailedMessageHandler;
-            _viewModel.RegistrationSuccessfulMessage += RegistrationSucceededMessageHandler;
+            _viewModel.RegistrationMessage += RegistrationMessageHandler;
             _viewModel.LoginFailedMessage += LoginFailedMessageHandler;
             _viewModel.LoginSuccessfulMessage += LoginSucceededMessageHandler;
 
@@ -30,15 +29,15 @@ namespace Organizer.UI.Views
             InitializeComponent();
         }
 
-        private void RegistrationFailedMessageHandler(object sender, EventArgs e)
+        private void RegistrationMessageHandler(object sender, EventArgs e)
         {
-            MessageBox.Show("Registration failed. User already exists in db.", "Registration failed!");
-        }
-
-        private void RegistrationSucceededMessageHandler(object sender, EventArgs e)
-        {
-            OpenStartupWindow();
-            //MessageBox.Show("Registration succeeded. User successfully created in db.", "Registration succeeded!");
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var registrationViewModel = new RegistrationViewModel();
+                var registrationWindow = new RegistrationWindow(registrationViewModel);
+                registrationWindow.Show();
+                this.Close();
+            });
         }
 
         private void LoginFailedMessageHandler(object sender, EventArgs e)
@@ -49,7 +48,6 @@ namespace Organizer.UI.Views
         private void LoginSucceededMessageHandler(object sender, EventArgs e)
         {
             OpenStartupWindow();
-            //MessageBox.Show("Login succeeded. User successfully logged in.", "Login succeeded!");
         }
 
         private void OpenStartupWindow()
@@ -67,16 +65,10 @@ namespace Organizer.UI.Views
         {
             Closing -= OnClosing;
 
-            _viewModel.RegistrationFailedMessage -= RegistrationFailedMessageHandler;
-            _viewModel.RegistrationSuccessfulMessage -= RegistrationSucceededMessageHandler;
+            _viewModel.RegistrationMessage -= RegistrationMessageHandler;
             _viewModel.LoginFailedMessage -= LoginFailedMessageHandler;
             _viewModel.LoginSuccessfulMessage -= LoginSucceededMessageHandler;
             _viewModel?.UnregisterCommandsForWindow(this);
-        }
-
-        private void PasswordBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            _viewModel.Password = (sender as PasswordBox).Password;
         }
     }
 }

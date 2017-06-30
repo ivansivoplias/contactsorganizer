@@ -4,13 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:valid ="clr-namespace:Organizer.UI.ValidationRules"
+        xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="AddTodoWindow" Height="584.576" Width="657.955"
+        Title="AddTodoWindow" Height="695.555" Width="657.955"
         ResizeMode="NoResize">
     <Grid>
+        <Grid.Resources>
+            <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -25,9 +30,9 @@
 
         <StackPanel Grid.Row="1">
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
@@ -45,13 +50,20 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
-                       Text="{Binding Caption}"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="Caption" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <valid:StringLengthValidationRule MinLength="5" MaxLength="60" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
@@ -68,14 +80,21 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
-                       Text="{Binding NoteText}"
                        Height="200"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="NoteText" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <valid:StringLengthValidationRule MinLength="20" MaxLength="200" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
@@ -98,9 +117,9 @@
                 </ComboBox>
             </Grid>
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
@@ -123,9 +142,9 @@
                 </ComboBox>
             </Grid>
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
@@ -142,13 +161,20 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
-                       SelectedDate="{Binding StartDate}"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                    <DatePicker.SelectedDate>
+                        <Binding Path="StartDate" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <valid:DateGreaterOrEqualTodayValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
             </Grid>
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
@@ -165,8 +191,19 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
-                       SelectedDate="{Binding EndDate}"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                    <DatePicker.SelectedDate>
+                        <Binding Path="EndDate" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <valid:NoteEndDateValidationRule>
+                                    <valid:NoteEndDateValidationRule.Wrapper>
+                                        <helper:Wrapper WrappedData="{Binding Data.StartDate, Source={StaticResource proxy}}" />
+                                    </valid:NoteEndDateValidationRule.Wrapper>
+                                </valid:NoteEndDateValidationRule>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
             </Grid>
         </StackPanel>
 

@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:valid ="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
         Title="LoginWindow" Height="511" Width="758.425">
     <Grid>
@@ -29,13 +31,21 @@
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Grid.Row="0" Grid.Column="0"
                    Content="{Binding LoginText}" />
-            <TextBox VerticalAlignment="Center" Margin="0 0 25 0" Padding="10" Grid.Row="0" Grid.Column="1"
-                     Text="{Binding Login}" />
+            <TextBox VerticalAlignment="Center" Margin="0 0 25 20" Padding="10" Grid.Row="0" Grid.Column="1">
+                <TextBox.Text>
+                    <Binding Path="Login">
+                        <Binding.ValidationRules>
+                            <valid:LoginValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Grid.Row="1" Grid.Column="0"
                    Content="{Binding PasswordText}" />
-            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 0"  Padding="10" Grid.Row="1" Grid.Column="1"
-                     KeyUp="PasswordBox_KeyUp" />
+            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 20"  Padding="10" Grid.Row="1" Grid.Column="1"
+                         helper:PasswordBoxAssistant.BindPassword="True"
+                         helper:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
 
         <Grid Grid.Row="2">

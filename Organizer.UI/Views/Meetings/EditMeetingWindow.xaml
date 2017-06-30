@@ -4,12 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
+        xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="EditMeetingWindow" Height="524.338" Width="616.955">
+        Title="EditMeetingWindow" Height="622.724" Width="616.955"
+        ResizeMode="NoResize">
     <Grid>
+        <Grid.Resources>
+            <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
+        </Grid.Resources>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -24,16 +31,16 @@
 
         <StackPanel Grid.Row="1">
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
                        Text="Название митинга:"
                        TextAlignment="Justify"
@@ -42,15 +49,22 @@
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
-                       Text="{Binding MeetingName}"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="MeetingName" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <valid:StringLengthValidationRule MinLength="4" MaxLength="40" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
@@ -58,29 +72,36 @@
                        Text="Описание:"
                        FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="16"
+                       FontSize="14"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBox
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
                        Height="200"
-                       Text="{Binding Description}"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="Description" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <valid:StringLengthValidationRule MinLength="10" MaxLength="150" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
                        Grid.Column="0"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
                        Text="Дата митинга:"
                        TextAlignment="Justify"
@@ -89,22 +110,29 @@
                 <DatePicker
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
-                       SelectedDate="{Binding MeetingDate}"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                    <DatePicker.SelectedDate>
+                        <Binding Path="MeetingDate" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <valid:DateGreaterThanTodayValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
             </Grid>
 
-            <Grid Margin="5">
+            <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
                        Grid.Column="0"
                        Text="Дата оповещения:"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -112,15 +140,26 @@
                 <DatePicker
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
-                       SelectedDate="{Binding NotificationDate}"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center">
+                    <DatePicker.SelectedDate>
+                        <Binding Path="NotificationDate" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <valid:NotificationDateValidationRule>
+                                    <valid:NotificationDateValidationRule.Wrapper>
+                                        <helper:Wrapper WrappedData="{Binding Data.MeetingDate, Source={StaticResource proxy}}" />
+                                    </valid:NotificationDateValidationRule.Wrapper>
+                                </valid:NotificationDateValidationRule>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
             </Grid>
 
             <Grid Margin="5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
@@ -128,7 +167,7 @@
                        Grid.Column="0"
                        Text="Посылать нотификации?"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -137,7 +176,7 @@
                        IsThreeState="False"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       FontSize="14"
                        Padding="5"
                        IsChecked="{Binding SendNotifications}"
                        VerticalAlignment="Center" />
