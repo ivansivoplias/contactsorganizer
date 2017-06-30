@@ -89,9 +89,19 @@ namespace Organizer.UI.ValidationRules
         private bool ValidateCreatedBetween(string value)
         {
             var dates = value.Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim())
                             .ToArray();
 
-            return false;
+            DateTime start, end;
+
+            bool res = false;
+
+            if (dates.Length == 2 && DateTime.TryParse(dates[0], out start) && DateTime.TryParse(dates[1], out end))
+            {
+                res = start < end;
+            }
+
+            return res;
         }
 
         private bool ValidateState(string value)

@@ -58,7 +58,10 @@
                                                    Padding="4"
                                                        Text="*" />
                                         <Border BorderBrush="Green" BorderThickness="1">
-                                            <AdornedElementPlaceholder Name="adornerPlaceholder" />
+                                            <StackPanel>
+                                                <AdornedElementPlaceholder Name="adornerPlaceholder" />
+                                                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
+                                            </StackPanel>
                                         </Border>
                                     </DockPanel>
                                 </ControlTemplate>
