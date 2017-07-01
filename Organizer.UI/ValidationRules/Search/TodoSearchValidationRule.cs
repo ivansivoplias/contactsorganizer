@@ -25,18 +25,9 @@ namespace Organizer.UI.ValidationRules
 
                 switch (wrappedEnum)
                 {
-                    case TodoSearchType.ByCreationDate:
-                        if (!ValidateDate(stringValue))
-                        {
-                            return new ValidationResult(false, "Creation date is invalid.");
-                        }
-                        break;
-
-                    case TodoSearchType.ByLastChangeDate:
-                        if (!ValidateDate(stringValue))
-                        {
-                            return new ValidationResult(false, "Last change date is invalid.");
-                        }
+                    case TodoSearchType.ByCaptionLike:
+                        if (!string.IsNullOrEmpty(stringValue))
+                            return new ValidationResult(false, "Caption is empty.");
                         break;
 
                     case TodoSearchType.ByState:
@@ -96,7 +87,8 @@ namespace Organizer.UI.ValidationRules
 
             bool res = false;
 
-            if (dates.Length == 2 && DateTime.TryParse(dates[0], out start) && DateTime.TryParse(dates[1], out end))
+            if (dates.Length == 2 && DateTime.TryParse(dates[0], out start)
+                && DateTime.TryParse(dates[1], out end))
             {
                 res = start < end;
             }

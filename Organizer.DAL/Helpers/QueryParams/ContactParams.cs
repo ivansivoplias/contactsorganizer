@@ -5,13 +5,12 @@ namespace Organizer.DAL.Helpers
 {
     public static class ContactParams
     {
-        public static SqlParameter[] GetFilterBySocialInfoParams(int userId, SocialInfo socialInfo)
+        public static SqlParameter[] GetFilterBySocialInfoParams(int userId, string appId)
         {
             return new SqlParameter[]
             {
                 new SqlParameter("@UserId", userId),
-                new SqlParameter("@AppId", socialInfo.AppId.MakeLikeExpression()),
-                new SqlParameter("@AppName", socialInfo.AppName)
+                new SqlParameter("@AppId", appId.MakeLikeExpression())
             };
         }
 
@@ -42,16 +41,16 @@ namespace Organizer.DAL.Helpers
             };
         }
 
-        public static SqlParameter[] GetFilterByPersonalInfoParams(int userId, PersonalInfo info)
+        public static SqlParameter[] GetFilterByPersonalInfoParams(int userId, string info)
         {
             return new SqlParameter[]
             {
                 new SqlParameter("@UserId", userId),
-                new SqlParameter("@FirstName", info.FirstName),
-                new SqlParameter("@LastName", info.Lastname),
-                new SqlParameter("@MiddleName", info.MiddleName),
-                new SqlParameter("@NickName", info.Nickname),
-                new SqlParameter("@Email", info.Email)
+                new SqlParameter("@FirstName", info.MakeLikeExpression()),
+                new SqlParameter("@LastName", info.MakeLikeExpression()),
+                new SqlParameter("@MiddleName", info.MakeLikeExpression()),
+                new SqlParameter("@NickName", info.MakeLikeExpression()),
+                new SqlParameter("@Email", info.MakeLikeExpression())
             };
         }
 

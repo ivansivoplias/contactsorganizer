@@ -12,7 +12,7 @@
         {
             return $"SELECT Contacts.ContactId AS ContactId, PrimaryPhone, UserId FROM {ContactTable} " +
                 $"INNER JOIN {SocialInfoTable} ON {ContactTable}.{ContactId} = {SocialInfoTable}.ContactId "
-                + "WHERE UserId = @UserId AND AppName = @AppName AND AppId LIKE @AppId";
+                + "WHERE UserId = @UserId AND AppId LIKE @AppId";
         }
 
         public static string GetFilterByFirstNameQuery()
@@ -40,9 +40,9 @@
         {
             return $"SELECT Contacts.ContactId AS ContactId, PrimaryPhone, UserId FROM {ContactTable} " +
                 $"INNER JOIN {PersonalInfoTable} ON {ContactTable}.{ContactId} = {PersonalInfoTable}.{PersonalInfoId}"
-                + " WHERE UserId = @UserId AND FirstName = @FirstName" +
-                " AND Lastname = @LastName AND" +
-                " MiddleName = @MiddleName AND Nickname = @NickName AND Email = @Email";
+                + " WHERE UserId = @UserId AND (FirstName LIKE @FirstName" +
+                " OR Lastname LIKE @LastName OR" +
+                " MiddleName LIKE @MiddleName OR Nickname LIKE @NickName OR Email LIKE @Email)";
         }
 
         public static string GetFindByNicknameQuery()

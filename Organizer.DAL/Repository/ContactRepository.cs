@@ -69,7 +69,7 @@ namespace Organizer.DAL.Repository
             return contacts;
         }
 
-        public IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, SocialInfo socialInfo, int? pageSize = null, int? page = null)
+        public IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, string appId, int? pageSize = null, int? page = null)
         {
             IEnumerable<Contact> result = null;
             string query = ContactQueries.GetFilterBySocialInfoQuery();
@@ -81,9 +81,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@AppId", socialInfo.AppId.MakeLikeExpression()),
-                    new SqlParameter("@AppName", socialInfo.AppName));
+                QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterBySocialInfoParams(userId, appId));
 
                 if (_unitOfWork.Transaction != null)
                 {
@@ -185,7 +183,7 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public IEnumerable<Contact> FilterByPersonalInfo(int userId, PersonalInfo info, int? pageSize = null, int? page = null)
+        public IEnumerable<Contact> FilterByPersonalInfo(int userId, string personalInfo, int? pageSize = null, int? page = null)
         {
             IEnumerable<Contact> result = null;
             string query = ContactQueries.GetFilterByPersonalInfoQuery();
@@ -197,7 +195,8 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByPersonalInfoParams(userId, info));
+                QueryHelper.SetupCommand(cmd, query,
+                    ContactParams.GetFilterByPersonalInfoParams(userId, personalInfo));
 
                 if (_unitOfWork.Transaction != null)
                 {

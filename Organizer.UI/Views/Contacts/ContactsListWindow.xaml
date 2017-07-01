@@ -66,22 +66,10 @@
                             ConverterParameter=Default}" Margin="3" Content="Default" />
                         <RadioButton
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
-                            ConverterParameter=ByPrimaryPhone}" Margin="3" Content="Primary phone" />
+                            ConverterParameter=ByPhone}" Margin="3" Content="Phone" />
                         <RadioButton
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
-                            ConverterParameter=ByNickName}" Margin="3" Content="Nickname" />
-                        <RadioButton
-                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
-                            ConverterParameter=ByEmail}" Margin="3" Content="E-mail" />
-                        <RadioButton
-                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
-                            ConverterParameter=ByFirstName}" Margin="3" Content="Firstname" />
-                        <RadioButton
-                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
-                            ConverterParameter=ByLastName}" Margin="3" Content="Lastname" />
-                        <RadioButton
-                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
-                            ConverterParameter=ByMiddleName}" Margin="3" Content="Middlename" />
+                            ConverterParameter=ByPersonalInfo}" Margin="3" Content="By personal information" />
                         <RadioButton
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
                             ConverterParameter=BySocialInfo}" Margin="3" Content="By social id" />

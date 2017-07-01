@@ -159,17 +159,16 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContacsBySocialInfo(UserDto user, SocialInfoDto info, int pageSize, int page)
+        public ICollection<ContactDto> GetContacsBySocialInfo(UserDto user, string appId, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
-                var mappedSocial = Mapper.Map<SocialInfo>(info);
                 var contactRepo = new ContactRepository(unitOfWork);
 
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterBySocialInfoQuery(),
-                    ContactParams.GetFilterBySocialInfoParams(user.Id, mappedSocial));
+                    ContactParams.GetFilterBySocialInfoParams(user.Id, appId));
 
                 if (filteredCount > 0)
                 {
@@ -177,7 +176,7 @@ namespace Organizer.BL.Services
                         .CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
                     var dbContacts = contactRepo
-                        .FilterBySocialInfoAppIdLike(user.Id, mappedSocial, temp.PageSize, temp.PageNumber);
+                        .FilterBySocialInfoAppIdLike(user.Id, appId, temp.PageSize, temp.PageNumber);
                     result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
                     if (result != null)
                     {
@@ -387,23 +386,22 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByPersonalInfo(UserDto user, PersonalInfoDto info, int pageSize, int page)
+        public ICollection<ContactDto> GetContactsByPersonalInfo(UserDto user, string personalInfo, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
-                var mappedInfo = Mapper.Map<PersonalInfo>(info);
                 var contactRepo = new ContactRepository(unitOfWork);
 
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByPersonalInfoQuery(),
-                    ContactParams.GetFilterByPersonalInfoParams(user.Id, mappedInfo));
+                    ContactParams.GetFilterByPersonalInfoParams(user.Id, personalInfo));
 
                 if (filteredCount > 0)
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbContacts = contactRepo.FilterByPersonalInfo(user.Id, mappedInfo, temp.PageSize, temp.PageNumber);
+                    var dbContacts = contactRepo.FilterByPersonalInfo(user.Id, personalInfo, temp.PageSize, temp.PageNumber);
                     result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                     if (result != null)
@@ -438,13 +436,13 @@ namespace Organizer.BL.Services
                 };
 
                 var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterBySocialInfoQuery(),
-                    ContactParams.GetFilterBySocialInfoParams(user.Id, social));
+                    ContactParams.GetFilterBySocialInfoParams(user.Id, phone));
 
                 if (filteredCount > 0)
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, social, temp.PageSize, temp.PageNumber);
+                    var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, phone, temp.PageSize, temp.PageNumber);
                     result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                     if (result != null)

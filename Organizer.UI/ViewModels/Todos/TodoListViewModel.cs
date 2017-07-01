@@ -8,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -113,7 +111,7 @@ namespace Organizer.UI.ViewModels
                 EditTodo, () => _selected != null);
 
             _searchCommand = Command.CreateCommand("Search", "Search", GetType(),
-                Search, SearchCanExecute);
+                Search);
 
             _viewTodoCommand = Command.CreateCommand("View todo details", "ViewTodo", GetType(),
                 ViewTodoDetails, () => _selected != null);
@@ -175,8 +173,10 @@ namespace Organizer.UI.ViewModels
 
         private void Search()
         {
+            CheckSearchValidation();
             if (IsSearchValueValid)
             {
+                _pageNumber = 1;
                 var list = SearchNotes();
                 _todoNotes.Clear();
                 _todoNotes = null;
@@ -185,11 +185,9 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        private bool SearchCanExecute()
+        private void CheckSearchValidation()
         {
             ValidateSearch.Invoke(null, EventArgs.Empty);
-
-            return IsSearchValueValid;
         }
 
         private void FetchNextPage()
@@ -210,20 +208,6 @@ namespace Organizer.UI.ViewModels
 
             switch (_currentSearchType)
             {
-                case TodoSearchType.ByCreationDate:
-                    var date = DateTime.Parse(_searchValue);
-                    result = _noteService
-                        .GetNotesByCreationDate(App.CurrentUser, date, NoteType.Todo, _numberOnPage, _pageNumber)
-                        .ToList();
-                    break;
-
-                case TodoSearchType.ByLastChangeDate:
-                    var lastChangeDate = DateTime.Parse(_searchValue);
-                    result = _noteService
-                        .GetNotesByLastChangeDate(App.CurrentUser, lastChangeDate, NoteType.Todo, _numberOnPage, _pageNumber)
-                        .ToList();
-                    break;
-
                 case TodoSearchType.ByState:
                     var state = (State)Enum.Parse(typeof(State), _searchValue);
                     result = _noteService

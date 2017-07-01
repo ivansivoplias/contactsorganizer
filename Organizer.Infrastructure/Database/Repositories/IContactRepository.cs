@@ -5,7 +5,7 @@ namespace Organizer.Infrastructure.Database
 {
     public interface IContactRepository : IRepository<Contact>
     {
-        IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, SocialInfo socialInfo, int? pageSize = null, int? page = null);
+        IEnumerable<Contact> FilterBySocialInfoAppIdLike(int userId, string appId, int? pageSize = null, int? page = null);
 
         IEnumerable<Contact> FilterByFirstNameStartsWith(int userId, string firstName, int? pageSize = null, int? page = null);
 
@@ -13,7 +13,7 @@ namespace Organizer.Infrastructure.Database
 
         IEnumerable<Contact> FilterByMiddleNameStartsWith(int userId, string middleName, int? pageSize = null, int? page = null);
 
-        IEnumerable<Contact> FilterByPersonalInfo(int userId, PersonalInfo info, int? pageSize = null, int? page = null);
+        IEnumerable<Contact> FilterByPersonalInfo(int userId, string personalInfo, int? pageSize = null, int? page = null);
 
         Contact FindByNickName(int userId, string nickname);
 

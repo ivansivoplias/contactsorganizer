@@ -82,10 +82,7 @@
                             ConverterParameter=Default}" Margin="3" Content="Default" />
                         <RadioButton
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
-                            ConverterParameter=ByCreationDate}" Margin="3" Content="Creation date" />
-                        <RadioButton
-                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
-                            ConverterParameter=ByLastChangeDate}" Margin="3" Content="Last change date" />
+                            ConverterParameter=ByCaptionLike}" Margin="3" Content="Caption" />
                         <RadioButton
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
                             ConverterParameter=ByState}" Margin="3" Content="State" />
