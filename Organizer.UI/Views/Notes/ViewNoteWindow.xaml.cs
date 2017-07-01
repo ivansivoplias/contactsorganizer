@@ -26,13 +26,7 @@ namespace Organizer.UI.Views
 
         private void BackMessageHandler(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var viewModel = new NotesListViewModel();
-                var notesList = new NotesListWindow(viewModel);
-                notesList.Show();
-                this.Close();
-            });
+            this.Close();
         }
 
         private void OnClosing(object sender, CancelEventArgs e)

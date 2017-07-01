@@ -1,7 +1,9 @@
-﻿using Organizer.UI.ViewModels;
+﻿using Organizer.Common.Enums.SearchTypes;
+using Organizer.UI.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Organizer.UI.Views
 {
@@ -16,6 +18,8 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddNoteMessage += AddNoteMessageHandler;
+            _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
+            _viewModel.ValidateSearch += ValidateSearchHandler;
             _viewModel.BackMessage += BackMessageHandler;
             _viewModel.EditNoteMessage += EditNoteMessageHandler;
             _viewModel.ViewNoteMessage += ViewNoteMessageHandler;
@@ -35,9 +39,7 @@ namespace Organizer.UI.Views
 
                 var editNoteWindow = new EditNoteWindow(editNoteViewModel);
 
-                editNoteWindow.Show();
-
-                this.Close();
+                editNoteWindow.ShowDialog();
             });
         }
 
@@ -49,9 +51,7 @@ namespace Organizer.UI.Views
 
                 var viewNoteWindow = new ViewNoteWindow(viewNoteViewModel);
 
-                viewNoteWindow.Show();
-
-                this.Close();
+                viewNoteWindow.ShowDialog();
             });
         }
 
@@ -63,10 +63,24 @@ namespace Organizer.UI.Views
 
                 var startupWindow = new StartupWindow(startupViewModel);
 
-                startupWindow.Show();
+                startupWindow.ShowDialog();
 
                 this.Close();
             });
+        }
+
+        private void ValidateSearchHandler(object sender, EventArgs e)
+        {
+            bool searchValid = !searchBox.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool searchNotNull = _viewModel.SearchType != DiarySearchType.Default ?
+                !string.IsNullOrEmpty(_viewModel.SearchValue) : true;
+
+            _viewModel.IsSearchValueValid = searchValid && searchNotNull;
+        }
+
+        private void SearchTypeChangedHandler(object sender, EventArgs e)
+        {
+            searchBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
         }
 
         private void AddNoteMessageHandler(object sender, EventArgs e)
@@ -77,9 +91,7 @@ namespace Organizer.UI.Views
 
                 var addNoteWindow = new AddNoteWindow(addNoteViewModel);
 
-                addNoteWindow.Show();
-
-                this.Close();
+                addNoteWindow.ShowDialog();
             });
         }
 
@@ -88,10 +100,32 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.BackMessage -= BackMessageHandler;
+            _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
+            _viewModel.ValidateSearch -= ValidateSearchHandler;
             _viewModel.AddNoteMessage -= AddNoteMessageHandler;
             _viewModel.EditNoteMessage -= EditNoteMessageHandler;
             _viewModel.ViewNoteMessage -= ViewNoteMessageHandler;
             _viewModel.UnregisterCommandsForWindow(this);
+        }
+
+        private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            bool isBottom = IsScrollViewReachedTheBottom(e);
+            if (isBottom)
+            {
+                _viewModel.FetchNextPageCommand.Execute(null);
+            }
+        }
+
+        private bool IsScrollViewReachedTheBottom(ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeight - e.ViewportHeight == 0 && e.VerticalOffset != 0)
+                return true;
+            if (e.VerticalOffset == 0)
+                return false;
+            if (e.ExtentHeight - e.ViewportHeight - e.VerticalOffset == 0)
+                return true;
+            return false;
         }
     }
 }

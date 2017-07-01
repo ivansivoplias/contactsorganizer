@@ -135,6 +135,7 @@ namespace Organizer.UI.ViewModels
 
             if (IsModelValid)
             {
+                _note.LastChangeDate = DateTime.Now;
                 try
                 {
                     _noteService.EditNote(_note);

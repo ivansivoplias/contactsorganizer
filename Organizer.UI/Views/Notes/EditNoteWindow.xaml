@@ -42,6 +42,7 @@
                        VerticalAlignment="Center" />
 
                 <TextBox
+                    x:Name="captionField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"
@@ -72,6 +73,7 @@
                        VerticalAlignment="Top" />
 
                 <TextBox
+                    x:Name="noteTextField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"

@@ -4,9 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:helper="clr-namespace:Organizer.UI.Helpers"
+        xmlns:convertor="clr-namespace:Organizer.UI.Convertors"
+        xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
+        xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="NotesListWindow" Height="460" Width="814">
+        Title="NotesListWindow" Height="460" Width="814"
+        behavior:FocusBehavior.FocusFirst="True">
     <Grid>
+        <Grid.Resources>
+            <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
+            <convertor:EnumToBooleanConverter x:Key="enumConvertor" />
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -36,10 +45,24 @@
                        VerticalAlignment="Center"
                        Margin="10" />
 
-            <TextBox Grid.Column="1"
+            <TextBox x:Name="searchBox" Grid.Column="1"
                      Padding="3"
                      Height="30"
-                     Margin="5 10" />
+                     Margin="5 10">
+                <TextBox.Text>
+                    <Binding Path="SearchValue"
+                             NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:NoteSearchValidationRule
+                                ValidatesOnTargetUpdated="True">
+                                <valid:NoteSearchValidationRule.Wrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.SearchType, Source={StaticResource proxy}}" />
+                                </valid:NoteSearchValidationRule.Wrapper>
+                            </valid:NoteSearchValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2">
                 <Button Height="30"
@@ -54,9 +77,15 @@
 
                 <GroupBox Header="Search type" Padding="5" Margin="10">
                     <StackPanel>
-                        <RadioButton GroupName="SearchType" Margin="3" Content="Note caption" />
-                        <RadioButton GroupName="SearchType" Margin="3" Content="Creation date" />
-                        <RadioButton GroupName="SearchType" Margin="3" Content="Last change date" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=Default}" Margin="3" Content="Default" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByCaptionLike}" Margin="3" Content="Caption" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=CreatedBetween}" Margin="3" Content="Created between" />
                     </StackPanel>
                 </GroupBox>
             </StackPanel>
@@ -72,7 +101,8 @@
                       Margin="10"
                        FontSize="16"
                       CanUserResizeColumns="False"
-                      AutoGenerateColumns="False">
+                      AutoGenerateColumns="False"
+                      ScrollViewer.ScrollChanged="DataGrid_ScrollChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Caption}"
                                         Header="Название заметки"

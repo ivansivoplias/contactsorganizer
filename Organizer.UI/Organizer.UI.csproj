@@ -88,6 +88,8 @@
     <Compile Include="Helpers\SocialsHelper.cs" />
     <Compile Include="Helpers\Wrapper.cs" />
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
+    <Compile Include="ValidationRules\Search\MeetingSearchValidationRule.cs" />
+    <Compile Include="ValidationRules\Search\ContactSearchValidationRule.cs" />
     <Compile Include="ValidationRules\General\DateGreaterOrEqualTodayValidationRule.cs" />
     <Compile Include="ValidationRules\General\DateGreaterThanTodayValidationRule.cs" />
     <Compile Include="ValidationRules\Contact\EmailValidationRule.cs" />
