@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewTodoWindow" Height="462.965" Width="715.955"
+        Title="ViewTodoWindow" Height="462.965" Width="761.955"
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
@@ -44,6 +44,7 @@
                        FontSize="16"
                        Padding="5"
                        Height="100"
+                       TextWrapping="Wrap"
                        Text="{Binding NoteText}"
                        VerticalAlignment="Center" />
             </Grid>
@@ -113,6 +114,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
+                       TextWrapping="Wrap"
                        Text="{Binding StartDate}"
                        VerticalAlignment="Center" />
             </Grid>
@@ -136,6 +138,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
+                       TextWrapping="Wrap"
                        Text="{Binding EndDate}"
                        VerticalAlignment="Center" />
             </Grid>
@@ -159,6 +162,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
+                       TextWrapping="Wrap"
                        Text="{Binding CreationDate}"
                        VerticalAlignment="Center" />
                 </StackPanel>
@@ -175,6 +179,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
+                       TextWrapping="Wrap"
                        Text="{Binding LastChangeDate}"
                        VerticalAlignment="Center" />
                 </StackPanel>

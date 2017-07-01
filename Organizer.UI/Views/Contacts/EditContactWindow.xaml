@@ -49,7 +49,7 @@
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
                     <TextBox.Text>
-                        <Binding Path="PrimaryPhone" NotifyOnValidationError="True">
+                        <Binding Path="PrimaryPhone" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <valid:PhoneValidationRule />
                             </Binding.ValidationRules>
@@ -80,7 +80,7 @@
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
                     <TextBox.Text>
-                        <Binding Path="FirstName" NotifyOnValidationError="True">
+                        <Binding Path="FirstName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <valid:StringLengthValidationRule MinLength="2" MaxLength="20" />
                             </Binding.ValidationRules>
@@ -110,7 +110,7 @@
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <Binding Path="MiddleName" NotifyOnValidationError="True">
+                    <Binding Path="MiddleName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:StringLengthValidationRule MinLength="5" MaxLength="25" />
                         </Binding.ValidationRules>
@@ -139,7 +139,7 @@
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <Binding Path="LastName" NotifyOnValidationError="True">
+                    <Binding Path="LastName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:StringLengthValidationRule MinLength="2" MaxLength="25" />
                         </Binding.ValidationRules>
@@ -168,7 +168,7 @@
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <Binding Path="NickName" NotifyOnValidationError="True">
+                    <Binding Path="NickName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:StringLengthValidationRule MinLength="3" MaxLength="16" />
                         </Binding.ValidationRules>
@@ -197,7 +197,7 @@
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <Binding Path="Email" NotifyOnValidationError="True">
+                    <Binding Path="Email" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:EmailValidationRule />
                         </Binding.ValidationRules>

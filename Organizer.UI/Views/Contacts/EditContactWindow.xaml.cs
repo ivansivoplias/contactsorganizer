@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Organizer.UI.Views
 {
@@ -16,6 +17,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddSocialMessage += AddSocialMessageHandler;
+            _viewModel.CheckValidationMessage += CheckValidationMessageHandler;
             _viewModel.EditSocialMessage += EditSocialMessageHandler;
             _viewModel.CancelMessage += CancelMessageHandler;
             _viewModel.SaveMessage += SaveMessageHandler;
@@ -30,23 +32,25 @@ namespace Organizer.UI.Views
 
         private void SaveMessageHandler(object sender, EventArgs e)
         {
-            SetupContactsListForm();
+            this.Close();
         }
 
         private void CancelMessageHandler(object sender, EventArgs e)
         {
-            SetupContactsListForm();
+            this.Close();
         }
 
-        private void SetupContactsListForm()
+        private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var viewModel = new ContactsListViewModel();
-                var contactsList = new ContactsListWindow(viewModel);
-                contactsList.Show();
-                this.Close();
-            });
+            bool isPhoneValid = !primaryPhoneField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isFirstNameValid = !firstNameField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isMiddleNameValid = !middleNameField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isLastNameValid = !lastNameField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isNickNameValid = !nickNameField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isEmailValid = !emailField.GetBindingExpression(TextBox.TextProperty).HasError;
+
+            _viewModel.IsModelValid = isPhoneValid && isFirstNameValid && isMiddleNameValid
+                && isLastNameValid && isNickNameValid && isEmailValid;
         }
 
         private void AddSocialMessageHandler(object sender, EventArgs e)
@@ -74,6 +78,7 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.AddSocialMessage -= AddSocialMessageHandler;
+            _viewModel.CheckValidationMessage -= CheckValidationMessageHandler;
             _viewModel.EditSocialMessage -= EditSocialMessageHandler;
             _viewModel.CancelMessage -= CancelMessageHandler;
             _viewModel.SaveMessage -= SaveMessageHandler;

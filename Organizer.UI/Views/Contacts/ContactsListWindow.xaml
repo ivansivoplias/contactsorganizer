@@ -9,7 +9,7 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="ContactsListWindow" Height="533.551" Width="1090.279"
+        Title="ContactsListWindow" Height="533.551" Width="845.286"
         behavior:FocusBehavior.FocusFirst="True">
     <Grid>
         <Grid.Resources>
@@ -52,7 +52,7 @@
                      Margin="5 10">
                 <TextBox.Text>
                     <Binding Path="SearchValue"
-                             NotifyOnValidationError="True">
+                             NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:ContactSearchValidationRule
                                 ValidatesOnTargetUpdated="True">

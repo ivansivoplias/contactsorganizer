@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewNoteWindow" Height="387.338" Width="616.955"
+        Title="ViewNoteWindow" Height="387.338" Width="732.955"
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
@@ -45,6 +45,7 @@
                        FontSize="16"
                        Padding="5"
                        Height="200"
+                       TextWrapping="Wrap"
                        Text="{Binding NoteText, Mode=OneWay}"
                        VerticalAlignment="Center" />
             </Grid>
@@ -69,6 +70,7 @@
                        FontSize="16"
                        Padding="5"
                        Text="{Binding CreationDate, Mode=OneWay}"
+                       TextWrapping="Wrap"
                        VerticalAlignment="Center" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
@@ -84,6 +86,7 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
+                       TextWrapping="Wrap"
                        Text="{Binding LastChangeDate, Mode=OneWay}"
                        VerticalAlignment="Center" />
                 </StackPanel>

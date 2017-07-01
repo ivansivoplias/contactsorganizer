@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewContactWindow" Height="465.104" Width="647.458">
+        Title="ViewContactWindow" Height="529.814" Width="647.458">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -45,6 +45,7 @@
                        FontSize="16"
                        Text="{Binding PrimaryPhone}"
                        Padding="5"
+                       TextWrapping="Wrap"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
             </Grid>
@@ -91,6 +92,7 @@
                        FontSize="16"
                        Text="{Binding MiddleName}"
                        Padding="5"
+                       TextWrapping="Wrap"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
             </Grid>
@@ -113,6 +115,7 @@
                        FontSize="16"
                        Text="{Binding LastName}"
                        Padding="5"
+                       TextWrapping="Wrap"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
             </Grid>
@@ -135,6 +138,7 @@
                        FontSize="16"
                        Text="{Binding NickName}"
                        Padding="5"
+                       TextWrapping="Wrap"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
             </Grid>
@@ -157,6 +161,7 @@
                        FontSize="16"
                        Text="{Binding Email}"
                        Padding="5"
+                       TextWrapping="Wrap"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
             </Grid>

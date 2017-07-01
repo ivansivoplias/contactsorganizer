@@ -34,7 +34,7 @@ namespace Organizer.BL.Services
 
                 var dbNote = noteRepo.GetNoteByCaption(note.UserId, note.NoteType, note.Caption);
 
-                if (note == null)
+                if (dbNote == null)
                 {
                     using (var transaction = unitOfWork.BeginTransaction())
                     {
@@ -57,9 +57,9 @@ namespace Organizer.BL.Services
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var notes = noteRepo.FindNotesByCaption(note.UserId, note.Caption, note.NoteType).ToList();
+                var dbNotes = noteRepo.FindNotesByCaption(note.UserId, note.Caption, note.NoteType).ToList();
 
-                if (notes.Count == 0 || (notes.Count == 1 && notes[0].Id == note.Id))
+                if (dbNotes.Count == 0 || (dbNotes.Count == 1 && dbNotes[0].Id == note.Id))
                 {
                     using (var transaction = unitOfWork.BeginTransaction())
                     {

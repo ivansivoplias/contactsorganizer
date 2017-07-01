@@ -43,7 +43,8 @@
                        FontSize="16"
                        Padding="5"
                        Height="100"
-                       Text="{Binding Description, Mode=OneWay, FallbackValue='Просто мега длинное описание'}"
+                       TextWrapping="Wrap"
+                       Text="{Binding Description, Mode=OneWay}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -66,7 +67,8 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
-                       Text="{Binding MeetingDate, Mode=OneWay, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       TextWrapping="Wrap"
+                       Text="{Binding MeetingDate, Mode=OneWay}"
                        VerticalAlignment="Center" />
             </Grid>
 
@@ -89,7 +91,8 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
-                       Text="{Binding NotificationDate, Mode=OneWay, FallbackValue='01.02.2222 18:00.00.0000'}"
+                       TextWrapping="Wrap"
+                       Text="{Binding NotificationDate, Mode=OneWay}"
                        VerticalAlignment="Center" />
             </Grid>
 
