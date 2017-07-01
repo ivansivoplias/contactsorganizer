@@ -5,10 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
+        xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
+        xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
         Title="AddSocialDialog" Height="274" Width="580"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        behavior:FocusBehavior.FocusFirst="True">
     <Grid>
+        <Grid.Resources>
+            <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -43,12 +49,12 @@
                        FontSize="16"
                        Padding="5"
                        Margin="5 10" />
-            <TextBox MinWidth="120"
+            <TextBox x:Name="appNameField" MinWidth="120"
                        Padding="5"
                        FontSize="16"
                        Margin="5 10">
                 <TextBox.Text>
-                    <Binding Path="AppName" NotifyOnValidationError="True">
+                    <Binding Path="AppName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:StringLengthValidationRule MinLength="4" MaxLength="30" />
                         </Binding.ValidationRules>
@@ -59,14 +65,19 @@
                        FontSize="16"
                        Padding="5"
                        Margin="5 10" />
-            <TextBox MinWidth="120"
+            <TextBox x:Name="appIdField" MinWidth="120"
                        FontSize="16"
                      Padding="5"
                        Margin="5 10">
                 <TextBox.Text>
-                    <Binding Path="AppId" NotifyOnValidationError="True">
+                    <Binding Path="AppId" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:StringLengthValidationRule MinLength="4" MaxLength="40" />
+                            <valid:SocialPhoneValidationRule ValidatesOnTargetUpdated="True">
+                                <valid:SocialPhoneValidationRule.Wrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.AppName, Source={StaticResource proxy}}" />
+                                </valid:SocialPhoneValidationRule.Wrapper>
+                            </valid:SocialPhoneValidationRule>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>

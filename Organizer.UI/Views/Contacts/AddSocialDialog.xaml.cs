@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Organizer.UI.Views
 {
@@ -17,6 +18,7 @@ namespace Organizer.UI.Views
             _viewModel = viewModel;
 
             _viewModel.SubmitMessage += SubmitMessageHandler;
+            _viewModel.CheckValidationMessage += CheckValidationMessageHandler;
             _viewModel.CancelMessage += CancelMessageHandler;
 
             this.DataContext = _viewModel;
@@ -33,6 +35,14 @@ namespace Organizer.UI.Views
             this.Close();
         }
 
+        private void CheckValidationMessageHandler(object sender, EventArgs e)
+        {
+            bool isAppNameValid = !appNameField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isAppIdValid = !appIdField.GetBindingExpression(TextBox.TextProperty).HasError;
+
+            _viewModel.IsModelValid = isAppNameValid && isAppIdValid;
+        }
+
         private void CancelMessageHandler(object sender, EventArgs e)
         {
             this.DialogResult = false;
@@ -44,6 +54,7 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.SubmitMessage -= SubmitMessageHandler;
+            _viewModel.CheckValidationMessage -= CheckValidationMessageHandler;
             _viewModel.CancelMessage -= CancelMessageHandler;
 
             _viewModel.UnregisterCommandsForWindow(this);

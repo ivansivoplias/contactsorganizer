@@ -74,10 +74,6 @@ namespace Organizer.UI.ViewModels
                 {
                     MessageBox.Show($"Invalid data provided. Note cannot be saved.\nDetails: {e.Message}", "Error");
                 }
-                catch (PrimaryPhoneAlreadyExistException e)
-                {
-                    MessageBox.Show($"Invalid data provided. Note cannot be saved.\nDetails: {e.Message}", "Error");
-                }
                 catch
                 {
                     MessageBox.Show("Invalid data provided. Note cannot be saved.", "Error");

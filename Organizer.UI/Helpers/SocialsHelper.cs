@@ -18,7 +18,8 @@ namespace Organizer.UI.Helpers
                 "Viber",
                 "WhatsApp",
                 "Line",
-                "Telegram"
+                "Telegram",
+                "Phone"
             };
         }
 

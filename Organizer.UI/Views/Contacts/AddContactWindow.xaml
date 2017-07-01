@@ -41,7 +41,7 @@
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <TextBox
+                <TextBox x:Name="primaryPhoneField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"
@@ -72,7 +72,7 @@
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <TextBox
+                <TextBox x:Name="firstNameField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"
@@ -102,7 +102,7 @@
                        Text="По-отчеству:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
-                <TextBox
+                <TextBox x:Name="middleNameField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"
@@ -130,7 +130,7 @@
                        FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
-                <TextBox
+                <TextBox x:Name="lastNameField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"
@@ -158,7 +158,8 @@
                        FontSize="14"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
-                <TextBox
+
+                <TextBox x:Name="nickNameField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"
@@ -186,7 +187,7 @@
                        FontSize="14"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
-                <TextBox
+                <TextBox x:Name="emailField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
@@ -28,6 +29,8 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler EditSocialMessage = delegate { };
 
+        public event EventHandler CheckValidationMessage = delegate { };
+
         public event EventHandler SaveMessage = delegate { };
 
         public event EventHandler CancelMessage = delegate { };
@@ -43,6 +46,8 @@ namespace Organizer.UI.ViewModels
         public ICommand CancelCommand => _cancelCommand;
 
         public ICollection<SocialInfoDto> Socials => _socials;
+
+        public bool IsModelValid { get; set; }
 
         public SocialInfoDto SelectedSocial
         {
@@ -135,19 +140,33 @@ namespace Organizer.UI.ViewModels
 
         private void Save()
         {
-            _contact.UserId = App.CurrentUser.Id;
-            _contact.PersonalInfo = _personalInfo;
-            _contact.Socials = _socials.ToList();
+            CheckValidation();
 
-            try
+            if (IsModelValid)
             {
-                _contactService.EditContact(_contact);
-                SaveMessage.Invoke(null, EventArgs.Empty);
+                _contact.UserId = App.CurrentUser.Id;
+                _contact.PersonalInfo = _personalInfo;
+                _contact.Socials = _socials.ToList();
+
+                try
+                {
+                    _contactService.EditContact(_contact);
+                    SaveMessage.Invoke(null, EventArgs.Empty);
+                }
+                catch (PrimaryPhoneAlreadyExistException e)
+                {
+                    MessageBox.Show($"Invalid data provided. Contact cannot be saved.\nDetails: {e.Message}", "Error");
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid data provided. Contact cannot be saved.", "Error");
+                }
             }
-            catch
-            {
-                MessageBox.Show("Invalid data provided. Contact cannot be saved.", "Error");
-            }
+        }
+
+        private void CheckValidation()
+        {
+            CheckValidationMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void Cancel()

@@ -1,18 +1,8 @@
 ﻿using Organizer.UI.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Organizer.UI.Views
 {
@@ -28,6 +18,7 @@ namespace Organizer.UI.Views
             _viewModel = viewModel;
 
             _viewModel.SubmitMessage += SubmitMessageHandler;
+            _viewModel.CheckValidationMessage += CheckValidationMessageHandler;
             _viewModel.CancelMessage += CancelMessageHandler;
 
             this.DataContext = _viewModel;
@@ -44,6 +35,14 @@ namespace Organizer.UI.Views
             this.Close();
         }
 
+        private void CheckValidationMessageHandler(object sender, EventArgs e)
+        {
+            bool isAppNameValid = !appNameField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isAppIdValid = !appIdField.GetBindingExpression(TextBox.TextProperty).HasError;
+
+            _viewModel.IsModelValid = isAppNameValid && isAppIdValid;
+        }
+
         private void CancelMessageHandler(object sender, EventArgs e)
         {
             this.DialogResult = false;
@@ -55,6 +54,7 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.SubmitMessage -= SubmitMessageHandler;
+            _viewModel.CheckValidationMessage -= CheckValidationMessageHandler;
             _viewModel.CancelMessage -= CancelMessageHandler;
 
             _viewModel.UnregisterCommandsForWindow(this);

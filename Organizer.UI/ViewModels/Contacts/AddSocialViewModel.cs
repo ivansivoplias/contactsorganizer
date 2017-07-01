@@ -22,11 +22,15 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler CancelMessage = delegate { };
 
+        public event EventHandler CheckValidationMessage = delegate { };
+
         public ICommand SubmitCommand => _submitCommand;
 
         public ICommand CancelCommand => _cancelCommand;
 
         public ICollection<string> StandartSocials => _standartSocials;
+
+        public bool IsModelValid { get; set; }
 
         public SocialInfoDto Social => _socialInfo;
 
@@ -66,15 +70,25 @@ namespace Organizer.UI.ViewModels
 
         private void Submit()
         {
-            if (_socials.FirstOrDefault(x => x.AppName == _socialInfo.AppName && x.AppId == _socialInfo.AppId) == null)
+            CheckValidation();
+
+            if (IsModelValid)
             {
-                _socials.Add(_socialInfo);
-                SubmitMessage.Invoke(null, EventArgs.Empty);
+                if (_socials.FirstOrDefault(x => x.AppName == _socialInfo.AppName && x.AppId == _socialInfo.AppId) == null)
+                {
+                    _socials.Add(_socialInfo);
+                    SubmitMessage.Invoke(null, EventArgs.Empty);
+                }
+                else
+                {
+                    MessageBox.Show("Cannot add social, because such social already exists!", "Submit failed!", MessageBoxButton.OK);
+                }
             }
-            else
-            {
-                MessageBox.Show("Cannot add social, because such social already exists!", "Submit failed!", MessageBoxButton.OK);
-            }
+        }
+
+        private void CheckValidation()
+        {
+            CheckValidationMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void Cancel()

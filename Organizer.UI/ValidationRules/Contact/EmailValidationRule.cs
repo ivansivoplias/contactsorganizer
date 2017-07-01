@@ -13,12 +13,7 @@ namespace Organizer.UI.ValidationRules
         {
             var email = value as string;
 
-            if (string.IsNullOrEmpty(email))
-            {
-                return new ValidationResult(false, "Email cannot be null or empty.");
-            }
-
-            if (!_emailRegex.IsMatch(email))
+            if (!string.IsNullOrEmpty(email) && !_emailRegex.IsMatch(email))
             {
                 return new ValidationResult(false, "Email string is not valid. Valid examples: email@google.com.");
             }
