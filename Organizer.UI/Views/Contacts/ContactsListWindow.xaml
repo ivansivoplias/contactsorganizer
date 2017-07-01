@@ -1,0 +1,190 @@
+﻿<Window x:Class="Organizer.UI.Views.ContactsListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:helper="clr-namespace:Organizer.UI.Helpers"
+        xmlns:convertor="clr-namespace:Organizer.UI.Convertors"
+        xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
+        xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
+        mc:Ignorable="d"
+        Title="ContactsListWindow" Height="533.551" Width="845.286"
+        behavior:FocusBehavior.FocusFirst="True">
+    <Grid>
+        <Grid.Resources>
+            <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
+            <convertor:EnumToBooleanConverter x:Key="enumConvertor" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Padding="10" TextAlignment="Center"
+                       Text="Contacts list"
+                       FontSize="25"
+                       FontFamily="Verdana"
+                       FontStyle="Normal"
+                       FontWeight="DemiBold" />
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Search:"
+                       FontFamily="Verdana"
+                       FontSize="16"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center"
+                       Margin="10" />
+
+            <TextBox x:Name="searchBox" Grid.Column="1"
+                     Padding="3"
+                     Height="30"
+                     Margin="5 10">
+                <TextBox.Text>
+                    <Binding Path="SearchValue"
+                             NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:ContactSearchValidationRule
+                                ValidatesOnTargetUpdated="True">
+                                <valid:ContactSearchValidationRule.Wrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.SearchType, Source={StaticResource proxy}}" />
+                                </valid:ContactSearchValidationRule.Wrapper>
+                            </valid:ContactSearchValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <Button Height="30"
+                        Width="120"
+                        Padding="5"
+                        FontFamily="Comic Sans MS"
+                        FontStyle="Italic"
+                       FontSize="16"
+                        Margin="10"
+                        Command="{Binding SearchCommand}"
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
+
+                <GroupBox Header="Search type" Padding="5" Margin="10">
+                    <StackPanel>
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=Default}" Margin="3" Content="Default" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByPhone}" Margin="3" Content="Phone" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByPersonalInfo}" Margin="3" Content="By personal information" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=BySocialInfo}" Margin="3" Content="By social id" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <DataGrid Name="contactsList" ItemsSource="{Binding Contacts, Mode=OneWay}"
+                      Grid.Column="0"
+                       FontSize="16"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
+                      SelectedItem="{Binding SelectedContact}"
+                      AutoGenerateColumns="False"
+                      ScrollViewer.ScrollChanged="DataGrid_ScrollChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Header="Основной телефон"
+                        Width="*"
+                        Binding="{Binding Path=PrimaryPhone}" />
+                    <DataGridTextColumn
+                        Header="Имя"
+                        Width="*"
+                        Binding="{Binding Path=PersonalInfo.FirstName}" />
+                    <DataGridTextColumn
+                        Header="По-отчеству"
+                        Width="*"
+                        Binding="{Binding Path=PersonalInfo.MiddleName}" />
+                    <DataGridTextColumn
+                        Header="Фамилия"
+                        Width="*"
+                        Binding="{Binding Path=PersonalInfo.Lastname}" />
+                    <DataGridTextColumn
+                        Header="Никнейм"
+                        Width="*"
+                        Binding="{Binding Path=PersonalInfo.Nickname}" />
+                    <DataGridTextColumn
+                        Header="Е-мейл"
+                        Width="*"
+                        Binding="{Binding Path=PersonalInfo.Email}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center">
+                <Button
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
+                       FontSize="16"
+                    FontStyle="Normal"
+                    FontWeight="ExtraLight"
+                    Command="{Binding AddContactCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add contact'}" />
+                <Button
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
+                       FontSize="16"
+                    FontStyle="Normal"
+                    Command="{Binding EditContactCommand}"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit contact'}" />
+
+                <Button
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
+                       FontSize="16"
+                    FontStyle="Normal"
+                    Command="{Binding DeleteContactCommand}"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Remove contact'}" />
+
+                <Button
+                Margin="5" Padding="7"
+                    FontFamily="Verdana"
+                       FontSize="16"
+                    Command="{Binding ViewContactCommand}"
+                    FontStyle="Normal"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View details'}" />
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="3">
+            <Button Height="40"
+                    Width="200"
+                    FontFamily="Comic Sans MS"
+                    FontStyle="Italic"
+                    FontSize="16"
+                    Margin="0 15"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
+                    Command="{Binding BackCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

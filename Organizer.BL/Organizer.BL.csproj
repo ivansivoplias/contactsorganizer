@@ -30,6 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,7 +47,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MapperConfiguration\DtoMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ContactService.cs" />
+    <Compile Include="Services\MeetingService.cs" />
+    <Compile Include="Services\NoteService.cs" />
+    <Compile Include="Services\UserService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Organizer.Common\Organizer.Common.csproj">
+      <Project>{AD5F05A7-CC04-40AC-8A25-C97303A5B081}</Project>
+      <Name>Organizer.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Organizer.DAL\Organizer.DAL.csproj">
+      <Project>{e741d9b8-2490-4859-8f02-ceeb8913de52}</Project>
+      <Name>Organizer.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Organizer.Infrastructure\Organizer.Infrastructure.csproj">
+      <Project>{731EF1FE-B536-4572-B4E0-B7D1C5869F3D}</Project>
+      <Name>Organizer.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

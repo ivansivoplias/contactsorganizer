@@ -40,11 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IEntity.cs" />
-    <Compile Include="IRepository.cs" />
-    <Compile Include="IRepositoryProvider.cs" />
-    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Database\Repositories\IContactRepository.cs" />
+    <Compile Include="Database\IDatabaseContextFactory.cs" />
+    <Compile Include="Database\IDbContext.cs" />
+    <Compile Include="Database\Repositories\IMeetingRepository.cs" />
+    <Compile Include="Database\Repositories\INoteRepository.cs" />
+    <Compile Include="Database\IRepository.cs" />
+    <Compile Include="Database\IUnitOfWork.cs" />
+    <Compile Include="Database\Repositories\ISocialInfoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IContactService.cs" />
+    <Compile Include="Services\IMeetingService.cs" />
+    <Compile Include="Services\INoteService.cs" />
+    <Compile Include="Services\IUserService.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Organizer.Common\Organizer.Common.csproj">
+      <Project>{ad5f05a7-cc04-40ac-8a25-c97303a5b081}</Project>
+      <Name>Organizer.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

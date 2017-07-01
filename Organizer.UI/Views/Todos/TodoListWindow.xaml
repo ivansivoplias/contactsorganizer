@@ -1,0 +1,204 @@
+﻿<Window x:Class="Organizer.UI.Views.TodoListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:helper="clr-namespace:Organizer.UI.Helpers"
+        xmlns:convertor="clr-namespace:Organizer.UI.Convertors"
+        xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
+        xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
+        mc:Ignorable="d"
+        Title="TodoListWindow" Height="567.417" Width="1101.039"
+        behavior:FocusBehavior.FocusFirst="True">
+    <Grid>
+        <Grid.Resources>
+            <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
+            <convertor:EnumToBooleanConverter x:Key="enumConvertor" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Todo list"
+                       FontFamily="Comic Sans MS"
+                       FontStyle="Italic"
+                       FontSize="20"
+                       Margin="10"
+                       TextAlignment="Center" />
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Search:"
+                       FontFamily="Verdana"
+                       FontSize="16"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center"
+                       Margin="10" />
+
+            <TextBox x:Name="searchBox" Grid.Column="1"
+                     Padding="3"
+                     Height="30"
+                     Margin="5 10">
+                <TextBox.Text>
+                    <Binding Path="SearchValue"
+                             NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:TodoSearchValidationRule
+                                ValidatesOnTargetUpdated="True">
+                                <valid:TodoSearchValidationRule.Wrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.SearchType, Source={StaticResource proxy}}" />
+                                </valid:TodoSearchValidationRule.Wrapper>
+                            </valid:TodoSearchValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <Button Height="30"
+                        Width="120"
+                        Padding="5"
+                        FontFamily="Comic Sans MS"
+                        FontStyle="Italic"
+                       FontSize="16"
+                        Margin="10"
+                        Command="{Binding SearchCommand}"
+                        Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
+
+                <GroupBox Header="Search type" Padding="5" Margin="10">
+                    <StackPanel>
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=Default}" Margin="3" Content="Default" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByCaptionLike}" Margin="3" Content="Caption" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByState}" Margin="3" Content="State" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByPriority}" Margin="3" Content="Priority" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=CreatedBetween}" Margin="3" Content="Created between" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByStartDate}" Margin="3" Content="Start date" />
+                        <RadioButton
+                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            ConverterParameter=ByEndDate}" Margin="3" Content="End date" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="0.2*" />
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Todos}"
+                      SelectedItem="{Binding SelectedTodo}"
+                      Margin="10"
+                       FontSize="16"
+                      CanUserResizeColumns="False"
+                      AutoGenerateColumns="False"
+                      ScrollViewer.ScrollChanged="DataGrid_ScrollChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Caption}"
+                                        Header="Название задания"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding NoteText}"
+                                        Header="Описание задания"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding CreationDate}"
+                                        Header="Дата создания"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding LastChangeDate}"
+                                        Header="Дата изменения"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding State}"
+                                        Header="Состояние"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding Priority}"
+                                        Header="Приоритет"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding StartDate}"
+                                        Header="Дата начала"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding EndDate}"
+                                        Header="Дата завершения"
+                                        Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center">
+                <Button
+                Margin="10 5" Padding="3"
+                    FontFamily="Comic Sans MS"
+                       FontSize="16"
+                    FontStyle="Normal"
+                    FontWeight="ExtraLight"
+                    Command="{Binding AddTodoCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+                <Button
+                Margin="10 5" Padding="3"
+                    FontFamily="Comic Sans MS"
+                       FontSize="16"
+                    FontStyle="Normal"
+                    Command="{Binding EditTodoCommand}"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+
+                <Button
+                Margin="10 5" Padding="3"
+                    FontFamily="Comic Sans MS"
+                       FontSize="16"
+                    FontStyle="Normal"
+                    Command="{Binding DeleteTodoCommand}"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+
+                <Button
+                Margin="10 5" Padding="3"
+                    FontFamily="Comic Sans MS"
+                       FontSize="16"
+                    Command="{Binding ViewTodoCommand}"
+                    FontStyle="Normal"
+                    FontWeight="ExtraLight"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="3">
+            <Button Height="40"
+                    Width="200"
+                    FontFamily="Comic Sans MS"
+                    FontStyle="Italic"
+                    Margin="0 15"
+                       FontSize="16"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
+                    Command="{Binding BackCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

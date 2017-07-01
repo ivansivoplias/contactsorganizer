@@ -40,10 +40,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NoteType.cs" />
-    <Compile Include="Priority.cs" />
+    <Compile Include="DTO\BaseDto.cs" />
+    <Compile Include="DTO\ContactDto.cs" />
+    <Compile Include="DTO\MeetingDto.cs" />
+    <Compile Include="DTO\NoteDto.cs" />
+    <Compile Include="DTO\PersonalInfoDto.cs" />
+    <Compile Include="DTO\SocialInfoDto.cs" />
+    <Compile Include="DTO\UserDto.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\Contact.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\Meeting.cs" />
+    <Compile Include="Entities\Note.cs" />
+    <Compile Include="Entities\PersonalInfo.cs" />
+    <Compile Include="Entities\SocialInfo.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Enums\NoteType.cs" />
+    <Compile Include="Enums\Priority.cs" />
+    <Compile Include="Enums\SearchTypes\ContactSearchType.cs" />
+    <Compile Include="Enums\SearchTypes\DiarySearchType.cs" />
+    <Compile Include="Enums\SearchTypes\MeetingSearchType.cs" />
+    <Compile Include="Enums\SearchTypes\TodoSearchType.cs" />
+    <Compile Include="Exceptions\InvalidData\LoginFailedException.cs" />
+    <Compile Include="Exceptions\InvalidData\MeetingNameAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\InvalidData\NoteCaptionAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\InvalidData\PrimaryPhoneAlreadyExistException.cs" />
+    <Compile Include="Exceptions\InvalidData\SocialAlreadyExistException.cs" />
+    <Compile Include="Exceptions\Transaction\TransactionAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\Transaction\TransactionCommitFailedException.cs" />
+    <Compile Include="Exceptions\InvalidData\UserAlreadyExistsException.cs" />
+    <Compile Include="Helpers\CollectionHelper.cs" />
+    <Compile Include="Helpers\EnumExtentions.cs" />
+    <Compile Include="Helpers\PaginationHelper.cs" />
+    <Compile Include="Helpers\SHA512Hasher.cs" />
+    <Compile Include="Pagination\Page.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="State.cs" />
+    <Compile Include="Enums\State.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

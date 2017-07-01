@@ -1,0 +1,88 @@
+﻿<Window x:Class="Organizer.UI.Views.RegistrationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:valid ="clr-namespace:Organizer.UI.ValidationRules"
+        xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:helper="clr-namespace:Organizer.UI.Helpers"
+        mc:Ignorable="d"
+        Title="RegistrationWindow" Height="511" Width="758.425">
+    <Grid>
+        <Grid.Resources>
+            <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock Margin="0 50 0 0" Text="{Binding HeaderText}" TextAlignment="Center" HorizontalAlignment="Stretch"
+                       FontSize="25" FontFamily="Times New Roman" FontStyle="Italic" FontWeight="SemiBold" />
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5*" />
+            </Grid.ColumnDefinitions>
+
+            <Label VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 0 20" Padding="10" Grid.Row="0" Grid.Column="0"
+                   Content="{Binding LoginText}" />
+            <TextBox VerticalAlignment="Center" Margin="0 0 25 20" Padding="10" Grid.Row="0" Grid.Column="1"
+                     x:Name="loginField">
+                <TextBox.Text>
+                    <Binding Path="Login">
+                        <Binding.ValidationRules>
+                            <valid:LoginValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Label VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 0 20" Padding="10" Grid.Row="1" Grid.Column="0"
+                   Content="{Binding PasswordText}" />
+            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 20"  Padding="10" Grid.Row="1" Grid.Column="1"
+                         helper:PasswordBoxAssistant.BindPassword="True"
+                         x:Name="passwordField">
+                <helper:PasswordBoxAssistant.BoundPassword>
+                    <Binding Path="Password" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:PasswordValidationRule MinLength="6" MaxLength="20" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </helper:PasswordBoxAssistant.BoundPassword>
+            </PasswordBox>
+
+            <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Margin="0 0 0 20" Grid.Row="2" Grid.Column="0"
+                   Content="{Binding RepeatePasswordText}" />
+            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 20"  Padding="10" Grid.Row="2" Grid.Column="1"
+                         helper:PasswordBoxAssistant.BindPassword="True"
+                         x:Name="repeatedPasswordField">
+                <helper:PasswordBoxAssistant.BoundPassword>
+                    <Binding Path="RepeatedPassword" Mode="TwoWay" UpdateSourceTrigger="LostFocus">
+                        <Binding.ValidationRules>
+                            <valid:RepeatedPasswordValidationRule
+                                ValidatesOnTargetUpdated="True">
+                                <valid:RepeatedPasswordValidationRule.Wrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.Password, Source={StaticResource proxy}}" />
+                                </valid:RepeatedPasswordValidationRule.Wrapper>
+                            </valid:RepeatedPasswordValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </helper:PasswordBoxAssistant.BoundPassword>
+            </PasswordBox>
+        </Grid>
+
+        <StackPanel Margin="0 20 0 20" Grid.Row="2" HorizontalAlignment="Center">
+            <Button Height="80" Width="200" Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
+                    Command="{Binding RegisterCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

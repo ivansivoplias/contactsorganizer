@@ -13,6 +13,21 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,8 +49,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da">
+      <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -54,18 +78,208 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="Behaviours\FocusBehavior.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Convertors\EnumToBooleanConvertor.cs" />
+    <Compile Include="Helpers\BindingProxy.cs" />
+    <Compile Include="Helpers\ExpressionHelper.cs" />
+    <Compile Include="Helpers\PasswordBoxAssistant.cs" />
+    <Compile Include="Helpers\SecureStringExtentions.cs" />
+    <Compile Include="Helpers\SocialsHelper.cs" />
+    <Compile Include="Helpers\Wrapper.cs" />
+    <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
+    <Compile Include="ValidationRules\Contact\SocialPhoneValidationRule.cs" />
+    <Compile Include="ValidationRules\General\NotNullValidationRule.cs" />
+    <Compile Include="ValidationRules\Search\MeetingSearchValidationRule.cs" />
+    <Compile Include="ValidationRules\Search\ContactSearchValidationRule.cs" />
+    <Compile Include="ValidationRules\General\DateGreaterOrEqualTodayValidationRule.cs" />
+    <Compile Include="ValidationRules\General\DateGreaterThanTodayValidationRule.cs" />
+    <Compile Include="ValidationRules\Contact\EmailValidationRule.cs" />
+    <Compile Include="ValidationRules\User\LoginValidationRule.cs" />
+    <Compile Include="ValidationRules\Meeting\MeetingDateValidationRule.cs" />
+    <Compile Include="ValidationRules\Note\NoteEndDateValidationRule.cs" />
+    <Compile Include="ValidationRules\Search\NoteSearchValidationRule.cs" />
+    <Compile Include="ValidationRules\Meeting\NotificationDateValidationRule.cs" />
+    <Compile Include="ValidationRules\User\PasswordValidationRule.cs" />
+    <Compile Include="ValidationRules\Contact\PhoneValidationRule.cs" />
+    <Compile Include="ValidationRules\User\RepeatedPasswordValidationRule.cs" />
+    <Compile Include="ValidationRules\General\StringLengthValidationRule.cs" />
+    <Compile Include="ValidationRules\Search\TodoSearchValidationRule.cs" />
+    <Compile Include="ViewModels\RegistrationViewModel.cs" />
+    <Compile Include="ViewModels\Todos\AddTodoViewModel.cs" />
+    <Compile Include="ViewModels\Todos\EditTodoViewModel.cs" />
+    <Compile Include="ViewModels\Notes\AddNoteViewModel.cs" />
+    <Compile Include="ViewModels\Notes\EditNoteViewModel.cs" />
+    <Compile Include="ViewModels\Meetings\MeetingDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Meetings\EditMeetingViewModel.cs" />
+    <Compile Include="ViewModels\Meetings\AddMeetingViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\AddContactViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\AddSocialViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\ContactDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\ContactsListViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\EditContactViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\EditSocialViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Meetings\MeetingsListViewModel.cs" />
+    <Compile Include="ViewModels\Notes\NoteDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Notes\NotesListViewModel.cs" />
+    <Compile Include="ViewModels\StartupViewModel.cs" />
+    <Compile Include="ViewModels\Todos\TodoListViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="ViewModels\Todos\ViewTodoViewModel.cs" />
+    <Compile Include="Views\Contacts\AddContactWindow.xaml.cs">
+      <DependentUpon>AddContactWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Meetings\AddMeetingWindow.xaml.cs">
+      <DependentUpon>AddMeetingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notes\NotesListWindow.xaml.cs">
+      <DependentUpon>NotesListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notes\AddNoteWindow.xaml.cs">
+      <DependentUpon>AddNoteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contacts\AddSocialDialog.xaml.cs">
+      <DependentUpon>AddSocialDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegistrationWindow.xaml.cs">
+      <DependentUpon>RegistrationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Todos\TodoListWindow.xaml.cs">
+      <DependentUpon>TodoListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Todos\AddTodoWindow.xaml.cs">
+      <DependentUpon>AddTodoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contacts\ContactsListWindow.xaml.cs">
+      <DependentUpon>ContactsListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contacts\EditContactWindow.xaml.cs">
+      <DependentUpon>EditContactWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Meetings\EditMeetingWindow.xaml.cs">
+      <DependentUpon>EditMeetingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notes\EditNoteWindow.xaml.cs">
+      <DependentUpon>EditNoteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contacts\EditSocialWindow.xaml.cs">
+      <DependentUpon>EditSocialWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Todos\EditTodoWindow.xaml.cs">
+      <DependentUpon>EditTodoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Meetings\MeetingsListWindow.xaml.cs">
+      <DependentUpon>MeetingsListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StartupWindow.xaml.cs">
+      <DependentUpon>StartupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contacts\ViewContactWindow.xaml.cs">
+      <DependentUpon>ViewContactWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Meetings\ViewMeetingWindow.xaml.cs">
+      <DependentUpon>ViewMeetingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notes\ViewNoteWindow.xaml.cs">
+      <DependentUpon>ViewNoteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Todos\ViewTodoWindow.xaml.cs">
+      <DependentUpon>ViewTodoWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Styles\OrganizerMainStyle.xaml" />
+    <Page Include="Themes\Generic.xaml" />
+    <Page Include="Views\Contacts\AddContactWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Meetings\AddMeetingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notes\NotesListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notes\AddNoteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts\AddSocialDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegistrationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Todos\TodoListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Todos\AddTodoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts\ContactsListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts\EditContactWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Meetings\EditMeetingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notes\EditNoteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts\EditSocialWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Todos\EditTodoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Meetings\MeetingsListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contacts\ViewContactWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Meetings\ViewMeetingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notes\ViewNoteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Todos\ViewTodoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -85,6 +299,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -93,5 +308,36 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Organizer.BL\Organizer.BL.csproj">
+      <Project>{69199102-5A9F-48F8-BB38-3D05EC37E4C4}</Project>
+      <Name>Organizer.BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Organizer.Common\Organizer.Common.csproj">
+      <Project>{AD5F05A7-CC04-40AC-8A25-C97303A5B081}</Project>
+      <Name>Organizer.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Organizer.DI\Organizer.DI.csproj">
+      <Project>{90775428-1836-4113-aed3-cbde7f110236}</Project>
+      <Name>Organizer.DI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Organizer.Infrastructure\Organizer.Infrastructure.csproj">
+      <Project>{731EF1FE-B536-4572-B4E0-B7D1C5869F3D}</Project>
+      <Name>Organizer.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

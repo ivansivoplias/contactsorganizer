@@ -1,53 +1,231 @@
-﻿using Organizer.DAL.Entities;
-using Organizer.Infrastructure;
+﻿using Organizer.Common.Entities;
+using Organizer.DAL.Helpers;
+using Organizer.Infrastructure.Database;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Organizer.DAL.Repository
 {
-    public class MeetingRepository : IRepository<Meeting>
+    public class MeetingRepository : RepositoryBase<Meeting>, IMeetingRepository
     {
-        public void Create(Meeting entity)
+        public MeetingRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            throw new NotImplementedException();
         }
 
-        public void Delete(Meeting entity)
+        protected override void InsertCommandParameters(Meeting entity, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue("@Description", entity.Description);
+            cmd.Parameters.AddWithValue("@MeetingName", entity.MeetingName);
+            cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
+            cmd.Parameters.AddWithValue("@NotificationDate", entity.NotificationDate);
+            cmd.Parameters.AddWithValue("@SendNotifications", entity.SendNotifications);
+            cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
-        public void Delete(int id)
+        protected override void UpdateCommandParameters(Meeting entity, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue($"@{MeetingQueries.MeetingId}", entity.Id);
+            cmd.Parameters.AddWithValue("@MeetingName", entity.MeetingName);
+            cmd.Parameters.AddWithValue("@Description", entity.Description);
+            cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
+            cmd.Parameters.AddWithValue("@NotificationDate", entity.NotificationDate);
+            cmd.Parameters.AddWithValue("@SendNotifications", entity.SendNotifications);
+            cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
-        public Meeting Get(int id)
+        protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue($"@{MeetingQueries.MeetingId}", id);
         }
 
-        public Meeting Get(object key)
+        protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue($"@{MeetingQueries.MeetingId}", id);
         }
 
-        public ICollection<Meeting> GetAll()
+        protected override Meeting Map(SqlDataReader reader)
         {
-            throw new NotImplementedException();
+            Meeting meeting = null;
+            if (reader.HasRows)
+            {
+                meeting = new Meeting();
+                while (reader.Read())
+                {
+                    meeting.Id = Convert.ToInt32(reader[MeetingQueries.MeetingId].ToString());
+                    meeting.MeetingName = reader["MeetingName"].ToString();
+                    meeting.Description = reader["Description"].ToString();
+                    meeting.MeetingDate = DateTime.Parse(reader["MeetingDate"].ToString());
+                    meeting.NotificationDate = DateTime.Parse(reader["NotificationDate"].ToString());
+                    meeting.SendNotifications = bool.Parse(reader["SendNotifications"].ToString());
+                    meeting.UserId = Convert.ToInt32(reader["UserId"].ToString());
+                }
+            }
+            return meeting;
         }
 
-        public ICollection<Meeting> Select()
+        protected override List<Meeting> MapCollection(SqlDataReader reader)
         {
-            throw new NotImplementedException();
+            var meetings = new List<Meeting>();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    var meeting = new Meeting();
+                    meeting.Id = Convert.ToInt32(reader[MeetingQueries.MeetingId].ToString());
+                    meeting.MeetingName = reader["MeetingName"].ToString();
+                    meeting.Description = reader["Description"].ToString();
+                    meeting.MeetingDate = DateTime.Parse(reader["MeetingDate"].ToString());
+                    meeting.NotificationDate = DateTime.Parse(reader["NotificationDate"].ToString());
+                    meeting.SendNotifications = bool.Parse(reader["SendNotifications"].ToString());
+                    meeting.UserId = Convert.ToInt32(reader["UserId"].ToString());
+                    meetings.Add(meeting);
+                }
+            }
+            return meetings;
         }
 
-        public void Update(Meeting entity)
+        public IEnumerable<Meeting> FilterByMeetingDate(int userId, DateTime meetingDate, int? pageSize = null, int? page = null)
         {
-            throw new NotImplementedException();
+            IEnumerable<Meeting> result = null;
+
+            var query = MeetingQueries.GetFilterByMeetingDateQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("MeetingDate", pageSize.Value, page.Value);
+            }
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFilterByMeetingDateParams(userId, meetingDate));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
+        }
+
+        public IEnumerable<Meeting> FilterByMeetingNameLike(int userId, string meetingName, int? pageSize = null, int? page = null)
+        {
+            IEnumerable<Meeting> result = null;
+            var query = MeetingQueries.GetFilterByMeetingName();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("MeetingName", pageSize.Value, page.Value);
+            }
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFilterByMeetingNameParams(userId, meetingName));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
+        }
+
+        public override int Insert(Meeting entity, SqlTransaction sqlTransaction)
+        {
+            var query = MeetingQueries.GetInsertQuery();
+            return Insert(entity, query, sqlTransaction);
+        }
+
+        public override int Update(Meeting entity, SqlTransaction sqlTransaction)
+        {
+            var query = MeetingQueries.GetUpdateQuery();
+            return Update(entity, query, sqlTransaction);
+        }
+
+        public override int Delete(int id, SqlTransaction sqlTransaction)
+        {
+            var query = MeetingQueries.GetDeleteQuery();
+            return Delete(id, query, sqlTransaction);
+        }
+
+        public override Meeting GetById(int id)
+        {
+            var query = MeetingQueries.GetGetByIdQuery();
+
+            return GetById(id, query);
+        }
+
+        public override IEnumerable<Meeting> GetAll()
+        {
+            return GetAll(MeetingQueries.GetAllQuery());
+        }
+
+        public IEnumerable<Meeting> GetUserMeetings(int userId, int? pageSize = null, int? page = null)
+        {
+            IEnumerable<Meeting> result = null;
+            var query = MeetingQueries.GetUserMeetingsQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging(MeetingQueries.MeetingId, pageSize.Value, page.Value);
+            }
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, MeetingParams.GetGetUserMeetingsParams(userId));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
+        }
+
+        public Meeting FindByMeetingName(int userId, string meetingName)
+        {
+            Meeting result = null;
+            var query = MeetingQueries.GetFindByMeetingNameQuery();
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFindByMeetingNameParams(userId, meetingName));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = Map(reader);
+                }
+            }
+
+            return result;
+        }
+
+        public override int Count()
+        {
+            return Count(MeetingQueries.MeetingTable);
         }
     }
 }

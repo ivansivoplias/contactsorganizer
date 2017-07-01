@@ -1,58 +1,39 @@
-﻿using System;
+﻿using Organizer.Infrastructure.Database;
 using System.Data;
-using System.Threading;
+using System.Data.SqlClient;
 
 namespace Organizer.DAL.Context
 {
-    public class DbContext : IDisposable
+    public class DbContext : IDbContext
     {
-        private readonly IDbConnection _connection;
-        private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
+        private readonly string _connectionString;
+        private SqlConnection _connection;
 
-        public DbContext(IDbConnection connection)
+        public DbContext(string connectionString)
         {
-            _connection = connection;
+            _connectionString = connectionString;
         }
 
-        #region IDisposable Support
-
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
+        public SqlConnection Connection
         {
-            if (!disposedValue)
+            get
             {
-                if (disposing)
+                if (_connection == null)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    _connection = new SqlConnection(_connectionString);
                 }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
-                _connection.Dispose();
-                _lock.Dispose();
-
-                disposedValue = true;
+                if (_connection.State != ConnectionState.Open)
+                {
+                    _connection.Open();
+                }
+                return _connection;
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        ~DbContext()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(false);
-        }
-
-        // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            GC.SuppressFinalize(this);
+            if (_connection != null && _connection.State == ConnectionState.Open)
+                _connection.Close();
         }
-
-        #endregion IDisposable Support
     }
 }

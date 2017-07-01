@@ -1,53 +1,130 @@
-﻿using Organizer.DAL.Entities;
-using Organizer.Infrastructure;
+﻿using Organizer.Common.Entities;
+using Organizer.DAL.Helpers;
+using Organizer.Infrastructure.Database;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Organizer.DAL.Repository
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : RepositoryBase<User>
     {
-        public void Create(User entity)
+        public UserRepository(IUnitOfWork uow) : base(uow)
         {
-            throw new NotImplementedException();
         }
 
-        public void Delete(User entity)
+        protected override void InsertCommandParameters(User entity, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue("@Login", entity.Login);
+            cmd.Parameters.AddWithValue("@Password", entity.Password);
         }
 
-        public void Delete(int id)
+        protected override void UpdateCommandParameters(User entity, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue($"@{UserQueries.UserId}", entity.Id);
+            cmd.Parameters.AddWithValue("@Login", entity.Login);
+            cmd.Parameters.AddWithValue("@Password", entity.Password);
         }
 
-        public User Get(int id)
+        protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue($"@{UserQueries.UserId}", id);
         }
 
-        public User Get(object key)
+        protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue($"@{UserQueries.UserId}", id);
         }
 
-        public ICollection<User> GetAll()
+        protected override User Map(SqlDataReader reader)
         {
-            throw new NotImplementedException();
+            User user = null;
+            if (reader.HasRows)
+            {
+                user = new User();
+                while (reader.Read())
+                {
+                    user.Id = Convert.ToInt32(reader[UserQueries.UserId].ToString());
+                    user.Login = reader["Login"].ToString();
+                    user.Password = reader["Password"].ToString();
+                }
+            }
+            return user;
         }
 
-        public ICollection<User> Select()
+        protected override List<User> MapCollection(SqlDataReader reader)
         {
-            throw new NotImplementedException();
+            List<User> users = new List<User>();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    var person = new User();
+                    person.Id = Convert.ToInt32(reader[UserQueries.UserId].ToString());
+                    person.Login = reader["Login"].ToString();
+                    person.Password = reader["Password"].ToString();
+                    users.Add(person);
+                }
+            }
+            return users;
         }
 
-        public void Update(User entity)
+        public override int Insert(User entity, SqlTransaction sqlTransaction)
         {
-            throw new NotImplementedException();
+            var query = UserQueries.GetInsertQuery();
+            return Insert(entity, query, sqlTransaction);
+        }
+
+        public override int Update(User entity, SqlTransaction sqlTransaction)
+        {
+            var query = UserQueries.GetUpdateQuery();
+            return Update(entity, query, sqlTransaction);
+        }
+
+        public override int Delete(int id, SqlTransaction sqlTransaction)
+        {
+            var query = UserQueries.GetDeleteQuery();
+            return Delete(id, query, sqlTransaction);
+        }
+
+        public override User GetById(int id)
+        {
+            var query = UserQueries.GetGetByIdQuery();
+
+            return GetById(id, query);
+        }
+
+        public override IEnumerable<User> GetAll()
+        {
+            return GetAll(UserQueries.GetAllQuery());
+        }
+
+        public User FindByLogin(string login)
+        {
+            User result = null;
+            var query = UserQueries.FindByLoginQuery();
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@Login", login));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = Map(reader);
+                }
+            }
+
+            return result;
+        }
+
+        public override int Count()
+        {
+            return Count(UserQueries.UserTable);
         }
     }
 }

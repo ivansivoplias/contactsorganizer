@@ -1,53 +1,122 @@
-﻿using Organizer.DAL.Entities;
-using Organizer.Infrastructure;
+﻿using Organizer.Common.Entities;
+using Organizer.DAL.Helpers;
+using Organizer.Infrastructure.Database;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Organizer.DAL.Repository
 {
-    public class PersonalInfoRepository : IRepository<PersonalInfo>
+    public class PersonalInfoRepository : RepositoryBase<PersonalInfo>
     {
-        public void Create(PersonalInfo entity)
+        public PersonalInfoRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            throw new NotImplementedException();
         }
 
-        public void Delete(PersonalInfo entity)
+        protected override void InsertCommandParameters(PersonalInfo entity, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue($"@{PersonalInfoQueries.PersonalInfoId}", entity.Id);
+            cmd.Parameters.AddWithValue("@FirstName", GetValueOrDbNull(entity.FirstName));
+            cmd.Parameters.AddWithValue("@Lastname", GetValueOrDbNull(entity.Lastname));
+            cmd.Parameters.AddWithValue("@MiddleName", GetValueOrDbNull(entity.MiddleName));
+            cmd.Parameters.AddWithValue("@Nickname", GetValueOrDbNull(entity.Nickname));
+            cmd.Parameters.AddWithValue("@Email", GetValueOrDbNull(entity.Email));
         }
 
-        public void Delete(int id)
+        protected override void UpdateCommandParameters(PersonalInfo entity, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue($"@{PersonalInfoQueries.PersonalInfoId}", entity.Id);
+            cmd.Parameters.AddWithValue("@FirstName", GetValueOrDbNull(entity.FirstName));
+            cmd.Parameters.AddWithValue("@Lastname", GetValueOrDbNull(entity.Lastname));
+            cmd.Parameters.AddWithValue("@MiddleName", GetValueOrDbNull(entity.MiddleName));
+            cmd.Parameters.AddWithValue("@Nickname", GetValueOrDbNull(entity.Nickname));
+            cmd.Parameters.AddWithValue("@Email", GetValueOrDbNull(entity.Email));
         }
 
-        public PersonalInfo Get(int id)
+        protected override void DeleteCommandParameters(int id, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue($"@{PersonalInfoQueries.PersonalInfoId}", id);
         }
 
-        public PersonalInfo Get(object key)
+        protected override void GetByIdCommandParameters(int id, SqlCommand cmd)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.AddWithValue($"@{PersonalInfoQueries.PersonalInfoId}", id);
         }
 
-        public ICollection<PersonalInfo> GetAll()
+        protected override PersonalInfo Map(SqlDataReader reader)
         {
-            throw new NotImplementedException();
+            PersonalInfo personalInfo = null;
+            if (reader.HasRows)
+            {
+                personalInfo = new PersonalInfo();
+                while (reader.Read())
+                {
+                    personalInfo.Id = Convert.ToInt32(reader[PersonalInfoQueries.PersonalInfoId].ToString());
+                    personalInfo.FirstName = reader["FirstName"].ToString();
+                    personalInfo.Lastname = reader["Lastname"].ToString();
+                    personalInfo.MiddleName = reader["MiddleName"].ToString();
+                    personalInfo.Nickname = reader["Nickname"].ToString();
+
+                    personalInfo.Email = reader["Email"].ToString();
+                }
+            }
+            return personalInfo;
         }
 
-        public ICollection<PersonalInfo> Select()
+        protected override List<PersonalInfo> MapCollection(SqlDataReader reader)
         {
-            throw new NotImplementedException();
+            List<PersonalInfo> personalInfoList = new List<PersonalInfo>();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    var personalInfo = new PersonalInfo();
+                    personalInfo.Id = Convert.ToInt32(reader[PersonalInfoQueries.PersonalInfoId].ToString());
+                    personalInfo.FirstName = reader["FirstName"].ToString();
+                    personalInfo.Lastname = reader["Lastname"].ToString();
+                    personalInfo.MiddleName = reader["MiddleName"].ToString();
+                    personalInfo.Nickname = reader["Nickname"].ToString();
+                    personalInfo.Email = reader["Email"].ToString();
+
+                    personalInfoList.Add(personalInfo);
+                }
+            }
+            return personalInfoList;
         }
 
-        public void Update(PersonalInfo entity)
+        public override int Insert(PersonalInfo entity, SqlTransaction sqlTransaction)
         {
-            throw new NotImplementedException();
+            var query = PersonalInfoQueries.GetInsertQuery();
+            return Insert(entity, query, sqlTransaction);
+        }
+
+        public override int Update(PersonalInfo entity, SqlTransaction sqlTransaction)
+        {
+            var query = PersonalInfoQueries.GetUpdateQuery();
+            return Update(entity, query, sqlTransaction);
+        }
+
+        public override int Delete(int id, SqlTransaction sqlTransaction)
+        {
+            var query = PersonalInfoQueries.GetDeleteQuery();
+            return Delete(id, query, sqlTransaction);
+        }
+
+        public override PersonalInfo GetById(int id)
+        {
+            var query = PersonalInfoQueries.GetGetByIdQuery();
+
+            return GetById(id, query);
+        }
+
+        public override IEnumerable<PersonalInfo> GetAll()
+        {
+            return GetAll(PersonalInfoQueries.GetAllQuery());
+        }
+
+        public override int Count()
+        {
+            return Count(PersonalInfoQueries.PersonalInfoTable);
         }
     }
 }
