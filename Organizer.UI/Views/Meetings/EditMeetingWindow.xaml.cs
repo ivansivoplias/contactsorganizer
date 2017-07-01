@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Organizer.UI.Views
 {
@@ -16,6 +17,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.CancelMessage += CancelMessageHandler;
+            _viewModel.CheckValidationMessage += CheckValidationMessageHandler;
             _viewModel.SaveMessage += SaveMessageHandler;
 
             this.DataContext = _viewModel;
@@ -28,23 +30,23 @@ namespace Organizer.UI.Views
 
         private void SaveMessageHandler(object sender, EventArgs e)
         {
-            SetupMeetingsListForm();
+            this.Close();
         }
 
         private void CancelMessageHandler(object sender, EventArgs e)
         {
-            SetupMeetingsListForm();
+            this.Close();
         }
 
-        private void SetupMeetingsListForm()
+        private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var viewModel = new MeetingsListViewModel();
-                var meetingsList = new MeetingsListWindow(viewModel);
-                meetingsList.Show();
-                this.Close();
-            });
+            bool isMeetingNameValid = !meetingNameField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isDescriptionValid = !descriptionField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isMeetingDateValid = !meetingDateField.GetBindingExpression(DatePicker.SelectedDateProperty).HasError;
+            bool isNotificationDateValid = !notificationDateField.GetBindingExpression(DatePicker.SelectedDateProperty).HasError;
+
+            _viewModel.IsModelValid = isMeetingNameValid && isDescriptionValid
+                && isMeetingDateValid && isNotificationDateValid;
         }
 
         private void OnClosing(object sender, CancelEventArgs e)
@@ -52,6 +54,7 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.CancelMessage -= CancelMessageHandler;
+            _viewModel.CheckValidationMessage -= CheckValidationMessageHandler;
             _viewModel.SaveMessage -= SaveMessageHandler;
 
             _viewModel.UnregisterCommandsForWindow(this);

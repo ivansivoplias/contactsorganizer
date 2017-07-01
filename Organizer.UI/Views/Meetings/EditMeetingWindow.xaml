@@ -46,7 +46,7 @@
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <TextBox
+                <TextBox x:Name="meetingNameField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"
@@ -55,6 +55,7 @@
                     <TextBox.Text>
                         <Binding Path="MeetingName" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
+                                <valid:NotNullValidationRule />
                                 <valid:StringLengthValidationRule MinLength="4" MaxLength="40" />
                             </Binding.ValidationRules>
                         </Binding>
@@ -76,7 +77,7 @@
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
-                <TextBox
+                <TextBox x:Name="descriptionField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"
@@ -86,6 +87,7 @@
                     <TextBox.Text>
                         <Binding Path="Description" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
+                                <valid:NotNullValidationRule />
                                 <valid:StringLengthValidationRule MinLength="10" MaxLength="150" />
                             </Binding.ValidationRules>
                         </Binding>
@@ -107,7 +109,7 @@
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <DatePicker
+                <DatePicker x:Name="meetingDateField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"
@@ -116,6 +118,7 @@
                     <DatePicker.SelectedDate>
                         <Binding Path="MeetingDate" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
+                                <valid:NotNullValidationRule />
                                 <valid:DateGreaterThanTodayValidationRule />
                             </Binding.ValidationRules>
                         </Binding>
@@ -137,7 +140,7 @@
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <DatePicker
+                <DatePicker x:Name="notificationDateField"
                        Grid.Column="1"
                        FontFamily="Comic Sans MS"
                        FontSize="14"
@@ -146,6 +149,7 @@
                     <DatePicker.SelectedDate>
                         <Binding Path="NotificationDate" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
+                                <valid:NotNullValidationRule />
                                 <valid:NotificationDateValidationRule>
                                     <valid:NotificationDateValidationRule.Wrapper>
                                         <helper:Wrapper WrappedData="{Binding Data.MeetingDate, Source={StaticResource proxy}}" />

@@ -20,9 +20,13 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler CancelMessage = delegate { };
 
+        public event EventHandler CheckValidationMessage = delegate { };
+
         public ICommand SaveCommand => _saveCommand;
 
         public ICommand CancelCommand => _cancelCommand;
+
+        public bool IsModelValid { get; set; }
 
         public string MeetingName
         {
@@ -86,19 +90,29 @@ namespace Organizer.UI.ViewModels
 
         private void Save()
         {
-            try
+            CheckValidation();
+
+            if (IsModelValid)
             {
-                _meetingService.EditMeeting(_meeting);
-                SaveMessage.Invoke(null, EventArgs.Empty);
+                try
+                {
+                    _meetingService.EditMeeting(_meeting);
+                    SaveMessage.Invoke(null, EventArgs.Empty);
+                }
+                catch (MeetingNameAlreadyExistsException e)
+                {
+                    MessageBox.Show($"Invalid data provided. Meeting cannot be saved.\nDetails: {e.Message}", "Error");
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid data provided. Meeting cannot be saved.", "Error");
+                }
             }
-            catch (MeetingNameAlreadyExistsException e)
-            {
-                MessageBox.Show($"Invalid data provided. Meeting cannot be saved.\nDetails: {e.Message}", "Error");
-            }
-            catch
-            {
-                MessageBox.Show("Invalid data provided. Meeting cannot be saved.", "Error");
-            }
+        }
+
+        private void CheckValidation()
+        {
+            CheckValidationMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void Cancel()

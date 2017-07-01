@@ -10,7 +10,7 @@
             return "SELECT Meetings.MeetingId, MeetingName," +
                 " Meetings.Description, MeetingDate," +
                 " NotificationDate, SendNotifications, Meetings.UserId "
-                + $"FROM {MeetingTable}"
+                + $"FROM {MeetingTable} "
                 + "WHERE UserId = @UserId AND MeetingDate = @MeetingDate";
         }
 
@@ -19,7 +19,7 @@
             return "SELECT Meetings.MeetingId, MeetingName," +
                 " Meetings.Description, MeetingDate," +
                 " NotificationDate, SendNotifications, Meetings.UserId "
-                + $"FROM {MeetingTable}"
+                + $"FROM {MeetingTable} "
                 + "WHERE UserId = @UserId AND MeetingName LIKE @MeetingName";
         }
 

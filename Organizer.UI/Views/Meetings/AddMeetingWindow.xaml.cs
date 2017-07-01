@@ -1,18 +1,8 @@
 ﻿using Organizer.UI.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Organizer.UI.Views
 {
@@ -27,6 +17,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.CancelMessage += CancelMessageHandler;
+            _viewModel.CheckValidationMessage += CheckValidationMessageHandler;
             _viewModel.SaveMessage += SaveMessageHandler;
 
             this.DataContext = _viewModel;
@@ -39,23 +30,23 @@ namespace Organizer.UI.Views
 
         private void SaveMessageHandler(object sender, EventArgs e)
         {
-            SetupMeetingsListForm();
+            this.Close();
+        }
+
+        private void CheckValidationMessageHandler(object sender, EventArgs e)
+        {
+            bool isMeetingNameValid = !meetingNameField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isDescriptionValid = !descriptionField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isMeetingDateValid = !meetingDateField.GetBindingExpression(DatePicker.SelectedDateProperty).HasError;
+            bool isNotificationDateValid = !notificationDateField.GetBindingExpression(DatePicker.SelectedDateProperty).HasError;
+
+            _viewModel.IsModelValid = isMeetingNameValid && isDescriptionValid
+                && isMeetingDateValid && isNotificationDateValid;
         }
 
         private void CancelMessageHandler(object sender, EventArgs e)
         {
-            SetupMeetingsListForm();
-        }
-
-        private void SetupMeetingsListForm()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var viewModel = new MeetingsListViewModel();
-                var meetingsList = new MeetingsListWindow(viewModel);
-                meetingsList.Show();
-                this.Close();
-            });
+            this.Close();
         }
 
         private void OnClosing(object sender, CancelEventArgs e)
@@ -63,6 +54,7 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.CancelMessage -= CancelMessageHandler;
+            _viewModel.CheckValidationMessage -= CheckValidationMessageHandler;
             _viewModel.SaveMessage -= SaveMessageHandler;
 
             _viewModel.UnregisterCommandsForWindow(this);

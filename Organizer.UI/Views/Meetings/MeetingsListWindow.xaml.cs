@@ -1,18 +1,9 @@
-﻿using Organizer.UI.ViewModels;
+﻿using Organizer.Common.Enums.SearchTypes;
+using Organizer.UI.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Organizer.UI.Views
 {
@@ -27,6 +18,8 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddMeetingMessage += AddMeetingMessageHandler;
+            _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
+            _viewModel.ValidateSearch += ValidateSearchHandler;
             _viewModel.BackMessage += BackMessageHandler;
             _viewModel.EditMeetingMessage += EditMeetingMessageHandler;
             _viewModel.ViewMeetingMessage += ViewMeetingMessageHandler;
@@ -46,9 +39,7 @@ namespace Organizer.UI.Views
 
                 var editMeetingWindow = new EditMeetingWindow(editMeetingViewModel);
 
-                editMeetingWindow.Show();
-
-                this.Close();
+                editMeetingWindow.ShowDialog();
             });
         }
 
@@ -60,9 +51,7 @@ namespace Organizer.UI.Views
 
                 var viewMeetingWindow = new ViewMeetingWindow(viewMeetingViewModel);
 
-                viewMeetingWindow.Show();
-
-                this.Close();
+                viewMeetingWindow.ShowDialog();
             });
         }
 
@@ -80,6 +69,20 @@ namespace Organizer.UI.Views
             });
         }
 
+        private void ValidateSearchHandler(object sender, EventArgs e)
+        {
+            bool searchValid = !searchBox.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool searchNotNull = _viewModel.SearchType != MeetingSearchType.Default ?
+                !string.IsNullOrEmpty(_viewModel.SearchValue) : true;
+
+            _viewModel.IsSearchValueValid = searchValid && searchNotNull;
+        }
+
+        private void SearchTypeChangedHandler(object sender, EventArgs e)
+        {
+            searchBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+        }
+
         private void AddMeetingMessageHandler(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -88,9 +91,7 @@ namespace Organizer.UI.Views
 
                 var addMeetingWindow = new AddMeetingWindow(addMeetingViewModel);
 
-                addMeetingWindow.Show();
-
-                this.Close();
+                addMeetingWindow.ShowDialog();
             });
         }
 
@@ -100,9 +101,31 @@ namespace Organizer.UI.Views
 
             _viewModel.BackMessage -= BackMessageHandler;
             _viewModel.AddMeetingMessage -= AddMeetingMessageHandler;
+            _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
+            _viewModel.ValidateSearch -= ValidateSearchHandler;
             _viewModel.EditMeetingMessage -= EditMeetingMessageHandler;
             _viewModel.ViewMeetingMessage -= ViewMeetingMessageHandler;
             _viewModel.UnregisterCommandsForWindow(this);
+        }
+
+        private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            bool isBottom = IsScrollViewReachedTheBottom(e);
+            if (isBottom)
+            {
+                _viewModel.FetchNextPageCommand.Execute(null);
+            }
+        }
+
+        private bool IsScrollViewReachedTheBottom(ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeight - e.ViewportHeight == 0 && e.VerticalOffset != 0)
+                return true;
+            if (e.VerticalOffset == 0)
+                return false;
+            if (e.ExtentHeight - e.ViewportHeight - e.VerticalOffset == 0)
+                return true;
+            return false;
         }
     }
 }
