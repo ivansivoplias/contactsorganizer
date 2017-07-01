@@ -2,6 +2,7 @@
 using Organizer.Common.DTO;
 using Organizer.Common.Enums;
 using Organizer.Common.Enums.SearchTypes;
+using Organizer.Common.Helpers;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
@@ -123,6 +124,7 @@ namespace Organizer.UI.ViewModels
         private void AddTodo()
         {
             AddTodoMessage.Invoke(null, EventArgs.Empty);
+            RefreshList();
         }
 
         private void DeleteTodo()
@@ -136,17 +138,9 @@ namespace Organizer.UI.ViewModels
                 {
                     _noteService.RemoveNote(_selected);
 
-                    var notesList = SearchNotes();
-
-                    _todoNotes.Clear();
-
-                    _todoNotes = null;
-
-                    _todoNotes = new ObservableCollection<NoteDto>(notesList);
-
-                    OnPropertyChanged(nameof(Todos));
-
                     DeleteTodoMessage.Invoke(null, EventArgs.Empty);
+
+                    RefreshList();
                 }
                 catch
                 {
@@ -164,6 +158,7 @@ namespace Organizer.UI.ViewModels
         private void EditTodo()
         {
             EditTodoMessage.Invoke(null, EventArgs.Empty);
+            RefreshList();
         }
 
         private void ViewTodoDetails()
@@ -177,11 +172,29 @@ namespace Organizer.UI.ViewModels
             if (IsSearchValueValid)
             {
                 _pageNumber = 1;
-                var list = SearchNotes();
+                var list = FetchNotes(_pageNumber, _numberOnPage);
                 _todoNotes.Clear();
                 _todoNotes = null;
 
                 _todoNotes = new ObservableCollection<NoteDto>(list);
+
+                OnPropertyChanged(nameof(Todos));
+            }
+        }
+
+        private void RefreshList()
+        {
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                //_pageNumber = 1;
+                var list = FetchNotes(1, _numberOnPage * _pageNumber);
+                _todoNotes.Clear();
+                _todoNotes = null;
+
+                _todoNotes = new ObservableCollection<NoteDto>(list);
+
+                OnPropertyChanged(nameof(Todos));
             }
         }
 
@@ -192,33 +205,51 @@ namespace Organizer.UI.ViewModels
 
         private void FetchNextPage()
         {
-            _pageNumber++;
-            var notes = SearchNotes();
-            notes = _todoNotes.Union(notes).ToList();
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                _pageNumber++;
+                var notes = FetchNotes(_pageNumber, _numberOnPage);
+                if (!notes.IsNullOrEmpty())
+                {
+                    notes = _todoNotes.Union(notes).ToList();
 
-            _todoNotes.Clear();
-            _todoNotes = null;
+                    _todoNotes.Clear();
+                    _todoNotes = null;
 
-            _todoNotes = new ObservableCollection<NoteDto>(notes);
+                    _todoNotes = new ObservableCollection<NoteDto>(notes);
+
+                    OnPropertyChanged(nameof(Todos));
+                }
+                else
+                {
+                    _pageNumber--;
+                }
+            }
         }
 
-        private List<NoteDto> SearchNotes()
+        private List<NoteDto> FetchNotes(int page, int pageSize)
         {
             List<NoteDto> result;
 
             switch (_currentSearchType)
             {
+                case TodoSearchType.ByCaptionLike:
+                    result = _noteService.GetNotesByCaptionLike(App.CurrentUser, _searchValue, NoteType.Todo, pageSize, page)
+                        .ToList();
+                    break;
+
                 case TodoSearchType.ByState:
                     var state = (State)Enum.Parse(typeof(State), _searchValue);
                     result = _noteService
-                        .GetNotesByCurrentState(App.CurrentUser, state, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .GetNotesByCurrentState(App.CurrentUser, state, NoteType.Todo, pageSize, page)
                         .ToList();
                     break;
 
                 case TodoSearchType.ByPriority:
                     var priority = (Priority)Enum.Parse(typeof(Priority), _searchValue);
                     result = _noteService
-                        .GetNotesByPriority(App.CurrentUser, priority, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .GetNotesByPriority(App.CurrentUser, priority, NoteType.Todo, pageSize, page)
                         .ToList();
                     break;
 
@@ -228,27 +259,27 @@ namespace Organizer.UI.ViewModels
                     var startDate = DateTime.Parse(dates[0]);
                     var endDate = DateTime.Parse(dates[1]);
                     result = _noteService
-                        .GetNotesCreatedBetween(App.CurrentUser, startDate, endDate, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .GetNotesCreatedBetween(App.CurrentUser, startDate, endDate, NoteType.Todo, pageSize, page)
                         .ToList();
                     break;
 
                 case TodoSearchType.ByStartDate:
                     var start = DateTime.Parse(_searchValue);
                     result = _noteService
-                        .GetNotesByStartDate(App.CurrentUser, start, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .GetNotesByStartDate(App.CurrentUser, start, NoteType.Todo, pageSize, page)
                         .ToList();
                     break;
 
                 case TodoSearchType.ByEndDate:
                     var end = DateTime.Parse(_searchValue);
                     result = _noteService
-                        .GetNotesByEndDate(App.CurrentUser, end, NoteType.Todo, _numberOnPage, _pageNumber)
+                        .GetNotesByEndDate(App.CurrentUser, end, NoteType.Todo, pageSize, page)
                         .ToList();
                     break;
 
                 default:
                     result = _noteService
-                        .GetNotesByNoteType(App.CurrentUser, NoteType.Todo, _numberOnPage, _pageNumber).ToList();
+                        .GetNotesByNoteType(App.CurrentUser, NoteType.Todo, pageSize, page).ToList();
                     break;
             }
 

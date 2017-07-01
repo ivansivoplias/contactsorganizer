@@ -11,7 +11,7 @@ namespace Organizer.DAL.Helpers
             return new SqlParameter[]
             {
                     new SqlParameter("@UserId", userId),
-                    new SqlParameter("@CreationDate", date),
+                    new SqlParameter("@CreationDate", date.Date),
                     new SqlParameter("@NoteType", noteType.ToString())
             };
         }
@@ -21,7 +21,7 @@ namespace Organizer.DAL.Helpers
             return new SqlParameter[]
             {
                     new SqlParameter("@UserId", userId),
-                    new SqlParameter("@LastChangeDate", lastChangeDate),
+                    new SqlParameter("@LastChangeDate", lastChangeDate.Date),
                     new SqlParameter("@NoteType", noteType.ToString())
             };
         }
@@ -60,8 +60,8 @@ namespace Organizer.DAL.Helpers
             return new SqlParameter[]
             {
                 new SqlParameter("@UserId", userId),
-                new SqlParameter("@StartLimit", startLimit),
-                new SqlParameter("@EndLimit", endLimit),
+                new SqlParameter("@StartLimit", startLimit.Date),
+                new SqlParameter("@EndLimit", endLimit.Date),
                 new SqlParameter("@NoteType", noteType.ToString())
             };
         }
@@ -71,7 +71,7 @@ namespace Organizer.DAL.Helpers
             return new SqlParameter[]
             {
                     new SqlParameter("@UserId", userId),
-                    new SqlParameter("@StartDate", startDate),
+                    new SqlParameter("@StartDate", startDate.Date),
                     new SqlParameter("@NoteType", noteType.ToString())
             };
         }
@@ -81,7 +81,7 @@ namespace Organizer.DAL.Helpers
             return new SqlParameter[]
             {
                     new SqlParameter("@UserId", userId),
-                    new SqlParameter("@EndDate", endDate),
+                    new SqlParameter("@EndDate", endDate.Date),
                     new SqlParameter("@NoteType", noteType.ToString())
             };
         }

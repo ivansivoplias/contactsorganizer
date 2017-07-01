@@ -50,7 +50,8 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
-                       VerticalAlignment="Center">
+                       VerticalAlignment="Center"
+                       x:Name="captionField">
                     <TextBox.Text>
                         <Binding Path="Caption" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
@@ -81,7 +82,8 @@
                        FontSize="16"
                        Padding="5"
                        Height="200"
-                       VerticalAlignment="Center">
+                       VerticalAlignment="Center"
+                    x:Name="noteTextField">
                     <TextBox.Text>
                         <Binding Path="NoteText" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
@@ -161,7 +163,8 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
-                       VerticalAlignment="Center">
+                       VerticalAlignment="Center"
+                    x:Name="startDateField">
                     <DatePicker.SelectedDate>
                         <Binding Path="StartDate" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
@@ -191,7 +194,8 @@
                        FontFamily="Comic Sans MS"
                        FontSize="16"
                        Padding="5"
-                       VerticalAlignment="Center">
+                       VerticalAlignment="Center"
+                    x:Name="endDateField">
                     <DatePicker.SelectedDate>
                         <Binding Path="EndDate" NotifyOnValidationError="True">
                             <Binding.ValidationRules>

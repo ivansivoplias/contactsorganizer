@@ -11,7 +11,7 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND CreationDate = @CreationDate AND NoteType = @NoteType";
+                + "WHERE UserId = @UserId AND CAST(CreationDate AS DATE) = @CreationDate AND NoteType = @NoteType";
         }
 
         public static string GetFilterByLastChangeDateQuery()
@@ -20,7 +20,7 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND LastChangeDate = @LastChangeDate AND NoteType = @NoteType";
+                + "WHERE UserId = @UserId AND CAST(LastChangeDate AS DATE) = @LastChangeDate AND NoteType = @NoteType";
         }
 
         public static string GetFilterByNoteTypeQuery()
@@ -56,7 +56,7 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND СreationDate BETWEEN @StartLimit AND @EndLimit AND NoteType = @NoteType";
+                + "WHERE UserId = @UserId AND CAST(CreationDate AS DATE) BETWEEN @StartLimit AND @EndLimit AND NoteType = @NoteType";
         }
 
         public static string GetFilterByStartDateQuery()
@@ -65,7 +65,7 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND StartDate = @StartDate AND NoteType = @NoteType";
+                + "WHERE UserId = @UserId AND CAST(StartDate AS DATE) = @StartDate AND NoteType = @NoteType";
         }
 
         public static string GetFilterByEndDateQuery()
@@ -74,7 +74,7 @@
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND EndDate = @EndDate AND NoteType = @NoteType";
+                + "WHERE UserId = @UserId AND CAST(EndDate AS DATE) = @EndDate AND NoteType = @NoteType";
         }
 
         public static string GetInsertQuery()

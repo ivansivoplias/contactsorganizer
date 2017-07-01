@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Organizer.UI.Views
 {
@@ -16,6 +17,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.CancelMessage += CancelMessageHandler;
+            _viewModel.CheckValidationMessage += CheckValidationMessageHandler;
             _viewModel.SaveMessage += SaveMessageHandler;
 
             this.DataContext = _viewModel;
@@ -28,23 +30,22 @@ namespace Organizer.UI.Views
 
         private void SaveMessageHandler(object sender, EventArgs e)
         {
-            SetupNotesListForm();
+            this.Close();
+        }
+
+        private void CheckValidationMessageHandler(object sender, EventArgs e)
+        {
+            bool isCaptionValid = !captionField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isTextValid = !noteTextField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isStartDateValid = !startDateField.GetBindingExpression(DatePicker.SelectedDateProperty).HasError;
+            bool isEndDateValid = !endDateField.GetBindingExpression(DatePicker.SelectedDateProperty).HasError;
+
+            _viewModel.IsModelValid = isCaptionValid && isTextValid && isStartDateValid && isEndDateValid;
         }
 
         private void CancelMessageHandler(object sender, EventArgs e)
         {
-            SetupNotesListForm();
-        }
-
-        private void SetupNotesListForm()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var viewModel = new TodoListViewModel();
-                var todosList = new TodoListWindow(viewModel);
-                todosList.Show();
-                this.Close();
-            });
+            this.Close();
         }
 
         private void OnClosing(object sender, CancelEventArgs e)
@@ -52,6 +53,7 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.CancelMessage -= CancelMessageHandler;
+            _viewModel.CheckValidationMessage -= CheckValidationMessageHandler;
             _viewModel.SaveMessage -= SaveMessageHandler;
 
             _viewModel.UnregisterCommandsForWindow(this);

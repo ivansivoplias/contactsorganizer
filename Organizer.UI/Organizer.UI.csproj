@@ -78,6 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviours\FocusBehavior.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Convertors\EnumToBooleanConvertor.cs" />
     <Compile Include="Helpers\BindingProxy.cs" />

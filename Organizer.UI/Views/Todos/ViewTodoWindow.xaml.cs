@@ -26,13 +26,7 @@ namespace Organizer.UI.Views
 
         private void BackMessageHandler(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var viewModel = new TodoListViewModel();
-                var todosList = new TodoListWindow(viewModel);
-                todosList.Show();
-                this.Close();
-            });
+            this.Close();
         }
 
         private void OnClosing(object sender, CancelEventArgs e)

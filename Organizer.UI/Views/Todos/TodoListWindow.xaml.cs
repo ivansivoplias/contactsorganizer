@@ -39,16 +39,15 @@ namespace Organizer.UI.Views
 
                 var editTodoWindow = new EditTodoWindow(editTodoViewModel);
 
-                editTodoWindow.Show();
-
-                this.Close();
+                editTodoWindow.ShowDialog();
             });
         }
 
         private void ValidateSearchHandler(object sender, EventArgs e)
         {
             bool searchValid = !searchBox.GetBindingExpression(TextBox.TextProperty).HasError;
-            bool searchNotNull = !string.IsNullOrEmpty(_viewModel.SearchValue);
+            bool searchNotNull = _viewModel.SearchType != Common.Enums.SearchTypes.TodoSearchType.Default ?
+                !string.IsNullOrEmpty(_viewModel.SearchValue) : true;
 
             _viewModel.IsSearchValueValid = searchValid && searchNotNull;
         }
@@ -61,9 +60,7 @@ namespace Organizer.UI.Views
 
                 var viewTodoWindow = new ViewTodoWindow(viewTodoViewModel);
 
-                viewTodoWindow.Show();
-
-                this.Close();
+                viewTodoWindow.ShowDialog();
             });
         }
 
@@ -89,9 +86,7 @@ namespace Organizer.UI.Views
 
                 var addTodoWindow = new AddTodoWindow(addTodoViewModel);
 
-                addTodoWindow.Show();
-
-                this.Close();
+                addTodoWindow.ShowDialog();
             });
         }
 

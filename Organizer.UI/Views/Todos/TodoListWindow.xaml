@@ -8,8 +8,10 @@
         xmlns:convertor="clr-namespace:Organizer.UI.Convertors"
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:local="clr-namespace:Organizer.UI.Views"
+        xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="TodoListWindow" Height="567.417" Width="1417.539">
+        Title="TodoListWindow" Height="567.417" Width="1417.539"
+        behavior:FocusBehavior.FocusFirst="True">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -50,8 +52,7 @@
                      Margin="5 10">
                 <TextBox.Text>
                     <Binding Path="SearchValue"
-                             NotifyOnValidationError="True"
-                             UpdateSourceTrigger="LostFocus">
+                             NotifyOnValidationError="True">
                         <Binding.ValidationRules>
                             <valid:TodoSearchValidationRule
                                 ValidatesOnTargetUpdated="True">

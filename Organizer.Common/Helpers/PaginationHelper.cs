@@ -20,10 +20,10 @@ namespace Organizer.Common.Helpers
                 pageSize = totalCount;
             }
 
-            if (pageSize * (pageNumber - 1) > totalCount && totalCount > 0)
-            {
-                pageNumber = (int)Math.Ceiling((double)totalCount / pageSize);
-            }
+            //if (pageSize * (pageNumber - 1) > totalCount && totalCount > 0)
+            //{
+            //    pageNumber = (int)Math.Ceiling((double)totalCount / pageSize);
+            //}
 
             resultPage = new Page(totalCount, pageNumber, pageSize);
 

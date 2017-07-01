@@ -26,7 +26,7 @@ namespace Organizer.UI.ValidationRules
                 switch (wrappedEnum)
                 {
                     case TodoSearchType.ByCaptionLike:
-                        if (!string.IsNullOrEmpty(stringValue))
+                        if (string.IsNullOrEmpty(stringValue))
                             return new ValidationResult(false, "Caption is empty.");
                         break;
 

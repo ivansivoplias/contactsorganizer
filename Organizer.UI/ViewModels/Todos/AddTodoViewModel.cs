@@ -26,9 +26,13 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler CancelMessage = delegate { };
 
+        public event EventHandler CheckValidationMessage = delegate { };
+
         public ICommand SaveCommand => _saveCommand;
 
         public ICommand CancelCommand => _cancelCommand;
+
+        public bool IsModelValid { get; set; }
 
         public string Caption
         {
@@ -128,15 +132,25 @@ namespace Organizer.UI.ViewModels
 
         private void Save()
         {
-            try
+            CheckValidation();
+
+            if (IsModelValid)
             {
-                _noteService.AddNote(_note);
-                SaveMessage.Invoke(null, EventArgs.Empty);
+                try
+                {
+                    _noteService.AddNote(_note);
+                    SaveMessage.Invoke(null, EventArgs.Empty);
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid data provided. Todo cannot be saved.", "Error");
+                }
             }
-            catch
-            {
-                MessageBox.Show("Invalid data provided. Todo cannot be saved.", "Error");
-            }
+        }
+
+        private void CheckValidation()
+        {
+            CheckValidationMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void Cancel()

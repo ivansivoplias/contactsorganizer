@@ -7,7 +7,7 @@ namespace Organizer.Common.Helpers
     {
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> collection)
         {
-            return collection != null && collection.Any();
+            return collection == null || !collection.Any();
         }
     }
 }
