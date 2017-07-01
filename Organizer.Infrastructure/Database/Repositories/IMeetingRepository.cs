@@ -8,7 +8,7 @@ namespace Organizer.Infrastructure.Database
     {
         IEnumerable<Meeting> GetUserMeetings(int userId, int? pageSize = null, int? page = null);
 
-        Meeting FindByMeetingName(string meetingName);
+        Meeting FindByMeetingName(int userId, string meetingName);
 
         IEnumerable<Meeting> FilterByMeetingDate(int userId, DateTime meetingDate, int? pageSize = null,
             int? page = null);

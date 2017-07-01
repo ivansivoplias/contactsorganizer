@@ -7,7 +7,9 @@ namespace Organizer.Infrastructure.Database
 {
     public interface INoteRepository : IRepository<Note>
     {
-        Note GetNoteByCaption(int userId, string caption);
+        Note GetNoteByCaption(int userId, NoteType noteType, string caption);
+
+        IEnumerable<Note> FindNotesByCaption(int userId, string caption, NoteType noteType, int? pageSize = null, int? page = null);
 
         IEnumerable<Note> GetUserNotes(int userId, int? pageSize = null, int? page = null);
 

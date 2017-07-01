@@ -35,6 +35,16 @@ namespace Organizer.DAL.Helpers
             };
         }
 
+        public static SqlParameter[] GetFindNoteByCaptionParams(int userId, NoteType noteType, string caption)
+        {
+            return new SqlParameter[]
+            {
+                new SqlParameter("@UserId", userId),
+                new SqlParameter("@NoteType", noteType.ToString()),
+                new SqlParameter("@Caption", caption)
+            };
+        }
+
         public static SqlParameter[] GetFilterByStateParams(int userId, State state, NoteType noteType)
         {
             return new SqlParameter[]
@@ -92,6 +102,16 @@ namespace Organizer.DAL.Helpers
             {
                 new SqlParameter("@UserId", userId),
                 new SqlParameter("@Caption", caption.MakeLikeExpression()),
+                new SqlParameter("@NoteType", noteType.ToString())
+            };
+        }
+
+        public static SqlParameter[] GetFindNotesByCaptionParams(int userId, string caption, NoteType noteType)
+        {
+            return new SqlParameter[]
+            {
+                new SqlParameter("@UserId", userId),
+                new SqlParameter("@Caption", caption),
                 new SqlParameter("@NoteType", noteType.ToString())
             };
         }

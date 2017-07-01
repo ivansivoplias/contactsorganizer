@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
@@ -68,6 +69,14 @@ namespace Organizer.UI.ViewModels
                 {
                     _noteService.EditNote(_note);
                     SaveMessage.Invoke(null, EventArgs.Empty);
+                }
+                catch (NoteCaptionAlreadyExistsException e)
+                {
+                    MessageBox.Show($"Invalid data provided. Note cannot be saved.\nDetails: {e.Message}", "Error");
+                }
+                catch (PrimaryPhoneAlreadyExistException e)
+                {
+                    MessageBox.Show($"Invalid data provided. Note cannot be saved.\nDetails: {e.Message}", "Error");
                 }
                 catch
                 {

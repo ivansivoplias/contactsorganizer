@@ -134,13 +134,22 @@
                 + "WHERE UserId = @UserId AND Caption LIKE @Caption AND NoteType = @NoteType";
         }
 
+        public static string GetFindNotesByCaptionQuery()
+        {
+            return "SELECT Notes.NoteId, Notes.Caption, Notes.NoteText," +
+                " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
+                " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
+                $" FROM {NoteTable} "
+                + "WHERE UserId = @UserId AND Caption = @Caption AND NoteType = @NoteType";
+        }
+
         public static string GetNoteByCaptionQuery()
         {
             return "SELECT TOP 1 Notes.NoteId, Notes.Caption, Notes.NoteText," +
                 " Notes.CreationDate, Notes.LastChangeDate, Notes.NoteType," +
                 " Notes.State, Notes.Priority, Notes.StartDate, Notes.EndDate, Notes.UserId" +
                 $" FROM {NoteTable} "
-                + "WHERE UserId = @UserId AND Caption = @Caption";
+                + "WHERE UserId = @UserId AND NoteType = @NoteType AND Caption = @Caption";
         }
     }
 }

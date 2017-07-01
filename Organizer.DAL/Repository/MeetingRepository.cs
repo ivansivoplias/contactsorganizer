@@ -200,14 +200,14 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public Meeting FindByMeetingName(string meetingName)
+        public Meeting FindByMeetingName(int userId, string meetingName)
         {
             Meeting result = null;
             var query = MeetingQueries.GetFindByMeetingNameQuery();
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@MeetingName", meetingName));
+                QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFindByMeetingNameParams(userId, meetingName));
 
                 if (_unitOfWork.Transaction != null)
                 {

@@ -23,6 +23,15 @@ namespace Organizer.DAL.Helpers
             };
         }
 
+        public static SqlParameter[] GetFindByMeetingNameParams(int userId, string meetingName)
+        {
+            return new SqlParameter[]
+            {
+                new SqlParameter("@UserId", userId),
+                new SqlParameter("@MeetingName", meetingName)
+            };
+        }
+
         public static SqlParameter[] GetGetUserMeetingsParams(int userId)
         {
             return new SqlParameter[]

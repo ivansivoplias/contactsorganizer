@@ -2,6 +2,7 @@
 using AutoMapper;
 using Organizer.Common.DTO;
 using Organizer.Common.Entities;
+using Organizer.Common.Exceptions;
 using Organizer.Common.Helpers;
 using Organizer.Common.Pagination;
 using Organizer.DAL.Helpers;
@@ -29,11 +30,21 @@ namespace Organizer.BL.Services
             using (unitOfWork)
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
-                using (var transaction = unitOfWork.BeginTransaction())
+
+                var dbMeeting = meetingRepo.FindByMeetingName(meeting.UserId, meeting.MeetingName);
+
+                if (dbMeeting == null)
                 {
-                    var mapped = Mapper.Map<Meeting>(meeting);
-                    meetingRepo.Insert(mapped, transaction);
-                    unitOfWork.Commit();
+                    using (var transaction = unitOfWork.BeginTransaction())
+                    {
+                        var mapped = Mapper.Map<Meeting>(meeting);
+                        meetingRepo.Insert(mapped, transaction);
+                        unitOfWork.Commit();
+                    }
+                }
+                else
+                {
+                    throw new MeetingNameAlreadyExistsException($"Meeting with name: {meeting.MeetingName} already exists in database.");
                 }
             }
         }
@@ -44,11 +55,21 @@ namespace Organizer.BL.Services
             using (unitOfWork)
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
-                using (var transaction = unitOfWork.BeginTransaction())
+
+                var dbMeeting = meetingRepo.FindByMeetingName(meeting.UserId, meeting.MeetingName);
+
+                if (dbMeeting == null || dbMeeting.Id == meeting.Id)
                 {
-                    var mapped = Mapper.Map<Meeting>(meeting);
-                    meetingRepo.Update(mapped, transaction);
-                    unitOfWork.Commit();
+                    using (var transaction = unitOfWork.BeginTransaction())
+                    {
+                        var mapped = Mapper.Map<Meeting>(meeting);
+                        meetingRepo.Update(mapped, transaction);
+                        unitOfWork.Commit();
+                    }
+                }
+                else
+                {
+                    throw new MeetingNameAlreadyExistsException($"The other meeting with name: {meeting.MeetingName} already exists in database.");
                 }
             }
         }
@@ -125,7 +146,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public MeetingDto GetMeetingByName(string meetingName)
+        public MeetingDto GetMeetingByName(int userId, string meetingName)
         {
             MeetingDto result = null;
 
@@ -134,7 +155,7 @@ namespace Organizer.BL.Services
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
 
-                var meeting = meetingRepo.FindByMeetingName(meetingName);
+                var meeting = meetingRepo.FindByMeetingName(userId, meetingName);
                 result = Mapper.Map<MeetingDto>(meeting);
             }
 

@@ -2,6 +2,7 @@
 using AutoMapper;
 using Organizer.Common.DTO;
 using Organizer.Common.Entities;
+using Organizer.Common.Exceptions;
 using Organizer.Common.Helpers;
 using Organizer.Common.Pagination;
 using Organizer.DAL.Helpers;
@@ -30,15 +31,25 @@ namespace Organizer.BL.Services
             using (unitOfWork)
             {
                 var contactsRepo = new ContactRepository(unitOfWork);
-                using (var transaction = unitOfWork.BeginTransaction())
+
+                var dbContact = contactsRepo.FindByPrimaryPhone(contact.UserId, contact.PrimaryPhone);
+
+                if (dbContact == null)
                 {
-                    contactsRepo.Insert(mappedContact, transaction);
+                    using (var transaction = unitOfWork.BeginTransaction())
+                    {
+                        contactsRepo.Insert(mappedContact, transaction);
 
-                    var added = contactsRepo.FindByPrimaryPhone(contact.UserId, contact.PrimaryPhone);
+                        var added = contactsRepo.FindByPrimaryPhone(contact.UserId, contact.PrimaryPhone);
 
-                    AddPersonalInfo(added.Id, contact.PersonalInfo, unitOfWork);
-                    AddSocials(added.Id, contact.Socials, unitOfWork);
-                    unitOfWork.Commit();
+                        AddPersonalInfo(added.Id, contact.PersonalInfo, unitOfWork);
+                        AddSocials(added.Id, contact.Socials, unitOfWork);
+                        unitOfWork.Commit();
+                    }
+                }
+                else
+                {
+                    throw new PrimaryPhoneAlreadyExistException($"Contact with primary phone: {contact.PrimaryPhone} already exists in database.");
                 }
             }
         }
@@ -50,12 +61,22 @@ namespace Organizer.BL.Services
             using (unitOfWork)
             {
                 var contactsRepo = new ContactRepository(unitOfWork);
-                using (var transaction = unitOfWork.BeginTransaction())
+
+                var dbContacts = contactsRepo.FindContactsByPrimaryPhone(contact.UserId, contact.PrimaryPhone).ToList();
+
+                if (dbContacts.Count == 0 || (dbContacts.Count == 1 && dbContacts[0].Id == contact.Id))
                 {
-                    contactsRepo.Update(mappedContact, transaction);
-                    EditPersonalInfo(contact.PersonalInfo, unitOfWork);
-                    EditSocials(contact.Id, contact.Socials, unitOfWork);
-                    unitOfWork.Commit();
+                    using (var transaction = unitOfWork.BeginTransaction())
+                    {
+                        contactsRepo.Update(mappedContact, transaction);
+                        EditPersonalInfo(contact.PersonalInfo, unitOfWork);
+                        EditSocials(contact.Id, contact.Socials, unitOfWork);
+                        unitOfWork.Commit();
+                    }
+                }
+                else
+                {
+                    throw new PrimaryPhoneAlreadyExistException($"Contact with primary phone: {contact.PrimaryPhone} already exists in database.");
                 }
             }
         }
@@ -431,18 +452,18 @@ namespace Organizer.BL.Services
 
                 var social = new SocialInfo()
                 {
-                    AppName = "Additional Phone",
+                    AppName = "Phone",
                     AppId = phone
                 };
 
-                var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterBySocialInfoQuery(),
-                    ContactParams.GetFilterBySocialInfoParams(user.Id, phone));
+                var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByAppInfoQuery(),
+                    ContactParams.GetFilterByAppInfoParams(user.Id, social));
 
                 if (filteredCount > 0)
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbContacts = contactRepo.FilterBySocialInfoAppIdLike(user.Id, phone, temp.PageSize, temp.PageNumber);
+                    var dbContacts = contactRepo.FilterByAppInfo(user.Id, social, temp.PageSize, temp.PageNumber);
                     result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                     if (result != null)
@@ -456,6 +477,15 @@ namespace Organizer.BL.Services
                 else
                 {
                     result = new List<ContactDto>();
+                }
+
+                var contact = contactRepo.FindByPrimaryPhone(user.Id, phone);
+
+                if (contact != null)
+                {
+                    var mapped = Mapper.Map<ContactDto>(contact);
+                    GetPersonalAndSocialsForContact(mapped, unitOfWork);
+                    result.Add(mapped);
                 }
             }
 

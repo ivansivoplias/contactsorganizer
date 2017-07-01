@@ -63,7 +63,7 @@ namespace Organizer.UI.Views
 
                 var startupWindow = new StartupWindow(startupViewModel);
 
-                startupWindow.ShowDialog();
+                startupWindow.Show();
 
                 this.Close();
             });

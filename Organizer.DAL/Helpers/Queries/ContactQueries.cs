@@ -15,6 +15,13 @@
                 + "WHERE UserId = @UserId AND AppId LIKE @AppId";
         }
 
+        public static string GetFilterByAppInfoQuery()
+        {
+            return $"SELECT Contacts.ContactId AS ContactId, PrimaryPhone, UserId FROM {ContactTable} " +
+                $"INNER JOIN {SocialInfoTable} ON {ContactTable}.{ContactId} = {SocialInfoTable}.ContactId "
+                + "WHERE UserId = @UserId AND AppName LIKE @AppName AND AppId LIKE @AppId";
+        }
+
         public static string GetFilterByFirstNameQuery()
         {
             return $"SELECT Contacts.ContactId AS ContactId, PrimaryPhone, UserId FROM {ContactTable} " +
@@ -55,6 +62,12 @@
         public static string GetFindByPrimaryPhoneQuery()
         {
             return $"SELECT TOP 1 Contacts.ContactId AS ContactId, PrimaryPhone, UserId FROM {ContactTable}" +
+                " WHERE UserId = @UserId AND PrimaryPhone = @Phone";
+        }
+
+        public static string GetFindContactsByPrimaryPhoneQuery()
+        {
+            return $"SELECT Contacts.ContactId AS ContactId, PrimaryPhone, UserId FROM {ContactTable}" +
                 " WHERE UserId = @UserId AND PrimaryPhone = @Phone";
         }
 

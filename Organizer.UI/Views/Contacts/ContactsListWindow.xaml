@@ -6,8 +6,11 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         xmlns:convertor="clr-namespace:Organizer.UI.Convertors"
+        xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
+        xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="ContactsListWindow" Height="533.551" Width="1090.279">
+        Title="ContactsListWindow" Height="533.551" Width="1090.279"
+        behavior:FocusBehavior.FocusFirst="True">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -43,10 +46,24 @@
                        VerticalAlignment="Center"
                        Margin="10" />
 
-            <TextBox Grid.Column="1"
+            <TextBox x:Name="searchBox" Grid.Column="1"
                      Padding="3"
                      Height="30"
-                     Margin="5 10" />
+                     Margin="5 10">
+                <TextBox.Text>
+                    <Binding Path="SearchValue"
+                             NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:ContactSearchValidationRule
+                                ValidatesOnTargetUpdated="True">
+                                <valid:ContactSearchValidationRule.Wrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.SearchType, Source={StaticResource proxy}}" />
+                                </valid:ContactSearchValidationRule.Wrapper>
+                            </valid:ContactSearchValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2">
                 <Button Height="30"
@@ -90,7 +107,8 @@
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch"
                       SelectedItem="{Binding SelectedContact}"
-                      AutoGenerateColumns="False">
+                      AutoGenerateColumns="False"
+                      ScrollViewer.ScrollChanged="DataGrid_ScrollChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Header="Основной телефон"

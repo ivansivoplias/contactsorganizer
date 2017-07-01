@@ -3,6 +3,7 @@ using AutoMapper;
 using GameStore.Common.Hasher;
 using Organizer.Common.DTO;
 using Organizer.Common.Entities;
+using Organizer.Common.Exceptions;
 using Organizer.DAL.Repository;
 using Organizer.Infrastructure.Database;
 using Organizer.Infrastructure.Services;
@@ -37,12 +38,12 @@ namespace Organizer.BL.Services
                     }
                     else
                     {
-                        throw new Exception($"Password {password} is incorrect for user {userName}");
+                        throw new LoginFailedException($"Password {password} is incorrect for user {userName}");
                     }
                 }
                 else
                 {
-                    throw new Exception($"User with login {userName} are not exists in db.");
+                    throw new LoginFailedException($"User with login {userName} are not exists in db.");
                 }
             }
             return user;
@@ -74,7 +75,7 @@ namespace Organizer.BL.Services
                 }
                 else
                 {
-                    throw new Exception($"User with login {user.Login} are already exist.");
+                    throw new UserAlreadyExistsException($"User with login {user.Login} are already exist.");
                 }
             }
 

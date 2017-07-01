@@ -2,6 +2,8 @@
 using System.Windows;
 using System.ComponentModel;
 using System;
+using System.Windows.Controls;
+using Organizer.Common.Enums.SearchTypes;
 
 namespace Organizer.UI.Views
 {
@@ -16,6 +18,8 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddContactMessage += AddContactMessageHandler;
+            _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
+            _viewModel.ValidateSearch += ValidateSearchHandler;
             _viewModel.BackMessage += BackMessageHandler;
             _viewModel.EditContactMessage += EditContactMessageHandler;
             _viewModel.ViewContactMessage += ViewContactMessageHandler;
@@ -35,9 +39,7 @@ namespace Organizer.UI.Views
 
                 var addContactWindow = new EditContactWindow(editContactViewModel);
 
-                addContactWindow.Show();
-
-                this.Close();
+                addContactWindow.ShowDialog();
             });
         }
 
@@ -49,9 +51,7 @@ namespace Organizer.UI.Views
 
                 var addContactWindow = new ViewContactWindow(viewContactViewModel);
 
-                addContactWindow.Show();
-
-                this.Close();
+                addContactWindow.ShowDialog();
             });
         }
 
@@ -69,6 +69,20 @@ namespace Organizer.UI.Views
             });
         }
 
+        private void ValidateSearchHandler(object sender, EventArgs e)
+        {
+            bool searchValid = !searchBox.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool searchNotNull = _viewModel.SearchType != ContactSearchType.Default ?
+                !string.IsNullOrEmpty(_viewModel.SearchValue) : true;
+
+            _viewModel.IsSearchValueValid = searchValid && searchNotNull;
+        }
+
+        private void SearchTypeChangedHandler(object sender, EventArgs e)
+        {
+            searchBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+        }
+
         private void AddContactMessageHandler(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -77,9 +91,7 @@ namespace Organizer.UI.Views
 
                 var addContactWindow = new AddContactWindow(addContactViewModel);
 
-                addContactWindow.Show();
-
-                this.Close();
+                addContactWindow.ShowDialog();
             });
         }
 
@@ -88,10 +100,32 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.BackMessage -= BackMessageHandler;
+            _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
+            _viewModel.ValidateSearch -= ValidateSearchHandler;
             _viewModel.AddContactMessage -= AddContactMessageHandler;
             _viewModel.EditContactMessage -= EditContactMessageHandler;
             _viewModel.ViewContactMessage -= ViewContactMessageHandler;
             _viewModel.UnregisterCommandsForWindow(this);
+        }
+
+        private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            bool isBottom = IsScrollViewReachedTheBottom(e);
+            if (isBottom)
+            {
+                _viewModel.FetchNextPageCommand.Execute(null);
+            }
+        }
+
+        private bool IsScrollViewReachedTheBottom(ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeight - e.ViewportHeight == 0 && e.VerticalOffset != 0)
+                return true;
+            if (e.VerticalOffset == 0)
+                return false;
+            if (e.ExtentHeight - e.ViewportHeight - e.VerticalOffset == 0)
+                return true;
+            return false;
         }
     }
 }

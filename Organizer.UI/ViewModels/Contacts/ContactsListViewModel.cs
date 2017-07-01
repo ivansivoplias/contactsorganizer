@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
 using Organizer.Common.Enums.SearchTypes;
+using Organizer.Common.Helpers;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
@@ -22,6 +23,7 @@ namespace Organizer.UI.ViewModels
 
         private ObservableCollection<ContactDto> _contacts;
         private ContactDto _selected;
+        private Command _searchCommand;
         private Command _addContactCommand;
         private Command _deleteContactCommand;
         private Command _editContactCommand;
@@ -41,6 +43,9 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler ViewContactMessage = delegate { };
 
+        public event EventHandler ValidateSearch = delegate { };
+
+        public ICommand SearchCommand => _searchCommand;
         public ICommand AddContactCommand => _addContactCommand;
         public ICommand DeleteContactCommand => _deleteContactCommand;
         public ICommand EditContactCommand => _editContactCommand;
@@ -71,6 +76,8 @@ namespace Organizer.UI.ViewModels
             }
         }
 
+        public bool IsSearchValueValid { get; set; }
+
         public ICollection<ContactDto> Contacts => _contacts;
 
         public ContactDto SelectedContact
@@ -87,6 +94,7 @@ namespace Organizer.UI.ViewModels
         {
             _pageNumber = 1;
             _selected = null;
+            _currentSearchType = ContactSearchType.Default;
 
             _contactService = App.Containter.Resolve<IContactService>();
 
@@ -101,6 +109,9 @@ namespace Organizer.UI.ViewModels
             _editContactCommand = Command.CreateCommand("Edit contact", "EditContact", GetType(),
                 EditContact, () => _selected != null);
 
+            _searchCommand = Command.CreateCommand("Search", "Search", GetType(),
+                Search);
+
             _viewContactCommand = Command.CreateCommand("View contact details", "ViewContact", GetType(),
                 ViewContactDetails, () => _selected != null);
 
@@ -111,6 +122,7 @@ namespace Organizer.UI.ViewModels
         private void AddContact()
         {
             AddContactMessage.Invoke(null, EventArgs.Empty);
+            RefreshList();
         }
 
         private void DeleteContact()
@@ -124,17 +136,9 @@ namespace Organizer.UI.ViewModels
                 {
                     _contactService.RemoveContact(_selected);
 
-                    var contactsList = _contactService.GetContacts(App.CurrentUser, _numberOnPage, _pageNumber).ToList();
-
-                    _contacts.Clear();
-
-                    _contacts = null;
-
-                    _contacts = new ObservableCollection<ContactDto>(contactsList);
-
-                    OnPropertyChanged(nameof(Contacts));
-
                     DeleteContactMessage.Invoke(null, EventArgs.Empty);
+
+                    RefreshList();
                 }
                 catch
                 {
@@ -152,6 +156,7 @@ namespace Organizer.UI.ViewModels
         private void EditContact()
         {
             EditContactMessage.Invoke(null, EventArgs.Empty);
+            RefreshList();
         }
 
         private void ViewContactDetails()
@@ -159,12 +164,100 @@ namespace Organizer.UI.ViewModels
             ViewContactMessage.Invoke(null, EventArgs.Empty);
         }
 
+        private void Search()
+        {
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                _pageNumber = 1;
+                var list = FetchContacts(_pageNumber, _numberOnPage);
+                _contacts.Clear();
+                _contacts = null;
+
+                _contacts = new ObservableCollection<ContactDto>(list);
+
+                OnPropertyChanged(nameof(Contacts));
+            }
+        }
+
+        private void RefreshList()
+        {
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                var list = FetchContacts(1, _numberOnPage * _pageNumber);
+                _contacts.Clear();
+                _contacts = null;
+
+                _contacts = new ObservableCollection<ContactDto>(list);
+
+                OnPropertyChanged(nameof(Contacts));
+            }
+        }
+
+        private void CheckSearchValidation()
+        {
+            ValidateSearch.Invoke(null, EventArgs.Empty);
+        }
+
         private void FetchNextPage()
         {
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                _pageNumber++;
+                var contacts = FetchContacts(_pageNumber, _numberOnPage);
+                if (!contacts.IsNullOrEmpty())
+                {
+                    contacts = _contacts.Union(contacts).ToList();
+
+                    _contacts.Clear();
+                    _contacts = null;
+
+                    _contacts = new ObservableCollection<ContactDto>(contacts);
+
+                    OnPropertyChanged(nameof(Contacts));
+                }
+                else
+                {
+                    _pageNumber--;
+                }
+            }
+        }
+
+        private List<ContactDto> FetchContacts(int page, int pageSize)
+        {
+            List<ContactDto> result;
+
+            switch (_currentSearchType)
+            {
+                case ContactSearchType.ByPhone:
+                    result = _contactService.GetContactsByPhone(App.CurrentUser, _searchValue, pageSize, page)
+                        .ToList();
+                    break;
+
+                case ContactSearchType.ByPersonalInfo:
+                    result = _contactService.GetContactsByPersonalInfo(App.CurrentUser, _searchValue, pageSize, page)
+                        .ToList();
+                    break;
+
+                case ContactSearchType.BySocialInfo:
+                    result = _contactService.GetContacsBySocialInfo(App.CurrentUser, _searchValue, pageSize, page)
+                        .ToList();
+                    break;
+
+                default:
+                    result = _contactService.GetContacts(App.CurrentUser, pageSize, page)
+                        .ToList();
+                    break;
+            }
+
+            return result;
         }
 
         public override void RegisterCommandsForWindow(Window window)
         {
+            Command.RegisterCommandBinding(window, _searchCommand);
             Command.RegisterCommandBinding(window, _addContactCommand);
             Command.RegisterCommandBinding(window, _deleteContactCommand);
             Command.RegisterCommandBinding(window, _editContactCommand);
@@ -175,6 +268,7 @@ namespace Organizer.UI.ViewModels
 
         public override void UnregisterCommandsForWindow(Window window)
         {
+            Command.UnregisterCommandBinding(window, _searchCommand);
             Command.UnregisterCommandBinding(window, _addContactCommand);
             Command.UnregisterCommandBinding(window, _deleteContactCommand);
             Command.UnregisterCommandBinding(window, _editContactCommand);

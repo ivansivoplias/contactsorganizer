@@ -61,8 +61,14 @@
     <Compile Include="Enums\SearchTypes\DiarySearchType.cs" />
     <Compile Include="Enums\SearchTypes\MeetingSearchType.cs" />
     <Compile Include="Enums\SearchTypes\TodoSearchType.cs" />
-    <Compile Include="Exceptions\TransactionAlreadyExistsException.cs" />
-    <Compile Include="Exceptions\TransactionCommitFailedException.cs" />
+    <Compile Include="Exceptions\InvalidData\LoginFailedException.cs" />
+    <Compile Include="Exceptions\InvalidData\MeetingNameAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\InvalidData\NoteCaptionAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\InvalidData\PrimaryPhoneAlreadyExistException.cs" />
+    <Compile Include="Exceptions\InvalidData\SocialAlreadyExistException.cs" />
+    <Compile Include="Exceptions\Transaction\TransactionAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\Transaction\TransactionCommitFailedException.cs" />
+    <Compile Include="Exceptions\InvalidData\UserAlreadyExistsException.cs" />
     <Compile Include="Helpers\CollectionHelper.cs" />
     <Compile Include="Helpers\EnumExtentions.cs" />
     <Compile Include="Helpers\PaginationHelper.cs" />

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
@@ -89,6 +90,10 @@ namespace Organizer.UI.ViewModels
             {
                 _meetingService.EditMeeting(_meeting);
                 SaveMessage.Invoke(null, EventArgs.Empty);
+            }
+            catch (MeetingNameAlreadyExistsException e)
+            {
+                MessageBox.Show($"Invalid data provided. Meeting cannot be saved.\nDetails: {e.Message}", "Error");
             }
             catch
             {

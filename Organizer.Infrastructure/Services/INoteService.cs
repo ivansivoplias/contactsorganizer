@@ -17,7 +17,7 @@ namespace Organizer.Infrastructure.Services
 
         NoteDto GetNote(int noteId);
 
-        NoteDto GetNoteByCaption(UserDto user, string caption);
+        NoteDto GetNoteByCaption(UserDto user, NoteType noteType, string caption);
 
         ICollection<NoteDto> GetNotesByCaptionLike(UserDto user, string caption, NoteType noteType, int pageSize, int page);
 

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using Organizer.UI.Helpers;
@@ -74,6 +75,10 @@ namespace Organizer.UI.ViewModels
                 SaveUserInSettings();
 
                 LoginSuccessfulMessage.Invoke(null, EventArgs.Empty);
+            }
+            catch (LoginFailedException e)
+            {
+                MessageBox.Show($"Login failed. See details below. \nDetails: {e.Message}", "Error! Login failed!");
             }
             catch (Exception e)
             {

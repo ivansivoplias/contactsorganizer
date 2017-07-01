@@ -4,6 +4,8 @@
     {
         public const string SocialInfoTable = "dbo.SocialInfo";
         public const string SocialInfoId = "SocialInfoId";
+        public const string ContactTable = "dbo.Contacts";
+        public const string ContactId = "ContactId";
 
         public static string GetInsertQuery()
         {
@@ -24,9 +26,16 @@
 
         public static string GetGetByIdQuery()
         {
-            return "SELECT TOP 1 SocialInfo.SocialInfoId, SocialInfo.ContactId, AppName, AppId"
+            return "SELECT TOP 1 SocialInfo.SocialInfoId, SocialInfo.ContactId, AppName, AppId "
                 + $"FROM {SocialInfoTable} "
                 + $"WHERE {SocialInfoId} = @{SocialInfoId}";
+        }
+
+        public static string GetFindSocialQuery()
+        {
+            return "SELECT TOP 1 SocialInfo.SocialInfoId, SocialInfo.ContactId, AppName, AppId "
+                + $"FROM {SocialInfoTable} "
+                + "WHERE ContactId = @ContactId AND AppName = @AppName AND AppId = @AppId";
         }
 
         public static string GetAllQuery()
@@ -40,6 +49,13 @@
             return "SELECT SocialInfo.SocialInfoId, SocialInfo.ContactId, AppName, AppId "
                 + $"FROM {SocialInfoTable} " +
                 "WHERE ContactId = @ContactId";
+        }
+
+        public static string GetSocialsByAppNameQuery()
+        {
+            return "SELECT SocialInfo.SocialInfoId, SocialInfo.ContactId, AppName, AppId "
+                + $"FROM {SocialInfoTable} INNER JOIN {ContactTable} ON {ContactTable}.{ContactId} = {SocialInfoTable}.ContactId " +
+                $"WHERE {SocialInfoTable}.ContactId = @ContactId AND AppName = @AppName";
         }
     }
 }

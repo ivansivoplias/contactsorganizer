@@ -3,6 +3,7 @@ using AutoMapper;
 using Organizer.Common.DTO;
 using Organizer.Common.Entities;
 using Organizer.Common.Enums;
+using Organizer.Common.Exceptions;
 using Organizer.Common.Helpers;
 using Organizer.Common.Pagination;
 using Organizer.DAL.Helpers;
@@ -11,6 +12,7 @@ using Organizer.Infrastructure.Database;
 using Organizer.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Organizer.BL.Services
 {
@@ -29,11 +31,21 @@ namespace Organizer.BL.Services
             using (unitOfWork)
             {
                 var noteRepo = new NoteRepository(unitOfWork);
-                using (var transaction = unitOfWork.BeginTransaction())
+
+                var dbNote = noteRepo.GetNoteByCaption(note.UserId, note.NoteType, note.Caption);
+
+                if (note == null)
                 {
-                    var mapped = Mapper.Map<Note>(note);
-                    noteRepo.Insert(mapped, transaction);
-                    unitOfWork.Commit();
+                    using (var transaction = unitOfWork.BeginTransaction())
+                    {
+                        var mapped = Mapper.Map<Note>(note);
+                        noteRepo.Insert(mapped, transaction);
+                        unitOfWork.Commit();
+                    }
+                }
+                else
+                {
+                    throw new NoteCaptionAlreadyExistsException($"{note.NoteType} with caption: {note.Caption} already exists in database.");
                 }
             }
         }
@@ -44,11 +56,21 @@ namespace Organizer.BL.Services
             using (unitOfWork)
             {
                 var noteRepo = new NoteRepository(unitOfWork);
-                using (var transaction = unitOfWork.BeginTransaction())
+
+                var notes = noteRepo.FindNotesByCaption(note.UserId, note.Caption, note.NoteType).ToList();
+
+                if (notes.Count == 0 || (notes.Count == 1 && notes[0].Id == note.Id))
                 {
-                    var mapped = Mapper.Map<Note>(note);
-                    noteRepo.Update(mapped, transaction);
-                    unitOfWork.Commit();
+                    using (var transaction = unitOfWork.BeginTransaction())
+                    {
+                        var mapped = Mapper.Map<Note>(note);
+                        noteRepo.Update(mapped, transaction);
+                        unitOfWork.Commit();
+                    }
+                }
+                else
+                {
+                    throw new NoteCaptionAlreadyExistsException($"{note.NoteType} with caption: {note.Caption} already exists in database.");
                 }
             }
         }
@@ -68,7 +90,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public NoteDto GetNoteByCaption(UserDto user, string caption)
+        public NoteDto GetNoteByCaption(UserDto user, NoteType noteType, string caption)
         {
             NoteDto result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -76,7 +98,7 @@ namespace Organizer.BL.Services
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNote = noteRepo.GetNoteByCaption(user.Id, caption);
+                var dbNote = noteRepo.GetNoteByCaption(user.Id, noteType, caption);
                 result = Mapper.Map<NoteDto>(dbNote);
             }
 

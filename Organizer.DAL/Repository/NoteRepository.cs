@@ -430,7 +430,37 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public Note GetNoteByCaption(int userId, string caption)
+        public IEnumerable<Note> FindNotesByCaption(int userId, string caption, NoteType noteType, int? pageSize = null, int? page = null)
+        {
+            IEnumerable<Note> result = null;
+
+            var query = NoteQueries.GetFindNotesByCaptionQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("Caption", pageSize.Value, page.Value);
+            }
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query,
+                    NoteParams.GetFindNotesByCaptionParams(userId, caption, noteType));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
+        }
+
+        public Note GetNoteByCaption(int userId, NoteType noteType, string caption)
         {
             Note result = null;
 
@@ -438,8 +468,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
-                    new SqlParameter("@Caption", caption));
+                QueryHelper.SetupCommand(cmd, query, NoteParams.GetFindNoteByCaptionParams(userId, noteType, caption));
 
                 if (_unitOfWork.Transaction != null)
                 {

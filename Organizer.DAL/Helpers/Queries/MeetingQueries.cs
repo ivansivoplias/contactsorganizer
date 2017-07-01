@@ -69,7 +69,7 @@
                 " Meetings.Description, MeetingDate," +
                 " NotificationDate, SendNotifications, Meetings.UserId "
                 + $"FROM {MeetingTable}" +
-                " WHERE MeetingName = @MeetingName";
+                " WHERE UserId = @UserId AND MeetingName = @MeetingName";
         }
 
         public static string GetAllQuery()

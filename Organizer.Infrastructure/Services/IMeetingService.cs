@@ -14,7 +14,7 @@ namespace Organizer.Infrastructure.Services
 
         MeetingDto GetMeeting(int meetingId);
 
-        MeetingDto GetMeetingByName(string meetingName);
+        MeetingDto GetMeetingByName(int userId, string meetingName);
 
         ICollection<MeetingDto> GetUserMeetings(UserDto user, int pageSize, int page);
 

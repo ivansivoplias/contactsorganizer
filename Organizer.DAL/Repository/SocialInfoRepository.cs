@@ -136,5 +136,56 @@ namespace Organizer.DAL.Repository
         {
             return Count(SocialInfoQueries.SocialInfoTable);
         }
+
+        public IEnumerable<SocialInfo> GetSocialsByAppName(int contactId, string appName, int? pageSize = default(int?), int? page = default(int?))
+        {
+            IEnumerable<SocialInfo> list = null;
+            var query = SocialInfoQueries.GetSocialsByAppNameQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging(SocialInfoQueries.SocialInfoId, pageSize.Value, page.Value);
+            }
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, SocialInfoParams.GetSocialsByAppNameParams(contactId, appName));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    list = MapCollection(reader);
+                }
+            }
+
+            return list;
+        }
+
+        public SocialInfo FindSocial(int contactId, string appName, string appId)
+        {
+            SocialInfo social = null;
+            var query = SocialInfoQueries.GetFindSocialQuery();
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, SocialInfoParams.GetFindSocialParams(contactId, appName, appId));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    social = Map(reader);
+                }
+            }
+
+            return social;
+        }
     }
 }

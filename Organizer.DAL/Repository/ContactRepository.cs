@@ -351,5 +351,61 @@ namespace Organizer.DAL.Repository
         {
             return Count(ContactQueries.ContactTable);
         }
+
+        public IEnumerable<Contact> FilterByAppInfo(int userId, SocialInfo info, int? pageSize = default(int?), int? page = default(int?))
+        {
+            IEnumerable<Contact> result = null;
+            string query = ContactQueries.GetFilterByAppInfoQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("AppName", pageSize.Value, page.Value);
+            }
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByAppInfoParams(userId, info));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
+        }
+
+        public IEnumerable<Contact> FindContactsByPrimaryPhone(int userId, string phone, int? pageSize = default(int?), int? page = default(int?))
+        {
+            IEnumerable<Contact> result = null;
+            string query = ContactQueries.GetFindContactsByPrimaryPhoneQuery();
+
+            if (pageSize != null && page != null)
+            {
+                query = query.AddPaging("PrimaryPhone", pageSize.Value, page.Value);
+            }
+
+            using (var cmd = _connection.CreateCommand())
+            {
+                QueryHelper.SetupCommand(cmd, query, ContactParams.GetFindContactsByPrimaryPhoneParams(userId, phone));
+
+                if (_unitOfWork.Transaction != null)
+                {
+                    cmd.Transaction = _unitOfWork.Transaction;
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    result = MapCollection(reader);
+                }
+            }
+
+            return result;
+        }
     }
 }

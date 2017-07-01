@@ -14,12 +14,31 @@ namespace Organizer.DAL.Helpers
             };
         }
 
+        public static SqlParameter[] GetFilterByAppInfoParams(int userId, SocialInfo info)
+        {
+            return new SqlParameter[]
+            {
+                new SqlParameter("@UserId", userId),
+                new SqlParameter("@AppName", info.AppName.MakeLikeExpression()),
+                new SqlParameter("@AppId", info.AppId.MakeLikeExpression())
+            };
+        }
+
         public static SqlParameter[] GetFilterByFirstNameParams(int userId, string firstName)
         {
             return new SqlParameter[]
             {
                 new SqlParameter("@UserId", userId),
                 new SqlParameter("@FirstName", firstName.MakeStartsWithLikeExpression())
+            };
+        }
+
+        public static SqlParameter[] GetFindContactsByPrimaryPhoneParams(int userId, string phone)
+        {
+            return new SqlParameter[]
+            {
+                new SqlParameter("@UserId", userId),
+                new SqlParameter("@Phone", phone)
             };
         }
 
