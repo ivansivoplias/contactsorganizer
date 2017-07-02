@@ -52,6 +52,7 @@
                         <Binding Path="MeetingName" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
                                 <valid:NotNullValidationRule />
+                                <valid:StringNotEmptyValidationRule />
                                 <valid:StringLengthValidationRule MinLength="4" MaxLength="40" />
                             </Binding.ValidationRules>
                         </Binding>
@@ -81,6 +82,7 @@
                         <Binding Path="Description" NotifyOnValidationError="True">
                             <Binding.ValidationRules>
                                 <valid:NotNullValidationRule />
+                                <valid:StringNotEmptyValidationRule />
                                 <valid:StringLengthValidationRule MinLength="10" MaxLength="150" />
                             </Binding.ValidationRules>
                         </Binding>

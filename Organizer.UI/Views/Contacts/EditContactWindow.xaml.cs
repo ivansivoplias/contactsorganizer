@@ -42,6 +42,13 @@ namespace Organizer.UI.Views
 
         private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
+            primaryPhoneField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            firstNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            middleNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            lastNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            nickNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            emailField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+
             bool isPhoneValid = !primaryPhoneField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isFirstNameValid = !firstNameField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isMiddleNameValid = !middleNameField.GetBindingExpression(TextBox.TextProperty).HasError;

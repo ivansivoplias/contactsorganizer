@@ -35,6 +35,9 @@ namespace Organizer.UI.Views
 
         private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
+            captionField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            noteTextField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+
             bool isCaptionValid = !captionField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isTextValid = !noteTextField.GetBindingExpression(TextBox.TextProperty).HasError;
 

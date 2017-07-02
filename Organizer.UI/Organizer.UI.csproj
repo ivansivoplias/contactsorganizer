@@ -90,6 +90,7 @@
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
     <Compile Include="ValidationRules\Contact\SocialPhoneValidationRule.cs" />
     <Compile Include="ValidationRules\General\NotNullValidationRule.cs" />
+    <Compile Include="ValidationRules\General\StringNotEmptyValidationRule.cs" />
     <Compile Include="ValidationRules\Search\MeetingSearchValidationRule.cs" />
     <Compile Include="ValidationRules\Search\ContactSearchValidationRule.cs" />
     <Compile Include="ValidationRules\General\DateGreaterOrEqualTodayValidationRule.cs" />

@@ -35,6 +35,11 @@ namespace Organizer.UI.Views
 
         private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
+            meetingNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            descriptionField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            meetingDateField.GetBindingExpression(DatePicker.SelectedDateProperty).UpdateSource();
+            notificationDateField.GetBindingExpression(DatePicker.SelectedDateProperty).UpdateSource();
+
             bool isMeetingNameValid = !meetingNameField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isDescriptionValid = !descriptionField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isMeetingDateValid = !meetingDateField.GetBindingExpression(DatePicker.SelectedDateProperty).HasError;

@@ -37,6 +37,9 @@ namespace Organizer.UI.Views
 
         private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
+            appNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            appIdField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+
             bool isAppNameValid = !appNameField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isAppIdValid = !appIdField.GetBindingExpression(TextBox.TextProperty).HasError;
 

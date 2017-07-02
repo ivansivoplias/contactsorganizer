@@ -40,6 +40,11 @@ namespace Organizer.UI.Views
 
         private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
+            captionField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            noteTextField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            startDateField.GetBindingExpression(DatePicker.SelectedDateProperty).UpdateSource();
+            endDateField.GetBindingExpression(DatePicker.SelectedDateProperty).UpdateSource();
+
             bool isCaptionValid = !captionField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isTextValid = !noteTextField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isStartDateValid = !startDateField.GetBindingExpression(DatePicker.SelectedDateProperty).HasError;
