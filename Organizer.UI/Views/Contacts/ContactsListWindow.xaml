@@ -44,7 +44,7 @@
 
             <TextBox x:Name="searchBox" Grid.Column="1"
                      Padding="10"
-                     Height="30"
+                     Height="40"
                      Margin="5 10">
                 <TextBox.Text>
                     <Binding Path="SearchValue"
@@ -155,7 +155,8 @@
 
         <StackPanel Grid.Row="3">
             <Button
-                    Width="320"
+                    Padding="10"
+                    Width="200"
                     Margin="0 15"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
                     Command="{Binding BackCommand}" />

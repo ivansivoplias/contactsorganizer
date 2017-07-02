@@ -46,8 +46,8 @@
                        Margin="10" />
 
             <TextBox x:Name="searchBox" Grid.Column="1"
-                     Padding="5"
-                     Height="30"
+                     Padding="10"
+                     Height="40"
                      Margin="5 10">
                 <TextBox.Text>
                     <Binding Path="SearchValue"
