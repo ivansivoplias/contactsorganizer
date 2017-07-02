@@ -14,7 +14,7 @@ namespace Organizer.DAL.Helpers
             };
         }
 
-        public static SqlParameter[] GetFilterByAppInfoParams(int userId, SocialInfo info)
+        public static SqlParameter[] GetFilterByAppInfoLikeParams(int userId, SocialInfo info)
         {
             return new SqlParameter[]
             {

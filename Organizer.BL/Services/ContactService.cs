@@ -275,7 +275,7 @@ namespace Organizer.BL.Services
             {
                 var contactRepo = new ContactRepository(unitOfWork);
 
-                var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByEmailQuery(),
+                var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByEmailLikeQuery(),
                     ContactParams.GetFilterByEmailParams(user.Id, email));
 
                 if (filteredCount > 0)
@@ -456,14 +456,14 @@ namespace Organizer.BL.Services
                     AppId = phone
                 };
 
-                var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByAppInfoQuery(),
-                    ContactParams.GetFilterByAppInfoParams(user.Id, social));
+                var filteredCount = contactRepo.FilteredCount(ContactQueries.GetFilterByAppInfoLikeQuery(),
+                    ContactParams.GetFilterByAppInfoLikeParams(user.Id, social));
 
                 if (filteredCount > 0)
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbContacts = contactRepo.FilterByAppInfo(user.Id, social, temp.PageSize, temp.PageNumber);
+                    var dbContacts = contactRepo.FilterByAppInfoLike(user.Id, social, temp.PageSize, temp.PageNumber);
                     result = Mapper.Map<ICollection<ContactDto>>(dbContacts);
 
                     if (result != null)

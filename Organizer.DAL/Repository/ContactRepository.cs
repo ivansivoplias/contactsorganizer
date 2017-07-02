@@ -264,7 +264,7 @@ namespace Organizer.DAL.Repository
         public IEnumerable<Contact> FilterByEmailStartsWith(int userId, string email, int? pageSize = null, int? page = null)
         {
             IEnumerable<Contact> result = null;
-            string query = ContactQueries.GetFilterByEmailQuery();
+            string query = ContactQueries.GetFilterByEmailLikeQuery();
 
             if (pageSize != null && page != null)
             {
@@ -352,10 +352,10 @@ namespace Organizer.DAL.Repository
             return Count(ContactQueries.ContactTable);
         }
 
-        public IEnumerable<Contact> FilterByAppInfo(int userId, SocialInfo info, int? pageSize = default(int?), int? page = default(int?))
+        public IEnumerable<Contact> FilterByAppInfoLike(int userId, SocialInfo info, int? pageSize = default(int?), int? page = default(int?))
         {
             IEnumerable<Contact> result = null;
-            string query = ContactQueries.GetFilterByAppInfoQuery();
+            string query = ContactQueries.GetFilterByAppInfoLikeQuery();
 
             if (pageSize != null && page != null)
             {
@@ -364,7 +364,7 @@ namespace Organizer.DAL.Repository
 
             using (var cmd = _connection.CreateCommand())
             {
-                QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByAppInfoParams(userId, info));
+                QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByAppInfoLikeParams(userId, info));
 
                 if (_unitOfWork.Transaction != null)
                 {

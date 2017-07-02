@@ -15,7 +15,7 @@ namespace Organizer.Infrastructure.Database
 
         IEnumerable<Contact> FilterByPersonalInfo(int userId, string personalInfo, int? pageSize = null, int? page = null);
 
-        IEnumerable<Contact> FilterByAppInfo(int userId, SocialInfo info, int? pageSize = null, int? page = null);
+        IEnumerable<Contact> FilterByAppInfoLike(int userId, SocialInfo info, int? pageSize = null, int? page = null);
 
         Contact FindByNickName(int userId, string nickname);
 
