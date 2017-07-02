@@ -8,7 +8,7 @@
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
         Title="AddMeetingWindow" Height="616.936" Width="616.955"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />

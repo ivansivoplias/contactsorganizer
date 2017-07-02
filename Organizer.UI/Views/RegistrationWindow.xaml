@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="RegistrationWindow" Height="511" Width="758.425">
+        Title="RegistrationWindow" Height="511" Width="758.425" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TextBlock Margin="0 50 0 0" Text="{Binding HeaderText}" TextAlignment="Center" HorizontalAlignment="Stretch"
-                       FontSize="25" FontFamily="Times New Roman" FontStyle="Italic" FontWeight="SemiBold" />
+                       FontSize="25" FontStyle="Italic" FontWeight="SemiBold" />
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>

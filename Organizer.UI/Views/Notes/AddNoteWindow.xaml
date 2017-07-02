@@ -7,7 +7,7 @@
         xmlns:valid ="clr-namespace:Organizer.UI.ValidationRules"
         mc:Ignorable="d"
         Title="AddNoteWindow" Height="441.206" Width="616.955"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

@@ -10,7 +10,7 @@
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
         Title="ContactsListWindow" Height="533.551" Width="845.286"
-        behavior:FocusBehavior.FocusFirst="True">
+        behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -27,8 +27,6 @@
         <StackPanel>
             <TextBlock Padding="10" TextAlignment="Center"
                        Text="Contacts list"
-                       FontSize="25"
-                       FontFamily="Verdana"
                        FontStyle="Normal"
                        FontWeight="DemiBold" />
         </StackPanel>
@@ -40,8 +38,6 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Search:"
-                       FontFamily="Verdana"
-                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Center"
                        Margin="10" />
@@ -69,9 +65,6 @@
                 <Button Height="30"
                         Width="120"
                         Padding="5"
-                        FontFamily="Comic Sans MS"
-                        FontStyle="Italic"
-                       FontSize="16"
                         Margin="10"
                         Command="{Binding SearchCommand}"
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
@@ -141,47 +134,28 @@
                         VerticalAlignment="Center">
                 <Button
                 Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                       FontSize="16"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
                     Command="{Binding AddContactCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add contact'}" />
                 <Button
                 Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                       FontSize="16"
-                    FontStyle="Normal"
                     Command="{Binding EditContactCommand}"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit contact'}" />
 
                 <Button
                 Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                       FontSize="16"
-                    FontStyle="Normal"
                     Command="{Binding DeleteContactCommand}"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Remove contact'}" />
 
                 <Button
                 Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                       FontSize="16"
                     Command="{Binding ViewContactCommand}"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View details'}" />
             </StackPanel>
         </Grid>
 
         <StackPanel Grid.Row="3">
             <Button Height="40"
-                    Width="200"
-                    FontFamily="Comic Sans MS"
-                    FontStyle="Italic"
-                    FontSize="16"
+                    Width="320"
                     Margin="0 15"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
                     Command="{Binding BackCommand}" />

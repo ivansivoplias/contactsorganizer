@@ -8,7 +8,7 @@
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
         Title="AddTodoWindow" Height="695.555" Width="657.955"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />

@@ -1,6 +1,13 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml" />
+        <ResourceDictionary Source="Fonts.xaml" />
+        <ResourceDictionary Source="Texts.xaml" />
+        <ResourceDictionary Source="Buttons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
@@ -87,4 +94,11 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <!-- Windows style -->
+
+    <Style TargetType="{x:Type Window}" x:Key="AppWindowStyle">
+        <Setter Property="Background" Value="{StaticResource WindowBackgorundLightBrush}" />
+    </Style>
+    <!-- /Window style-->
 </ResourceDictionary>

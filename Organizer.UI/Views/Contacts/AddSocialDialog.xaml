@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="AddSocialDialog" Height="274" Width="580"
         ResizeMode="NoResize"
-        behavior:FocusBehavior.FocusFirst="True">
+        behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
         Title="ViewTodoWindow" Height="462.965" Width="761.955"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
