@@ -7,7 +7,7 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="EditMeetingWindow" Height="622.724" Width="616.955"
+        Title="EditMeetingWindow" Height="639.724" Width="616.955"
         ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
@@ -23,13 +23,13 @@
         <StackPanel Grid.Row="0">
             <TextBlock Text="{Binding AddMeetingHeader, FallbackValue='Edit meeting'}"
                        TextAlignment="Center"
-                       Padding="7"
-                       FontSize="20"
-                       FontFamily="Comic Sans MS"
+                       Padding="10"
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       FontFamily="{StaticResource RalewayRegular}"
                        FontStyle="Italic" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1" Margin="10">
 
             <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
@@ -39,18 +39,14 @@
 
                 <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        Text="Название митинга:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                 <TextBox x:Name="meetingNameField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        VerticalAlignment="Center">
                     <TextBox.Text>
                         <Binding Path="MeetingName" NotifyOnValidationError="True">
@@ -71,17 +67,14 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Описание:"
-                       FontFamily="Comic Sans MS"
-                       Padding="5"
-                       FontSize="14"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBox x:Name="descriptionField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
+                       TextWrapping="Wrap"
                        Height="200"
                        VerticalAlignment="Center">
                     <TextBox.Text>
@@ -102,18 +95,14 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        Text="Дата митинга:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                 <DatePicker x:Name="meetingDateField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        VerticalAlignment="Center">
                     <DatePicker.SelectedDate>
                         <Binding Path="MeetingDate" NotifyOnValidationError="True">
@@ -134,17 +123,13 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Дата оповещения:"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                 <DatePicker x:Name="notificationDateField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        VerticalAlignment="Center">
                     <DatePicker.SelectedDate>
                         <Binding Path="NotificationDate" NotifyOnValidationError="True">
@@ -170,18 +155,14 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Посылать нотификации?"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                 <CheckBox
                        IsThreeState="False"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        IsChecked="{Binding SendNotifications}"
                        VerticalAlignment="Center" />
             </Grid>
@@ -194,18 +175,12 @@
             </Grid.ColumnDefinitions>
 
             <Button
-                FontFamily="Comic Sans MS"
-                Height="30"
                 Margin="30 10"
-                FontSize="16"
                 Command="{Binding SaveCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
             <Button Grid.Column="1"
-                FontFamily="Comic Sans MS"
-                Height="30"
                 Margin="30 10"
-                FontSize="16"
                 Command="{Binding CancelCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

@@ -26,19 +26,16 @@
             <TextBlock Text="Edit social"
                        Padding="7"
                        Margin="5"
-                       FontFamily="Comic Sans MS"
-                       FontSize="20"
-                       FontStyle="Normal"
+                       FontFamily="{StaticResource RalewayRegular}"
+                       FontSize="{StaticResource FontSizeXLarge}"
                        TextAlignment="Center" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Choose from predefined socials:"
-                       FontSize="16"
                        Padding="5"
                        Margin="5 10" />
             <ComboBox Width="150" Padding="5" Margin="5 10"
-                       FontSize="16"
                       ItemsSource="{Binding StandartSocials, Mode=OneWay}"
                       SelectedValue="{Binding AppName}">
             </ComboBox>
@@ -46,12 +43,10 @@
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="App name:"
-                       FontSize="16"
                        Padding="5"
                        Margin="5 10" />
             <TextBox x:Name="appNameField" MinWidth="120"
                        Padding="5"
-                       FontSize="16"
                        Margin="5 10">
                 <TextBox.Text>
                     <Binding Path="AppName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
@@ -62,12 +57,10 @@
                 </TextBox.Text>
             </TextBox>
             <TextBlock Text="App id:"
-                       FontSize="16"
                        Padding="5"
                        Margin="5 10" />
             <TextBox x:Name="appIdField" MinWidth="120"
-                       FontSize="16"
-                     Padding="5"
+                       Padding="5"
                        Margin="5 10">
                 <TextBox.Text>
                     <Binding Path="AppId" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
@@ -91,20 +84,14 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0"
-                    Height="30"
-                    Padding="5"
+                    Padding="10"
                     Margin="15 12"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
                     Command="{Binding SaveCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
             <Button Grid.Column="1"
-                    Height="30"
-                    Padding="5"
+                    Padding="10"
                     Margin="15 12"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
                     Command="{Binding CancelCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:valid ="clr-namespace:Organizer.UI.ValidationRules"
         mc:Ignorable="d"
-        Title="AddNoteWindow" Height="441.206" Width="616.955"
+        Title="AddNoteWindow" Height="464.206" Width="616.955"
         ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
@@ -18,13 +18,12 @@
         <StackPanel Grid.Row="0">
             <TextBlock Text="{Binding AddNoteHeader, FallbackValue='Add note'}"
                        TextAlignment="Center"
-                       Padding="7"
-                       FontSize="20"
-                       FontFamily="Comic Sans MS"
-                       FontStyle="Italic" />
+                       Padding="10"
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       FontFamily="{StaticResource RalewayRegular}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1" Margin="10">
 
             <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
@@ -34,9 +33,7 @@
 
                 <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        Text="Название заметки:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
@@ -44,9 +41,7 @@
                 <TextBox
                     x:Name="captionField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        VerticalAlignment="Center">
                     <TextBox.Text>
                         <Binding Path="Caption" NotifyOnValidationError="True">
@@ -66,18 +61,14 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Текст заметки:"
-                       FontFamily="Comic Sans MS"
-                       Padding="5"
-                       FontSize="14"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBox
                     x:Name="noteTextField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
+                       Padding="10"
                        Height="200"
                        VerticalAlignment="Center">
                     <TextBox.Text>
@@ -98,18 +89,16 @@
             </Grid.ColumnDefinitions>
 
             <Button
-                FontFamily="Comic Sans MS"
-                Height="30"
+                Padding="10"
+                Height="40"
                 Margin="30 10"
-                       FontSize="16"
                 Command="{Binding SaveCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
             <Button Grid.Column="1"
-                FontFamily="Comic Sans MS"
-                Height="30"
+                    Padding="10"
+                Height="40"
                 Margin="30 10"
-                       FontSize="16"
                 Command="{Binding CancelCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

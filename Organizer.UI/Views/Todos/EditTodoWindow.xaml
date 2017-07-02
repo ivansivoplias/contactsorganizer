@@ -7,7 +7,7 @@
         xmlns:valid ="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="EditTodoWindow" Height="604.939" Width="744.877"
+        Title="EditTodoWindow" Height="628.128" Width="744.877"
         ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
@@ -22,13 +22,12 @@
         <StackPanel Grid.Row="0">
             <TextBlock Text="{Binding EditTodoHeader, FallbackValue='Edit todo'}"
                        TextAlignment="Center"
-                       Padding="7"
-                       FontSize="20"
-                       FontFamily="Comic Sans MS"
-                       FontStyle="Italic" />
+                       Padding="10"
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       FontFamily="{StaticResource RalewayRegular}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1" Margin="10">
 
             <Grid Margin="5 15">
                 <Grid.ColumnDefinitions>
@@ -38,18 +37,14 @@
 
                 <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       Padding="10"
                        Text="Название задания:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                 <TextBox
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       Padding="10"
                        VerticalAlignment="Center"
                     x:Name="captionField">
                     <TextBox.Text>
@@ -70,17 +65,14 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Описание задания:"
-                       FontFamily="Comic Sans MS"
-                       Padding="5"
-                       FontSize="16"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBox
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       TextWrapping="Wrap"
+                       Padding="10"
                        Height="200"
                        VerticalAlignment="Center"
                     x:Name="noteTextField">
@@ -102,17 +94,13 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Состояние:"
-                       FontFamily="Comic Sans MS"
-                       Padding="5"
-                       FontSize="16"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <ComboBox
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       Padding="10"
                        ItemsSource="{Binding States}"
                        SelectedValue="{Binding State}"
                        VerticalAlignment="Center">
@@ -127,17 +115,13 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Приоритет:"
-                       FontFamily="Comic Sans MS"
-                       Padding="5"
-                       FontSize="16"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <ComboBox
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       Padding="10"
                        ItemsSource="{Binding Priorities}"
                        SelectedValue="{Binding Priority}"
                        VerticalAlignment="Center">
@@ -151,18 +135,14 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       Padding="10"
                        Text="Дата начала:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                 <DatePicker
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       Padding="10"
                        VerticalAlignment="Center"
                     x:Name="startDateField">
                     <DatePicker.SelectedDate>
@@ -183,17 +163,13 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Дата завершения:"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                 <DatePicker
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       Padding="10"
                        VerticalAlignment="Center"
                     x:Name="endDateField">
                     <DatePicker.SelectedDate>
@@ -218,18 +194,16 @@
             </Grid.ColumnDefinitions>
 
             <Button
-                FontFamily="Comic Sans MS"
-                Height="30"
+                Height="40"
                 Margin="30 10"
-                       FontSize="16"
+                Padding="10"
                 Command="{Binding SaveCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
             <Button Grid.Column="1"
-                FontFamily="Comic Sans MS"
-                Height="30"
+                Height="40"
                 Margin="30 10"
-                       FontSize="16"
+                Padding="10"
                 Command="{Binding CancelCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

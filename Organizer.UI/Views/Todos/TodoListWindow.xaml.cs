@@ -18,7 +18,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddTodoMessage += AddTodoMessageHandler;
-            _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidation += SearchTypeChangedHandler;
             _viewModel.BackMessage += BackMessageHandler;
             _viewModel.ValidateSearch += ValidateSearchHandler;
             _viewModel.EditTodoMessage += EditTodoMessageHandler;
@@ -100,7 +100,7 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.BackMessage -= BackMessageHandler;
-            _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidation -= SearchTypeChangedHandler;
             _viewModel.ValidateSearch -= ValidateSearchHandler;
             _viewModel.AddTodoMessage -= AddTodoMessageHandler;
             _viewModel.EditTodoMessage -= EditTodoMessageHandler;

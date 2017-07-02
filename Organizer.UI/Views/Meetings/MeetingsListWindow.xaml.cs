@@ -18,7 +18,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddMeetingMessage += AddMeetingMessageHandler;
-            _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidationMessage += SearchTypeChangedHandler;
             _viewModel.ValidateSearch += ValidateSearchHandler;
             _viewModel.BackMessage += BackMessageHandler;
             _viewModel.EditMeetingMessage += EditMeetingMessageHandler;
@@ -101,7 +101,7 @@ namespace Organizer.UI.Views
 
             _viewModel.BackMessage -= BackMessageHandler;
             _viewModel.AddMeetingMessage -= AddMeetingMessageHandler;
-            _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidationMessage -= SearchTypeChangedHandler;
             _viewModel.ValidateSearch -= ValidateSearchHandler;
             _viewModel.EditMeetingMessage -= EditMeetingMessageHandler;
             _viewModel.ViewMeetingMessage -= ViewMeetingMessageHandler;

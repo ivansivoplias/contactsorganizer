@@ -41,7 +41,6 @@ namespace Organizer.UI.ViewModels
                     return;
                 _currentSearchType = value;
                 OnPropertyChanged(nameof(SearchType));
-                SearchTypeChanged.Invoke(null, EventArgs.Empty);
             }
         }
 
@@ -59,7 +58,7 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler AddTodoMessage = delegate { };
 
-        public event EventHandler SearchTypeChanged = delegate { };
+        public event EventHandler UpdateViewValidation = delegate { };
 
         public event EventHandler BackMessage = delegate { };
 
@@ -169,6 +168,7 @@ namespace Organizer.UI.ViewModels
         private void Search()
         {
             CheckSearchValidation();
+            UpdateViewValidation.Invoke(null, EventArgs.Empty);
             if (IsSearchValueValid)
             {
                 _pageNumber = 1;

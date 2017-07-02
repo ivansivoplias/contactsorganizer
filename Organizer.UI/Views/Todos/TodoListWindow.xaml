@@ -10,7 +10,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="TodoListWindow" Height="567.417" Width="1101.039"
+        Title="TodoListWindow" Height="592.781" Width="1101.039"
         behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
@@ -20,15 +20,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
             <TextBlock Text="Todo list"
-                       FontFamily="Comic Sans MS"
-                       FontStyle="Italic"
-                       FontSize="20"
+                       Padding="10"
+                       FontFamily="{StaticResource RalewayRegular}"
+                       FontSize="{StaticResource FontSizeXLarge}"
                        Margin="10"
                        TextAlignment="Center" />
         </StackPanel>
@@ -40,14 +40,13 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Search:"
-                       FontFamily="Verdana"
-                       FontSize="16"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Center"
                        Margin="10" />
 
             <TextBox x:Name="searchBox" Grid.Column="1"
-                     Padding="3"
+                     Padding="5"
                      Height="30"
                      Margin="5 10">
                 <TextBox.Text>
@@ -69,9 +68,6 @@
                 <Button Height="30"
                         Width="120"
                         Padding="5"
-                        FontFamily="Comic Sans MS"
-                        FontStyle="Italic"
-                       FontSize="16"
                         Margin="10"
                         Command="{Binding SearchCommand}"
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
@@ -104,15 +100,15 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="0.2*" />
+                <ColumnDefinition Width="0.3*" />
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" ItemsSource="{Binding Todos}"
                       SelectedItem="{Binding SelectedTodo}"
                       Margin="10"
-                       FontSize="16"
+                      IsReadOnly="True"
                       CanUserResizeColumns="False"
                       AutoGenerateColumns="False"
                       ScrollViewer.ScrollChanged="DataGrid_ScrollChanged">
@@ -154,38 +150,22 @@
             <StackPanel Grid.Column="1"
                         VerticalAlignment="Center">
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
+                Margin="20 10" Padding="10"
                     Command="{Binding AddTodoCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
-                    FontStyle="Normal"
+                Margin="20 10" Padding="10"
                     Command="{Binding EditTodoCommand}"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
 
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
-                    FontStyle="Normal"
+                Margin="20 10" Padding="10"
                     Command="{Binding DeleteTodoCommand}"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
 
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
+                Margin="20 10" Padding="3"
                     Command="{Binding ViewTodoCommand}"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
             </StackPanel>
         </Grid>
@@ -193,10 +173,8 @@
         <StackPanel Grid.Row="3">
             <Button Height="40"
                     Width="200"
-                    FontFamily="Comic Sans MS"
-                    FontStyle="Italic"
                     Margin="0 15"
-                       FontSize="16"
+                    Padding="10"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
                     Command="{Binding BackCommand}" />
         </StackPanel>

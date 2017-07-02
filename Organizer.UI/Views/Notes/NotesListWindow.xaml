@@ -9,7 +9,7 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="NotesListWindow" Height="460" Width="814"
+        Title="NotesListWindow" Height="525.631" Width="814"
         behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
@@ -19,15 +19,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
             <TextBlock Text="Notes list"
-                       FontFamily="Comic Sans MS"
-                       FontStyle="Italic"
-                       FontSize="20"
+                       Padding="10"
+                       FontFamily="{StaticResource RalewayRegular}"
+                       FontSize="{StaticResource FontSizeXLarge}"
                        Margin="10"
                        TextAlignment="Center" />
         </StackPanel>
@@ -39,14 +39,14 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Search:"
-                       FontFamily="Verdana"
-                       FontSize="16"
+                       Padding="10"
+                       FontFamily="{StaticResource RalewayRegular}"
                        TextAlignment="Justify"
                        VerticalAlignment="Center"
                        Margin="10" />
 
             <TextBox x:Name="searchBox" Grid.Column="1"
-                     Padding="3"
+                     Padding="5"
                      Height="30"
                      Margin="5 10">
                 <TextBox.Text>
@@ -68,9 +68,6 @@
                 <Button Height="30"
                         Width="120"
                         Padding="5"
-                        FontFamily="Comic Sans MS"
-                        FontStyle="Italic"
-                       FontSize="16"
                         Margin="10"
                         Command="{Binding SearchCommand}"
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
@@ -91,15 +88,15 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="0.2*" />
+                <ColumnDefinition Width="0.3*" />
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" ItemsSource="{Binding Notes}"
                       SelectedItem="{Binding SelectedNote}"
                       Margin="10"
-                       FontSize="16"
+                      IsReadOnly="True"
                       CanUserResizeColumns="False"
                       AutoGenerateColumns="False"
                       ScrollViewer.ScrollChanged="DataGrid_ScrollChanged">
@@ -125,38 +122,22 @@
             <StackPanel Grid.Column="1"
                         VerticalAlignment="Center">
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
+                Margin="20 10" Padding="10"
                     Command="{Binding AddNoteCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
-                    FontStyle="Normal"
+                Margin="20 10" Padding="10"
                     Command="{Binding EditNoteCommand}"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
 
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
-                    FontStyle="Normal"
+                Margin="20 10" Padding="10"
                     Command="{Binding DeleteNoteCommand}"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
 
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
+                Margin="20 10" Padding="10"
                     Command="{Binding ViewNoteCommand}"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
             </StackPanel>
         </Grid>
@@ -164,9 +145,7 @@
         <StackPanel Grid.Row="3">
             <Button Height="40"
                     Width="200"
-                    FontFamily="Comic Sans MS"
-                    FontStyle="Italic"
-                       FontSize="16"
+                    Padding="10"
                     Margin="0 15"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
                     Command="{Binding BackCommand}" />
