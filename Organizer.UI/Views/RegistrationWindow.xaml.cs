@@ -20,6 +20,7 @@ namespace Organizer.UI.Views
             _viewModel.RegisterCommandsForWindow(this);
 
             _viewModel.RegistrationFailedMessage += RegistrationMessageHandler;
+            _viewModel.BackMessage += BackToLoginHandler;
             _viewModel.RegistrationSuccessfulMessage += RegistrationSuccessfulMessageHandler;
             _viewModel.CheckValidationMessage += CheckValidationMessageHandler;
 
@@ -40,8 +41,23 @@ namespace Organizer.UI.Views
             OpenStartupWindow();
         }
 
+        private void BackToLoginHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var loginViewModel = new LoginViewModel();
+                var loginWindow = new LoginWindow(loginViewModel);
+                loginWindow.Show();
+                this.Close();
+            });
+        }
+
         private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
+            loginField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            passwordField.GetBindingExpression(PasswordBoxAssistant.BoundPassword).UpdateSource();
+            repeatedPasswordField.GetBindingExpression(PasswordBoxAssistant.BoundPassword).UpdateSource();
+
             bool loginValid = !loginField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool passwordValid = !passwordField.GetBindingExpression(PasswordBoxAssistant.BoundPassword).HasError;
             bool repeatedPasswordValid = !repeatedPasswordField.GetBindingExpression(PasswordBoxAssistant.BoundPassword).HasError;
@@ -68,6 +84,7 @@ namespace Organizer.UI.Views
         {
             Closing -= OnClosing;
 
+            _viewModel.BackMessage -= BackToLoginHandler;
             _viewModel.RegistrationFailedMessage -= RegistrationMessageHandler;
             _viewModel.RegistrationSuccessfulMessage -= RegistrationSuccessfulMessageHandler;
             _viewModel.CheckValidationMessage -= CheckValidationMessageHandler;

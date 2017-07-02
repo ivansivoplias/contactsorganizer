@@ -31,11 +31,12 @@
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Grid.Row="0" Grid.Column="0"
                    Content="{Binding LoginText}" />
-            <TextBox VerticalAlignment="Center" Margin="0 0 25 20" Padding="10" Grid.Row="0" Grid.Column="1">
+            <TextBox VerticalAlignment="Center" Margin="0 0 25 0" Padding="10" Grid.Row="0" Grid.Column="1"
+                     x:Name="loginField">
                 <TextBox.Text>
                     <Binding Path="Login">
                         <Binding.ValidationRules>
-                            <valid:LoginValidationRule />
+                            <valid:LoginValidationRule MinLoginLength="6" MaxLoginLength="20" />
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -43,9 +44,19 @@
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Grid.Row="1" Grid.Column="0"
                    Content="{Binding PasswordText}" />
-            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 20"  Padding="10" Grid.Row="1" Grid.Column="1"
+            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 0"  Padding="10" Grid.Row="1" Grid.Column="1"
                          helper:PasswordBoxAssistant.BindPassword="True"
-                         helper:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                         x:Name="passwordField">
+                <helper:PasswordBoxAssistant.BoundPassword>
+                    <Binding Path="Password" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
+                             NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:SecureStringNotEmptyValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </helper:PasswordBoxAssistant.BoundPassword>
+            </PasswordBox>
         </Grid>
 
         <Grid Grid.Row="2">

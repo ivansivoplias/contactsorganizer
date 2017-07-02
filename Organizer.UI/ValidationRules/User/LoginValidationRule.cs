@@ -6,8 +6,12 @@ namespace Organizer.UI.ValidationRules
 {
     public class LoginValidationRule : ValidationRule
     {
+        public int MinLoginLength { get; set; }
+
+        public int MaxLoginLength { get; set; }
+
         private static readonly Regex _loginRegex =
-            new Regex("^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$", RegexOptions.Compiled);
+            new Regex("^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$", RegexOptions.Compiled);
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
@@ -15,6 +19,11 @@ namespace Organizer.UI.ValidationRules
                 return new ValidationResult(false, "Login cannot be empty.");
 
             var login = value as string;
+
+            if (login.Length > MaxLoginLength || login.Length < MinLoginLength)
+            {
+                return new ValidationResult(false, $"Login cannot be less than {MinLoginLength} and greater than {MaxLoginLength} symbols.");
+            }
 
             if (!_loginRegex.IsMatch(login))
                 return new ValidationResult(false, "Login contains forbidden symbols. Please use english letters, digits . and _.");

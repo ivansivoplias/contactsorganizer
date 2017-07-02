@@ -21,14 +21,18 @@ namespace Organizer.UI.ViewModels
         private IUserService _service;
 
         private Command _registerCommand;
+        private Command _backCommand;
 
         public ICommand RegisterCommand => _registerCommand;
+        public ICommand BackCommand => _backCommand;
 
         public event EventHandler RegistrationSuccessfulMessage = delegate { };
 
         public event EventHandler RegistrationFailedMessage = delegate { };
 
         public event EventHandler CheckValidationMessage = delegate { };
+
+        public event EventHandler BackMessage = delegate { };
 
         public string Login
         {
@@ -74,37 +78,41 @@ namespace Organizer.UI.ViewModels
         {
             _service = App.Containter.Resolve<IUserService>();
 
-            _registerCommand = Command.CreateCommand("Register", "Register", GetType(), Register, RegisterCanExecute);
+            _registerCommand = Command.CreateCommand("Register", "Register", GetType(), Register);
+            _backCommand = Command.CreateCommand("Back to login page", "BackCommand", GetType(), Back);
         }
 
         private void Register()
         {
-            try
+            CheckValidationMessage.Invoke(null, EventArgs.Empty);
+
+            if (IsModelValid)
             {
-                App.CurrentUser = _service.Register(new UserDto()
+                try
                 {
-                    Login = Login,
-                    Password = Password.SecureStringToString()
-                });
-                SaveUserInSettings();
-                RegistrationSuccessfulMessage.Invoke(null, EventArgs.Empty);
-            }
-            catch (UserAlreadyExistsException e)
-            {
-                MessageBox.Show($"Registration failed. See details below. \nDetails: {e.Message}", "Error! Login failed!");
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                RegistrationFailedMessage.Invoke(null, EventArgs.Empty);
+                    App.CurrentUser = _service.Register(new UserDto()
+                    {
+                        Login = Login,
+                        Password = Password.SecureStringToString()
+                    });
+                    SaveUserInSettings();
+                    RegistrationSuccessfulMessage.Invoke(null, EventArgs.Empty);
+                }
+                catch (UserAlreadyExistsException e)
+                {
+                    MessageBox.Show($"Registration failed. See details below. \nDetails: {e.Message}", "Error! Login failed!");
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    RegistrationFailedMessage.Invoke(null, EventArgs.Empty);
+                }
             }
         }
 
-        private bool RegisterCanExecute()
+        private void Back()
         {
-            CheckValidationMessage.Invoke(null, EventArgs.Empty);
-
-            return IsModelValid;
+            BackMessage.Invoke(null, EventArgs.Empty);
         }
 
         private void SaveUserInSettings()
@@ -121,11 +129,13 @@ namespace Organizer.UI.ViewModels
         public override void RegisterCommandsForWindow(Window window)
         {
             Command.RegisterCommandBinding(window, _registerCommand);
+            Command.RegisterCommandBinding(window, _backCommand);
         }
 
         public override void UnregisterCommandsForWindow(Window window)
         {
             Command.UnregisterCommandBinding(window, _registerCommand);
+            Command.UnregisterCommandBinding(window, _backCommand);
         }
     }
 }
