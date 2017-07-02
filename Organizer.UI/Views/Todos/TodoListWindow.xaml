@@ -10,7 +10,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="TodoListWindow" Height="592.781" Width="1101.039"
+        Title="TodoListWindow" Height="615.839" Width="1101.039"
         behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>

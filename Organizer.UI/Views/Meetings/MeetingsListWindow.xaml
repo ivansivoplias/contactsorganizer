@@ -63,7 +63,7 @@
             </TextBox>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2">
-                <Button Height="30"
+                <Button Height="40"
                         Width="120"
                         Padding="10"
                         Margin="10"

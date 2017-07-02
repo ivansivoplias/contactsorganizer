@@ -42,7 +42,6 @@ namespace Organizer.UI.ViewModels
                     return;
                 _currentSearchType = value;
                 OnPropertyChanged(nameof(SearchType));
-                //SearchTypeChanged.Invoke(null, EventArgs.Empty);
             }
         }
 
@@ -168,8 +167,8 @@ namespace Organizer.UI.ViewModels
 
         private void Search()
         {
-            CheckSearchValidation();
             UpdateViewValidationMessage.Invoke(null, EventArgs.Empty);
+            CheckSearchValidation();
             if (IsSearchValueValid)
             {
                 _pageNumber = 1;

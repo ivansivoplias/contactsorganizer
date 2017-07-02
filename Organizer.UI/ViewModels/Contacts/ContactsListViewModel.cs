@@ -166,8 +166,8 @@ namespace Organizer.UI.ViewModels
 
         private void Search()
         {
-            CheckSearchValidation();
             UpdateViewValidationMessage.Invoke(null, EventArgs.Empty);
+            CheckSearchValidation();
             if (IsSearchValueValid)
             {
                 _pageNumber = 1;
