@@ -109,6 +109,7 @@
             <DataGrid Grid.Column="0" ItemsSource="{Binding Todos}"
                       SelectedItem="{Binding SelectedTodo}"
                       Margin="10"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                       IsReadOnly="True"
                       CanUserResizeColumns="False"
                       AutoGenerateColumns="False"

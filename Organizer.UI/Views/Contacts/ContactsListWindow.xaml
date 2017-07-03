@@ -98,11 +98,12 @@
             <DataGrid Name="contactsList" ItemsSource="{Binding Contacts, Mode=OneWay}"
                       Grid.Column="0"
                       IsReadOnly="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch"
                       SelectedItem="{Binding SelectedContact}"
                       AutoGenerateColumns="False"
-                      ScrollViewer.ScrollChanged="DataGrid_ScrollChanged">
+                      ScrollViewer.ScrollChanged="DataGrid_ScrollChanged" Margin="0,1,0,-1">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Header="Основной телефон"

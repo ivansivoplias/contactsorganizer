@@ -96,6 +96,7 @@
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" ItemsSource="{Binding Notes}"
                       SelectedItem="{Binding SelectedNote}"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                       Margin="10"
                       IsReadOnly="True"
                       CanUserResizeColumns="False"

@@ -95,6 +95,7 @@
             <DataGrid Grid.Column="0" ItemsSource="{Binding Meetings}"
                       SelectedItem="{Binding SelectedMeeting}"
                       Margin="10"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                       CanUserResizeColumns="False"
                       IsReadOnly="True"
                       AutoGenerateColumns="False"
