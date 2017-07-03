@@ -1,4 +1,4 @@
-﻿using Organizer.Common.DTO;
+﻿using Organizer.Common.Entities;
 using Organizer.UI.Commands;
 using Organizer.UI.Helpers;
 using System;
@@ -12,11 +12,11 @@ namespace Organizer.UI.ViewModels
 {
     public class AddSocialViewModel : ViewModelBase
     {
-        private SocialInfoDto _socialInfo;
+        private SocialInfo _socialInfo;
         private Command _submitCommand;
         private Command _cancelCommand;
         private ObservableCollection<string> _standartSocials;
-        private ICollection<SocialInfoDto> _socials;
+        private ICollection<SocialInfo> _socials;
 
         public event EventHandler SubmitMessage = delegate { };
 
@@ -32,7 +32,7 @@ namespace Organizer.UI.ViewModels
 
         public bool IsModelValid { get; set; }
 
-        public SocialInfoDto Social => _socialInfo;
+        public SocialInfo Social => _socialInfo;
 
         public string AppName
         {
@@ -54,9 +54,9 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        public AddSocialViewModel(ICollection<SocialInfoDto> socials)
+        public AddSocialViewModel(ICollection<SocialInfo> socials)
         {
-            _socialInfo = new SocialInfoDto();
+            _socialInfo = new SocialInfo();
 
             _socials = socials;
 

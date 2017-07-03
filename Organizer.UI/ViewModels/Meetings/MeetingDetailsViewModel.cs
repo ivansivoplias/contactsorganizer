@@ -1,4 +1,5 @@
 ﻿using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.UI.Commands;
 using System;
 using System.Windows;
@@ -9,7 +10,7 @@ namespace Organizer.UI.ViewModels
     public class MeetingDetailsViewModel : ViewModelBase
     {
         private Command _backCommand;
-        private MeetingDto _meeting;
+        private Meeting _meeting;
 
         public event EventHandler BackMessage = delegate { };
 
@@ -25,7 +26,7 @@ namespace Organizer.UI.ViewModels
 
         public bool SendNotifications => _meeting.SendNotifications;
 
-        public MeetingDetailsViewModel(MeetingDto meeting)
+        public MeetingDetailsViewModel(Meeting meeting)
         {
             _meeting = meeting;
 

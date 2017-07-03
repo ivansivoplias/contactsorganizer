@@ -1,4 +1,4 @@
-﻿using Organizer.Common.DTO;
+﻿using Organizer.Common.Entities;
 using Organizer.Common.Enums;
 using System;
 using System.Collections.Generic;
@@ -7,34 +7,34 @@ namespace Organizer.Infrastructure.Services
 {
     public interface INoteService
     {
-        void AddNote(NoteDto note);
+        void AddNote(Note note);
 
-        void RemoveNote(NoteDto note);
+        void RemoveNote(Note note);
 
-        void EditNote(NoteDto note);
+        void EditNote(Note note);
 
-        ICollection<NoteDto> GetNotes(UserDto user, int pageSize, int page);
+        ICollection<Note> GetNotes(User user, int pageSize, int page);
 
-        NoteDto GetNote(int noteId);
+        Note GetNote(int noteId);
 
-        NoteDto GetNoteByCaption(UserDto user, NoteType noteType, string caption);
+        Note GetNoteByCaption(User user, NoteType noteType, string caption);
 
-        ICollection<NoteDto> GetNotesByCaptionLike(UserDto user, string caption, NoteType noteType, int pageSize, int page);
+        ICollection<Note> GetNotesByCaptionLike(User user, string caption, NoteType noteType, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByCreationDate(UserDto user, DateTime creationDate, NoteType noteType, int pageSize, int page);
+        ICollection<Note> GetNotesByCreationDate(User user, DateTime creationDate, NoteType noteType, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByLastChangeDate(UserDto user, DateTime lastChangeDate, NoteType noteType, int pageSize, int page);
+        ICollection<Note> GetNotesByLastChangeDate(User user, DateTime lastChangeDate, NoteType noteType, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByNoteType(UserDto user, NoteType noteType, int pageSize, int page);
+        ICollection<Note> GetNotesByNoteType(User user, NoteType noteType, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByCurrentState(UserDto user, State state, NoteType noteType, int pageSize, int page);
+        ICollection<Note> GetNotesByCurrentState(User user, State state, NoteType noteType, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByPriority(UserDto user, Priority priority, NoteType noteType, int pageSize, int page);
+        ICollection<Note> GetNotesByPriority(User user, Priority priority, NoteType noteType, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesCreatedBetween(UserDto user, DateTime start, DateTime end, NoteType noteType, int pageSize, int page);
+        ICollection<Note> GetNotesCreatedBetween(User user, DateTime start, DateTime end, NoteType noteType, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByStartDate(UserDto user, DateTime startDate, NoteType noteType, int pageSize, int page);
+        ICollection<Note> GetNotesByStartDate(User user, DateTime startDate, NoteType noteType, int pageSize, int page);
 
-        ICollection<NoteDto> GetNotesByEndDate(UserDto user, DateTime endDate, NoteType noteType, int pageSize, int page);
+        ICollection<Note> GetNotesByEndDate(User user, DateTime endDate, NoteType noteType, int pageSize, int page);
     }
 }

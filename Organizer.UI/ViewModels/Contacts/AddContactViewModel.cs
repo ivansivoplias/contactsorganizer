@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
@@ -21,9 +22,9 @@ namespace Organizer.UI.ViewModels
         private Command _cancelCommand;
         private IContactService _contactService;
         private ContactDto _contact;
-        private PersonalInfoDto _personalInfo;
-        private ObservableCollection<SocialInfoDto> _socials;
-        private SocialInfoDto _selectedSocial;
+        private PersonalInfo _personalInfo;
+        private ObservableCollection<SocialInfo> _socials;
+        private SocialInfo _selectedSocial;
 
         public event EventHandler AddSocialMessage = delegate { };
 
@@ -45,11 +46,11 @@ namespace Organizer.UI.ViewModels
 
         public ICommand CancelCommand => _cancelCommand;
 
-        public ICollection<SocialInfoDto> Socials => _socials;
+        public ICollection<SocialInfo> Socials => _socials;
 
         public bool IsModelValid { get; set; }
 
-        public SocialInfoDto SelectedSocial
+        public SocialInfo SelectedSocial
         {
             get { return _selectedSocial; }
             set
@@ -123,9 +124,9 @@ namespace Organizer.UI.ViewModels
         {
             _contact = new ContactDto();
 
-            _personalInfo = new PersonalInfoDto();
+            _personalInfo = new PersonalInfo();
 
-            _socials = new ObservableCollection<SocialInfoDto>();
+            _socials = new ObservableCollection<SocialInfo>();
 
             _contactService = App.Containter.Resolve<IContactService>();
 

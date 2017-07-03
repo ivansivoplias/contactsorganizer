@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
@@ -90,7 +90,7 @@ namespace Organizer.UI.ViewModels
             {
                 try
                 {
-                    App.CurrentUser = _service.Register(new UserDto()
+                    App.CurrentUser = _service.Register(new User()
                     {
                         Login = Login,
                         Password = Password.SecureStringToString()

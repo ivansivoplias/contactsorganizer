@@ -9,5 +9,9 @@ namespace Organizer.Common.Exceptions
         public TransactionCommitFailedException() : base(_message)
         {
         }
+
+        public TransactionCommitFailedException(Exception originalException) : base(_message, originalException)
+        {
+        }
     }
 }

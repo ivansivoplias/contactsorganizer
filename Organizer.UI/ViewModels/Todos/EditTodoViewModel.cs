@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Enums;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
@@ -17,7 +18,7 @@ namespace Organizer.UI.ViewModels
     {
         private Command _saveCommand;
         private Command _cancelCommand;
-        private NoteDto _note;
+        private Note _note;
         private INoteService _noteService;
         private List<string> _priorities;
         private List<string> _states;
@@ -106,7 +107,7 @@ namespace Organizer.UI.ViewModels
 
         public ICollection<string> States => _states;
 
-        public EditTodoViewModel(NoteDto note)
+        public EditTodoViewModel(Note note)
         {
             _states = (Enum.GetValues(typeof(State)) as State[])
                 .Where(x => x != Common.Enums.State.None)

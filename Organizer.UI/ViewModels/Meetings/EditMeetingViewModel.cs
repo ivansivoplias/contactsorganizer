@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
@@ -13,7 +13,7 @@ namespace Organizer.UI.ViewModels
     {
         private Command _saveCommand;
         private Command _cancelCommand;
-        private MeetingDto _meeting;
+        private Meeting _meeting;
         private IMeetingService _meetingService;
 
         public event EventHandler SaveMessage = delegate { };
@@ -78,7 +78,7 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        public EditMeetingViewModel(MeetingDto meeting)
+        public EditMeetingViewModel(Meeting meeting)
         {
             _meeting = meeting;
 

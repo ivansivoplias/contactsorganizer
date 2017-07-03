@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Enums.SearchTypes;
 using Organizer.Common.Helpers;
 using Organizer.Infrastructure.Services;
@@ -22,8 +23,8 @@ namespace Organizer.UI.ViewModels
         private MeetingSearchType _currentSearchType;
         private string _searchValue;
 
-        private ObservableCollection<MeetingDto> _meetings;
-        private MeetingDto _selected;
+        private ObservableCollection<Meeting> _meetings;
+        private Meeting _selected;
         private Command _searchCommand;
         private Command _addMeetingCommand;
         private Command _deleteMeetingCommand;
@@ -79,9 +80,9 @@ namespace Organizer.UI.ViewModels
         public ICommand BackCommand => _backCommand;
         public ICommand FetchNextPageCommand => _fetchNextPageCommand;
 
-        public ICollection<MeetingDto> Meetings => _meetings;
+        public ICollection<Meeting> Meetings => _meetings;
 
-        public MeetingDto SelectedMeeting
+        public Meeting SelectedMeeting
         {
             get { return _selected; }
             set
@@ -101,7 +102,7 @@ namespace Organizer.UI.ViewModels
 
             var meetingsList = _meetingService.GetUserMeetings(App.CurrentUser, _numberOnPage, _pageNumber).ToList();
 
-            _meetings = new ObservableCollection<MeetingDto>(meetingsList);
+            _meetings = new ObservableCollection<Meeting>(meetingsList);
 
             _addMeetingCommand = Command.CreateCommand("Add meeting", "AddMeeting", GetType(), AddMeeting);
             _deleteMeetingCommand = Command.CreateCommand("Delete meeting", "DeleteMeeting", GetType(),
@@ -176,7 +177,7 @@ namespace Organizer.UI.ViewModels
                 _meetings.Clear();
                 _meetings = null;
 
-                _meetings = new ObservableCollection<MeetingDto>(list);
+                _meetings = new ObservableCollection<Meeting>(list);
 
                 OnPropertyChanged(nameof(Meetings));
             }
@@ -191,7 +192,7 @@ namespace Organizer.UI.ViewModels
                 _meetings.Clear();
                 _meetings = null;
 
-                _meetings = new ObservableCollection<MeetingDto>(list);
+                _meetings = new ObservableCollection<Meeting>(list);
 
                 OnPropertyChanged(nameof(Meetings));
             }
@@ -216,7 +217,7 @@ namespace Organizer.UI.ViewModels
                     _meetings.Clear();
                     _meetings = null;
 
-                    _meetings = new ObservableCollection<MeetingDto>(meetings);
+                    _meetings = new ObservableCollection<Meeting>(meetings);
 
                     OnPropertyChanged(nameof(Meetings));
                 }
@@ -227,9 +228,9 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        private List<MeetingDto> FetchMeetings(int page, int pageSize)
+        private List<Meeting> FetchMeetings(int page, int pageSize)
         {
-            List<MeetingDto> result;
+            List<Meeting> result;
 
             switch (_currentSearchType)
             {

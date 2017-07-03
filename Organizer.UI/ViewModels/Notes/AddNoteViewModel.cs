@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Enums;
 using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
@@ -14,7 +15,7 @@ namespace Organizer.UI.ViewModels
     {
         private Command _saveCommand;
         private Command _cancelCommand;
-        private NoteDto _note;
+        private Note _note;
         private INoteService _noteService;
 
         public event EventHandler SaveMessage = delegate { };
@@ -53,7 +54,7 @@ namespace Organizer.UI.ViewModels
         {
             _noteService = App.Containter.Resolve<INoteService>();
 
-            _note = new NoteDto()
+            _note = new Note()
             {
                 NoteType = NoteType.Diary,
                 CreationDate = DateTime.Now,

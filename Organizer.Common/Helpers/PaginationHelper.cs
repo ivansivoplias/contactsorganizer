@@ -1,5 +1,4 @@
 ﻿using Organizer.Common.Pagination;
-using System;
 
 namespace Organizer.Common.Helpers
 {
@@ -7,27 +6,14 @@ namespace Organizer.Common.Helpers
     {
         public static Page CheckPaginationAndAdoptValues(Page page)
         {
-            Page resultPage;
-
             int pageSize = page.PageSize;
 
-            int totalCount = page.TotalCount;
-
-            int pageNumber = page.PageNumber;
-
-            if (pageSize > totalCount && totalCount > 0)
+            if (page.PageSize > page.TotalCount && page.TotalCount > 0)
             {
-                pageSize = totalCount;
+                pageSize = page.TotalCount;
             }
 
-            //if (pageSize * (pageNumber - 1) > totalCount && totalCount > 0)
-            //{
-            //    pageNumber = (int)Math.Ceiling((double)totalCount / pageSize);
-            //}
-
-            resultPage = new Page(totalCount, pageNumber, pageSize);
-
-            return resultPage;
+            return new Page(page.TotalCount, page.PageNumber, pageSize);
         }
     }
 }

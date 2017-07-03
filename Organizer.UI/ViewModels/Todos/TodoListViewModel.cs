@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Enums;
 using Organizer.Common.Enums.SearchTypes;
 using Organizer.Common.Helpers;
@@ -22,8 +23,8 @@ namespace Organizer.UI.ViewModels
         private TodoSearchType _currentSearchType;
         private string _searchValue;
 
-        private ObservableCollection<NoteDto> _todoNotes;
-        private NoteDto _selected;
+        private ObservableCollection<Note> _todoNotes;
+        private Note _selected;
         private Command _searchCommand;
         private Command _addTodoCommand;
         private Command _deleteTodoCommand;
@@ -78,9 +79,9 @@ namespace Organizer.UI.ViewModels
         public ICommand BackCommand => _backCommand;
         public ICommand FetchNextPageCommand => _fetchNextPageCommand;
 
-        public ICollection<NoteDto> Todos => _todoNotes;
+        public ICollection<Note> Todos => _todoNotes;
 
-        public NoteDto SelectedTodo
+        public Note SelectedTodo
         {
             get { return _selected; }
             set
@@ -101,7 +102,7 @@ namespace Organizer.UI.ViewModels
             var notesList = _noteService
                 .GetNotesByNoteType(App.CurrentUser, NoteType.Todo, _numberOnPage, _pageNumber).ToList();
 
-            _todoNotes = new ObservableCollection<NoteDto>(notesList);
+            _todoNotes = new ObservableCollection<Note>(notesList);
 
             _addTodoCommand = Command.CreateCommand("Add todo", "AddTodo", GetType(), AddTodo);
             _deleteTodoCommand = Command.CreateCommand("Delete todo", "DeleteTodo", GetType(),
@@ -176,7 +177,7 @@ namespace Organizer.UI.ViewModels
                 _todoNotes.Clear();
                 _todoNotes = null;
 
-                _todoNotes = new ObservableCollection<NoteDto>(list);
+                _todoNotes = new ObservableCollection<Note>(list);
 
                 OnPropertyChanged(nameof(Todos));
             }
@@ -192,7 +193,7 @@ namespace Organizer.UI.ViewModels
                 _todoNotes.Clear();
                 _todoNotes = null;
 
-                _todoNotes = new ObservableCollection<NoteDto>(list);
+                _todoNotes = new ObservableCollection<Note>(list);
 
                 OnPropertyChanged(nameof(Todos));
             }
@@ -217,7 +218,7 @@ namespace Organizer.UI.ViewModels
                     _todoNotes.Clear();
                     _todoNotes = null;
 
-                    _todoNotes = new ObservableCollection<NoteDto>(notes);
+                    _todoNotes = new ObservableCollection<Note>(notes);
 
                     OnPropertyChanged(nameof(Todos));
                 }
@@ -228,9 +229,9 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        private List<NoteDto> FetchNotes(int page, int pageSize)
+        private List<Note> FetchNotes(int page, int pageSize)
         {
-            List<NoteDto> result;
+            List<Note> result;
 
             switch (_currentSearchType)
             {

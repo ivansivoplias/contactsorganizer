@@ -13,5 +13,13 @@ namespace Organizer.Common.Exceptions
         public NoteCaptionAlreadyExistsException(string message) : base(message)
         {
         }
+
+        public NoteCaptionAlreadyExistsException(Exception originalException) : base(DefaultErrorMessage, originalException)
+        {
+        }
+
+        public NoteCaptionAlreadyExistsException(string message, Exception originalException) : base(message, originalException)
+        {
+        }
     }
 }

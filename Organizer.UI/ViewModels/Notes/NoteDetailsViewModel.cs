@@ -1,4 +1,5 @@
 ﻿using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.UI.Commands;
 using System;
 using System.Windows;
@@ -9,7 +10,7 @@ namespace Organizer.UI.ViewModels
     public class NoteDetailsViewModel : ViewModelBase
     {
         private Command _backCommand;
-        private NoteDto _note;
+        private Note _note;
 
         public event EventHandler BackMessage = delegate { };
 
@@ -23,7 +24,7 @@ namespace Organizer.UI.ViewModels
 
         public DateTime LastChangeDate => _note.LastChangeDate;
 
-        public NoteDetailsViewModel(NoteDto note)
+        public NoteDetailsViewModel(Note note)
         {
             _note = note;
 

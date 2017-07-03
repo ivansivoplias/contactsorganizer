@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Organizer.Common.Exceptions
 {
@@ -15,6 +11,14 @@ namespace Organizer.Common.Exceptions
         }
 
         public UserAlreadyExistsException(string message) : base(message)
+        {
+        }
+
+        public UserAlreadyExistsException(Exception originalException) : base(DefaultErrorMessage, originalException)
+        {
+        }
+
+        public UserAlreadyExistsException(string message, Exception originalException) : base(message, originalException)
         {
         }
     }

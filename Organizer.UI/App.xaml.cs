@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.DI;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.MapperConfiguration;
@@ -18,7 +18,7 @@ namespace Organizer.UI
 
         public static string ConnectionString { get; private set; }
 
-        public static UserDto CurrentUser { get; set; }
+        public static User CurrentUser { get; set; }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {

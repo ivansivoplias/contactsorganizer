@@ -9,5 +9,9 @@ namespace Organizer.Common.Exceptions
         public TransactionAlreadyExistsException() : base(_message)
         {
         }
+
+        public TransactionAlreadyExistsException(Exception originalException) : base(_message, originalException)
+        {
+        }
     }
 }

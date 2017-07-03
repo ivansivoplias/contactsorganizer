@@ -1,4 +1,5 @@
 ﻿using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using System.Collections.Generic;
 
 namespace Organizer.Infrastructure.Services
@@ -13,24 +14,24 @@ namespace Organizer.Infrastructure.Services
 
         ContactDto GetContact(int id);
 
-        ICollection<ContactDto> GetContacts(UserDto user, int pageSize, int page);
+        ICollection<ContactDto> GetContacts(User user, int pageSize, int page);
 
-        ICollection<ContactDto> GetContactsByPhone(UserDto user, string phone, int pageSize, int page);
+        ICollection<ContactDto> GetContactsByPhone(User user, string phone, int pageSize, int page);
 
-        ICollection<ContactDto> GetContacsBySocialInfo(UserDto user, string appId, int pageSize, int page);
+        ICollection<ContactDto> GetContacsBySocialInfo(User user, string appId, int pageSize, int page);
 
-        ICollection<ContactDto> GetContactsByFirstName(UserDto user, string firstName, int pageSize, int page);
+        ICollection<ContactDto> GetContactsByFirstName(User user, string firstName, int pageSize, int page);
 
-        ICollection<ContactDto> GetContactsByLastName(UserDto user, string lastName, int pageSize, int page);
+        ICollection<ContactDto> GetContactsByLastName(User user, string lastName, int pageSize, int page);
 
-        ICollection<ContactDto> GetContactsByMiddleName(UserDto user, string middleName, int pageSize, int page);
+        ICollection<ContactDto> GetContactsByMiddleName(User user, string middleName, int pageSize, int page);
 
-        ICollection<ContactDto> GetContactsByPersonalInfo(UserDto user, string personalInfo, int pageSize, int page);
+        ICollection<ContactDto> GetContactsByPersonalInfo(User user, string personalInfo, int pageSize, int page);
 
-        ContactDto FindByNickName(UserDto user, string nickName);
+        ContactDto FindByNickName(User user, string nickName);
 
-        ContactDto FindByPrimaryPhone(UserDto user, string phone);
+        ContactDto FindByPrimaryPhone(User user, string phone);
 
-        ICollection<ContactDto> GetContactsByEmail(UserDto user, string email, int pageSize, int page);
+        ICollection<ContactDto> GetContactsByEmail(User user, string email, int pageSize, int page);
     }
 }

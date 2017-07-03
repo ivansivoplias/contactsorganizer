@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Organizer.Common.Entities;
+using System.Collections.Generic;
 
 namespace Organizer.Common.DTO
 {
@@ -7,8 +8,8 @@ namespace Organizer.Common.DTO
         public string PrimaryPhone { get; set; }
         public int UserId { get; set; }
 
-        public PersonalInfoDto PersonalInfo { get; set; }
+        public PersonalInfo PersonalInfo { get; set; }
 
-        public IEnumerable<SocialInfoDto> Socials { get; set; }
+        public IEnumerable<SocialInfo> Socials { get; set; }
     }
 }

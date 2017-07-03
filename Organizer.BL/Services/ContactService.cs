@@ -81,33 +81,30 @@ namespace Organizer.BL.Services
             }
         }
 
-        private void AddPersonalInfo(int contactId, PersonalInfoDto personalInfo, IUnitOfWork unitOfWork)
+        private void AddPersonalInfo(int contactId, PersonalInfo personalInfo, IUnitOfWork unitOfWork)
         {
             var personalRepo = new PersonalInfoRepository(unitOfWork);
-            var mapped = Mapper.Map<PersonalInfo>(personalInfo);
-            mapped.Id = contactId;
-            personalRepo.Insert(mapped, unitOfWork.Transaction);
+            personalInfo.Id = contactId;
+            personalRepo.Insert(personalInfo, unitOfWork.Transaction);
         }
 
-        private void AddSocials(int contactId, IEnumerable<SocialInfoDto> socials, IUnitOfWork unitOfWork)
+        private void AddSocials(int contactId, IEnumerable<SocialInfo> socials, IUnitOfWork unitOfWork)
         {
             var socialRepo = new SocialInfoRepository(unitOfWork);
-            var mappedSocials = Mapper.Map<IEnumerable<SocialInfo>>(socials);
-            foreach (var mappedSocial in mappedSocials)
+            foreach (var social in socials)
             {
-                mappedSocial.ContactId = contactId;
-                socialRepo.Insert(mappedSocial, unitOfWork.Transaction);
+                social.ContactId = contactId;
+                socialRepo.Insert(social, unitOfWork.Transaction);
             }
         }
 
-        private void EditPersonalInfo(PersonalInfoDto personalInfo, IUnitOfWork unitOfWork)
+        private void EditPersonalInfo(PersonalInfo personalInfo, IUnitOfWork unitOfWork)
         {
-            var mapped = Mapper.Map<PersonalInfo>(personalInfo);
             var personalRepo = new PersonalInfoRepository(unitOfWork);
-            personalRepo.Update(mapped, unitOfWork.Transaction);
+            personalRepo.Update(personalInfo, unitOfWork.Transaction);
         }
 
-        private void EditSocials(int contactId, IEnumerable<SocialInfoDto> socials, IUnitOfWork unitOfWork)
+        private void EditSocials(int contactId, IEnumerable<SocialInfo> socials, IUnitOfWork unitOfWork)
         {
             var socialRepo = new SocialInfoRepository(unitOfWork);
 
@@ -116,15 +113,14 @@ namespace Organizer.BL.Services
             foreach (var socialInfo in socials)
             {
                 var dbSocial = dbSocials.FirstOrDefault(x => x.Id == (socialInfo.Id));
-                var mapped = Mapper.Map<SocialInfo>(socialInfo);
                 if (dbSocial != null)
                 {
-                    socialRepo.Update(mapped, unitOfWork.Transaction);
+                    socialRepo.Update(socialInfo, unitOfWork.Transaction);
                 }
                 else
                 {
-                    mapped.ContactId = contactId;
-                    socialRepo.Insert(mapped, unitOfWork.Transaction);
+                    socialInfo.ContactId = contactId;
+                    socialRepo.Insert(socialInfo, unitOfWork.Transaction);
                 }
             }
 
@@ -135,7 +131,7 @@ namespace Organizer.BL.Services
             }
         }
 
-        public ContactDto FindByNickName(UserDto user, string nickName)
+        public ContactDto FindByNickName(User user, string nickName)
         {
             ContactDto result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -156,15 +152,12 @@ namespace Organizer.BL.Services
             var personalRepo = new PersonalInfoRepository(unitOfWork);
             var socialRepo = new SocialInfoRepository(unitOfWork);
 
-            var personal = personalRepo.GetById(contact.Id);
-            contact.PersonalInfo = Mapper.Map<PersonalInfoDto>(personal);
+            contact.PersonalInfo = personalRepo.GetById(contact.Id);
 
-            var socials = socialRepo.GetContactSocials(contact.Id);
-
-            contact.Socials = Mapper.Map<IEnumerable<SocialInfoDto>>(socials);
+            contact.Socials = socialRepo.GetContactSocials(contact.Id);
         }
 
-        public ContactDto FindByPrimaryPhone(UserDto user, string phone)
+        public ContactDto FindByPrimaryPhone(User user, string phone)
         {
             ContactDto result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -180,7 +173,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContacsBySocialInfo(UserDto user, string appId, int pageSize, int page)
+        public ICollection<ContactDto> GetContacsBySocialInfo(User user, string appId, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -232,7 +225,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContacts(UserDto user, int pageSize, int page)
+        public ICollection<ContactDto> GetContacts(User user, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -267,7 +260,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByEmail(UserDto user, string email, int pageSize, int page)
+        public ICollection<ContactDto> GetContactsByEmail(User user, string email, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -302,7 +295,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByFirstName(UserDto user, string firstName, int pageSize, int page)
+        public ICollection<ContactDto> GetContactsByFirstName(User user, string firstName, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -337,7 +330,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByLastName(UserDto user, string lastName, int pageSize, int page)
+        public ICollection<ContactDto> GetContactsByLastName(User user, string lastName, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -372,7 +365,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByMiddleName(UserDto user, string middleName, int pageSize, int page)
+        public ICollection<ContactDto> GetContactsByMiddleName(User user, string middleName, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -407,7 +400,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByPersonalInfo(UserDto user, string personalInfo, int pageSize, int page)
+        public ICollection<ContactDto> GetContactsByPersonalInfo(User user, string personalInfo, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
@@ -442,7 +435,7 @@ namespace Organizer.BL.Services
             return result;
         }
 
-        public ICollection<ContactDto> GetContactsByPhone(UserDto user, string phone, int pageSize, int page)
+        public ICollection<ContactDto> GetContactsByPhone(User user, string phone, int pageSize, int page)
         {
             ICollection<ContactDto> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();

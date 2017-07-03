@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using AutoMapper;
-using Organizer.Common.DTO;
 using Organizer.Common.Entities;
 using Organizer.Common.Exceptions;
 using Organizer.Common.Helpers;
@@ -11,7 +9,7 @@ using Organizer.Infrastructure.Database;
 using Organizer.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Linq;
 
 namespace Organizer.BL.Services
 {
@@ -24,7 +22,7 @@ namespace Organizer.BL.Services
             _container = container;
         }
 
-        public void AddMeeting(MeetingDto meeting)
+        public void AddMeeting(Meeting meeting)
         {
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
@@ -37,8 +35,7 @@ namespace Organizer.BL.Services
                 {
                     using (var transaction = unitOfWork.BeginTransaction())
                     {
-                        var mapped = Mapper.Map<Meeting>(meeting);
-                        meetingRepo.Insert(mapped, transaction);
+                        meetingRepo.Insert(meeting, transaction);
                         unitOfWork.Commit();
                     }
                 }
@@ -49,7 +46,7 @@ namespace Organizer.BL.Services
             }
         }
 
-        public void EditMeeting(MeetingDto meeting)
+        public void EditMeeting(Meeting meeting)
         {
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
@@ -62,8 +59,7 @@ namespace Organizer.BL.Services
                 {
                     using (var transaction = unitOfWork.BeginTransaction())
                     {
-                        var mapped = Mapper.Map<Meeting>(meeting);
-                        meetingRepo.Update(mapped, transaction);
+                        meetingRepo.Update(meeting, transaction);
                         unitOfWork.Commit();
                     }
                 }
@@ -74,9 +70,9 @@ namespace Organizer.BL.Services
             }
         }
 
-        public ICollection<MeetingDto> FilterByMeetingDate(UserDto user, DateTime meetingDate, int pageSize, int page)
+        public ICollection<Meeting> FilterByMeetingDate(User user, DateTime meetingDate, int pageSize, int page)
         {
-            ICollection<MeetingDto> result = null;
+            ICollection<Meeting> result = null;
 
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
@@ -90,21 +86,21 @@ namespace Organizer.BL.Services
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var meetings = meetingRepo.FilterByMeetingDate(user.Id, meetingDate, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<MeetingDto>>(meetings);
+                    result = meetingRepo.FilterByMeetingDate(user.Id, meetingDate, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<MeetingDto>();
+                    result = new List<Meeting>();
                 }
             }
 
             return result;
         }
 
-        public ICollection<MeetingDto> FilterByMeetingName(UserDto user, string meetingName, int pageSize, int page)
+        public ICollection<Meeting> FilterByMeetingName(User user, string meetingName, int pageSize, int page)
         {
-            ICollection<MeetingDto> result = null;
+            ICollection<Meeting> result = null;
 
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
@@ -118,53 +114,51 @@ namespace Organizer.BL.Services
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var meetings = meetingRepo.FilterByMeetingNameLike(user.Id, meetingName, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<MeetingDto>>(meetings);
+                    result = meetingRepo.FilterByMeetingNameLike(user.Id, meetingName, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<MeetingDto>();
+                    result = new List<Meeting>();
                 }
             }
 
             return result;
         }
 
-        public MeetingDto GetMeeting(int meetingId)
+        public Meeting GetMeeting(int meetingId)
         {
-            MeetingDto result = null;
+            Meeting result = null;
 
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
 
-                var meeting = meetingRepo.GetById(meetingId);
-                result = Mapper.Map<MeetingDto>(meeting);
+                result = meetingRepo.GetById(meetingId);
             }
 
             return result;
         }
 
-        public MeetingDto GetMeetingByName(int userId, string meetingName)
+        public Meeting GetMeetingByName(int userId, string meetingName)
         {
-            MeetingDto result = null;
+            Meeting result = null;
 
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
                 var meetingRepo = new MeetingRepository(unitOfWork);
 
-                var meeting = meetingRepo.FindByMeetingName(userId, meetingName);
-                result = Mapper.Map<MeetingDto>(meeting);
+                result = meetingRepo.FindByMeetingName(userId, meetingName);
             }
 
             return result;
         }
 
-        public ICollection<MeetingDto> GetUserMeetings(UserDto user, int pageSize, int page)
+        public ICollection<Meeting> GetUserMeetings(User user, int pageSize, int page)
         {
-            ICollection<MeetingDto> result = null;
+            ICollection<Meeting> result = null;
 
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
@@ -178,19 +172,19 @@ namespace Organizer.BL.Services
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var meetings = meetingRepo.GetUserMeetings(user.Id, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<MeetingDto>>(meetings);
+                    result = meetingRepo.GetUserMeetings(user.Id, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<MeetingDto>();
+                    result = new List<Meeting>();
                 }
             }
 
             return result;
         }
 
-        public void RemoveMeeting(MeetingDto meeting)
+        public void RemoveMeeting(Meeting meeting)
         {
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)

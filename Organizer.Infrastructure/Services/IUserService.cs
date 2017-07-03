@@ -1,11 +1,11 @@
-﻿using Organizer.Common.DTO;
+﻿using Organizer.Common.Entities;
 
 namespace Organizer.Infrastructure.Services
 {
     public interface IUserService
     {
-        UserDto Login(string userName, string password, bool isHashed = false);
+        User Login(string userName, string password, bool isHashed = false);
 
-        UserDto Register(UserDto newUser);
+        User Register(User newUser);
     }
 }
