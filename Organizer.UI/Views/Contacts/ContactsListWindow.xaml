@@ -9,7 +9,8 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="ContactsListWindow" Height="533.551" Width="845.286"
+        Title="ContactsListWindow" Height="534" Width="846"
+        MinHeight="534" MinWidth="846"
         behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>

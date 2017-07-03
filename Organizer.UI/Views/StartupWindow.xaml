@@ -31,9 +31,11 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0"
                        Padding="10"
+                       TextAlignment="Right"
                        Text="{Binding CurrentUserText, FallbackValue='Current user:'}" />
             <TextBlock Grid.Column="1"
-                       Padding="5"
+                       TextAlignment="Center"
+                       Padding="10"
                        Text="{Binding CurrentUserName, FallbackValue='CurrentUser'}" />
             <Button Command="{Binding LogoutCommand}"
                     Grid.Column="2"

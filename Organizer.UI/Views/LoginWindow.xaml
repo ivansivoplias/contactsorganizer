@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="511" Width="758.425" Style="{StaticResource AppWindowStyle}">
+        Title="LoginWindow" Height="511" Width="758.425" Style="{StaticResource AppWindowStyle}"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -16,7 +17,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TextBlock Margin="0 50 0 0" Text="{Binding HeaderText}" TextAlignment="Center" HorizontalAlignment="Stretch"
-                       FontSize="25" FontStyle="Italic" FontWeight="SemiBold" />
+                       FontSize="{StaticResource FontSizeXLarge}" />
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
