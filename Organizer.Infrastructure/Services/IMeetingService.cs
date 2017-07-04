@@ -18,8 +18,14 @@ namespace Organizer.Infrastructure.Services
 
         ICollection<Meeting> GetUserMeetings(User user, int pageSize, int page);
 
+        int GetMeetingsCount(User user);
+
         ICollection<Meeting> FilterByMeetingDate(User user, DateTime meetingDate, int pageSize, int page);
 
+        int GetFilterByMeetingDateCount(User user, DateTime meetingDate);
+
         ICollection<Meeting> FilterByMeetingName(User user, string meetingName, int pageSize, int page);
+
+        int GetFilterByMeetingNameCount(User user, string meetingName);
     }
 }

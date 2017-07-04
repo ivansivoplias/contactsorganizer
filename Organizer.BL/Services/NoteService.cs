@@ -153,6 +153,22 @@ namespace Organizer.BL.Services
             return result;
         }
 
+        public int GetNotesByCaptionLikeCount(User user, string caption, NoteType noteType)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByCaptionQuery(),
+                    NoteParams.GetFilterByCaptionParams(user.Id, caption, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
         public ICollection<Note> GetNotesByCreationDate(User user, DateTime creationDate, NoteType noteType, int pageSize, int page)
         {
             ICollection<Note> result = null;
@@ -178,6 +194,22 @@ namespace Organizer.BL.Services
             }
 
             return result;
+        }
+
+        public int GetNotesByCreationDateCount(User user, DateTime creationDate, NoteType noteType)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByCreationDateQuery(),
+                    NoteParams.GetFilterByCreationDateParams(user.Id, creationDate, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
         }
 
         public ICollection<Note> GetNotesByCurrentState(User user, State state, NoteType noteType, int pageSize, int page)
@@ -207,6 +239,22 @@ namespace Organizer.BL.Services
             return result;
         }
 
+        public int GetNotesByCurrentStateCount(User user, State state, NoteType noteType)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByStateQuery(),
+                    NoteParams.GetFilterByStateParams(user.Id, state, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
         public ICollection<Note> GetNotesByEndDate(User user, DateTime endDate, NoteType noteType, int pageSize, int page)
         {
             ICollection<Note> result = null;
@@ -234,6 +282,22 @@ namespace Organizer.BL.Services
             return result;
         }
 
+        public int GetNotesByEndDateCount(User user, DateTime endDate, NoteType noteType)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByEndDateQuery(),
+                    NoteParams.GetFilterByEndDateParams(user.Id, endDate, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
         public ICollection<Note> GetNotesByLastChangeDate(User user, DateTime lastChangeDate, NoteType noteType, int pageSize, int page)
         {
             ICollection<Note> result = null;
@@ -242,8 +306,8 @@ namespace Organizer.BL.Services
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var filteredCount = noteRepo.FilteredCount(NoteQueries.GetUserNotesQuery(),
-                    NoteParams.GetGetUserNotesParams(user.Id));
+                var filteredCount = noteRepo.FilteredCount(NoteQueries.GetFilterByLastChangeDateQuery(),
+                    NoteParams.GetFilterByLastChangeDateParams(user.Id, lastChangeDate, noteType));
 
                 if (filteredCount > 0)
                 {
@@ -262,6 +326,22 @@ namespace Organizer.BL.Services
             return result;
         }
 
+        public int GetNotesByLastChangeDateCount(User user, DateTime lastChangeDate, NoteType noteType)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByLastChangeDateQuery(),
+                    NoteParams.GetFilterByLastChangeDateParams(user.Id, lastChangeDate, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
         public ICollection<Note> GetNotesByNoteType(User user, NoteType noteType, int pageSize, int page)
         {
             ICollection<Note> result = null;
@@ -275,6 +355,22 @@ namespace Organizer.BL.Services
             }
 
             return result;
+        }
+
+        public int GetNotesByNoteTypeCount(User user, NoteType noteType)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByNoteTypeQuery(),
+                    NoteParams.GetFilterByNoteTypeParams(user.Id, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
         }
 
         public ICollection<Note> GetNotesByPriority(User user, Priority priority, NoteType noteType, int pageSize, int page)
@@ -305,6 +401,22 @@ namespace Organizer.BL.Services
             return result;
         }
 
+        public int GetNotesByPriorityCount(User user, Priority priority, NoteType noteType)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByPriorityQuery(),
+                    NoteParams.GetFilterByPriorityParams(user.Id, priority, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
         public ICollection<Note> GetNotesByStartDate(User user, DateTime startDate, NoteType noteType, int pageSize, int page)
         {
             ICollection<Note> result = null;
@@ -333,6 +445,38 @@ namespace Organizer.BL.Services
             return result;
         }
 
+        public int GetNotesByStartDateCount(User user, DateTime startDate, NoteType noteType)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByStartDateQuery(),
+                    NoteParams.GetFilterByStartDateParams(user.Id, startDate, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public int GetNotesCount(User user)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetUserNotesQuery(),
+                    NoteParams.GetGetUserNotesParams(user.Id));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
         public ICollection<Note> GetNotesCreatedBetween(User user, DateTime start, DateTime end, NoteType noteType, int pageSize, int page)
         {
             ICollection<Note> result = null;
@@ -359,6 +503,22 @@ namespace Organizer.BL.Services
             }
 
             return result;
+        }
+
+        public int GetNotesCreatedBetweenCount(User user, DateTime start, DateTime end, NoteType noteType)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByCreationBetweenQuery(),
+                    NoteParams.GetFilterByCreationBetweenParams(user.Id, start, end, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
         }
 
         public void RemoveNote(Note note)

@@ -126,6 +126,38 @@ namespace Organizer.BL.Services
             return result;
         }
 
+        public int GetFilterByMeetingDateCount(User user, DateTime meetingDate)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var meetingRepo = new MeetingRepository(unitOfWork);
+
+                count = meetingRepo.FilteredCount(MeetingQueries.GetFilterByMeetingDateQuery(),
+                    MeetingParams.GetFilterByMeetingDateParams(user.Id, meetingDate));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public int GetFilterByMeetingNameCount(User user, string meetingName)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var meetingRepo = new MeetingRepository(unitOfWork);
+
+                count = meetingRepo.FilteredCount(MeetingQueries.GetFilterByMeetingName(),
+                    MeetingParams.GetFilterByMeetingNameParams(user.Id, meetingName));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
         public Meeting GetMeeting(int meetingId)
         {
             Meeting result = null;
@@ -154,6 +186,22 @@ namespace Organizer.BL.Services
             }
 
             return result;
+        }
+
+        public int GetMeetingsCount(User user)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var meetingRepo = new MeetingRepository(unitOfWork);
+
+                count = meetingRepo.FilteredCount(MeetingQueries.GetUserMeetingsQuery(),
+                    MeetingParams.GetGetUserMeetingsParams(user.Id));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
         }
 
         public ICollection<Meeting> GetUserMeetings(User user, int pageSize, int page)

@@ -14,7 +14,7 @@ namespace Organizer.UI.ValidationRules
 
             MeetingSearchType wrappedEnum;
 
-            if (Enum.TryParse(Wrapper.WrappedData.ToString(), out wrappedEnum))
+            if (Wrapper.WrappedData != null && Enum.TryParse(Wrapper.WrappedData.ToString(), out wrappedEnum))
             {
                 if (string.IsNullOrEmpty(stringValue) && wrappedEnum != MeetingSearchType.Default)
                 {

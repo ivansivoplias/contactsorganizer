@@ -507,5 +507,149 @@ namespace Organizer.BL.Services
                 }
             }
         }
+
+        public int GetContactsCount(User user)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var contactRepo = new ContactRepository(unitOfWork);
+                count = contactRepo.FilteredCount(ContactQueries.GetUserContactsQuery(),
+                    ContactParams.GetGetUserContactsParams(user.Id));
+                if (count < 0)
+                {
+                    count = 0;
+                }
+            }
+
+            return count;
+        }
+
+        public int GetContactsByPhoneCount(User user, string phone)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var contactRepo = new ContactRepository(unitOfWork);
+                var social = new SocialInfo()
+                {
+                    AppName = "Phone",
+                    AppId = phone
+                };
+
+                count = contactRepo.FilteredCount(ContactQueries.GetFilterByAppInfoLikeQuery(),
+                    ContactParams.GetFilterByAppInfoLikeParams(user.Id, social));
+
+                if (count < 0)
+                    count = 0;
+
+                var contact = contactRepo.FindByPrimaryPhone(user.Id, phone);
+
+                if (contact != null)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        public int GetContactsBySocialInfoCount(User user, string appId)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var contactRepo = new ContactRepository(unitOfWork);
+                count = contactRepo.FilteredCount(ContactQueries.GetFilterBySocialInfoQuery(),
+                    ContactParams.GetFilterBySocialInfoParams(user.Id, appId));
+                if (count < 0)
+                    count = 0;
+            }
+
+            return count;
+        }
+
+        public int GetContactsByFirstNameCount(User user, string firstName)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var contactRepo = new ContactRepository(unitOfWork);
+                count = contactRepo.FilteredCount(ContactQueries.GetFilterByFirstNameQuery(),
+                    ContactParams.GetFilterByFirstNameParams(user.Id, firstName));
+                if (count < 0)
+                    count = 0;
+            }
+
+            return count;
+        }
+
+        public int GetContactsByLastNameCount(User user, string lastName)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var contactRepo = new ContactRepository(unitOfWork);
+                count = contactRepo.FilteredCount(ContactQueries.GetFilterByLastNameQuery(),
+                    ContactParams.GetFilterByLastnameParams(user.Id, lastName));
+                if (count < 0)
+                    count = 0;
+            }
+
+            return count;
+        }
+
+        public int GetContactsByMiddleNameCount(User user, string middleName)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var contactRepo = new ContactRepository(unitOfWork);
+                count = contactRepo.FilteredCount(ContactQueries.GetFilterByMiddleNameQuery(),
+                    ContactParams.GetFilterByMiddleNameParams(user.Id, middleName));
+                if (count < 0)
+                    count = 0;
+            }
+
+            return count;
+        }
+
+        public int GetContactsByPersonalInfoCount(User user, string personalInfo)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var contactRepo = new ContactRepository(unitOfWork);
+                count = contactRepo.FilteredCount(ContactQueries.GetFilterByPersonalInfoQuery(),
+                    ContactParams.GetFilterByPersonalInfoParams(user.Id, personalInfo));
+                if (count < 0)
+                    count = 0;
+            }
+
+            return count;
+        }
+
+        public int GetContactsByEmailCount(User user, string email)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var contactRepo = new ContactRepository(unitOfWork);
+                count = contactRepo.FilteredCount(ContactQueries.GetFilterByEmailLikeQuery(),
+                    ContactParams.GetFilterByEmailParams(user.Id, email));
+                if (count < 0)
+                    count = 0;
+            }
+
+            return count;
+        }
     }
 }
