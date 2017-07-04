@@ -113,7 +113,7 @@ namespace Organizer.UI.Views
             bool isBottom = IsScrollViewReachedTheBottom(e);
             if (isBottom)
             {
-                _viewModel.FetchNextPageCommand.Execute(null);
+                _viewModel.NextPageCommand.Execute(null);
             }
         }
 

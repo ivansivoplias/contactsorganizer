@@ -10,7 +10,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="TodoListWindow" Height="616" Width="1102"
+        Title="TodoListWindow" Height="674.472" Width="1102"
         MinHeight="616" MinWidth="1102"
         behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
@@ -102,11 +102,15 @@
         </Grid>
 
         <Grid Grid.Row="2" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="0.3*" />
             </Grid.ColumnDefinitions>
-            <DataGrid Grid.Column="0" ItemsSource="{Binding Todos}"
+            <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Todos}"
                       SelectedItem="{Binding SelectedTodo}"
                       Margin="10"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
@@ -149,7 +153,7 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <StackPanel Grid.Column="1"
+            <StackPanel Grid.Row="0" Grid.Column="1"
                         VerticalAlignment="Center">
                 <Button
                 Margin="20 10" Padding="10"
@@ -169,6 +173,40 @@
                 Margin="20 10" Padding="10"
                     Command="{Binding ViewTodoCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+            </StackPanel>
+
+            <StackPanel Grid.ColumnSpan="2"
+                        Grid.Row="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding FirstPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='First page'}" />
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding PreviousPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Previous page'}" />
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock
+                        FontSize="{StaticResource FontSizeXLarge}"
+                        Text="{Binding CurrentPage, Mode=OneWay, FallbackValue=1}" />
+                    <TextBlock
+                        FontSize="{StaticResource FontSizeXLarge}"
+                        Text="/" />
+                    <TextBlock
+                        FontSize="{StaticResource FontSizeXLarge}"
+                        Text="{Binding PagesCount, Mode=OneWay, FallbackValue=1}" />
+                </StackPanel>
+
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding NextPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Next page'}" />
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding LastPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Last page'}" />
             </StackPanel>
         </Grid>
 

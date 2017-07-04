@@ -170,24 +170,24 @@
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='First page'}" />
                 <Button
                     Margin="10" Padding="12"
-                    Command="{Binding BackPageCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back'}" />
+                    Command="{Binding PreviousPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Previous page'}" />
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock
                         FontSize="{StaticResource FontSizeXLarge}"
-                        Text="{Binding CurrentPage, FallbackValue=1}" />
+                        Text="{Binding CurrentPage, Mode=OneWay, FallbackValue=1}" />
                     <TextBlock
                         FontSize="{StaticResource FontSizeXLarge}"
                         Text="/" />
                     <TextBlock
                         FontSize="{StaticResource FontSizeXLarge}"
-                        Text="{Binding PagesCount, FallbackValue=2}" />
+                        Text="{Binding PagesCount, Mode=OneWay, FallbackValue=1}" />
                 </StackPanel>
 
                 <Button
                     Margin="10" Padding="12"
                     Command="{Binding NextPageCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Next'}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Next page'}" />
                 <Button
                     Margin="10" Padding="12"
                     Command="{Binding LastPageCommand}"
