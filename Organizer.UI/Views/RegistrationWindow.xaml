@@ -41,7 +41,7 @@
                 <TextBox.Text>
                     <Binding Path="Login">
                         <Binding.ValidationRules>
-                            <valid:LoginValidationRule MinLoginLength="6" MaxLoginLength="20" />
+                            <valid:LoginValidationRule />
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>

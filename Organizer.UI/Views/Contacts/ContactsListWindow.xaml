@@ -28,6 +28,7 @@
         <StackPanel>
             <TextBlock Padding="10" TextAlignment="Center"
                        Text="Contacts list"
+                       FontSize="{StaticResource FontSizeXLarge}"
                        FontStyle="Normal"
                        FontWeight="DemiBold" />
         </StackPanel>

@@ -48,6 +48,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Organizer.UI.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da">
       <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
@@ -376,6 +382,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Fonts\SIL Open Font License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
