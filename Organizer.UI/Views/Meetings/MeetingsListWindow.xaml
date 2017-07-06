@@ -9,8 +9,8 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="MeetingsListWindow" Height="557.026" Width="917"
-        MinHeight="529" MinWidth="917"
+        Title="MeetingsListWindow" Height="558" Width="917"
+        MinHeight="558" MinWidth="917"
         behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>

@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewMeetingWindow" Height="390.863" Width="616.955" Style="{StaticResource AppWindowStyle}">
+        Title="ViewMeetingWindow" Height="390.863" Width="616.955"
+        ResizeMode="NoResize"
+        Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

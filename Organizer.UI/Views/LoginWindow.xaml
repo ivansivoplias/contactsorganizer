@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="511" Width="758.425" Style="{StaticResource AppWindowStyle}"
+        Title="LoginWindow" MinHeight="511" MinWidth="759" Style="{StaticResource AppWindowStyle}"
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
