@@ -28,6 +28,8 @@ namespace Organizer.UI.Views
             Closing += OnClosing;
 
             InitializeComponent();
+
+            this.Title = _viewModel.HeaderText;
         }
 
         private void OpenContactsMessageHandler(object sender, EventArgs e)

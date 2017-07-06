@@ -27,6 +27,8 @@ namespace Organizer.UI.Views
             _viewModel.RegisterCommandsForWindow(this);
 
             InitializeComponent();
+
+            this.Title = _viewModel.HeaderText;
         }
 
         private void SubmitMessageHandler(object sender, EventArgs e)

@@ -63,6 +63,8 @@ namespace Organizer.UI.ViewModels
 
         public bool IsSearchValueValid { get; set; }
 
+        public string HeaderText => "Notes list";
+
         public event EventHandler AddNoteMessage = delegate { };
 
         public event EventHandler UpdateViewValidationMessage = delegate { };

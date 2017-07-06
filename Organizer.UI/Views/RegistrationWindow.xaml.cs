@@ -29,6 +29,8 @@ namespace Organizer.UI.Views
             this.Closing += OnClosing;
 
             InitializeComponent();
+
+            this.Title = _viewModel.HeaderText;
         }
 
         private void RegistrationMessageHandler(object sender, EventArgs e)

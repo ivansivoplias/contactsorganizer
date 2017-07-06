@@ -30,6 +30,8 @@ namespace Organizer.UI.ViewModels
 
         public bool IsModelValid { get; set; }
 
+        public string HeaderText => "Add note";
+
         public string Caption
         {
             get { return _note.Caption; }

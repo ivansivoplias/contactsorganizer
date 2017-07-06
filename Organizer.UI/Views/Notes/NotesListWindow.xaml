@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Notes list"
+            <TextBlock Text="{Binding HeaderText}"
                        Padding="10"
                        FontFamily="{StaticResource RalewayRegular}"
                        FontSize="{StaticResource FontSizeXLarge}"

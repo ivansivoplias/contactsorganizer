@@ -16,6 +16,8 @@ namespace Organizer.UI.ViewModels
 
         public ICommand BackCommand => _backCommand;
 
+        public string HeaderText => "Meeting details";
+
         public string MeetingName => _meeting.MeetingName;
 
         public string Description => _meeting.Description;

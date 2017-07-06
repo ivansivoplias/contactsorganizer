@@ -62,6 +62,8 @@ namespace Organizer.UI.ViewModels
 
         public bool IsSearchValueValid { get; set; }
 
+        public string HeaderText => "Todo list";
+
         public event EventHandler AddTodoMessage = delegate { };
 
         public event EventHandler UpdateViewValidation = delegate { };

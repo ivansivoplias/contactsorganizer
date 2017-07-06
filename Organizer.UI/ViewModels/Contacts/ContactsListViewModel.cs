@@ -65,6 +65,8 @@ namespace Organizer.UI.ViewModels
 
         public int CurrentPage => _pageNumber;
 
+        public string HeaderText => "Contacts list";
+
         public ContactSearchType SearchType
         {
             get { return _currentSearchType; }

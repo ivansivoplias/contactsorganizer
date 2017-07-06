@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Add social"
+            <TextBlock Text="{Binding HeaderText}"
                        Padding="7"
                        Margin="5 10"
                        FontFamily="{StaticResource RalewayRegular}"

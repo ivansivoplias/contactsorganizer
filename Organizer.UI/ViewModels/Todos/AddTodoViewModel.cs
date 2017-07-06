@@ -32,6 +32,8 @@ namespace Organizer.UI.ViewModels
 
         public bool IsModelValid { get; set; }
 
+        public string HeaderText => "Add todo";
+
         public string Caption
         {
             get { return _note.Caption; }

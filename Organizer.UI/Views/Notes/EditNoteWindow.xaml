@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding EditNoteHeader, FallbackValue='Edit note'}"
+            <TextBlock Text="{Binding HeaderText, FallbackValue='Edit note'}"
                        TextAlignment="Center"
                        Padding="10"
                        FontSize="{StaticResource FontSizeXLarge}"

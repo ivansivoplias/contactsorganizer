@@ -38,6 +38,8 @@ namespace Organizer.UI.ViewModels
         private Command _firstPageCommand;
         private Command _lastPageCommand;
 
+        public string HeaderText => "Meetings list";
+
         public MeetingSearchType SearchType
         {
             get { return _currentSearchType; }

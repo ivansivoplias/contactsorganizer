@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Meetings list"
+            <TextBlock Text="{Binding HeaderText}"
                        FontFamily="{StaticResource RalewayRegular}"
                        FontSize="{StaticResource FontSizeXLarge}"
                        Margin="10"

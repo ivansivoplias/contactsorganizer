@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding StartupWindowHeader, FallbackValue='This is main page'}"
+            <TextBlock Text="{Binding HeaderText, FallbackValue='This is main page'}"
                        TextAlignment="Center"
                        Padding="10"
                        Margin="5"

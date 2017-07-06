@@ -16,6 +16,8 @@ namespace Organizer.UI.ViewModels
 
         public ICommand BackCommand => _backCommand;
 
+        public string HeaderText => "View todo";
+
         public string Caption => _note.Caption;
 
         public string NoteText => _note.NoteText;

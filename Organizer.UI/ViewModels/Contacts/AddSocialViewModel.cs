@@ -32,6 +32,8 @@ namespace Organizer.UI.ViewModels
 
         public bool IsModelValid { get; set; }
 
+        public string HeaderText => "Add social";
+
         public SocialInfo Social => _socialInfo;
 
         public string AppName

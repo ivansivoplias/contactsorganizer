@@ -36,6 +36,8 @@ namespace Organizer.UI.ViewModels
 
         public SocialInfo Social => _socialInfo;
 
+        public string HeaderText => "Edit social";
+
         public string AppName
         {
             get { return _socialInfo.AppName; }

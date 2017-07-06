@@ -33,6 +33,8 @@ namespace Organizer.UI.ViewModels
 
         public bool IsModelValid { get; set; }
 
+        public string HeaderText => "Add meeting";
+
         public string MeetingName
         {
             get { return _meeting.MeetingName; }

@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding EditTodoHeader, FallbackValue='Edit todo'}"
+            <TextBlock Text="{Binding HeaderText, FallbackValue='Edit todo'}"
                        TextAlignment="Center"
                        Padding="10"
                        FontSize="{StaticResource FontSizeXLarge}"

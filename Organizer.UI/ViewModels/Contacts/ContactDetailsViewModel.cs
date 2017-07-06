@@ -21,6 +21,8 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler BackMessage = delegate { };
 
+        public string HeaderText => "Contact details";
+
         public string PrimaryPhone => _contact.PrimaryPhone;
 
         public string FirstName => _contact.PersonalInfo.FirstName;

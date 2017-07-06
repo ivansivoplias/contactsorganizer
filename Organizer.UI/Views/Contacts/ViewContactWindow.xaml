@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock Text="{Binding ViewContactHeader}"
+            <TextBlock Text="{Binding HeaderText}"
                        TextAlignment="Center"
                        Padding="10"
                        FontSize="{StaticResource FontSizeXLarge}" />

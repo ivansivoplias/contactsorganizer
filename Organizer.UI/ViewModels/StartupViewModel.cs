@@ -24,6 +24,8 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler LogoutMessage = delegate { };
 
+        public string HeaderText => "Startup page";
+
         public string CurrentUserText => "Current User:";
 
         public string CurrentUserName => App.CurrentUser.Login;

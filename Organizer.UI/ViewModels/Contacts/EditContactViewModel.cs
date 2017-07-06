@@ -50,6 +50,8 @@ namespace Organizer.UI.ViewModels
 
         public bool IsModelValid { get; set; }
 
+        public string HeaderText => "Edit contact";
+
         public SocialInfo SelectedSocial
         {
             get { return _selectedSocial; }
