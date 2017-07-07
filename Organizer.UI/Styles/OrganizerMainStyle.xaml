@@ -12,19 +12,34 @@
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <DockPanel LastChildFill="True">
-                        <TextBlock DockPanel.Dock="Right" Foreground="Red" FontSize="14" FontWeight="Bold"
-                                                   Padding="4"
-                                                       Text="*" />
-                        <StackPanel>
-                            <Border BorderBrush="Green" BorderThickness="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <Border BorderBrush="Green" BorderThickness="1"
+                                    Width="{Binding ElementName=adornerPlaceholder, Path=ActualWidth}"
+                                    Height="{Binding ElementName=adornerPlaceholder, Path=ActualHeight}">
                                 <AdornedElementPlaceholder Name="adornerPlaceholder" />
                             </Border>
                             <TextBlock Padding="5 0 0 0"
-                                       TextWrapping="WrapWithOverflow"
+                                       FontFamily="{StaticResource RalewayLight}"
+                                       FontSize="{StaticResource FontSizeSmall}"
+                                       Width="{Binding ElementName=adornerPlaceholder, Path=ActualWidth}"
+                                       TextWrapping="Wrap"
                                        Text="{Binding [0].ErrorContent}" Foreground="Red" />
                         </StackPanel>
-                    </DockPanel>
+
+                        <TextBlock Grid.Column="1"
+                                   Foreground="Red"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Padding="4"
+                                   Margin="0 5 0 0"
+                                   Text="*" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -41,19 +56,32 @@
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <DockPanel LastChildFill="True">
-                        <TextBlock DockPanel.Dock="Right" Foreground="Red" FontSize="14" FontWeight="Bold"
-                                                   Padding="4"
-                                                       Text="*" />
-                        <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
                             <Border BorderBrush="Green" BorderThickness="1">
                                 <AdornedElementPlaceholder Name="adornerPlaceholder" />
                             </Border>
                             <TextBlock Padding="5 0 0 0"
-                                       TextWrapping="WrapWithOverflow"
+                                       FontFamily="{StaticResource RalewayLight}"
+                                       FontSize="{StaticResource FontSizeSmall}"
+                                       Width="{Binding ElementName=adornerPlaceholder, Path=ActualWidth}"
+                                       TextWrapping="Wrap"
                                        Text="{Binding [0].ErrorContent}" Foreground="Red" />
                         </StackPanel>
-                    </DockPanel>
+
+                        <TextBlock Grid.Column="1"
+                                   Foreground="Red"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Padding="4"
+                                   Margin="0 5 0 0"
+                                   Text="*" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -70,19 +98,32 @@
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <DockPanel LastChildFill="True">
-                        <TextBlock DockPanel.Dock="Right" Foreground="Red" FontSize="14" FontWeight="Bold"
-                                                   Padding="4"
-                                                       Text="*" />
-                        <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
                             <Border BorderBrush="Green" BorderThickness="1">
                                 <AdornedElementPlaceholder Name="adornerPlaceholder" />
                             </Border>
                             <TextBlock Padding="5 0 0 0"
-                                       TextWrapping="WrapWithOverflow"
+                                       FontFamily="{StaticResource RalewayLight}"
+                                       FontSize="{StaticResource FontSizeSmall}"
+                                       Width="{Binding ElementName=adornerPlaceholder, Path=ActualWidth}"
+                                       TextWrapping="Wrap"
                                        Text="{Binding [0].ErrorContent}" Foreground="Red" />
                         </StackPanel>
-                    </DockPanel>
+
+                        <TextBlock Grid.Column="1"
+                                   Foreground="Red"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Padding="4"
+                                   Margin="0 5 0 0"
+                                   Text="*" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

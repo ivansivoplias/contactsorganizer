@@ -39,9 +39,11 @@ namespace Organizer.UI.Views
             {
                 var editContactViewModel = new EditContactViewModel(_viewModel.SelectedContact);
 
-                var addContactWindow = new EditContactWindow(editContactViewModel);
+                var editContactWindow = new EditContactWindow(editContactViewModel);
 
-                addContactWindow.ShowDialog();
+                editContactWindow.ShowInTaskbar = false;
+
+                editContactWindow.ShowDialog();
             });
         }
 
@@ -51,9 +53,11 @@ namespace Organizer.UI.Views
             {
                 var viewContactViewModel = new ContactDetailsViewModel(_viewModel.SelectedContact);
 
-                var addContactWindow = new ViewContactWindow(viewContactViewModel);
+                var viewContactWindow = new ViewContactWindow(viewContactViewModel);
 
-                addContactWindow.ShowDialog();
+                viewContactWindow.ShowInTaskbar = false;
+
+                viewContactWindow.ShowDialog();
             });
         }
 
@@ -93,6 +97,7 @@ namespace Organizer.UI.Views
 
                 var addContactWindow = new AddContactWindow(addContactViewModel);
 
+                addContactWindow.ShowInTaskbar = false;
                 addContactWindow.ShowDialog();
             });
         }

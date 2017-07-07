@@ -10,8 +10,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="TodoListWindow" Height="675" Width="1102"
-        MinHeight="675" MinWidth="1102"
+        Title="TodoListWindow" Height="664.624" Width="798.782"
         behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
@@ -73,7 +72,7 @@
                         Command="{Binding SearchCommand}"
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
 
-                <GroupBox Header="Search type" Padding="5" Margin="10">
+                <GroupBox Header="Search type" Margin="5">
                     <StackPanel>
                         <RadioButton
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},

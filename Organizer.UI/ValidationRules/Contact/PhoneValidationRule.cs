@@ -18,7 +18,7 @@ namespace Organizer.UI.ValidationRules
 
             if (!_phoneRegex.IsMatch(phone))
             {
-                return new ValidationResult(false, "Input string is not valid phone number. Valid numbers are: +380955555226, 380955555226");
+                return new ValidationResult(false, "Phone number in not valid. Valid numbers are: +380955555226, 380955555226");
             }
 
             return ValidationResult.ValidResult;

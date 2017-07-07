@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         mc:Ignorable="d"
-        Title="EditContactWindow" Height="740.731" Width="1018.364"
+        Title="EditContactWindow" Height="573.846" Width="498.042"
         ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
@@ -24,167 +24,157 @@
                        FontFamily="{StaticResource RalewayRegular}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1">
 
-                <TextBlock
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="0"
                        Text="Основной телефон:"
                        Padding="10"
-                       TextAlignment="Justify"
+                       TextAlignment="Right"
                        VerticalAlignment="Center" />
 
-                <TextBox x:Name="primaryPhoneField"
+            <TextBox x:Name="primaryPhoneField"
                        Grid.Column="1"
-                       Padding="10"
+                       Grid.Row="0"
+                       Margin="5 7 15 20"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="PrimaryPhone" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <valid:PhoneValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
-
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                       Grid.Column="0"
-                       Text="Имя:"
-                       Padding="10"
-                       TextAlignment="Justify"
-                       VerticalAlignment="Center" />
-
-                <TextBox x:Name="firstNameField"
-                       Grid.Column="1"
-                       Padding="10"
-                       TextAlignment="Justify"
-                       VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="FirstName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <valid:StringLengthValidationRule MinLength="2" MaxLength="20" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
-
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                       Grid.Column="0"
-                       Padding="10"
-                       Text="По-отчеству:"
-                       TextAlignment="Justify"
-                       VerticalAlignment="Center" />
-
-                <TextBox x:Name="middleNameField"
-                       Grid.Column="1"
-                       Padding="10"
-                       TextAlignment="Justify"
-                       VerticalAlignment="Center">
-                    <Binding Path="MiddleName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                <TextBox.Text>
+                    <Binding Path="PrimaryPhone" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <valid:StringLengthValidationRule MinLength="5" MaxLength="25" />
+                            <valid:PhoneValidationRule />
                         </Binding.ValidationRules>
                     </Binding>
-                </TextBox>
-            </Grid>
+                </TextBox.Text>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="3"
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="1"
+                       Text="Имя:"
+                       Padding="10"
+                       TextAlignment="Right"
+                       VerticalAlignment="Center" />
+
+            <TextBox x:Name="firstNameField"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Margin="5 7 15 7"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center">
+                <TextBox.Text>
+                    <Binding Path="FirstName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:StringLengthValidationRule MinLength="2" MaxLength="20" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="2"
+                       Padding="10"
+                       Text="По-отчеству:"
+                       TextAlignment="Right"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="middleNameField"
+                       Grid.Column="1"
+                       Grid.Row="2"
+                       Margin="5 7 15 7"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center">
+                <Binding Path="MiddleName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <valid:StringLengthValidationRule MinLength="5" MaxLength="25" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+
+            <TextBlock Grid.Row="3"
                        Grid.Column="0"
                        Text="Фамилия:"
                        Padding="10"
-                       TextAlignment="Justify"
+                       TextAlignment="Right"
                        VerticalAlignment="Center" />
-
-                <TextBox x:Name="lastNameField"
+            <TextBox x:Name="lastNameField"
                        Grid.Column="1"
-                       Padding="10"
+                       Grid.Row="3"
+                       Margin="5 7 15 7"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <Binding Path="LastName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <valid:StringLengthValidationRule MinLength="2" MaxLength="25" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox>
-            </Grid>
+                <Binding Path="LastName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <valid:StringLengthValidationRule MinLength="2" MaxLength="25" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="4"
+            <TextBlock Grid.Row="4"
                        Grid.Column="0"
                        Text="Никнейм:"
                        Padding="10"
-                       TextAlignment="Justify"
+                       TextAlignment="Right"
                        VerticalAlignment="Center" />
 
-                <TextBox x:Name="nickNameField"
+            <TextBox x:Name="nickNameField"
                        Grid.Column="1"
-                       Padding="10"
+                       Grid.Row="4"
+                       Margin="5 7 15 7"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <Binding Path="NickName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <valid:StringLengthValidationRule MinLength="3" MaxLength="16" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox>
-            </Grid>
+                <Binding Path="NickName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <valid:StringLengthValidationRule MinLength="3" MaxLength="16" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="5"
+            <TextBlock Grid.Row="5"
                        Grid.Column="0"
                        Text="Е-мейл:"
                        Padding="10"
-                       TextAlignment="Justify"
+                       TextAlignment="Right"
                        VerticalAlignment="Center" />
-
-                <TextBox x:Name="emailField"
+            <TextBox x:Name="emailField"
                        Grid.Column="1"
-                       Padding="10"
+                       Grid.Row="5"
+                       Margin="5 7 15 7"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <Binding Path="Email" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <valid:EmailValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox>
-            </Grid>
-        </StackPanel>
+                <Binding Path="Email" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <valid:EmailValidationRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+        </Grid>
 
         <Grid Grid.Row="2" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" ItemsSource="{Binding Socials, Mode=OneWay}"
                       SelectedItem="{Binding SelectedSocial}"
@@ -207,20 +197,26 @@
                         VerticalAlignment="Center">
                 <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add social'}"
                         Command="{Binding AddSocialCommand}"
-                        Margin="20 10"
-                        Padding="10" />
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Padding="12"
+                        Margin="15 5" />
 
                 <Button
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit social'}"
                         Command="{Binding EditSocialCommand}"
-                        Margin="20 10"
-                        Padding="10" />
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Padding="12"
+                        Margin="15 5" />
 
                 <Button
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Delete social'}"
                         Command="{Binding RemoveSocialCommand}"
-                        Margin="20 10"
-                        Padding="10" />
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Padding="12"
+                        Margin="15 5" />
             </StackPanel>
         </Grid>
 

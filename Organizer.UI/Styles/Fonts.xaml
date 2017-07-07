@@ -3,17 +3,18 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <FontFamily x:Key="RalewayThin">pack://appliction;,,,/Fonts/#Raleway Thin</FontFamily>
+    <FontFamily x:Key="RalewayMedium">pack://appliction;,,,/Fonts/#Raleway Medium</FontFamily>
     <FontFamily x:Key="RalewayRegular">pack://appliction;,,,/Fonts/#Raleway</FontFamily>
     <FontFamily x:Key="RalewayLight">pack://appliction;,,,/Fonts/#Raleway Light</FontFamily>
     <FontFamily x:Key="RalewayBold">pack://appliction;,,,/Fonts/#Raleway Bold</FontFamily>
 
     <Style TargetType="{x:Type Control}" x:Key="BaseStyle">
-        <Setter Property="FontFamily" Value="{StaticResource RalewayLight}" />
+        <Setter Property="FontFamily" Value="{StaticResource RalewayMedium}" />
         <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}" />
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="BaseTextBlockStyle">
-        <Setter Property="FontFamily" Value="{StaticResource RalewayLight}" />
+        <Setter Property="FontFamily" Value="{StaticResource RalewayMedium}" />
         <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}" />
     </Style>
 
