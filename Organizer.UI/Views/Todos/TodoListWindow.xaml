@@ -10,7 +10,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="TodoListWindow" Height="664.624" Width="798.782"
+        Title="TodoListWindow" Height="613.99" Width="798.782"
         behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
@@ -20,12 +20,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding HeaderText}"
+            <TextBlock Text="{Binding HeaderText, FallbackValue='Todo list'}"
                        Padding="10"
                        FontFamily="{StaticResource RalewayRegular}"
                        FontSize="{StaticResource FontSizeXLarge}"
@@ -65,7 +65,7 @@
             </TextBox>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2">
-                <Button Height="30"
+                <Button Height="35"
                         Width="120"
                         Padding="5"
                         Margin="10"
@@ -75,24 +75,38 @@
                 <GroupBox Header="Search type" Margin="5">
                     <StackPanel>
                         <RadioButton
+                             FontSize="{StaticResource FontSizeSmaller}"
+                            FontFamily="{StaticResource RalewayLight}"
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
                             ConverterParameter=Default}" Margin="3" Content="Default" />
                         <RadioButton
+                             FontSize="{StaticResource FontSizeSmaller}"
+                            FontFamily="{StaticResource RalewayLight}"
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
                             ConverterParameter=ByCaptionLike}" Margin="3" Content="Caption" />
                         <RadioButton
+                             FontSize="{StaticResource FontSizeSmaller}"
+                            FontFamily="{StaticResource RalewayLight}"
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
                             ConverterParameter=ByState}" Margin="3" Content="State" />
                         <RadioButton
+                             FontSize="{StaticResource FontSizeSmaller}"
+                            FontFamily="{StaticResource RalewayLight}"
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
                             ConverterParameter=ByPriority}" Margin="3" Content="Priority" />
                         <RadioButton
+                             FontSize="{StaticResource FontSizeSmaller}"
+                            FontFamily="{StaticResource RalewayLight}"
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
                             ConverterParameter=CreatedBetween}" Margin="3" Content="Created between" />
                         <RadioButton
+                             FontSize="{StaticResource FontSizeSmaller}"
+                            FontFamily="{StaticResource RalewayLight}"
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
                             ConverterParameter=ByStartDate}" Margin="3" Content="Start date" />
                         <RadioButton
+                             FontSize="{StaticResource FontSizeSmaller}"
+                            FontFamily="{StaticResource RalewayLight}"
                             IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
                             ConverterParameter=ByEndDate}" Margin="3" Content="End date" />
                     </StackPanel>
@@ -107,11 +121,10 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Todos}"
                       SelectedItem="{Binding SelectedTodo}"
-                      Margin="10"
                       ScrollViewer.VerticalScrollBarVisibility="Visible"
                       IsReadOnly="True"
                       CanUserResizeColumns="False"
@@ -155,23 +168,23 @@
             <StackPanel Grid.Row="0" Grid.Column="1"
                         VerticalAlignment="Center">
                 <Button
-                Margin="20 10" Padding="10"
+                Margin="20 5" Padding="10"
                     Command="{Binding AddTodoCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add todo'}" />
                 <Button
-                Margin="20 10" Padding="10"
+                Margin="20 5" Padding="10"
                     Command="{Binding EditTodoCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit todo'}" />
 
                 <Button
-                Margin="20 10" Padding="10"
+                Margin="20 5" Padding="10"
                     Command="{Binding DeleteTodoCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Delete todo'}" />
 
                 <Button
-                Margin="20 10" Padding="10"
+                Margin="20 5" Padding="10"
                     Command="{Binding ViewTodoCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View todo details'}" />
             </StackPanel>
 
             <StackPanel Grid.ColumnSpan="2"
@@ -179,11 +192,11 @@
                         Orientation="Horizontal"
                         HorizontalAlignment="Center">
                 <Button
-                    Margin="10" Padding="12"
+                    Margin="5" Padding="10"
                     Command="{Binding FirstPageCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='First page'}" />
                 <Button
-                    Margin="10" Padding="12"
+                    Margin="5" Padding="10"
                     Command="{Binding PreviousPageCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Previous page'}" />
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -199,11 +212,11 @@
                 </StackPanel>
 
                 <Button
-                    Margin="10" Padding="12"
+                    Margin="5" Padding="10"
                     Command="{Binding NextPageCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Next page'}" />
                 <Button
-                    Margin="10" Padding="12"
+                    Margin="5" Padding="10"
                     Command="{Binding LastPageCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Last page'}" />
             </StackPanel>
@@ -212,7 +225,7 @@
         <StackPanel Grid.Row="3">
             <Button Height="40"
                     Width="200"
-                    Margin="0 15"
+                    Margin="0 5"
                     Padding="10"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
                     Command="{Binding BackCommand}" />

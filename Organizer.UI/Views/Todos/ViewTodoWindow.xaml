@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewTodoWindow" Height="499.965" Width="761.955"
+        Title="ViewTodoWindow" Height="391.448" Width="620.14"
         ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding Caption}"
+            <TextBlock Text="{Binding Caption, FallbackValue='Awesome task 22222'}"
                        TextAlignment="Center"
                        Padding="10"
                        FontSize="{StaticResource FontSizeXLarge}"
@@ -23,7 +23,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="10">
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -31,20 +31,20 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Текст задания:"
-                       Padding="10"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
-                       Padding="10"
+                       Padding="5"
                        Height="100"
                        TextWrapping="Wrap"
                        Text="{Binding NoteText}"
                        VerticalAlignment="Center" />
             </Grid>
 
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -52,18 +52,18 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Состояние:"
-                       Padding="10"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
-                       Padding="10"
+                       Padding="5"
                        Text="{Binding State}"
                        VerticalAlignment="Center" />
             </Grid>
 
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -71,18 +71,18 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Приоритет:"
-                       Padding="10"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
-                       Padding="10"
+                       Padding="5"
                        Text="{Binding Priority}"
                        VerticalAlignment="Center" />
             </Grid>
 
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -90,19 +90,19 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Дата начала:"
-                       Padding="10"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
-                       Padding="10"
+                       Padding="5"
                        TextWrapping="Wrap"
                        Text="{Binding StartDate}"
                        VerticalAlignment="Center" />
             </Grid>
 
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -110,19 +110,19 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Дата завершения:"
-                       Padding="10"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
-                       Padding="10"
+                       Padding="5"
                        TextWrapping="Wrap"
                        Text="{Binding EndDate}"
                        VerticalAlignment="Center" />
             </Grid>
 
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -130,13 +130,13 @@
 
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                     <TextBlock
-                       Padding="10"
+                       Padding="5"
                        Text="Дата создания:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                     <TextBlock
-                       Padding="10"
+                       Padding="5"
                        TextWrapping="Wrap"
                        Text="{Binding CreationDate}"
                        VerticalAlignment="Center" />
@@ -144,12 +144,12 @@
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
                     <TextBlock
                        Text="Дата изменения:"
-                       Padding="10"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                     <TextBlock
-                       Padding="10"
+                       Padding="5"
                        TextWrapping="Wrap"
                        Text="{Binding LastChangeDate}"
                        VerticalAlignment="Center" />
