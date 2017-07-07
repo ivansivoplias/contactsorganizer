@@ -42,6 +42,7 @@ namespace Organizer.UI.Views
                 var editTodoWindow = new EditTodoWindow(editTodoViewModel);
 
                 editTodoWindow.ShowInTaskbar = false;
+                editTodoWindow.Owner = this;
                 editTodoWindow.ShowDialog();
             });
         }
@@ -64,7 +65,7 @@ namespace Organizer.UI.Views
                 var viewTodoWindow = new ViewTodoWindow(viewTodoViewModel);
 
                 viewTodoWindow.ShowInTaskbar = false;
-
+                viewTodoWindow.Owner = this;
                 viewTodoWindow.ShowDialog();
             });
         }
@@ -91,7 +92,7 @@ namespace Organizer.UI.Views
 
                 var addTodoWindow = new AddTodoWindow(addTodoViewModel);
                 addTodoWindow.ShowInTaskbar = false;
-
+                addTodoWindow.Owner = this;
                 addTodoWindow.ShowDialog();
             });
         }

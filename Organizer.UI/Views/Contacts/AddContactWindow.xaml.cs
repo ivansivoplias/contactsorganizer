@@ -69,6 +69,7 @@ namespace Organizer.UI.Views
                 var socialViewModel = new AddSocialViewModel(_viewModel.Socials);
                 var wnd = new AddSocialDialog(socialViewModel);
                 wnd.ShowInTaskbar = false;
+                wnd.Owner = this;
                 wnd.ShowDialog();
             });
         }
@@ -80,6 +81,7 @@ namespace Organizer.UI.Views
                 var socialViewModel = new EditSocialViewModel(_viewModel.Socials, _viewModel.SelectedSocial);
                 var wnd = new EditSocialWindow(socialViewModel);
                 wnd.ShowInTaskbar = false;
+                wnd.Owner = this;
                 wnd.ShowDialog();
             });
         }

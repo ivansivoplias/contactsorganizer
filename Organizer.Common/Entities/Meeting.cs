@@ -12,6 +12,10 @@ namespace Organizer.Common.Entities
 
         public DateTime NotificationDate { get; set; }
 
+        public string MeetingPlace { get; set; }
+
+        public TimeSpan MeetingTime { get; set; }
+
         public bool SendNotifications { get; set; }
 
         public int UserId { get; set; }

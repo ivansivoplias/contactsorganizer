@@ -42,7 +42,7 @@ namespace Organizer.UI.Views
                 var editContactWindow = new EditContactWindow(editContactViewModel);
 
                 editContactWindow.ShowInTaskbar = false;
-
+                editContactWindow.Owner = this;
                 editContactWindow.ShowDialog();
             });
         }
@@ -56,7 +56,7 @@ namespace Organizer.UI.Views
                 var viewContactWindow = new ViewContactWindow(viewContactViewModel);
 
                 viewContactWindow.ShowInTaskbar = false;
-
+                viewContactWindow.Owner = this;
                 viewContactWindow.ShowDialog();
             });
         }
@@ -98,6 +98,7 @@ namespace Organizer.UI.Views
                 var addContactWindow = new AddContactWindow(addContactViewModel);
 
                 addContactWindow.ShowInTaskbar = false;
+                addContactWindow.Owner = this;
                 addContactWindow.ShowDialog();
             });
         }

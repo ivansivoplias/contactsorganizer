@@ -132,7 +132,7 @@ namespace Organizer.UI.ViewModels
 
             _contactService = App.Containter.Resolve<IContactService>();
 
-            _saveCommand = Command.CreateCommand("Save contact", "SubmitContact", GetType(), Save);
+            _saveCommand = Command.CreateCommand("Save contact", "SubmitContact", GetType(), Save, SaveCanExecute);
 
             _addSocialCommand = Command.CreateCommand("Add social", "AddSocial", GetType(), AddSocial);
             _editSocialCommand = Command.CreateCommand("Edit social", "EditSocial", GetType(), EditSocial, () => _selectedSocial != null);
@@ -165,6 +165,12 @@ namespace Organizer.UI.ViewModels
                     MessageBox.Show("Invalid data provided. Contact cannot be saved.", "Error");
                 }
             }
+        }
+
+        private bool SaveCanExecute()
+        {
+            CheckValidation();
+            return IsModelValid;
         }
 
         private void CheckValidation()

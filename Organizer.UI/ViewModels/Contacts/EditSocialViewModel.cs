@@ -76,7 +76,7 @@ namespace Organizer.UI.ViewModels
 
             _standartSocials = new ObservableCollection<string>(predefined);
 
-            _saveCommand = Command.CreateCommand("Save", "SaveCommand", GetType(), Save);
+            _saveCommand = Command.CreateCommand("Save", "SaveCommand", GetType(), Save, SaveCanExecute);
             _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
@@ -97,6 +97,12 @@ namespace Organizer.UI.ViewModels
                     MessageBox.Show("Cannot save changes to social, because such social already exists!", "Submit failed!", MessageBoxButton.OK);
                 }
             }
+        }
+
+        private bool SaveCanExecute()
+        {
+            CheckValidation();
+            return IsModelValid;
         }
 
         private void CheckValidation()

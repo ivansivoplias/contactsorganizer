@@ -123,7 +123,7 @@ namespace Organizer.UI.ViewModels
 
             _note = note;
 
-            _saveCommand = Command.CreateCommand("Save todo", "SaveCommand", GetType(), Save);
+            _saveCommand = Command.CreateCommand("Save todo", "SaveCommand", GetType(), Save, SaveCanExecute);
             _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
@@ -149,6 +149,12 @@ namespace Organizer.UI.ViewModels
                     MessageBox.Show("Invalid data provided. Todo cannot be saved.", "Error");
                 }
             }
+        }
+
+        private bool SaveCanExecute()
+        {
+            CheckValidation();
+            return IsModelValid;
         }
 
         private void Cancel()

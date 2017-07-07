@@ -52,7 +52,7 @@
                     <Binding Path="AppName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:StringNotEmptyValidationRule />
-                            <valid:StringLengthValidationRule MinLength="4" MaxLength="30" />
+                            <valid:StringLengthLessThanValidationRule PropertyName="App name" MaxLength="30" />
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -67,7 +67,7 @@
                     <Binding Path="AppId" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:StringNotEmptyValidationRule />
-                            <valid:StringLengthValidationRule MinLength="4" MaxLength="40" />
+                            <valid:StringLengthLessThanValidationRule PropertyName="App id" MaxLength="40" />
                             <valid:SocialPhoneValidationRule ValidatesOnTargetUpdated="True">
                                 <valid:SocialPhoneValidationRule.Wrapper>
                                     <helper:Wrapper WrappedData="{Binding Data.AppName, Source={StaticResource proxy}}" />

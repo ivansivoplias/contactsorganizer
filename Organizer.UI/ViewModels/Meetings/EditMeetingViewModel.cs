@@ -3,7 +3,11 @@ using Organizer.Common.Entities;
 using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
+using Organizer.UI.Helpers;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -14,6 +18,7 @@ namespace Organizer.UI.ViewModels
         private Command _saveCommand;
         private Command _cancelCommand;
         private Meeting _meeting;
+        private ObservableCollection<string> _timeIntervals;
         private IMeetingService _meetingService;
 
         public event EventHandler SaveMessage = delegate { };
@@ -50,6 +55,8 @@ namespace Organizer.UI.ViewModels
             }
         }
 
+        public ICollection<string> TimeIntervals => _timeIntervals;
+
         public DateTime MeetingDate
         {
             get { return _meeting.MeetingDate; }
@@ -70,6 +77,26 @@ namespace Organizer.UI.ViewModels
             }
         }
 
+        public string MeetingPlace
+        {
+            get { return _meeting.MeetingPlace; }
+            set
+            {
+                _meeting.MeetingPlace = value;
+                OnPropertyChanged(nameof(MeetingPlace));
+            }
+        }
+
+        public string MeetingTime
+        {
+            get { return _meeting.MeetingTime.ToString(@"hh\:mm"); }
+            set
+            {
+                _meeting.MeetingTime = TimeSpan.ParseExact(value, @"hh\:mm", null);
+                OnPropertyChanged(nameof(MeetingTime));
+            }
+        }
+
         public bool SendNotifications
         {
             get { return _meeting.SendNotifications; }
@@ -84,9 +111,13 @@ namespace Organizer.UI.ViewModels
         {
             _meeting = meeting;
 
+            var timeIntervals = TimeIntervalHelper.GetTimeIntervals().Select(x => x.ToString(@"hh\:mm")).ToList();
+
+            _timeIntervals = new ObservableCollection<string>(timeIntervals);
+
             _meetingService = App.Containter.Resolve<IMeetingService>();
 
-            _saveCommand = Command.CreateCommand("Save meeting", "SaveCommand", GetType(), Save);
+            _saveCommand = Command.CreateCommand("Save meeting", "SaveCommand", GetType(), Save, SaveCanExecute);
             _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
@@ -110,6 +141,12 @@ namespace Organizer.UI.ViewModels
                     MessageBox.Show("Invalid data provided. Meeting cannot be saved.", "Error");
                 }
             }
+        }
+
+        private bool SaveCanExecute()
+        {
+            CheckValidation();
+            return IsModelValid;
         }
 
         private void CheckValidation()

@@ -7,7 +7,7 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="AddMeetingWindow" Height="639.964" Width="616.955"
+        Title="AddMeetingWindow" Height="489.964" Width="537.955"
         ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
@@ -28,148 +28,199 @@
                        FontFamily="{StaticResource RalewayRegular}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Margin="10">
+        <Grid Grid.Row="1" Margin="10 0">
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-                <TextBlock
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
                        Grid.Column="0"
-                       Padding="10"
+                       Grid.Row="0"
+                       Padding="5"
+                       HorizontalAlignment="Right"
                        Text="Название митинга:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <TextBox x:Name="meetingNameField"
+            <TextBox x:Name="meetingNameField"
                        Grid.Column="1"
-                       Padding="10"
+                       Grid.Row="0"
+                       Padding="5"
+                       Margin="0 7"
                        VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="MeetingName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <valid:NotNullValidationRule />
-                                <valid:StringNotEmptyValidationRule />
-                                <valid:StringLengthValidationRule MinLength="4" MaxLength="40" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
+                <TextBox.Text>
+                    <Binding Path="MeetingName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthLessThanValidationRule PropertyName="Meeting name" MaxLength="40" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="1"
                        Text="Описание:"
-                       Padding="10"
+                       HorizontalAlignment="Right"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
-                <TextBox x:Name="descriptionField"
+            <TextBox x:Name="descriptionField"
                        Grid.Column="1"
-                       Padding="10"
+                       Grid.Row="1"
+                       Padding="5"
+                       Margin="0 7"
                        TextWrapping="Wrap"
                        AcceptsReturn="True"
                        AcceptsTab="True"
-                       Height="200"
+                       Height="100"
                        VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="Description" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <valid:NotNullValidationRule />
-                                <valid:StringNotEmptyValidationRule />
-                                <valid:StringLengthValidationRule MinLength="10" MaxLength="150" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
+                <TextBox.Text>
+                    <Binding Path="Description" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthLessThanValidationRule PropertyName="Description" MaxLength="150" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
-                       Padding="10"
+                       Grid.Row="2"
+                       Padding="5"
+                       HorizontalAlignment="Right"
                        Text="Дата митинга:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <DatePicker x:Name="meetingDateField"
+            <DatePicker x:Name="meetingDateField"
                        Grid.Column="1"
-                       Padding="10"
+                       Grid.Row="2"
+                       Margin="0 7"
+                       Padding="5"
                        VerticalAlignment="Center">
-                    <DatePicker.SelectedDate>
-                        <Binding Path="MeetingDate" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <valid:NotNullValidationRule />
-                                <valid:DateGreaterThanTodayValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </DatePicker.SelectedDate>
-                </DatePicker>
-            </Grid>
+                <DatePicker.SelectedDate>
+                    <Binding Path="MeetingDate" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:DateGreaterThanTodayValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="3"
+                       Padding="5"
+                       HorizontalAlignment="Right"
+                       Text="Время митинга:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+            <ComboBox x:Name="meetingTimeField" Grid.Column="1"
+                       Grid.Row="3"
+                      Padding="5" Margin="0 7"
+                      ItemsSource="{Binding TimeIntervals, Mode=OneWay}">
+                <ComboBox.SelectedValue>
+                    <Binding Path="MeetingTime" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:StringNotEmptyValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.SelectedValue>
+            </ComboBox>
+
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="4"
+                       Padding="5"
+                       HorizontalAlignment="Right"
+                       Text="Место митинга:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+            <TextBox x:Name="meetingPlaceField"
+                       Grid.Column="1"
+                       Grid.Row="4"
+                       Padding="5"
+                       Margin="0 7"
+                       VerticalAlignment="Center">
+                <TextBox.Text>
+                    <Binding Path="MeetingPlace" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:StringNotEmptyValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBlock
                        Grid.Column="0"
                        Text="Дата оповещения:"
-                       Padding="10"
+                       Grid.Row="5"
+                       HorizontalAlignment="Right"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <DatePicker x:Name="notificationDateField"
+            <DatePicker x:Name="notificationDateField"
                        Grid.Column="1"
-                       Padding="10"
+                       Grid.Row="5"
+                       Margin="0 7"
+                       Padding="5"
                        VerticalAlignment="Center">
-                    <DatePicker.SelectedDate>
-                        <Binding Path="NotificationDate" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <valid:NotNullValidationRule />
-                                <valid:NotificationDateValidationRule>
-                                    <valid:NotificationDateValidationRule.Wrapper>
-                                        <helper:Wrapper WrappedData="{Binding Data.MeetingDate, Source={StaticResource proxy}}" />
-                                    </valid:NotificationDateValidationRule.Wrapper>
-                                </valid:NotificationDateValidationRule>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </DatePicker.SelectedDate>
-                </DatePicker>
-            </Grid>
+                <DatePicker.SelectedDate>
+                    <Binding Path="NotificationDate" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:NotificationDateValidationRule>
+                                <valid:NotificationDateValidationRule.Wrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.MeetingDate, Source={StaticResource proxy}}" />
+                                </valid:NotificationDateValidationRule.Wrapper>
+                            </valid:NotificationDateValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
 
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="6"
                        Text="Посылать нотификации?"
-                       Padding="10"
+                       HorizontalAlignment="Right"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <CheckBox
+            <CheckBox
                        IsThreeState="False"
                        Grid.Column="1"
-                       Padding="10"
+                       Grid.Row="6"
+                       Margin="0 7"
+                       Padding="5"
                        IsChecked="{Binding SendNotifications}"
                        VerticalAlignment="Center" />
-            </Grid>
-        </StackPanel>
+        </Grid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

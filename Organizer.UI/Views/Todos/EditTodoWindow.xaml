@@ -63,7 +63,7 @@
                     <Binding Path="Caption" NotifyOnValidationError="True">
                         <Binding.ValidationRules>
                             <valid:StringNotEmptyValidationRule />
-                            <valid:StringLengthValidationRule MinLength="5" MaxLength="60" />
+                            <valid:StringLengthLessThanValidationRule PropertyName="Caption" MaxLength="60" />
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -93,7 +93,7 @@
                     <Binding Path="NoteText" NotifyOnValidationError="True">
                         <Binding.ValidationRules>
                             <valid:StringNotEmptyValidationRule />
-                            <valid:StringLengthValidationRule MinLength="20" MaxLength="200" />
+                            <valid:StringLengthLessThanValidationRule PropertyName="Note text" MaxLength="200" />
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -156,7 +156,7 @@
                 <DatePicker.SelectedDate>
                     <Binding Path="StartDate" NotifyOnValidationError="True">
                         <Binding.ValidationRules>
-                            <valid:DateGreaterOrEqualTodayValidationRule />
+                            <valid:DateValidationRule PropertyName="Start date" />
                         </Binding.ValidationRules>
                     </Binding>
                 </DatePicker.SelectedDate>

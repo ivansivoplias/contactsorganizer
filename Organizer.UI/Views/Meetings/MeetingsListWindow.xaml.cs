@@ -41,6 +41,8 @@ namespace Organizer.UI.Views
 
                 var editMeetingWindow = new EditMeetingWindow(editMeetingViewModel);
 
+                editMeetingWindow.ShowInTaskbar = false;
+                editMeetingWindow.Owner = this;
                 editMeetingWindow.ShowDialog();
             });
         }
@@ -53,6 +55,8 @@ namespace Organizer.UI.Views
 
                 var viewMeetingWindow = new ViewMeetingWindow(viewMeetingViewModel);
 
+                viewMeetingWindow.ShowInTaskbar = false;
+                viewMeetingWindow.Owner = this;
                 viewMeetingWindow.ShowDialog();
             });
         }
@@ -93,6 +97,8 @@ namespace Organizer.UI.Views
 
                 var addMeetingWindow = new AddMeetingWindow(addMeetingViewModel);
 
+                addMeetingWindow.ShowInTaskbar = false;
+                addMeetingWindow.Owner = this;
                 addMeetingWindow.ShowDialog();
             });
         }

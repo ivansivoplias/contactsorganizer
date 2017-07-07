@@ -28,6 +28,10 @@ namespace Organizer.UI.ViewModels
 
         public bool SendNotifications => _meeting.SendNotifications;
 
+        public string MeetingPlace => _meeting.MeetingPlace;
+
+        public string MeetingTime => _meeting.MeetingTime.ToString(@"hh\:mm");
+
         public MeetingDetailsViewModel(Meeting meeting)
         {
             _meeting = meeting;

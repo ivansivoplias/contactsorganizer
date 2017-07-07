@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewMeetingWindow" Height="390.863" Width="616.955"
+        Title="ViewMeetingWindow" Height="412.863" Width="553.955"
         ResizeMode="NoResize"
         Style="{StaticResource AppWindowStyle}">
     <Grid>
@@ -24,90 +24,126 @@
                        FontStyle="Italic" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+        <Grid Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="0"
+                       HorizontalAlignment="Right"
                        Text="Описание:"
                        Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
-                <TextBlock
+            <TextBlock
                        Grid.Column="1"
+                       Grid.Row="0"
                        Padding="10"
                        Height="100"
                        TextWrapping="Wrap"
                        Text="{Binding Description, Mode=OneWay}"
                        VerticalAlignment="Center" />
-            </Grid>
 
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="1"
                        Padding="10"
+                       HorizontalAlignment="Right"
                        Text="Дата митинга:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <TextBlock
+            <TextBlock
                        Grid.Column="1"
+                       Grid.Row="1"
                        Padding="10"
                        TextWrapping="Wrap"
                        Text="{Binding MeetingDate, Mode=OneWay}"
                        VerticalAlignment="Center" />
-            </Grid>
 
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="2"
+                       Padding="10"
+                       HorizontalAlignment="Right"
+                       Text="Время митинга:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+            <TextBlock
+                       Grid.Column="1"
+                       Grid.Row="2"
+                       Padding="10"
+                       TextWrapping="Wrap"
+                       Text="{Binding MeetingTime, Mode=OneWay}"
+                       VerticalAlignment="Center" />
+
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="3"
+                       Padding="10"
+                       HorizontalAlignment="Right"
+                       Text="Место митинга:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+            <TextBlock
+                       Grid.Column="1"
+                       Grid.Row="3"
+                       Padding="10"
+                       TextWrapping="Wrap"
+                       Text="{Binding MeetingPlace, Mode=OneWay}"
+                       VerticalAlignment="Center" />
+
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="4"
+                       HorizontalAlignment="Right"
                        Text="Дата оповещения:"
                        Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <TextBlock
+            <TextBlock
                        Grid.Column="1"
+                       Grid.Row="4"
                        Padding="10"
                        TextWrapping="Wrap"
                        Text="{Binding NotificationDate, Mode=OneWay}"
                        VerticalAlignment="Center" />
-            </Grid>
 
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock
+            <TextBlock
+                       Grid.Row="5"
                        Grid.Column="0"
+                       HorizontalAlignment="Right"
                        Text="Посылать нотификации?"
                        Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <CheckBox
+            <CheckBox
                        IsThreeState="False"
                        IsEnabled="False"
                        IsChecked="{Binding SendNotifications, Mode=OneWay, FallbackValue=True}"
+                       Grid.Row="5"
                        Grid.Column="1"
                        Padding="10"
                        VerticalAlignment="Center" />
-            </Grid>
-        </StackPanel>
+        </Grid>
 
         <Grid Grid.Row="2">
             <Button

@@ -57,7 +57,7 @@ namespace Organizer.UI.ViewModels
 
             _note = note;
 
-            _saveCommand = Command.CreateCommand("Save note", "SaveCommand", GetType(), Save);
+            _saveCommand = Command.CreateCommand("Save note", "SaveCommand", GetType(), Save, SaveCanExecute);
             _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
@@ -82,6 +82,12 @@ namespace Organizer.UI.ViewModels
                     MessageBox.Show("Invalid data provided. Note cannot be saved.", "Error");
                 }
             }
+        }
+
+        private bool SaveCanExecute()
+        {
+            CheckValidation();
+            return IsModelValid;
         }
 
         private void CheckValidation()

@@ -82,7 +82,7 @@
                 <TextBox.Text>
                     <Binding Path="FirstName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <valid:StringLengthValidationRule MinLength="2" MaxLength="20" />
+                            <valid:StringLengthLessThanValidationRule PropertyName="First name" MaxLength="20" />
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -104,7 +104,7 @@
                        VerticalAlignment="Center">
                 <Binding Path="MiddleName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <valid:StringLengthValidationRule MinLength="5" MaxLength="25" />
+                        <valid:StringLengthLessThanValidationRule PropertyName="Middle name" MaxLength="25" />
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
@@ -124,7 +124,7 @@
                        VerticalAlignment="Center">
                 <Binding Path="LastName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <valid:StringLengthValidationRule MinLength="2" MaxLength="25" />
+                        <valid:StringLengthLessThanValidationRule PropertyName="Lastname" MaxLength="25" />
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>
@@ -145,7 +145,7 @@
                        VerticalAlignment="Center">
                 <Binding Path="NickName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <valid:StringLengthValidationRule MinLength="3" MaxLength="16" />
+                        <valid:StringLengthLessThanValidationRule PropertyName="Nickname" MaxLength="16" />
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox>

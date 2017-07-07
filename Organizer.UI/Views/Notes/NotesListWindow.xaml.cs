@@ -41,6 +41,8 @@ namespace Organizer.UI.Views
 
                 var editNoteWindow = new EditNoteWindow(editNoteViewModel);
 
+                editNoteWindow.ShowInTaskbar = false;
+                editNoteWindow.Owner = this;
                 editNoteWindow.ShowDialog();
             });
         }
@@ -53,6 +55,8 @@ namespace Organizer.UI.Views
 
                 var viewNoteWindow = new ViewNoteWindow(viewNoteViewModel);
 
+                viewNoteWindow.ShowInTaskbar = false;
+                viewNoteWindow.Owner = this;
                 viewNoteWindow.ShowDialog();
             });
         }
@@ -93,6 +97,8 @@ namespace Organizer.UI.Views
 
                 var addNoteWindow = new AddNoteWindow(addNoteViewModel);
 
+                addNoteWindow.ShowInTaskbar = false;
+                addNoteWindow.Owner = this;
                 addNoteWindow.ShowDialog();
             });
         }

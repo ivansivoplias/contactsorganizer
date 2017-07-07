@@ -9,7 +9,7 @@
         {
             return "SELECT Meetings.MeetingId, MeetingName," +
                 " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, Meetings.UserId "
+                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable} "
                 + "WHERE UserId = @UserId AND MeetingDate = @MeetingDate";
         }
@@ -18,7 +18,7 @@
         {
             return "SELECT Meetings.MeetingId, MeetingName," +
                 " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, Meetings.UserId "
+                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable} "
                 + "WHERE UserId = @UserId AND MeetingName LIKE @MeetingName";
         }
@@ -26,9 +26,9 @@
         public static string GetInsertQuery()
         {
             return $"INSERT INTO {MeetingTable} (Description, MeetingName, MeetingDate, " +
-                "NotificationDate, SendNotifications, UserId)" +
+                "NotificationDate, SendNotifications, MeetingPlace, MeetingTime, UserId)" +
                 " VALUES(@Description, @MeetingName, @MeetingDate, " +
-                "@NotificationDate, @SendNotifications, @UserId)";
+                "@NotificationDate, @SendNotifications, @MeetingPlace, @MeetingTime, @UserId)";
         }
 
         public static string GetUpdateQuery()
@@ -36,7 +36,7 @@
             return $"UPDATE {MeetingTable} SET MeetingName = @MeetingName," +
                 " Description = @Description, MeetingDate = @MeetingDate, " +
                 "NotificationDate = @NotificationDate, SendNotifications = @SendNotifications," +
-                " UserId = @Userid" +
+                " MeetingPlace = @MeetingPlace, MeetingTime = @MeetingTime, UserId = @Userid" +
                 $" WHERE {MeetingId} = @{MeetingId}";
         }
 
@@ -49,7 +49,7 @@
         {
             return "SELECT TOP 1 Meetings.MeetingId, MeetingName," +
                 " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, Meetings.UserId "
+                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable}" +
                 $" WHERE {MeetingId} = @{MeetingId}";
         }
@@ -58,7 +58,7 @@
         {
             return "SELECT Meetings.MeetingId, MeetingName," +
                 " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, Meetings.UserId "
+                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable}" +
                 " WHERE UserId = @UserId";
         }
@@ -67,7 +67,7 @@
         {
             return "SELECT TOP 1 Meetings.MeetingId, MeetingName," +
                 " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, Meetings.UserId "
+                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable}" +
                 " WHERE UserId = @UserId AND MeetingName = @MeetingName";
         }
@@ -76,7 +76,7 @@
         {
             return "SELECT Meetings.MeetingId, MeetingName," +
                 " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, Meetings.UserId "
+                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable}";
         }
     }

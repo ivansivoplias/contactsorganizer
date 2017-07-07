@@ -1,18 +1,13 @@
 ﻿using Organizer.UI.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace Organizer.UI.ValidationRules
 {
     public class SocialPhoneValidationRule : ValidationRule
     {
-        private static readonly Regex _phoneRegex = new Regex(@"^(\+380|380)[0-9]{9}$", RegexOptions.Compiled);
+        private static readonly Regex _phoneRegex = new Regex(@"^\+?[1-9]{1}[0-9]{3,14}$", RegexOptions.Compiled);
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {

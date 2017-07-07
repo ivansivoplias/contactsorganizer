@@ -113,11 +113,19 @@
                                         Header="Описание"
                                         Width="*" />
 
-                    <DataGridTextColumn Binding="{Binding MeetingDate}"
+                    <DataGridTextColumn Binding="{Binding MeetingDate, StringFormat={}{0:dd.mm.yyyy}}"
                                         Header="Дата проведения"
                                         Width="*" />
 
-                    <DataGridTextColumn Binding="{Binding NotificationDate}"
+                    <DataGridTextColumn Binding="{Binding MeetingTime, StringFormat=\{0:h\\:mm\}}"
+                                        Header="Время проведения"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding MeetingPlace}"
+                                        Header="Место проведения"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding NotificationDate, StringFormat={}{0:dd.mm.yyyy}}"
                                         Header="Дата оповещения"
                                         Width="*" />
 

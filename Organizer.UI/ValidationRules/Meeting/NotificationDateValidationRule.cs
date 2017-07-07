@@ -28,7 +28,7 @@ namespace Organizer.UI.ValidationRules
             DateTime date, wrappedDate;
 
             if (DateTime.TryParse(dateString, out date)
-                && DateTime.TryParse(wrappedString, out wrappedDate) && (date.Date >= wrappedDate.Date || date.Date < DateTime.Today))
+                && DateTime.TryParse(wrappedString, out wrappedDate) && (date.Date >= wrappedDate.Date))
             {
                 return new ValidationResult(false, "Notification date cannot be greater or equal to meeting date.");
             }
