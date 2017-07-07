@@ -210,7 +210,7 @@ namespace Organizer.UI.ViewModels
             if (IsSearchValueValid)
             {
                 UpdateTotalCount();
-                var list = FetchNotes(1, _numberOnPage * _pageNumber);
+                var list = FetchNotes(_pageNumber, _numberOnPage);
                 _notes.Clear();
                 _notes = null;
 

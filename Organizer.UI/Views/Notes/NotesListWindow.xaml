@@ -9,7 +9,7 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="NotesListWindow" Height="590" Width="814"
+        Title="NotesListWindow" Height="572" Width="814"
         MinHeight="590" MinWidth="814"
         behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding HeaderText}"
+            <TextBlock Text="{Binding HeaderText, FallbackValue='Notes list'}"
                        Padding="10"
                        FontFamily="{StaticResource RalewayRegular}"
                        FontSize="{StaticResource FontSizeXLarge}"
@@ -66,7 +66,7 @@
             </TextBox>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2">
-                <Button Height="30"
+                <Button Height="35"
                         Width="120"
                         Padding="5"
                         Margin="10"
@@ -96,7 +96,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Notes}"
                       SelectedItem="{Binding SelectedNote}"
@@ -130,21 +130,21 @@
                 <Button
                 Margin="20 10" Padding="10"
                     Command="{Binding AddNoteCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add note'}" />
                 <Button
                 Margin="20 10" Padding="10"
                     Command="{Binding EditNoteCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit note'}" />
 
                 <Button
                 Margin="20 10" Padding="10"
                     Command="{Binding DeleteNoteCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Delete note'}" />
 
                 <Button
                 Margin="20 10" Padding="10"
                     Command="{Binding ViewNoteCommand}"
-                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" />
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View note details'}" />
             </StackPanel>
 
             <StackPanel Grid.ColumnSpan="2"
@@ -186,7 +186,7 @@
             <Button Height="40"
                     Width="200"
                     Padding="10"
-                    Margin="0 15"
+                    Margin="0 5"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
                     Command="{Binding BackCommand}" />
         </StackPanel>

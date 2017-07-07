@@ -76,6 +76,8 @@
                        Grid.Column="1"
                        Padding="10"
                        TextWrapping="Wrap"
+                       AcceptsReturn="True"
+                       AcceptsTab="True"
                        Height="200"
                        VerticalAlignment="Center">
                     <TextBox.Text>

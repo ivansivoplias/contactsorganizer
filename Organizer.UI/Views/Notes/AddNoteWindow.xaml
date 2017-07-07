@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:valid ="clr-namespace:Organizer.UI.ValidationRules"
         mc:Ignorable="d"
-        Title="AddNoteWindow" Height="464.206" Width="616.955"
+        Title="AddNoteWindow" Height="315.206" Width="616.955"
         ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
@@ -23,66 +23,73 @@
                        FontFamily="{StaticResource RalewayRegular}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Margin="10">
+        <Grid Grid.Row="1" Margin="10 0">
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-                <TextBlock
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
                        Grid.Column="0"
-                       Padding="10"
+                       Grid.Row="0"
+                       Padding="5"
                        Text="Название заметки:"
+                       HorizontalAlignment="Right"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <TextBox
+            <TextBox
                     x:Name="captionField"
                        Grid.Column="1"
-                       Padding="10"
+                       Grid.Row="0"
+                       Padding="5"
+                       Margin="0 7"
                        VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="Caption" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:StringNotEmptyValidationRule />
-                                <valid:StringLengthValidationRule MinLength="5" MaxLength="60" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
+                <TextBox.Text>
+                    <Binding Path="Caption" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthValidationRule MinLength="5" MaxLength="60" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="1"
                        Text="Текст заметки:"
-                       Padding="10"
+                       HorizontalAlignment="Right"
+                       Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
-                <TextBox
+            <TextBox
                     x:Name="noteTextField"
                        Grid.Column="1"
-                       Padding="10"
-                       Height="200"
+                       Grid.Row="1"
+                       Padding="5"
+                       Margin="0 7"
+                       AcceptsReturn="True"
+                       AcceptsTab="True"
+                       Height="100"
                        VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="NoteText" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:StringNotEmptyValidationRule />
-                                <valid:StringLengthValidationRule MinLength="20" MaxLength="200" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
-        </StackPanel>
+                <TextBox.Text>
+                    <Binding Path="NoteText" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthValidationRule MinLength="20" MaxLength="200" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </Grid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
