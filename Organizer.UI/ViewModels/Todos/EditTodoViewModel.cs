@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Enums;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
@@ -17,7 +18,7 @@ namespace Organizer.UI.ViewModels
     {
         private Command _saveCommand;
         private Command _cancelCommand;
-        private NoteDto _note;
+        private Note _note;
         private INoteService _noteService;
         private List<string> _priorities;
         private List<string> _states;
@@ -33,6 +34,8 @@ namespace Organizer.UI.ViewModels
         public ICommand CancelCommand => _cancelCommand;
 
         public bool IsModelValid { get; set; }
+
+        public string HeaderText => "Edit todo";
 
         public string Caption
         {
@@ -106,7 +109,7 @@ namespace Organizer.UI.ViewModels
 
         public ICollection<string> States => _states;
 
-        public EditTodoViewModel(NoteDto note)
+        public EditTodoViewModel(Note note)
         {
             _states = (Enum.GetValues(typeof(State)) as State[])
                 .Where(x => x != Common.Enums.State.None)
@@ -120,7 +123,7 @@ namespace Organizer.UI.ViewModels
 
             _note = note;
 
-            _saveCommand = Command.CreateCommand("Save todo", "SaveCommand", GetType(), Save);
+            _saveCommand = Command.CreateCommand("Save todo", "SaveCommand", GetType(), Save, SaveCanExecute);
             _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
@@ -146,6 +149,12 @@ namespace Organizer.UI.ViewModels
                     MessageBox.Show("Invalid data provided. Todo cannot be saved.", "Error");
                 }
             }
+        }
+
+        private bool SaveCanExecute()
+        {
+            CheckValidation();
+            return IsModelValid;
         }
 
         private void Cancel()

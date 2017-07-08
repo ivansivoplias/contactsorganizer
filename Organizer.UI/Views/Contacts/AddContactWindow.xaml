@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         mc:Ignorable="d"
-        Title="AddContactWindow" Height="740.133" Width="935.563"
-        ResizeMode="NoResize">
+        Title="AddContactWindow" Height="566.447" Width="460.061"
+        ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -17,200 +17,169 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock Text="{Binding AddContactHeader, FallbackValue='Add contact data'}"
+            <TextBlock Text="{Binding HeaderText, FallbackValue='Add contact'}"
                        TextAlignment="Center"
                        Padding="7"
-                       FontSize="20"
-                       FontFamily="Comic Sans MS"
-                       FontStyle="Italic" />
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       FontFamily="{StaticResource RalewayRegular}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1">
 
-                <TextBlock
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="0"
                        Text="Основной телефон:"
-                       Padding="5"
-                       TextAlignment="Justify"
+                       Padding="10"
+                       TextAlignment="Right"
                        VerticalAlignment="Center" />
 
-                <TextBox x:Name="primaryPhoneField"
+            <TextBox x:Name="primaryPhoneField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="0"
+                       Margin="5 7 15 20"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="PrimaryPhone" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <valid:PhoneValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
-
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                       Grid.Column="0"
-                       Text="Имя:"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
-                       TextAlignment="Justify"
-                       VerticalAlignment="Center" />
-
-                <TextBox x:Name="firstNameField"
-                       Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
-                       TextAlignment="Justify"
-                       VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="FirstName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <valid:StringLengthValidationRule MinLength="2" MaxLength="20" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
-
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                       Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
-                       Text="По-отчеству:"
-                       TextAlignment="Justify"
-                       VerticalAlignment="Center" />
-                <TextBox x:Name="middleNameField"
-                       Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       Padding="5"
-                       TextAlignment="Justify"
-                       VerticalAlignment="Center">
-                    <Binding Path="MiddleName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                <TextBox.Text>
+                    <Binding Path="PrimaryPhone" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <valid:StringLengthValidationRule MinLength="5" MaxLength="25" />
+                            <valid:PhoneValidationRule />
                         </Binding.ValidationRules>
                     </Binding>
-                </TextBox>
-            </Grid>
+                </TextBox.Text>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="3"
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="1"
+                       Text="Имя:"
+                       Padding="10"
+                       TextAlignment="Right"
+                       VerticalAlignment="Center" />
+
+            <TextBox x:Name="firstNameField"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Margin="5 7 15 7"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center">
+                <TextBox.Text>
+                    <Binding Path="FirstName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:StringLengthLessThanValidationRule PropertyName="First name" MaxLength="20" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="2"
+                       Padding="10"
+                       Text="По-отчеству:"
+                       TextAlignment="Right"
+                       VerticalAlignment="Center" />
+            <TextBox x:Name="middleNameField"
+                       Grid.Column="1"
+                       Grid.Row="2"
+                       Margin="5 7 15 7"
+                       Padding="5"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center">
+                <Binding Path="MiddleName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <valid:StringLengthLessThanValidationRule PropertyName="Middle name" MaxLength="25" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+
+            <TextBlock Grid.Row="3"
                        Grid.Column="0"
                        Text="Фамилия:"
-                       FontFamily="Comic Sans MS"
-                       Padding="5"
-                       FontSize="16"
-                       TextAlignment="Justify"
+                       Padding="10"
+                       TextAlignment="Right"
                        VerticalAlignment="Center" />
-                <TextBox x:Name="lastNameField"
+            <TextBox x:Name="lastNameField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="3"
+                       Margin="5 7 15 7"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <Binding Path="LastName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <valid:StringLengthValidationRule MinLength="2" MaxLength="25" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox>
-            </Grid>
+                <Binding Path="LastName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <valid:StringLengthLessThanValidationRule PropertyName="Lastname" MaxLength="25" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="4"
+            <TextBlock Grid.Row="4"
                        Grid.Column="0"
                        Text="Никнейм:"
-                       Padding="5"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       TextAlignment="Justify"
+                       Padding="10"
+                       TextAlignment="Right"
                        VerticalAlignment="Center" />
 
-                <TextBox x:Name="nickNameField"
+            <TextBox x:Name="nickNameField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="4"
+                       Margin="5 7 15 7"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <Binding Path="NickName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <valid:StringLengthValidationRule MinLength="3" MaxLength="16" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox>
-            </Grid>
+                <Binding Path="NickName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <valid:StringLengthLessThanValidationRule PropertyName="Nickname" MaxLength="16" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="5"
+            <TextBlock Grid.Row="5"
                        Grid.Column="0"
                        Text="Е-мейл:"
-                       Padding="5"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
-                       TextAlignment="Justify"
+                       Padding="10"
+                       TextAlignment="Right"
                        VerticalAlignment="Center" />
-                <TextBox x:Name="emailField"
+            <TextBox x:Name="emailField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="5"
+                       Margin="5 7 15 7"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center">
-                    <Binding Path="Email" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <valid:EmailValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox>
-            </Grid>
-        </StackPanel>
+                <Binding Path="Email" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <valid:EmailValidationRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+        </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="0.2*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" ItemsSource="{Binding Socials, Mode=OneWay}"
                       SelectedItem="{Binding SelectedSocial}"
-                      AutoGenerateColumns="False">
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Header="App name"
@@ -228,23 +197,26 @@
                         VerticalAlignment="Center">
                 <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add social'}"
                         Command="{Binding AddSocialCommand}"
-                        FontSize="14"
-                        Padding="10"
-                        Margin="10" />
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Padding="12"
+                        Margin="15 5" />
 
                 <Button
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit social'}"
                         Command="{Binding EditSocialCommand}"
-                        FontSize="14"
-                        Padding="10"
-                        Margin="10" />
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Padding="12"
+                        Margin="15 5" />
 
                 <Button
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Delete social'}"
                         Command="{Binding RemoveSocialCommand}"
-                        FontSize="14"
-                        Padding="10"
-                        Margin="10" />
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Padding="12"
+                        Margin="15 5" />
             </StackPanel>
         </Grid>
 
@@ -255,18 +227,18 @@
             </Grid.ColumnDefinitions>
 
             <Button
-                FontFamily="Comic Sans MS"
-                FontSize="16"
-                Height="30"
-                Margin="30 10"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Padding="10"
+                Margin="30 5"
                 Command="{Binding SaveCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
             <Button Grid.Column="1"
-                FontFamily="Comic Sans MS"
-                FontSize="16"
-                Height="30"
-                Margin="30 10"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Padding="10"
+                Margin="30 5"
                 Command="{Binding CancelCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

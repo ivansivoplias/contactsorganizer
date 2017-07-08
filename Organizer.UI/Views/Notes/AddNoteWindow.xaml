@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:valid ="clr-namespace:Organizer.UI.ValidationRules"
         mc:Ignorable="d"
-        Title="AddNoteWindow" Height="441.206" Width="616.955"
-        ResizeMode="NoResize">
+        Title="AddNoteWindow" Height="315.206" Width="616.955"
+        ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -16,80 +16,80 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding AddNoteHeader, FallbackValue='Add note'}"
+            <TextBlock Text="{Binding HeaderText, FallbackValue='Add note'}"
                        TextAlignment="Center"
-                       Padding="7"
-                       FontSize="20"
-                       FontFamily="Comic Sans MS"
-                       FontStyle="Italic" />
+                       Padding="10"
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       FontFamily="{StaticResource RalewayRegular}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <Grid Grid.Row="1" Margin="10 0">
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-                <TextBlock
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="0"
                        Padding="5"
                        Text="Название заметки:"
+                       HorizontalAlignment="Right"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <TextBox
+            <TextBox
                     x:Name="captionField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="0"
                        Padding="5"
+                       Margin="0 7"
                        VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="Caption" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:StringLengthValidationRule MinLength="5" MaxLength="60" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
+                <TextBox.Text>
+                    <Binding Path="Caption" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthLessThanValidationRule PropertyName="Caption" MaxLength="60" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="1"
                        Text="Текст заметки:"
-                       FontFamily="Comic Sans MS"
+                       HorizontalAlignment="Right"
                        Padding="5"
-                       FontSize="14"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
-                <TextBox
+            <TextBox
                     x:Name="noteTextField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="1"
                        Padding="5"
-                       Height="200"
+                       Margin="0 7"
+                       AcceptsReturn="True"
+                       AcceptsTab="True"
+                       Height="100"
                        VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="NoteText" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:StringLengthValidationRule MinLength="20" MaxLength="200" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
-        </StackPanel>
+                <TextBox.Text>
+                    <Binding Path="NoteText" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthLessThanValidationRule PropertyName="Note text" MaxLength="200" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </Grid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -98,18 +98,16 @@
             </Grid.ColumnDefinitions>
 
             <Button
-                FontFamily="Comic Sans MS"
-                Height="30"
+                Padding="10"
+                Height="40"
                 Margin="30 10"
-                       FontSize="16"
                 Command="{Binding SaveCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
             <Button Grid.Column="1"
-                FontFamily="Comic Sans MS"
-                Height="30"
+                    Padding="10"
+                Height="40"
                 Margin="30 10"
-                       FontSize="16"
                 Command="{Binding CancelCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

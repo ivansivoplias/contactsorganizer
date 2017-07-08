@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="WindowBackgroundStart">#caf8ff</Color>
+    <Color x:Key="WindowBackgroundEnd">#41acff</Color>
+    <LinearGradientBrush x:Key="WindowBackgorundLightBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="{StaticResource WindowBackgroundStart}" />
+        <GradientStop Offset="1.0" Color="{StaticResource WindowBackgroundEnd}" />
+    </LinearGradientBrush>
+
+    <Color x:Key="AppButtonBackground">#ee7815f3</Color>
+    <SolidColorBrush x:Key="AppButtonBackgroundBrush" Color="{StaticResource AppButtonBackground}" />
+
+    <Color x:Key="AppButtonForeground">#eff3f015</Color>
+    <SolidColorBrush x:Key="AppButtonForegroundBrush" Color="{StaticResource AppButtonForeground}" />
+
+    <Color x:Key="ForegroundDark">#0f5cab</Color>
+    <SolidColorBrush x:Key="ForegroundDarkBrush" Color="{StaticResource ForegroundDark}" />
+
+    <Color x:Key="ButtonMouseOver">#a51ff2</Color>
+    <SolidColorBrush x:Key="AppLightBlueBrush" Color="{StaticResource ForegroundDark}" />
+</ResourceDictionary>

@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using AutoMapper;
-using Organizer.Common.DTO;
 using Organizer.Common.Entities;
 using Organizer.Common.Enums;
 using Organizer.Common.Exceptions;
@@ -25,7 +23,7 @@ namespace Organizer.BL.Services
             _container = container;
         }
 
-        public void AddNote(NoteDto note)
+        public void AddNote(Note note)
         {
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
@@ -38,8 +36,7 @@ namespace Organizer.BL.Services
                 {
                     using (var transaction = unitOfWork.BeginTransaction())
                     {
-                        var mapped = Mapper.Map<Note>(note);
-                        noteRepo.Insert(mapped, transaction);
+                        noteRepo.Insert(note, transaction);
                         unitOfWork.Commit();
                     }
                 }
@@ -50,7 +47,7 @@ namespace Organizer.BL.Services
             }
         }
 
-        public void EditNote(NoteDto note)
+        public void EditNote(Note note)
         {
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
@@ -63,8 +60,7 @@ namespace Organizer.BL.Services
                 {
                     using (var transaction = unitOfWork.BeginTransaction())
                     {
-                        var mapped = Mapper.Map<Note>(note);
-                        noteRepo.Update(mapped, transaction);
+                        noteRepo.Update(note, transaction);
                         unitOfWork.Commit();
                     }
                 }
@@ -75,39 +71,37 @@ namespace Organizer.BL.Services
             }
         }
 
-        public NoteDto GetNote(int noteId)
+        public Note GetNote(int noteId)
         {
-            NoteDto result = null;
+            Note result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNote = noteRepo.GetById(noteId);
-                result = Mapper.Map<NoteDto>(dbNote);
+                result = noteRepo.GetById(noteId);
             }
 
             return result;
         }
 
-        public NoteDto GetNoteByCaption(UserDto user, NoteType noteType, string caption)
+        public Note GetNoteByCaption(User user, NoteType noteType, string caption)
         {
-            NoteDto result = null;
+            Note result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNote = noteRepo.GetNoteByCaption(user.Id, noteType, caption);
-                result = Mapper.Map<NoteDto>(dbNote);
+                result = noteRepo.GetNoteByCaption(user.Id, noteType, caption);
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotes(UserDto user, int pageSize, int page)
+        public ICollection<Note> GetNotes(User user, int pageSize, int page)
         {
-            ICollection<NoteDto> result = null;
+            ICollection<Note> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
@@ -120,21 +114,21 @@ namespace Organizer.BL.Services
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbNotes = noteRepo.GetUserNotes(user.Id, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+                    result = noteRepo.GetUserNotes(user.Id, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<NoteDto>();
+                    result = new List<Note>();
                 }
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByCaptionLike(UserDto user, string caption, NoteType noteType, int pageSize, int page)
+        public ICollection<Note> GetNotesByCaptionLike(User user, string caption, NoteType noteType, int pageSize, int page)
         {
-            ICollection<NoteDto> result = null;
+            ICollection<Note> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
@@ -147,21 +141,37 @@ namespace Organizer.BL.Services
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbNotes = noteRepo.FilterByCaptionLike(user.Id, caption, noteType, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+                    result = noteRepo.FilterByCaptionLike(user.Id, caption, noteType, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<NoteDto>();
+                    result = new List<Note>();
                 }
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByCreationDate(UserDto user, DateTime creationDate, NoteType noteType, int pageSize, int page)
+        public int GetNotesByCaptionLikeCount(User user, string caption, NoteType noteType)
         {
-            ICollection<NoteDto> result = null;
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByCaptionQuery(),
+                    NoteParams.GetFilterByCaptionParams(user.Id, caption, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public ICollection<Note> GetNotesByCreationDate(User user, DateTime creationDate, NoteType noteType, int pageSize, int page)
+        {
+            ICollection<Note> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
@@ -174,21 +184,37 @@ namespace Organizer.BL.Services
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbNotes = noteRepo.FilterByCreationDate(user.Id, creationDate, noteType, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+                    result = noteRepo.FilterByCreationDate(user.Id, creationDate, noteType, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<NoteDto>();
+                    result = new List<Note>();
                 }
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByCurrentState(UserDto user, State state, NoteType noteType, int pageSize, int page)
+        public int GetNotesByCreationDateCount(User user, DateTime creationDate, NoteType noteType)
         {
-            ICollection<NoteDto> result = null;
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByCreationDateQuery(),
+                    NoteParams.GetFilterByCreationDateParams(user.Id, creationDate, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public ICollection<Note> GetNotesByCurrentState(User user, State state, NoteType noteType, int pageSize, int page)
+        {
+            ICollection<Note> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
@@ -201,21 +227,37 @@ namespace Organizer.BL.Services
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbNotes = noteRepo.FilterByCurrentState(user.Id, state, noteType, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+                    result = noteRepo.FilterByCurrentState(user.Id, state, noteType, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<NoteDto>();
+                    result = new List<Note>();
                 }
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByEndDate(UserDto user, DateTime endDate, NoteType noteType, int pageSize, int page)
+        public int GetNotesByCurrentStateCount(User user, State state, NoteType noteType)
         {
-            ICollection<NoteDto> result = null;
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByStateQuery(),
+                    NoteParams.GetFilterByStateParams(user.Id, state, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public ICollection<Note> GetNotesByEndDate(User user, DateTime endDate, NoteType noteType, int pageSize, int page)
+        {
+            ICollection<Note> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
@@ -228,64 +270,112 @@ namespace Organizer.BL.Services
                 {
                     var temp = PaginationHelper.CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbNotes = noteRepo.FilterByEndDate(user.Id, endDate, noteType, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+                    result = noteRepo.FilterByEndDate(user.Id, endDate, noteType, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<NoteDto>();
+                    result = new List<Note>();
                 }
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByLastChangeDate(UserDto user, DateTime lastChangeDate, NoteType noteType, int pageSize, int page)
+        public int GetNotesByEndDateCount(User user, DateTime endDate, NoteType noteType)
         {
-            ICollection<NoteDto> result = null;
+            int count = 0;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var filteredCount = noteRepo.FilteredCount(NoteQueries.GetUserNotesQuery(),
-                    NoteParams.GetGetUserNotesParams(user.Id));
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByEndDateQuery(),
+                    NoteParams.GetFilterByEndDateParams(user.Id, endDate, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public ICollection<Note> GetNotesByLastChangeDate(User user, DateTime lastChangeDate, NoteType noteType, int pageSize, int page)
+        {
+            ICollection<Note> result = null;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                var filteredCount = noteRepo.FilteredCount(NoteQueries.GetFilterByLastChangeDateQuery(),
+                    NoteParams.GetFilterByLastChangeDateParams(user.Id, lastChangeDate, noteType));
 
                 if (filteredCount > 0)
                 {
                     var temp = PaginationHelper
                         .CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbNotes = noteRepo.FilterByLastChangeDate(user.Id, lastChangeDate, noteType, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+                    result = noteRepo.FilterByLastChangeDate(user.Id, lastChangeDate, noteType, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<NoteDto>();
+                    result = new List<Note>();
                 }
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByNoteType(UserDto user, NoteType noteType, int pageSize, int page)
+        public int GetNotesByLastChangeDateCount(User user, DateTime lastChangeDate, NoteType noteType)
         {
-            ICollection<NoteDto> result = null;
+            int count = 0;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
                 var noteRepo = new NoteRepository(unitOfWork);
 
-                var dbNotes = noteRepo.FilterByNoteType(user.Id, noteType, pageSize, page);
-                result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByLastChangeDateQuery(),
+                    NoteParams.GetFilterByLastChangeDateParams(user.Id, lastChangeDate, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public ICollection<Note> GetNotesByNoteType(User user, NoteType noteType, int pageSize, int page)
+        {
+            ICollection<Note> result = null;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                result = noteRepo.FilterByNoteType(user.Id, noteType, pageSize, page)
+                    .ToList();
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByPriority(UserDto user, Priority priority, NoteType noteType, int pageSize, int page)
+        public int GetNotesByNoteTypeCount(User user, NoteType noteType)
         {
-            ICollection<NoteDto> result = null;
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByNoteTypeQuery(),
+                    NoteParams.GetFilterByNoteTypeParams(user.Id, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public ICollection<Note> GetNotesByPriority(User user, Priority priority, NoteType noteType, int pageSize, int page)
+        {
+            ICollection<Note> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
@@ -299,21 +389,37 @@ namespace Organizer.BL.Services
                     var temp = PaginationHelper
                         .CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbNotes = noteRepo.FilterByPriority(user.Id, priority, noteType, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+                    result = noteRepo.FilterByPriority(user.Id, priority, noteType, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<NoteDto>();
+                    result = new List<Note>();
                 }
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesByStartDate(UserDto user, DateTime startDate, NoteType noteType, int pageSize, int page)
+        public int GetNotesByPriorityCount(User user, Priority priority, NoteType noteType)
         {
-            ICollection<NoteDto> result = null;
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByPriorityQuery(),
+                    NoteParams.GetFilterByPriorityParams(user.Id, priority, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public ICollection<Note> GetNotesByStartDate(User user, DateTime startDate, NoteType noteType, int pageSize, int page)
+        {
+            ICollection<Note> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
@@ -327,21 +433,53 @@ namespace Organizer.BL.Services
                     var temp = PaginationHelper
                         .CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbNotes = noteRepo.FilterByStartDate(user.Id, startDate, noteType, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+                    result = noteRepo.FilterByStartDate(user.Id, startDate, noteType, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<NoteDto>();
+                    result = new List<Note>();
                 }
             }
 
             return result;
         }
 
-        public ICollection<NoteDto> GetNotesCreatedBetween(UserDto user, DateTime start, DateTime end, NoteType noteType, int pageSize, int page)
+        public int GetNotesByStartDateCount(User user, DateTime startDate, NoteType noteType)
         {
-            ICollection<NoteDto> result = null;
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByStartDateQuery(),
+                    NoteParams.GetFilterByStartDateParams(user.Id, startDate, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public int GetNotesCount(User user)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetUserNotesQuery(),
+                    NoteParams.GetGetUserNotesParams(user.Id));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public ICollection<Note> GetNotesCreatedBetween(User user, DateTime start, DateTime end, NoteType noteType, int pageSize, int page)
+        {
+            ICollection<Note> result = null;
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
@@ -355,19 +493,35 @@ namespace Organizer.BL.Services
                     var temp = PaginationHelper
                         .CheckPaginationAndAdoptValues(new Page(filteredCount, page, pageSize));
 
-                    var dbNotes = noteRepo.FilterByCreationBetween(user.Id, start, end, noteType, temp.PageSize, temp.PageNumber);
-                    result = Mapper.Map<ICollection<NoteDto>>(dbNotes);
+                    result = noteRepo.FilterByCreationBetween(user.Id, start, end, noteType, temp.PageSize, temp.PageNumber)
+                        .ToList();
                 }
                 else
                 {
-                    result = new List<NoteDto>();
+                    result = new List<Note>();
                 }
             }
 
             return result;
         }
 
-        public void RemoveNote(NoteDto note)
+        public int GetNotesCreatedBetweenCount(User user, DateTime start, DateTime end, NoteType noteType)
+        {
+            int count = 0;
+            var unitOfWork = _container.Resolve<IUnitOfWork>();
+            using (unitOfWork)
+            {
+                var noteRepo = new NoteRepository(unitOfWork);
+
+                count = noteRepo.FilteredCount(NoteQueries.GetFilterByCreationBetweenQuery(),
+                    NoteParams.GetFilterByCreationBetweenParams(user.Id, start, end, noteType));
+                if (count < 0)
+                    count = 0;
+            }
+            return count;
+        }
+
+        public void RemoveNote(Note note)
         {
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)

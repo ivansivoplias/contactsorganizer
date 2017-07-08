@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewTodoWindow" Height="462.965" Width="761.955"
-        ResizeMode="NoResize">
+        Title="ViewTodoWindow" Height="391.448" Width="620.14"
+        ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -15,16 +15,15 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding Caption}"
+            <TextBlock Text="{Binding Caption, FallbackValue='Awesome task 22222'}"
                        TextAlignment="Center"
-                       Padding="7"
-                       FontSize="20"
-                       FontFamily="Comic Sans MS"
-                       FontStyle="Italic" />
+                       Padding="10"
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       FontFamily="{StaticResource RalewayRegular}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
-            <Grid Margin="5">
+        <StackPanel Grid.Row="1" Margin="10">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -32,16 +31,12 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Текст задания:"
-                       FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
                        Height="100"
                        TextWrapping="Wrap"
@@ -49,7 +44,7 @@
                        VerticalAlignment="Center" />
             </Grid>
 
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -57,22 +52,18 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Состояние:"
-                       FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
                        Text="{Binding State}"
                        VerticalAlignment="Center" />
             </Grid>
 
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -80,22 +71,18 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Приоритет:"
-                       FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
                        Text="{Binding Priority}"
                        VerticalAlignment="Center" />
             </Grid>
 
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -103,23 +90,19 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Дата начала:"
-                       FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
                        TextWrapping="Wrap"
                        Text="{Binding StartDate}"
                        VerticalAlignment="Center" />
             </Grid>
 
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -127,23 +110,19 @@
                 <TextBlock
                        Grid.Column="0"
                        Text="Дата завершения:"
-                       FontFamily="Comic Sans MS"
                        Padding="5"
-                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
                 <TextBlock
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
                        TextWrapping="Wrap"
                        Text="{Binding EndDate}"
                        VerticalAlignment="Center" />
             </Grid>
 
-            <Grid Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -151,16 +130,12 @@
 
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                     <TextBlock
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
                        Text="Дата создания:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                     <TextBlock
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
                        TextWrapping="Wrap"
                        Text="{Binding CreationDate}"
@@ -169,15 +144,11 @@
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
                     <TextBlock
                        Text="Дата изменения:"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
                     <TextBlock
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
                        TextWrapping="Wrap"
                        Text="{Binding LastChangeDate}"
@@ -188,10 +159,9 @@
 
         <Grid Grid.Row="2">
             <Button
-                FontFamily="Comic Sans MS"
-                Height="30"
+                Height="40"
                 Margin="120 10"
-                       FontSize="16"
+                Padding="10"
                 Command="{Binding BackCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back'}" />
         </Grid>

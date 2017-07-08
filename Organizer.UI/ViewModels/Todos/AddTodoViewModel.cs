@@ -1,13 +1,11 @@
 ﻿using Autofac;
-using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Enums;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -17,7 +15,7 @@ namespace Organizer.UI.ViewModels
     {
         private Command _saveCommand;
         private Command _cancelCommand;
-        private NoteDto _note;
+        private Note _note;
         private INoteService _noteService;
         private List<string> _priorities;
         private List<string> _states;
@@ -33,6 +31,8 @@ namespace Organizer.UI.ViewModels
         public ICommand CancelCommand => _cancelCommand;
 
         public bool IsModelValid { get; set; }
+
+        public string HeaderText => "Add todo";
 
         public string Caption
         {
@@ -118,7 +118,7 @@ namespace Organizer.UI.ViewModels
 
             _noteService = App.Containter.Resolve<INoteService>();
 
-            _note = new NoteDto()
+            _note = new Note()
             {
                 NoteType = NoteType.Todo,
                 CreationDate = DateTime.Now,
@@ -126,7 +126,7 @@ namespace Organizer.UI.ViewModels
                 UserId = App.CurrentUser.Id
             };
 
-            _saveCommand = Command.CreateCommand("Save note", "SaveCommand", GetType(), Save);
+            _saveCommand = Command.CreateCommand("Save note", "SaveCommand", GetType(), Save, SaveCanExecute);
             _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
@@ -146,6 +146,12 @@ namespace Organizer.UI.ViewModels
                     MessageBox.Show("Invalid data provided. Todo cannot be saved.", "Error");
                 }
             }
+        }
+
+        private bool SaveCanExecute()
+        {
+            CheckValidation();
+            return IsModelValid;
         }
 
         private void CheckValidation()

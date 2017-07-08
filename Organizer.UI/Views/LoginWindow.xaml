@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="511" Width="758.425">
+        Title="LoginWindow" MinHeight="511" MinWidth="759" Style="{StaticResource AppWindowStyle}"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -16,7 +17,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TextBlock Margin="0 50 0 0" Text="{Binding HeaderText}" TextAlignment="Center" HorizontalAlignment="Stretch"
-                       FontSize="25" FontFamily="Times New Roman" FontStyle="Italic" FontWeight="SemiBold" />
+                       FontSize="{StaticResource FontSizeXLarge}" />
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -31,7 +32,8 @@
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Grid.Row="0" Grid.Column="0"
                    Content="{Binding LoginText}" />
-            <TextBox VerticalAlignment="Center" Margin="0 0 25 20" Padding="10" Grid.Row="0" Grid.Column="1">
+            <TextBox VerticalAlignment="Center" Margin="0 0 25 0" Padding="10" Grid.Row="0" Grid.Column="1"
+                     x:Name="loginField">
                 <TextBox.Text>
                     <Binding Path="Login">
                         <Binding.ValidationRules>
@@ -43,9 +45,19 @@
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Grid.Row="1" Grid.Column="0"
                    Content="{Binding PasswordText}" />
-            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 20"  Padding="10" Grid.Row="1" Grid.Column="1"
+            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 0"  Padding="10" Grid.Row="1" Grid.Column="1"
                          helper:PasswordBoxAssistant.BindPassword="True"
-                         helper:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                         x:Name="passwordField">
+                <helper:PasswordBoxAssistant.BoundPassword>
+                    <Binding Path="Password" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
+                             NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:SecureStringNotEmptyValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </helper:PasswordBoxAssistant.BoundPassword>
+            </PasswordBox>
         </Grid>
 
         <Grid Grid.Row="2">

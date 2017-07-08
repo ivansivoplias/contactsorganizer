@@ -1,13 +1,10 @@
 ﻿using Autofac;
-using AutoMapper;
 using GameStore.Common.Hasher;
-using Organizer.Common.DTO;
 using Organizer.Common.Entities;
 using Organizer.Common.Exceptions;
 using Organizer.DAL.Repository;
 using Organizer.Infrastructure.Database;
 using Organizer.Infrastructure.Services;
-using System;
 
 namespace Organizer.BL.Services
 {
@@ -20,9 +17,9 @@ namespace Organizer.BL.Services
             _container = container;
         }
 
-        public UserDto Login(string userName, string password, bool isHashed = false)
+        public User Login(string userName, string password, bool isHashed = false)
         {
-            UserDto user = null;
+            User user = null;
             var hasher = Sha512Hasher.GetInstance();
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
@@ -34,7 +31,7 @@ namespace Organizer.BL.Services
                 {
                     if (hasher.VerifyHash(password, dbUser.Password) || isHashed && dbUser.Password.Equals(password))
                     {
-                        user = Mapper.Map<UserDto>(dbUser);
+                        user = dbUser;
                     }
                     else
                     {
@@ -49,33 +46,32 @@ namespace Organizer.BL.Services
             return user;
         }
 
-        public UserDto Register(UserDto newUser)
+        public User Register(User newUser)
         {
-            UserDto result = null;
-            var user = Mapper.Map<User>(newUser);
+            User result = null;
             var hasher = Sha512Hasher.GetInstance();
-            user.Password = hasher.ComputeHash(newUser.Password, null);
+            newUser.Password = hasher.ComputeHash(newUser.Password, null);
 
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
                 var userRepository = new UserRepository(unitOfWork);
 
-                var dbUser = userRepository.FindByLogin(user.Login);
+                var dbUser = userRepository.FindByLogin(newUser.Login);
 
                 if (dbUser == null)
                 {
                     using (var transaction = unitOfWork.BeginTransaction())
                     {
-                        userRepository.Insert(user, transaction);
+                        userRepository.Insert(newUser, transaction);
                         unitOfWork.Commit();
                     }
 
-                    result = Mapper.Map<UserDto>(userRepository.FindByLogin(user.Login));
+                    result = userRepository.FindByLogin(newUser.Login);
                 }
                 else
                 {
-                    throw new UserAlreadyExistsException($"User with login {user.Login} are already exist.");
+                    throw new UserAlreadyExistsException($"User with login {newUser.Login} are already exist.");
                 }
             }
 

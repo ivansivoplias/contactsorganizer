@@ -6,6 +6,12 @@ namespace GameStore.Common.Hasher
 {
     public class Sha512Hasher
     {
+        private const int MinSaltSize = 4;
+        private const int MaxSaltSize = 8;
+
+        private const int HashSizeInBits = 512;
+        private const int HashSizeInBytes = 64;
+
         private static Sha512Hasher _instance;
 
         private Sha512Hasher()
@@ -25,18 +31,15 @@ namespace GameStore.Common.Hasher
         {
             if (saltBytes == null)
             {
-                int minSaltSize = 4;
-                int maxSaltSize = 8;
-
                 // Generate a random number for the size of the salt.
-                Random random = new Random();
-                int saltSize = random.Next(minSaltSize, maxSaltSize);
+                var random = new Random();
+                int saltSize = random.Next(MinSaltSize, MaxSaltSize);
 
                 // Allocate a byte array, which will hold the salt.
                 saltBytes = new byte[saltSize];
 
                 // Initialize a random number generator.
-                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                var rng = new RNGCryptoServiceProvider();
 
                 // Fill the salt with cryptographically strong byte values.
                 rng.GetNonZeroBytes(saltBytes);
@@ -74,8 +77,7 @@ namespace GameStore.Common.Hasher
                 hashWithSaltBytes[hashBytes.Length + i] = saltBytes[i];
 
             // Convert result into a base64-encoded string.
-            string hashValue = Convert.ToBase64String(hashWithSaltBytes);
-            return hashValue;
+            return Convert.ToBase64String(hashWithSaltBytes);
         }
 
         public byte[] GetSalt(string base64text)
@@ -83,23 +85,17 @@ namespace GameStore.Common.Hasher
             // Convert base64-encoded hash value into a byte array.
             byte[] hashWithSaltBytes = Convert.FromBase64String(base64text);
 
-            // We must know size of hash (without salt).
-            int hashSizeInBits = 512, hashSizeInBytes;
-
-            // Convert size of hash from bits to bytes.
-            hashSizeInBytes = hashSizeInBits / 8;
-
             // Make sure that the specified hash value is long enough.
-            if (hashWithSaltBytes.Length < hashSizeInBytes)
+            if (hashWithSaltBytes.Length < HashSizeInBytes)
                 throw new Exception("Length of encoded text are not enough.");
 
             // Allocate array to hold original salt bytes retrieved from hash.
             byte[] saltBytes = new byte[hashWithSaltBytes.Length -
-                                        hashSizeInBytes];
+                                        HashSizeInBytes];
 
             // Copy salt from the end of the hash to the new array.
             for (int i = 0; i < saltBytes.Length; i++)
-                saltBytes[i] = hashWithSaltBytes[hashSizeInBytes + i];
+                saltBytes[i] = hashWithSaltBytes[HashSizeInBytes + i];
 
             return saltBytes;
         }

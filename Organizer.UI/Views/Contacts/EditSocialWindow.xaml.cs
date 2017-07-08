@@ -27,6 +27,8 @@ namespace Organizer.UI.Views
             _viewModel.RegisterCommandsForWindow(this);
 
             InitializeComponent();
+
+            this.Title = _viewModel.HeaderText;
         }
 
         private void SubmitMessageHandler(object sender, EventArgs e)
@@ -37,6 +39,9 @@ namespace Organizer.UI.Views
 
         private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
+            appNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            appIdField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+
             bool isAppNameValid = !appNameField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isAppIdValid = !appIdField.GetBindingExpression(TextBox.TextProperty).HasError;
 

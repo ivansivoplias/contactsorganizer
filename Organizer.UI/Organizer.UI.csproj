@@ -48,6 +48,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Organizer.UI.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da">
       <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
@@ -86,10 +92,15 @@
     <Compile Include="Helpers\PasswordBoxAssistant.cs" />
     <Compile Include="Helpers\SecureStringExtentions.cs" />
     <Compile Include="Helpers\SocialsHelper.cs" />
+    <Compile Include="Helpers\TimeIntervalHelper.cs" />
     <Compile Include="Helpers\Wrapper.cs" />
     <Compile Include="MapperConfiguration\UIMapperConfigurator.cs" />
     <Compile Include="ValidationRules\Contact\SocialPhoneValidationRule.cs" />
+    <Compile Include="ValidationRules\General\DateValidationRule.cs" />
     <Compile Include="ValidationRules\General\NotNullValidationRule.cs" />
+    <Compile Include="ValidationRules\General\SecureStringNotEmptyValidationRule.cs" />
+    <Compile Include="ValidationRules\General\StringLengthLessThanValidationRule.cs" />
+    <Compile Include="ValidationRules\General\StringNotEmptyValidationRule.cs" />
     <Compile Include="ValidationRules\Search\MeetingSearchValidationRule.cs" />
     <Compile Include="ValidationRules\Search\ContactSearchValidationRule.cs" />
     <Compile Include="ValidationRules\General\DateGreaterOrEqualTodayValidationRule.cs" />
@@ -194,7 +205,23 @@
     <Compile Include="Views\Todos\ViewTodoWindow.xaml.cs">
       <DependentUpon>ViewTodoWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Fonts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\OrganizerMainStyle.xaml" />
+    <Page Include="Styles\Texts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml" />
     <Page Include="Views\Contacts\AddContactWindow.xaml">
       <SubType>Designer</SubType>
@@ -299,6 +326,24 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\Raleway-Black.ttf" />
+    <Resource Include="Fonts\Raleway-BlackItalic.ttf" />
+    <Resource Include="Fonts\Raleway-Bold.ttf" />
+    <Resource Include="Fonts\Raleway-BoldItalic.ttf" />
+    <Resource Include="Fonts\Raleway-ExtraBold.ttf" />
+    <Resource Include="Fonts\Raleway-ExtraBoldItalic.ttf" />
+    <Resource Include="Fonts\Raleway-ExtraLight.ttf" />
+    <Resource Include="Fonts\Raleway-ExtraLightItalic.ttf" />
+    <Resource Include="Fonts\Raleway-Italic.ttf" />
+    <Resource Include="Fonts\Raleway-Light.ttf" />
+    <Resource Include="Fonts\Raleway-LightItalic.ttf" />
+    <Resource Include="Fonts\Raleway-Medium.ttf" />
+    <Resource Include="Fonts\Raleway-MediumItalic.ttf" />
+    <Resource Include="Fonts\Raleway-Regular.ttf" />
+    <Resource Include="Fonts\Raleway-SemiBold.ttf" />
+    <Resource Include="Fonts\Raleway-SemiBoldItalic.ttf" />
+    <Resource Include="Fonts\Raleway-Thin.ttf" />
+    <Resource Include="Fonts\Raleway-ThinItalic.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -338,6 +383,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Fonts\SIL Open Font License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,7 +10,15 @@ namespace Organizer.Common.Exceptions
         {
         }
 
+        public LoginFailedException(Exception originalException) : base(DefaultErrorMessage, originalException)
+        {
+        }
+
         public LoginFailedException(string message) : base(message)
+        {
+        }
+
+        public LoginFailedException(string message, Exception originalException) : base(message, originalException)
         {
         }
     }

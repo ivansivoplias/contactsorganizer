@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Enums;
 using Organizer.Common.Enums.SearchTypes;
 using Organizer.Common.Helpers;
@@ -18,19 +19,24 @@ namespace Organizer.UI.ViewModels
     {
         private int _pageNumber;
         private const int _numberOnPage = 10;
+        private int _totalCount;
         private INoteService _noteService;
         private TodoSearchType _currentSearchType;
         private string _searchValue;
 
-        private ObservableCollection<NoteDto> _todoNotes;
-        private NoteDto _selected;
+        private ObservableCollection<Note> _todoNotes;
+        private Note _selected;
         private Command _searchCommand;
         private Command _addTodoCommand;
         private Command _deleteTodoCommand;
         private Command _editTodoCommand;
         private Command _viewTodoCommand;
         private Command _backCommand;
-        private Command _fetchNextPageCommand;
+
+        private Command _nextPageCommand;
+        private Command _previousPageCommand;
+        private Command _firstPageCommand;
+        private Command _lastPageCommand;
 
         public TodoSearchType SearchType
         {
@@ -41,7 +47,6 @@ namespace Organizer.UI.ViewModels
                     return;
                 _currentSearchType = value;
                 OnPropertyChanged(nameof(SearchType));
-                SearchTypeChanged.Invoke(null, EventArgs.Empty);
             }
         }
 
@@ -57,9 +62,11 @@ namespace Organizer.UI.ViewModels
 
         public bool IsSearchValueValid { get; set; }
 
+        public string HeaderText => "Todo list";
+
         public event EventHandler AddTodoMessage = delegate { };
 
-        public event EventHandler SearchTypeChanged = delegate { };
+        public event EventHandler UpdateViewValidation = delegate { };
 
         public event EventHandler BackMessage = delegate { };
 
@@ -77,11 +84,19 @@ namespace Organizer.UI.ViewModels
         public ICommand EditTodoCommand => _editTodoCommand;
         public ICommand ViewTodoCommand => _viewTodoCommand;
         public ICommand BackCommand => _backCommand;
-        public ICommand FetchNextPageCommand => _fetchNextPageCommand;
 
-        public ICollection<NoteDto> Todos => _todoNotes;
+        public ICommand NextPageCommand => _nextPageCommand;
+        public ICommand PreviousPageCommand => _previousPageCommand;
+        public ICommand FirstPageCommand => _firstPageCommand;
+        public ICommand LastPageCommand => _lastPageCommand;
 
-        public NoteDto SelectedTodo
+        public int PagesCount => PaginationHelper.GetPagesCount(_totalCount, _numberOnPage);
+
+        public int CurrentPage => _pageNumber;
+
+        public ICollection<Note> Todos => _todoNotes;
+
+        public Note SelectedTodo
         {
             get { return _selected; }
             set
@@ -99,10 +114,12 @@ namespace Organizer.UI.ViewModels
 
             _noteService = App.Containter.Resolve<INoteService>();
 
+            _totalCount = _noteService.GetNotesByNoteTypeCount(App.CurrentUser, NoteType.Todo);
+
             var notesList = _noteService
                 .GetNotesByNoteType(App.CurrentUser, NoteType.Todo, _numberOnPage, _pageNumber).ToList();
 
-            _todoNotes = new ObservableCollection<NoteDto>(notesList);
+            _todoNotes = new ObservableCollection<Note>(notesList);
 
             _addTodoCommand = Command.CreateCommand("Add todo", "AddTodo", GetType(), AddTodo);
             _deleteTodoCommand = Command.CreateCommand("Delete todo", "DeleteTodo", GetType(),
@@ -117,7 +134,10 @@ namespace Organizer.UI.ViewModels
             _viewTodoCommand = Command.CreateCommand("View todo details", "ViewTodo", GetType(),
                 ViewTodoDetails, () => _selected != null);
 
-            _fetchNextPageCommand = Command.CreateCommand("Next page", "FetchNextPage", GetType(), FetchNextPage);
+            _nextPageCommand = Command.CreateCommand("Next page", "FetchNextPage", GetType(), FetchNextPage, NextPageCanExecuted);
+            _previousPageCommand = Command.CreateCommand("Previous page", "PreviousPage", GetType(), FetchPreviousPage, PreviousPageCanExecuted);
+            _firstPageCommand = Command.CreateCommand("First page", "FirstPage", GetType(), FetchFirstPage, FirstPageCanExecuted);
+            _lastPageCommand = Command.CreateCommand("Last page", "LastPage", GetType(), FetchLastPage, LastPageCanExecuted);
             _backCommand = Command.CreateCommand("Back to main menu", "BackCommand", GetType(), Back);
         }
 
@@ -168,15 +188,17 @@ namespace Organizer.UI.ViewModels
 
         private void Search()
         {
+            UpdateViewValidation.Invoke(null, EventArgs.Empty);
             CheckSearchValidation();
             if (IsSearchValueValid)
             {
+                UpdateTotalCount();
                 _pageNumber = 1;
                 var list = FetchNotes(_pageNumber, _numberOnPage);
                 _todoNotes.Clear();
                 _todoNotes = null;
 
-                _todoNotes = new ObservableCollection<NoteDto>(list);
+                _todoNotes = new ObservableCollection<Note>(list);
 
                 OnPropertyChanged(nameof(Todos));
             }
@@ -187,12 +209,12 @@ namespace Organizer.UI.ViewModels
             CheckSearchValidation();
             if (IsSearchValueValid)
             {
-                //_pageNumber = 1;
-                var list = FetchNotes(1, _numberOnPage * _pageNumber);
+                UpdateTotalCount();
+                var list = FetchNotes(_pageNumber, _numberOnPage);
                 _todoNotes.Clear();
                 _todoNotes = null;
 
-                _todoNotes = new ObservableCollection<NoteDto>(list);
+                _todoNotes = new ObservableCollection<Note>(list);
 
                 OnPropertyChanged(nameof(Todos));
             }
@@ -203,6 +225,8 @@ namespace Organizer.UI.ViewModels
             ValidateSearch.Invoke(null, EventArgs.Empty);
         }
 
+        #region Pagination
+
         private void FetchNextPage()
         {
             CheckSearchValidation();
@@ -212,25 +236,144 @@ namespace Organizer.UI.ViewModels
                 var notes = FetchNotes(_pageNumber, _numberOnPage);
                 if (!notes.IsNullOrEmpty())
                 {
-                    notes = _todoNotes.Union(notes).ToList();
-
                     _todoNotes.Clear();
                     _todoNotes = null;
 
-                    _todoNotes = new ObservableCollection<NoteDto>(notes);
+                    _todoNotes = new ObservableCollection<Note>(notes);
 
                     OnPropertyChanged(nameof(Todos));
-                }
-                else
-                {
-                    _pageNumber--;
                 }
             }
         }
 
-        private List<NoteDto> FetchNotes(int page, int pageSize)
+        private void FetchPreviousPage()
         {
-            List<NoteDto> result;
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                _pageNumber--;
+                var notes = FetchNotes(_pageNumber, _numberOnPage);
+                if (!notes.IsNullOrEmpty())
+                {
+                    _todoNotes.Clear();
+                    _todoNotes = null;
+
+                    _todoNotes = new ObservableCollection<Note>(notes);
+
+                    OnPropertyChanged(nameof(Todos));
+                }
+            }
+        }
+
+        private void FetchFirstPage()
+        {
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                _pageNumber = 1;
+                var notes = FetchNotes(_pageNumber, _numberOnPage);
+                if (!notes.IsNullOrEmpty())
+                {
+                    _todoNotes.Clear();
+                    _todoNotes = null;
+
+                    _todoNotes = new ObservableCollection<Note>(notes);
+
+                    OnPropertyChanged(nameof(Todos));
+                }
+            }
+        }
+
+        private void FetchLastPage()
+        {
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                _pageNumber = PagesCount;
+                var notes = FetchNotes(_pageNumber, _numberOnPage);
+                if (!notes.IsNullOrEmpty())
+                {
+                    _todoNotes.Clear();
+                    _todoNotes = null;
+
+                    _todoNotes = new ObservableCollection<Note>(notes);
+
+                    OnPropertyChanged(nameof(Todos));
+                }
+            }
+        }
+
+        private bool NextPageCanExecuted()
+        {
+            return _pageNumber + 1 <= PagesCount;
+        }
+
+        private bool PreviousPageCanExecuted()
+        {
+            return _pageNumber > 1;
+        }
+
+        private bool FirstPageCanExecuted()
+        {
+            return _pageNumber != 1 && PagesCount != 0;
+        }
+
+        private bool LastPageCanExecuted()
+        {
+            return _pageNumber != PagesCount && PagesCount != 0;
+        }
+
+        private void UpdateTotalCount()
+        {
+            switch (_currentSearchType)
+            {
+                case TodoSearchType.ByCaptionLike:
+                    _totalCount = _noteService.GetNotesByCaptionLikeCount(App.CurrentUser, _searchValue, NoteType.Todo);
+                    break;
+
+                case TodoSearchType.ByState:
+                    var state = (State)Enum.Parse(typeof(State), _searchValue);
+                    _totalCount = _noteService
+                        .GetNotesByCurrentStateCount(App.CurrentUser, state, NoteType.Todo);
+                    break;
+
+                case TodoSearchType.ByPriority:
+                    var priority = (Priority)Enum.Parse(typeof(Priority), _searchValue);
+                    _totalCount = _noteService
+                        .GetNotesByPriorityCount(App.CurrentUser, priority, NoteType.Todo);
+                    break;
+
+                case TodoSearchType.CreatedBetween:
+                    var dates = _searchValue.Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => x.Trim()).ToArray();
+                    var startDate = DateTime.Parse(dates[0]);
+                    var endDate = DateTime.Parse(dates[1]);
+                    _totalCount = _noteService
+                        .GetNotesCreatedBetweenCount(App.CurrentUser, startDate, endDate, NoteType.Todo);
+                    break;
+
+                case TodoSearchType.ByStartDate:
+                    var start = DateTime.Parse(_searchValue);
+                    _totalCount = _noteService
+                        .GetNotesByStartDateCount(App.CurrentUser, start, NoteType.Todo);
+                    break;
+
+                case TodoSearchType.ByEndDate:
+                    var end = DateTime.Parse(_searchValue);
+                    _totalCount = _noteService
+                        .GetNotesByEndDateCount(App.CurrentUser, end, NoteType.Todo);
+                    break;
+
+                default:
+                    _totalCount = _noteService
+                        .GetNotesByNoteTypeCount(App.CurrentUser, NoteType.Todo);
+                    break;
+            }
+        }
+
+        private List<Note> FetchNotes(int page, int pageSize)
+        {
+            List<Note> result;
 
             switch (_currentSearchType)
             {
@@ -286,6 +429,8 @@ namespace Organizer.UI.ViewModels
             return result;
         }
 
+        #endregion Pagination
+
         public override void RegisterCommandsForWindow(Window window)
         {
             Command.RegisterCommandBinding(window, _searchCommand);
@@ -294,7 +439,10 @@ namespace Organizer.UI.ViewModels
             Command.RegisterCommandBinding(window, _editTodoCommand);
             Command.RegisterCommandBinding(window, _viewTodoCommand);
             Command.RegisterCommandBinding(window, _backCommand);
-            Command.RegisterCommandBinding(window, _fetchNextPageCommand);
+            Command.RegisterCommandBinding(window, _nextPageCommand);
+            Command.RegisterCommandBinding(window, _previousPageCommand);
+            Command.RegisterCommandBinding(window, _firstPageCommand);
+            Command.RegisterCommandBinding(window, _lastPageCommand);
         }
 
         public override void UnregisterCommandsForWindow(Window window)
@@ -305,7 +453,10 @@ namespace Organizer.UI.ViewModels
             Command.UnregisterCommandBinding(window, _editTodoCommand);
             Command.UnregisterCommandBinding(window, _viewTodoCommand);
             Command.UnregisterCommandBinding(window, _backCommand);
-            Command.UnregisterCommandBinding(window, _fetchNextPageCommand);
+            Command.UnregisterCommandBinding(window, _nextPageCommand);
+            Command.UnregisterCommandBinding(window, _previousPageCommand);
+            Command.UnregisterCommandBinding(window, _firstPageCommand);
+            Command.UnregisterCommandBinding(window, _lastPageCommand);
         }
     }
 }

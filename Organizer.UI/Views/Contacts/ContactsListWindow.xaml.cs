@@ -18,7 +18,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddContactMessage += AddContactMessageHandler;
-            _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidationMessage += SearchTypeChangedHandler;
             _viewModel.ValidateSearch += ValidateSearchHandler;
             _viewModel.BackMessage += BackMessageHandler;
             _viewModel.EditContactMessage += EditContactMessageHandler;
@@ -29,6 +29,8 @@ namespace Organizer.UI.Views
 
             _viewModel.RegisterCommandsForWindow(this);
             InitializeComponent();
+
+            this.Title = _viewModel.HeaderText;
         }
 
         private void EditContactMessageHandler(object sender, EventArgs e)
@@ -37,9 +39,11 @@ namespace Organizer.UI.Views
             {
                 var editContactViewModel = new EditContactViewModel(_viewModel.SelectedContact);
 
-                var addContactWindow = new EditContactWindow(editContactViewModel);
+                var editContactWindow = new EditContactWindow(editContactViewModel);
 
-                addContactWindow.ShowDialog();
+                editContactWindow.ShowInTaskbar = false;
+                editContactWindow.Owner = this;
+                editContactWindow.ShowDialog();
             });
         }
 
@@ -49,9 +53,11 @@ namespace Organizer.UI.Views
             {
                 var viewContactViewModel = new ContactDetailsViewModel(_viewModel.SelectedContact);
 
-                var addContactWindow = new ViewContactWindow(viewContactViewModel);
+                var viewContactWindow = new ViewContactWindow(viewContactViewModel);
 
-                addContactWindow.ShowDialog();
+                viewContactWindow.ShowInTaskbar = false;
+                viewContactWindow.Owner = this;
+                viewContactWindow.ShowDialog();
             });
         }
 
@@ -91,6 +97,8 @@ namespace Organizer.UI.Views
 
                 var addContactWindow = new AddContactWindow(addContactViewModel);
 
+                addContactWindow.ShowInTaskbar = false;
+                addContactWindow.Owner = this;
                 addContactWindow.ShowDialog();
             });
         }
@@ -100,7 +108,7 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.BackMessage -= BackMessageHandler;
-            _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidationMessage -= SearchTypeChangedHandler;
             _viewModel.ValidateSearch -= ValidateSearchHandler;
             _viewModel.AddContactMessage -= AddContactMessageHandler;
             _viewModel.EditContactMessage -= EditContactMessageHandler;
@@ -113,7 +121,7 @@ namespace Organizer.UI.Views
             bool isBottom = IsScrollViewReachedTheBottom(e);
             if (isBottom)
             {
-                _viewModel.FetchNextPageCommand.Execute(null);
+                _viewModel.NextPageCommand.Execute(null);
             }
         }
 

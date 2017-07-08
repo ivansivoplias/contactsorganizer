@@ -15,7 +15,7 @@
                 + "WHERE UserId = @UserId AND AppId LIKE @AppId";
         }
 
-        public static string GetFilterByAppInfoQuery()
+        public static string GetFilterByAppInfoLikeQuery()
         {
             return $"SELECT Contacts.ContactId AS ContactId, PrimaryPhone, UserId FROM {ContactTable} " +
                 $"INNER JOIN {SocialInfoTable} ON {ContactTable}.{ContactId} = {SocialInfoTable}.ContactId "
@@ -71,7 +71,7 @@
                 " WHERE UserId = @UserId AND PrimaryPhone = @Phone";
         }
 
-        public static string GetFilterByEmailQuery()
+        public static string GetFilterByEmailLikeQuery()
         {
             return $"SELECT Contacts.ContactId AS ContactId, PrimaryPhone, UserId FROM {ContactTable} " +
                 $"INNER JOIN {PersonalInfoTable} ON {ContactTable}.{ContactId} = {PersonalInfoTable}.{PersonalInfoId}"

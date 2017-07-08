@@ -20,6 +20,8 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
             cmd.Parameters.AddWithValue("@NotificationDate", entity.NotificationDate);
             cmd.Parameters.AddWithValue("@SendNotifications", entity.SendNotifications);
+            cmd.Parameters.AddWithValue("@MeetingPlace", entity.MeetingPlace);
+            cmd.Parameters.AddWithValue("@MeetingTime", entity.MeetingTime);
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
@@ -31,6 +33,8 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
             cmd.Parameters.AddWithValue("@NotificationDate", entity.NotificationDate);
             cmd.Parameters.AddWithValue("@SendNotifications", entity.SendNotifications);
+            cmd.Parameters.AddWithValue("@MeetingPlace", entity.MeetingPlace);
+            cmd.Parameters.AddWithValue("@MeetingTime", entity.MeetingTime);
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
         }
 
@@ -58,6 +62,8 @@ namespace Organizer.DAL.Repository
                     meeting.MeetingDate = DateTime.Parse(reader["MeetingDate"].ToString());
                     meeting.NotificationDate = DateTime.Parse(reader["NotificationDate"].ToString());
                     meeting.SendNotifications = bool.Parse(reader["SendNotifications"].ToString());
+                    meeting.MeetingPlace = reader["MeetingPlace"].ToString();
+                    meeting.MeetingTime = TimeSpan.Parse(reader["MeetingTime"].ToString());
                     meeting.UserId = Convert.ToInt32(reader["UserId"].ToString());
                 }
             }
@@ -78,6 +84,8 @@ namespace Organizer.DAL.Repository
                     meeting.MeetingDate = DateTime.Parse(reader["MeetingDate"].ToString());
                     meeting.NotificationDate = DateTime.Parse(reader["NotificationDate"].ToString());
                     meeting.SendNotifications = bool.Parse(reader["SendNotifications"].ToString());
+                    meeting.MeetingPlace = reader["MeetingPlace"].ToString();
+                    meeting.MeetingTime = TimeSpan.Parse(reader["MeetingTime"].ToString());
                     meeting.UserId = Convert.ToInt32(reader["UserId"].ToString());
                     meetings.Add(meeting);
                 }

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
@@ -13,7 +14,7 @@ namespace Organizer.UI.ViewModels
     {
         private Command _saveCommand;
         private Command _cancelCommand;
-        private NoteDto _note;
+        private Note _note;
         private INoteService _noteService;
 
         public event EventHandler SaveMessage = delegate { };
@@ -27,6 +28,8 @@ namespace Organizer.UI.ViewModels
         public ICommand CancelCommand => _cancelCommand;
 
         public bool IsModelValid { get; set; }
+
+        public string HeaderText => "Edit note";
 
         public string Caption
         {
@@ -48,13 +51,13 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        public EditNoteViewModel(NoteDto note)
+        public EditNoteViewModel(Note note)
         {
             _noteService = App.Containter.Resolve<INoteService>();
 
             _note = note;
 
-            _saveCommand = Command.CreateCommand("Save note", "SaveCommand", GetType(), Save);
+            _saveCommand = Command.CreateCommand("Save note", "SaveCommand", GetType(), Save, SaveCanExecute);
             _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
@@ -79,6 +82,12 @@ namespace Organizer.UI.ViewModels
                     MessageBox.Show("Invalid data provided. Note cannot be saved.", "Error");
                 }
             }
+        }
+
+        private bool SaveCanExecute()
+        {
+            CheckValidation();
+            return IsModelValid;
         }
 
         private void CheckValidation()

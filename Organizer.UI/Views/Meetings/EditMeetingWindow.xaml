@@ -7,8 +7,8 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="EditMeetingWindow" Height="622.724" Width="616.955"
-        ResizeMode="NoResize">
+        Title="EditMeetingWindow" Height="502.724" Width="534.955"
+        ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -21,171 +21,200 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding AddMeetingHeader, FallbackValue='Edit meeting'}"
+            <TextBlock Text="{Binding HeaderText, FallbackValue='Edit meeting'}"
                        TextAlignment="Center"
-                       Padding="7"
-                       FontSize="20"
-                       FontFamily="Comic Sans MS"
+                       Padding="10"
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       FontFamily="{StaticResource RalewayRegular}"
                        FontStyle="Italic" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <Grid Grid.Row="1" Margin="10 0">
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-                <TextBlock
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="0"
                        Padding="5"
+                       HorizontalAlignment="Right"
                        Text="Название митинга:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <TextBox x:Name="meetingNameField"
+            <TextBox x:Name="meetingNameField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="0"
                        Padding="5"
+                       Margin="0 7"
                        VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="MeetingName" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:NotNullValidationRule />
-                                <valid:StringLengthValidationRule MinLength="4" MaxLength="40" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
+                <TextBox.Text>
+                    <Binding Path="MeetingName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthLessThanValidationRule PropertyName="Meeting name" MaxLength="40" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="1"
                        Text="Описание:"
-                       FontFamily="Comic Sans MS"
+                       HorizontalAlignment="Right"
                        Padding="5"
-                       FontSize="14"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
-                <TextBox x:Name="descriptionField"
+            <TextBox x:Name="descriptionField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="1"
                        Padding="5"
-                       Height="200"
+                       Margin="0 7"
+                       TextWrapping="Wrap"
+                       AcceptsReturn="True"
+                       AcceptsTab="True"
+                       Height="100"
                        VerticalAlignment="Center">
-                    <TextBox.Text>
-                        <Binding Path="Description" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:NotNullValidationRule />
-                                <valid:StringLengthValidationRule MinLength="10" MaxLength="150" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
+                <TextBox.Text>
+                    <Binding Path="Description" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthLessThanValidationRule PropertyName="Description" MaxLength="150" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="2"
                        Padding="5"
+                       HorizontalAlignment="Right"
                        Text="Дата митинга:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <DatePicker x:Name="meetingDateField"
+            <DatePicker x:Name="meetingDateField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="2"
+                       Margin="0 7"
                        Padding="5"
                        VerticalAlignment="Center">
-                    <DatePicker.SelectedDate>
-                        <Binding Path="MeetingDate" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:NotNullValidationRule />
-                                <valid:DateGreaterThanTodayValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </DatePicker.SelectedDate>
-                </DatePicker>
-            </Grid>
+                <DatePicker.SelectedDate>
+                    <Binding Path="MeetingDate" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:DateValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="3"
+                       Padding="5"
+                       HorizontalAlignment="Right"
+                       Text="Время митинга:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+            <ComboBox x:Name="meetingTimeField" Grid.Column="1"
+                       Grid.Row="3"
+                      Padding="5" Margin="0 7"
+                      ItemsSource="{Binding TimeIntervals, Mode=OneWay}"
+                      SelectedValue="{Binding MeetingTime}">
+            </ComboBox>
+
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="4"
+                       Padding="5"
+                       HorizontalAlignment="Right"
+                       Text="Место митинга:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+            <TextBox x:Name="meetingPlaceField"
+                       Grid.Column="1"
+                       Grid.Row="4"
+                       Padding="5"
+                       Margin="0 7"
+                       VerticalAlignment="Center">
+                <TextBox.Text>
+                    <Binding Path="MeetingPlace" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:StringNotEmptyValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBlock
                        Grid.Column="0"
                        Text="Дата оповещения:"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="5"
+                       HorizontalAlignment="Right"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <DatePicker x:Name="notificationDateField"
+            <DatePicker x:Name="notificationDateField"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="5"
+                       Margin="0 7"
                        Padding="5"
                        VerticalAlignment="Center">
-                    <DatePicker.SelectedDate>
-                        <Binding Path="NotificationDate" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:NotNullValidationRule />
-                                <valid:NotificationDateValidationRule>
-                                    <valid:NotificationDateValidationRule.Wrapper>
-                                        <helper:Wrapper WrappedData="{Binding Data.MeetingDate, Source={StaticResource proxy}}" />
-                                    </valid:NotificationDateValidationRule.Wrapper>
-                                </valid:NotificationDateValidationRule>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </DatePicker.SelectedDate>
-                </DatePicker>
-            </Grid>
+                <DatePicker.SelectedDate>
+                    <Binding Path="NotificationDate" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:NotificationDateValidationRule>
+                                <valid:NotificationDateValidationRule.Wrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.MeetingDate, Source={StaticResource proxy}}" />
+                                </valid:NotificationDateValidationRule.Wrapper>
+                            </valid:NotificationDateValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
 
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="6"
                        Text="Посылать нотификации?"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       HorizontalAlignment="Right"
                        Padding="5"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <CheckBox
+            <CheckBox
                        IsThreeState="False"
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="14"
+                       Grid.Row="6"
+                       Margin="0 7"
                        Padding="5"
                        IsChecked="{Binding SendNotifications}"
                        VerticalAlignment="Center" />
-            </Grid>
-        </StackPanel>
+        </Grid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -194,18 +223,12 @@
             </Grid.ColumnDefinitions>
 
             <Button
-                FontFamily="Comic Sans MS"
-                Height="30"
                 Margin="30 10"
-                FontSize="16"
                 Command="{Binding SaveCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
             <Button Grid.Column="1"
-                FontFamily="Comic Sans MS"
-                Height="30"
                 Margin="30 10"
-                FontSize="16"
                 Command="{Binding CancelCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

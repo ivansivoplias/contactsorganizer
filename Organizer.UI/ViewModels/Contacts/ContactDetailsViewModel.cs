@@ -1,4 +1,5 @@
 ﻿using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.UI.Commands;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,16 @@ namespace Organizer.UI.ViewModels
     public class ContactDetailsViewModel : ViewModelBase
     {
         private ContactDto _contact;
-        private ObservableCollection<SocialInfoDto> _socials;
+        private ObservableCollection<SocialInfo> _socials;
         private Command _backCommand;
 
-        public ICollection<SocialInfoDto> Socials => _socials;
+        public ICollection<SocialInfo> Socials => _socials;
 
         public ICommand BackCommand => _backCommand;
 
         public event EventHandler BackMessage = delegate { };
+
+        public string HeaderText => "Contact details";
 
         public string PrimaryPhone => _contact.PrimaryPhone;
 
@@ -36,7 +39,7 @@ namespace Organizer.UI.ViewModels
         {
             _contact = contact;
 
-            _socials = new ObservableCollection<SocialInfoDto>(_contact.Socials);
+            _socials = new ObservableCollection<SocialInfo>(_contact.Socials);
 
             _backCommand = Command.CreateCommand("Back to contact list", "BackCommand", GetType(), Back);
         }

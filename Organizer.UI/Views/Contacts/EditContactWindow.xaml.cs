@@ -28,6 +28,8 @@ namespace Organizer.UI.Views
             _viewModel.RegisterCommandsForWindow(this);
 
             InitializeComponent();
+
+            this.Title = _viewModel.HeaderText;
         }
 
         private void SaveMessageHandler(object sender, EventArgs e)
@@ -42,6 +44,13 @@ namespace Organizer.UI.Views
 
         private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
+            primaryPhoneField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            firstNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            middleNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            lastNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            nickNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            emailField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+
             bool isPhoneValid = !primaryPhoneField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isFirstNameValid = !firstNameField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isMiddleNameValid = !middleNameField.GetBindingExpression(TextBox.TextProperty).HasError;
@@ -59,6 +68,8 @@ namespace Organizer.UI.Views
             {
                 var socialViewModel = new AddSocialViewModel(_viewModel.Socials);
                 var wnd = new AddSocialDialog(socialViewModel);
+                wnd.ShowInTaskbar = false;
+                wnd.Owner = this;
                 wnd.ShowDialog();
             });
         }
@@ -69,6 +80,8 @@ namespace Organizer.UI.Views
             {
                 var socialViewModel = new EditSocialViewModel(_viewModel.Socials, _viewModel.SelectedSocial);
                 var wnd = new EditSocialWindow(socialViewModel);
+                wnd.ShowInTaskbar = false;
+                wnd.Owner = this;
                 wnd.ShowDialog();
             });
         }

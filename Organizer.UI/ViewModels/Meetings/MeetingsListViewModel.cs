@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.Common.Enums.SearchTypes;
 using Organizer.Common.Helpers;
 using Organizer.Infrastructure.Services;
@@ -17,20 +18,27 @@ namespace Organizer.UI.ViewModels
     {
         private int _pageNumber;
         private const int _numberOnPage = 10;
-        private IMeetingService _meetingService;
+        private int _totalCount;
+        private IMeetingService _meetingservice;
 
         private MeetingSearchType _currentSearchType;
         private string _searchValue;
 
-        private ObservableCollection<MeetingDto> _meetings;
-        private MeetingDto _selected;
+        private ObservableCollection<Meeting> _meetings;
+        private Meeting _selected;
         private Command _searchCommand;
         private Command _addMeetingCommand;
         private Command _deleteMeetingCommand;
         private Command _editMeetingCommand;
         private Command _viewMeetingCommand;
         private Command _backCommand;
-        private Command _fetchNextPageCommand;
+
+        private Command _nextPageCommand;
+        private Command _previousPageCommand;
+        private Command _firstPageCommand;
+        private Command _lastPageCommand;
+
+        public string HeaderText => "Meetings list";
 
         public MeetingSearchType SearchType
         {
@@ -41,7 +49,6 @@ namespace Organizer.UI.ViewModels
                     return;
                 _currentSearchType = value;
                 OnPropertyChanged(nameof(SearchType));
-                SearchTypeChanged.Invoke(null, EventArgs.Empty);
             }
         }
 
@@ -59,7 +66,7 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler AddMeetingMessage = delegate { };
 
-        public event EventHandler SearchTypeChanged = delegate { };
+        public event EventHandler UpdateViewValidationMessage = delegate { };
 
         public event EventHandler BackMessage = delegate { };
 
@@ -77,11 +84,19 @@ namespace Organizer.UI.ViewModels
         public ICommand EditMeetingCommand => _editMeetingCommand;
         public ICommand ViewMeetingCommand => _viewMeetingCommand;
         public ICommand BackCommand => _backCommand;
-        public ICommand FetchNextPageCommand => _fetchNextPageCommand;
 
-        public ICollection<MeetingDto> Meetings => _meetings;
+        public ICommand NextPageCommand => _nextPageCommand;
+        public ICommand PreviousPageCommand => _previousPageCommand;
+        public ICommand FirstPageCommand => _firstPageCommand;
+        public ICommand LastPageCommand => _lastPageCommand;
 
-        public MeetingDto SelectedMeeting
+        public ICollection<Meeting> Meetings => _meetings;
+
+        public int PagesCount => PaginationHelper.GetPagesCount(_totalCount, _numberOnPage);
+
+        public int CurrentPage => _pageNumber;
+
+        public Meeting SelectedMeeting
         {
             get { return _selected; }
             set
@@ -97,11 +112,13 @@ namespace Organizer.UI.ViewModels
             _selected = null;
             _currentSearchType = MeetingSearchType.Default;
 
-            _meetingService = App.Containter.Resolve<IMeetingService>();
+            _meetingservice = App.Containter.Resolve<IMeetingService>();
 
-            var meetingsList = _meetingService.GetUserMeetings(App.CurrentUser, _numberOnPage, _pageNumber).ToList();
+            _totalCount = _meetingservice.GetMeetingsCount(App.CurrentUser);
 
-            _meetings = new ObservableCollection<MeetingDto>(meetingsList);
+            var meetingsList = _meetingservice.GetUserMeetings(App.CurrentUser, _numberOnPage, _pageNumber).ToList();
+
+            _meetings = new ObservableCollection<Meeting>(meetingsList);
 
             _addMeetingCommand = Command.CreateCommand("Add meeting", "AddMeeting", GetType(), AddMeeting);
             _deleteMeetingCommand = Command.CreateCommand("Delete meeting", "DeleteMeeting", GetType(),
@@ -116,7 +133,10 @@ namespace Organizer.UI.ViewModels
             _viewMeetingCommand = Command.CreateCommand("View meeting details", "ViewMeeting", GetType(),
                 ViewMeetingDetails, () => _selected != null);
 
-            _fetchNextPageCommand = Command.CreateCommand("Next page", "FetchNextPage", GetType(), FetchNextPage);
+            _nextPageCommand = Command.CreateCommand("Next page", "FetchNextPage", GetType(), FetchNextPage, NextPageCanExecuted);
+            _previousPageCommand = Command.CreateCommand("Previous page", "PreviousPage", GetType(), FetchPreviousPage, PreviousPageCanExecuted);
+            _firstPageCommand = Command.CreateCommand("First page", "FirstPage", GetType(), FetchFirstPage, FirstPageCanExecuted);
+            _lastPageCommand = Command.CreateCommand("Last page", "LastPage", GetType(), FetchLastPage, LastPageCanExecuted);
             _backCommand = Command.CreateCommand("Back to main menu", "BackCommand", GetType(), Back);
         }
 
@@ -135,7 +155,7 @@ namespace Organizer.UI.ViewModels
             {
                 try
                 {
-                    _meetingService.RemoveMeeting(_selected);
+                    _meetingservice.RemoveMeeting(_selected);
 
                     DeleteMeetingMessage.Invoke(null, EventArgs.Empty);
 
@@ -167,15 +187,17 @@ namespace Organizer.UI.ViewModels
 
         private void Search()
         {
+            UpdateViewValidationMessage.Invoke(null, EventArgs.Empty);
             CheckSearchValidation();
             if (IsSearchValueValid)
             {
+                UpdateTotalCount();
                 _pageNumber = 1;
                 var list = FetchMeetings(_pageNumber, _numberOnPage);
                 _meetings.Clear();
                 _meetings = null;
 
-                _meetings = new ObservableCollection<MeetingDto>(list);
+                _meetings = new ObservableCollection<Meeting>(list);
 
                 OnPropertyChanged(nameof(Meetings));
             }
@@ -186,11 +208,12 @@ namespace Organizer.UI.ViewModels
             CheckSearchValidation();
             if (IsSearchValueValid)
             {
+                UpdateTotalCount();
                 var list = FetchMeetings(1, _numberOnPage * _pageNumber);
                 _meetings.Clear();
                 _meetings = null;
 
-                _meetings = new ObservableCollection<MeetingDto>(list);
+                _meetings = new ObservableCollection<Meeting>(list);
 
                 OnPropertyChanged(nameof(Meetings));
             }
@@ -201,6 +224,8 @@ namespace Organizer.UI.ViewModels
             ValidateSearch.Invoke(null, EventArgs.Empty);
         }
 
+        #region Pagination
+
         private void FetchNextPage()
         {
             CheckSearchValidation();
@@ -210,47 +235,140 @@ namespace Organizer.UI.ViewModels
                 var meetings = FetchMeetings(_pageNumber, _numberOnPage);
                 if (!meetings.IsNullOrEmpty())
                 {
-                    meetings = _meetings.Union(meetings).ToList();
-
                     _meetings.Clear();
                     _meetings = null;
 
-                    _meetings = new ObservableCollection<MeetingDto>(meetings);
+                    _meetings = new ObservableCollection<Meeting>(meetings);
 
                     OnPropertyChanged(nameof(Meetings));
-                }
-                else
-                {
-                    _pageNumber--;
                 }
             }
         }
 
-        private List<MeetingDto> FetchMeetings(int page, int pageSize)
+        private void FetchPreviousPage()
         {
-            List<MeetingDto> result;
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                _pageNumber--;
+                var meetings = FetchMeetings(_pageNumber, _numberOnPage);
+                if (!meetings.IsNullOrEmpty())
+                {
+                    _meetings.Clear();
+                    _meetings = null;
+
+                    _meetings = new ObservableCollection<Meeting>(meetings);
+
+                    OnPropertyChanged(nameof(Meetings));
+                }
+            }
+        }
+
+        private void FetchFirstPage()
+        {
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                _pageNumber = 1;
+                var meetings = FetchMeetings(_pageNumber, _numberOnPage);
+                if (!meetings.IsNullOrEmpty())
+                {
+                    _meetings.Clear();
+                    _meetings = null;
+
+                    _meetings = new ObservableCollection<Meeting>(meetings);
+
+                    OnPropertyChanged(nameof(Meetings));
+                }
+            }
+        }
+
+        private void FetchLastPage()
+        {
+            CheckSearchValidation();
+            if (IsSearchValueValid)
+            {
+                _pageNumber = PagesCount;
+                var meetings = FetchMeetings(_pageNumber, _numberOnPage);
+                if (!meetings.IsNullOrEmpty())
+                {
+                    _meetings.Clear();
+                    _meetings = null;
+
+                    _meetings = new ObservableCollection<Meeting>(meetings);
+
+                    OnPropertyChanged(nameof(Meetings));
+                }
+            }
+        }
+
+        private bool NextPageCanExecuted()
+        {
+            return _pageNumber + 1 <= PagesCount;
+        }
+
+        private bool PreviousPageCanExecuted()
+        {
+            return _pageNumber > 1;
+        }
+
+        private bool FirstPageCanExecuted()
+        {
+            return _pageNumber != 1 && PagesCount != 0;
+        }
+
+        private bool LastPageCanExecuted()
+        {
+            return _pageNumber != PagesCount && PagesCount != 0;
+        }
+
+        private void UpdateTotalCount()
+        {
+            switch (_currentSearchType)
+            {
+                case MeetingSearchType.ByMeetingName:
+                    _totalCount = _meetingservice.GetFilterByMeetingNameCount(App.CurrentUser, _searchValue);
+                    break;
+
+                case MeetingSearchType.ByMeetingDate:
+                    var date = DateTime.Parse(_searchValue);
+                    _totalCount = _meetingservice.GetFilterByMeetingDateCount(App.CurrentUser, date);
+                    break;
+
+                default:
+                    _totalCount = _meetingservice
+                        .GetMeetingsCount(App.CurrentUser);
+                    break;
+            }
+        }
+
+        private List<Meeting> FetchMeetings(int page, int pageSize)
+        {
+            List<Meeting> result;
 
             switch (_currentSearchType)
             {
                 case MeetingSearchType.ByMeetingName:
-                    result = _meetingService.FilterByMeetingName(App.CurrentUser, _searchValue, pageSize, page)
+                    result = _meetingservice.FilterByMeetingName(App.CurrentUser, _searchValue, pageSize, page)
                         .ToList();
                     break;
 
                 case MeetingSearchType.ByMeetingDate:
                     var date = DateTime.Parse(_searchValue);
-                    result = _meetingService.FilterByMeetingDate(App.CurrentUser, date, pageSize, page)
+                    result = _meetingservice.FilterByMeetingDate(App.CurrentUser, date, pageSize, page)
                         .ToList();
                     break;
 
                 default:
-                    result = _meetingService
+                    result = _meetingservice
                         .GetUserMeetings(App.CurrentUser, pageSize, page).ToList();
                     break;
             }
 
             return result;
         }
+
+        #endregion Pagination
 
         public override void RegisterCommandsForWindow(Window window)
         {
@@ -260,7 +378,10 @@ namespace Organizer.UI.ViewModels
             Command.RegisterCommandBinding(window, _editMeetingCommand);
             Command.RegisterCommandBinding(window, _viewMeetingCommand);
             Command.RegisterCommandBinding(window, _backCommand);
-            Command.RegisterCommandBinding(window, _fetchNextPageCommand);
+            Command.RegisterCommandBinding(window, _nextPageCommand);
+            Command.RegisterCommandBinding(window, _previousPageCommand);
+            Command.RegisterCommandBinding(window, _firstPageCommand);
+            Command.RegisterCommandBinding(window, _lastPageCommand);
         }
 
         public override void UnregisterCommandsForWindow(Window window)
@@ -271,7 +392,10 @@ namespace Organizer.UI.ViewModels
             Command.UnregisterCommandBinding(window, _editMeetingCommand);
             Command.UnregisterCommandBinding(window, _viewMeetingCommand);
             Command.UnregisterCommandBinding(window, _backCommand);
-            Command.UnregisterCommandBinding(window, _fetchNextPageCommand);
+            Command.UnregisterCommandBinding(window, _nextPageCommand);
+            Command.UnregisterCommandBinding(window, _previousPageCommand);
+            Command.UnregisterCommandBinding(window, _firstPageCommand);
+            Command.UnregisterCommandBinding(window, _lastPageCommand);
         }
     }
 }

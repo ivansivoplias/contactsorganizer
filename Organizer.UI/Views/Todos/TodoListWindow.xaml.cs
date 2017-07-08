@@ -18,7 +18,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddTodoMessage += AddTodoMessageHandler;
-            _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidation += SearchTypeChangedHandler;
             _viewModel.BackMessage += BackMessageHandler;
             _viewModel.ValidateSearch += ValidateSearchHandler;
             _viewModel.EditTodoMessage += EditTodoMessageHandler;
@@ -29,6 +29,8 @@ namespace Organizer.UI.Views
 
             _viewModel.RegisterCommandsForWindow(this);
             InitializeComponent();
+
+            this.Title = _viewModel.HeaderText;
         }
 
         private void EditTodoMessageHandler(object sender, EventArgs e)
@@ -39,6 +41,8 @@ namespace Organizer.UI.Views
 
                 var editTodoWindow = new EditTodoWindow(editTodoViewModel);
 
+                editTodoWindow.ShowInTaskbar = false;
+                editTodoWindow.Owner = this;
                 editTodoWindow.ShowDialog();
             });
         }
@@ -60,6 +64,8 @@ namespace Organizer.UI.Views
 
                 var viewTodoWindow = new ViewTodoWindow(viewTodoViewModel);
 
+                viewTodoWindow.ShowInTaskbar = false;
+                viewTodoWindow.Owner = this;
                 viewTodoWindow.ShowDialog();
             });
         }
@@ -85,7 +91,8 @@ namespace Organizer.UI.Views
                 var addTodoViewModel = new AddTodoViewModel();
 
                 var addTodoWindow = new AddTodoWindow(addTodoViewModel);
-
+                addTodoWindow.ShowInTaskbar = false;
+                addTodoWindow.Owner = this;
                 addTodoWindow.ShowDialog();
             });
         }
@@ -100,7 +107,7 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.BackMessage -= BackMessageHandler;
-            _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidation -= SearchTypeChangedHandler;
             _viewModel.ValidateSearch -= ValidateSearchHandler;
             _viewModel.AddTodoMessage -= AddTodoMessageHandler;
             _viewModel.EditTodoMessage -= EditTodoMessageHandler;
@@ -113,7 +120,7 @@ namespace Organizer.UI.Views
             bool isBottom = IsScrollViewReachedTheBottom(e);
             if (isBottom)
             {
-                _viewModel.FetchNextPageCommand.Execute(null);
+                _viewModel.NextPageCommand.Execute(null);
             }
         }
 

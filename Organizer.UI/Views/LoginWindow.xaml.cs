@@ -1,4 +1,5 @@
-﻿using Organizer.UI.ViewModels;
+﻿using Organizer.UI.Helpers;
+using Organizer.UI.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -19,6 +20,7 @@ namespace Organizer.UI.Views
             _viewModel.RegisterCommandsForWindow(this);
 
             _viewModel.RegistrationMessage += RegistrationMessageHandler;
+            _viewModel.ValidationCheckMessage += ValidationCheckHandler;
             _viewModel.LoginFailedMessage += LoginFailedMessageHandler;
             _viewModel.LoginSuccessfulMessage += LoginSucceededMessageHandler;
 
@@ -27,6 +29,8 @@ namespace Organizer.UI.Views
             this.Closing += OnClosing;
 
             InitializeComponent();
+
+            this.Title = _viewModel.HeaderText;
         }
 
         private void RegistrationMessageHandler(object sender, EventArgs e)
@@ -43,6 +47,17 @@ namespace Organizer.UI.Views
         private void LoginFailedMessageHandler(object sender, EventArgs e)
         {
             MessageBox.Show("Login failed. User are not exists in db or provided login or password is invalid.", "Login failed!");
+        }
+
+        private void ValidationCheckHandler(object sender, EventArgs e)
+        {
+            loginField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            passwordField.GetBindingExpression(PasswordBoxAssistant.BoundPassword).UpdateSource();
+
+            bool isLoginValid = !loginField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isPasswordValid = !passwordField.GetBindingExpression(PasswordBoxAssistant.BoundPassword).HasError;
+
+            _viewModel.IsModelValid = isLoginValid && isPasswordValid;
         }
 
         private void LoginSucceededMessageHandler(object sender, EventArgs e)
@@ -65,6 +80,7 @@ namespace Organizer.UI.Views
         {
             Closing -= OnClosing;
 
+            _viewModel.ValidationCheckMessage -= ValidationCheckHandler;
             _viewModel.RegistrationMessage -= RegistrationMessageHandler;
             _viewModel.LoginFailedMessage -= LoginFailedMessageHandler;
             _viewModel.LoginSuccessfulMessage -= LoginSucceededMessageHandler;

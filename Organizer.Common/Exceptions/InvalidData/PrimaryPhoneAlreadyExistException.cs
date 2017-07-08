@@ -13,5 +13,13 @@ namespace Organizer.Common.Exceptions
         public PrimaryPhoneAlreadyExistException(string message) : base(message)
         {
         }
+
+        public PrimaryPhoneAlreadyExistException(Exception originalException) : base(DefaultErrorMessage, originalException)
+        {
+        }
+
+        public PrimaryPhoneAlreadyExistException(string message, Exception originalException) : base(message, originalException)
+        {
+        }
     }
 }

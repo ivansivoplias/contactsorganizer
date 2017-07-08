@@ -9,8 +9,9 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="MeetingsListWindow" Height="529" Width="916.864"
-        behavior:FocusBehavior.FocusFirst="True">
+        Title="MeetingsListWindow" Height="558" Width="917"
+        MinHeight="558" MinWidth="917"
+        behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -19,15 +20,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Meetings list"
-                       FontFamily="Comic Sans MS"
-                       FontStyle="Italic"
-                       FontSize="20"
+            <TextBlock Text="{Binding HeaderText}"
+                       FontFamily="{StaticResource RalewayRegular}"
+                       FontSize="{StaticResource FontSizeXLarge}"
                        Margin="10"
                        TextAlignment="Center" />
         </StackPanel>
@@ -39,15 +39,14 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Search:"
-                       FontFamily="Verdana"
-                       FontSize="16"
+                       FontFamily="{StaticResource RalewayRegular}"
                        TextAlignment="Justify"
                        VerticalAlignment="Center"
                        Margin="10" />
 
             <TextBox x:Name="searchBox" Grid.Column="1"
-                     Padding="3"
-                     Height="30"
+                     Padding="10"
+                     Height="40"
                      Margin="5 10">
                 <TextBox.Text>
                     <Binding Path="SearchValue"
@@ -65,12 +64,9 @@
             </TextBox>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2">
-                <Button Height="30"
+                <Button Height="40"
                         Width="120"
-                        Padding="5"
-                        FontFamily="Comic Sans MS"
-                        FontStyle="Italic"
-                       FontSize="16"
+                        Padding="10"
                         Margin="10"
                         Command="{Binding SearchCommand}"
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
@@ -92,15 +88,20 @@
         </Grid>
 
         <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="0.2*" />
+                <ColumnDefinition Width="0.3*" />
             </Grid.ColumnDefinitions>
-            <DataGrid Grid.Column="0" ItemsSource="{Binding Meetings}"
+            <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Meetings}"
                       SelectedItem="{Binding SelectedMeeting}"
-                       FontSize="16"
                       Margin="10"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                       CanUserResizeColumns="False"
+                      IsReadOnly="True"
                       AutoGenerateColumns="False"
                       ScrollViewer.ScrollChanged="DataGrid_ScrollChanged">
                 <DataGrid.Columns>
@@ -112,11 +113,19 @@
                                         Header="Описание"
                                         Width="*" />
 
-                    <DataGridTextColumn Binding="{Binding MeetingDate}"
+                    <DataGridTextColumn Binding="{Binding MeetingDate, StringFormat={}{0:dd.mm.yyyy}}"
                                         Header="Дата проведения"
                                         Width="*" />
 
-                    <DataGridTextColumn Binding="{Binding NotificationDate}"
+                    <DataGridTextColumn Binding="{Binding MeetingTime, StringFormat=\{0:h\\:mm\}}"
+                                        Header="Время проведения"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding MeetingPlace}"
+                                        Header="Место проведения"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding NotificationDate, StringFormat={}{0:dd.mm.yyyy}}"
                                         Header="Дата оповещения"
                                         Width="*" />
 
@@ -126,51 +135,67 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <StackPanel Grid.Column="1"
+            <StackPanel Grid.Row="0" Grid.Column="1"
                         VerticalAlignment="Center">
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
+                Margin="20 10" Padding="12"
                     Command="{Binding AddMeetingCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add meeting'}" />
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
-                    FontStyle="Normal"
+                Margin="20 10" Padding="12"
                     Command="{Binding EditMeetingCommand}"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit meeting'}" />
 
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
-                    FontStyle="Normal"
+                Margin="20 10" Padding="12"
                     Command="{Binding DeleteMeetingCommand}"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Remove meeting'}" />
 
                 <Button
-                Margin="10 5" Padding="3"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
+                Margin="20 10" Padding="12"
                     Command="{Binding ViewMeetingCommand}"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View details'}" />
+            </StackPanel>
+
+            <StackPanel Grid.ColumnSpan="2"
+                        Grid.Row="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding FirstPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='First page'}" />
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding PreviousPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Previous page'}" />
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock
+                        FontSize="{StaticResource FontSizeXLarge}"
+                        Text="{Binding CurrentPage, FallbackValue=1}" />
+                    <TextBlock
+                        FontSize="{StaticResource FontSizeXLarge}"
+                        Text="/" />
+                    <TextBlock
+                        FontSize="{StaticResource FontSizeXLarge}"
+                        Text="{Binding PagesCount, FallbackValue=2}" />
+                </StackPanel>
+
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding NextPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Next page'}" />
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding LastPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Last page'}" />
             </StackPanel>
         </Grid>
 
         <StackPanel Grid.Row="3">
-            <Button Height="40"
+            <Button
+                    Padding="10"
                     Width="200"
-                    FontFamily="Comic Sans MS"
-                       FontSize="16"
-                    FontStyle="Italic"
                     Margin="0 15"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
                     Command="{Binding BackCommand}" />

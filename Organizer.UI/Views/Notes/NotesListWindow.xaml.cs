@@ -18,7 +18,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddNoteMessage += AddNoteMessageHandler;
-            _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidationMessage += SearchTypeChangedHandler;
             _viewModel.ValidateSearch += ValidateSearchHandler;
             _viewModel.BackMessage += BackMessageHandler;
             _viewModel.EditNoteMessage += EditNoteMessageHandler;
@@ -29,6 +29,8 @@ namespace Organizer.UI.Views
 
             _viewModel.RegisterCommandsForWindow(this);
             InitializeComponent();
+
+            this.Title = _viewModel.HeaderText;
         }
 
         private void EditNoteMessageHandler(object sender, EventArgs e)
@@ -39,6 +41,8 @@ namespace Organizer.UI.Views
 
                 var editNoteWindow = new EditNoteWindow(editNoteViewModel);
 
+                editNoteWindow.ShowInTaskbar = false;
+                editNoteWindow.Owner = this;
                 editNoteWindow.ShowDialog();
             });
         }
@@ -51,6 +55,8 @@ namespace Organizer.UI.Views
 
                 var viewNoteWindow = new ViewNoteWindow(viewNoteViewModel);
 
+                viewNoteWindow.ShowInTaskbar = false;
+                viewNoteWindow.Owner = this;
                 viewNoteWindow.ShowDialog();
             });
         }
@@ -91,6 +97,8 @@ namespace Organizer.UI.Views
 
                 var addNoteWindow = new AddNoteWindow(addNoteViewModel);
 
+                addNoteWindow.ShowInTaskbar = false;
+                addNoteWindow.Owner = this;
                 addNoteWindow.ShowDialog();
             });
         }
@@ -100,7 +108,7 @@ namespace Organizer.UI.Views
             this.Closing -= OnClosing;
 
             _viewModel.BackMessage -= BackMessageHandler;
-            _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidationMessage -= SearchTypeChangedHandler;
             _viewModel.ValidateSearch -= ValidateSearchHandler;
             _viewModel.AddNoteMessage -= AddNoteMessageHandler;
             _viewModel.EditNoteMessage -= EditNoteMessageHandler;
@@ -113,7 +121,7 @@ namespace Organizer.UI.Views
             bool isBottom = IsScrollViewReachedTheBottom(e);
             if (isBottom)
             {
-                _viewModel.FetchNextPageCommand.Execute(null);
+                _viewModel.NextPageCommand.Execute(null);
             }
         }
 

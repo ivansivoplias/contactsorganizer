@@ -9,8 +9,9 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
-        Title="ContactsListWindow" Height="533.551" Width="845.286"
-        behavior:FocusBehavior.FocusFirst="True">
+        Title="ContactsListWindow" Height="591" Width="846"
+        MinHeight="591" MinWidth="846"
+        behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -26,9 +27,8 @@
 
         <StackPanel>
             <TextBlock Padding="10" TextAlignment="Center"
-                       Text="Contacts list"
-                       FontSize="25"
-                       FontFamily="Verdana"
+                       Text="{Binding HeaderText}"
+                       FontSize="{StaticResource FontSizeXLarge}"
                        FontStyle="Normal"
                        FontWeight="DemiBold" />
         </StackPanel>
@@ -40,15 +40,13 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Search:"
-                       FontFamily="Verdana"
-                       FontSize="16"
                        TextAlignment="Justify"
                        VerticalAlignment="Center"
                        Margin="10" />
 
             <TextBox x:Name="searchBox" Grid.Column="1"
-                     Padding="3"
-                     Height="30"
+                     Padding="10"
+                     Height="40"
                      Margin="5 10">
                 <TextBox.Text>
                     <Binding Path="SearchValue"
@@ -69,9 +67,6 @@
                 <Button Height="30"
                         Width="120"
                         Padding="5"
-                        FontFamily="Comic Sans MS"
-                        FontStyle="Italic"
-                       FontSize="16"
                         Margin="10"
                         Command="{Binding SearchCommand}"
                         Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Search'}" />
@@ -95,20 +90,26 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <DataGrid Name="contactsList" ItemsSource="{Binding Contacts, Mode=OneWay}"
+                      Grid.Row="0"
                       Grid.Column="0"
-                       FontSize="16"
+                      IsReadOnly="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch"
                       SelectedItem="{Binding SelectedContact}"
                       AutoGenerateColumns="False"
-                      ScrollViewer.ScrollChanged="DataGrid_ScrollChanged">
+                      ScrollViewer.ScrollChanged="DataGrid_ScrollChanged" Margin="0,1,0,-1">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Header="Основной телефон"
@@ -138,50 +139,67 @@
             </DataGrid>
 
             <StackPanel Grid.Column="1"
+                        Grid.Row="0"
                         VerticalAlignment="Center">
                 <Button
-                Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                       FontSize="16"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
+                Margin="20 10" Padding="12"
                     Command="{Binding AddContactCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Add contact'}" />
                 <Button
-                Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                       FontSize="16"
-                    FontStyle="Normal"
+                Margin="20 10" Padding="12"
                     Command="{Binding EditContactCommand}"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Edit contact'}" />
 
                 <Button
-                Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                       FontSize="16"
-                    FontStyle="Normal"
+                Margin="20 10" Padding="12"
                     Command="{Binding DeleteContactCommand}"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Remove contact'}" />
 
                 <Button
-                Margin="5" Padding="7"
-                    FontFamily="Verdana"
-                       FontSize="16"
+                Margin="20 10" Padding="12"
                     Command="{Binding ViewContactCommand}"
-                    FontStyle="Normal"
-                    FontWeight="ExtraLight"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='View details'}" />
+            </StackPanel>
+
+            <StackPanel Grid.ColumnSpan="2"
+                        Grid.Row="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding FirstPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='First page'}" />
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding PreviousPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Previous page'}" />
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock
+                        FontSize="{StaticResource FontSizeXLarge}"
+                        Text="{Binding CurrentPage, Mode=OneWay, FallbackValue=1}" />
+                    <TextBlock
+                        FontSize="{StaticResource FontSizeXLarge}"
+                        Text="/" />
+                    <TextBlock
+                        FontSize="{StaticResource FontSizeXLarge}"
+                        Text="{Binding PagesCount, Mode=OneWay, FallbackValue=1}" />
+                </StackPanel>
+
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding NextPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Next page'}" />
+                <Button
+                    Margin="10" Padding="12"
+                    Command="{Binding LastPageCommand}"
+                    Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Last page'}" />
             </StackPanel>
         </Grid>
 
         <StackPanel Grid.Row="3">
-            <Button Height="40"
+            <Button
+                    Padding="10"
                     Width="200"
-                    FontFamily="Comic Sans MS"
-                    FontStyle="Italic"
-                    FontSize="16"
                     Margin="0 15"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Back to menu'}"
                     Command="{Binding BackCommand}" />

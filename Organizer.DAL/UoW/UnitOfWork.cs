@@ -1,6 +1,7 @@
 ﻿using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Database;
 using System;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Organizer.DAL.UoW
@@ -9,6 +10,7 @@ namespace Organizer.DAL.UoW
     {
         private IDatabaseContextFactory _factory;
         private IDbContext _context;
+
         public SqlTransaction Transaction { get; private set; }
 
         public UnitOfWork(IDatabaseContextFactory factory)
@@ -24,9 +26,10 @@ namespace Organizer.DAL.UoW
                 {
                     Transaction.Commit();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     Transaction.Rollback();
+                    throw new TransactionCommitFailedException(e);
                 }
                 Transaction.Dispose();
                 Transaction = null;
@@ -48,7 +51,15 @@ namespace Organizer.DAL.UoW
             {
                 throw new TransactionAlreadyExistsException();
             }
-            Transaction = DataContext.Connection.BeginTransaction();
+
+            if (DataContext.Connection != null && DataContext.Connection.State == ConnectionState.Open)
+            {
+                Transaction = DataContext.Connection.BeginTransaction();
+            }
+            else
+            {
+                throw new ConnnectionIsNullOrClosedException();
+            }
             return Transaction;
         }
 

@@ -1,4 +1,5 @@
 ﻿using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.UI.Commands;
 using Organizer.UI.Helpers;
 using System;
@@ -12,12 +13,12 @@ namespace Organizer.UI.ViewModels
 {
     public class EditSocialViewModel : ViewModelBase
     {
-        private SocialInfoDto _socialInfo;
-        private SocialInfoDto _edited;
+        private SocialInfo _socialInfo;
+        private SocialInfo _edited;
         private Command _saveCommand;
         private Command _cancelCommand;
         private ObservableCollection<string> _standartSocials;
-        private ICollection<SocialInfoDto> _socials;
+        private ICollection<SocialInfo> _socials;
 
         public event EventHandler SubmitMessage = delegate { };
 
@@ -33,7 +34,9 @@ namespace Organizer.UI.ViewModels
 
         public bool IsModelValid { get; set; }
 
-        public SocialInfoDto Social => _socialInfo;
+        public SocialInfo Social => _socialInfo;
+
+        public string HeaderText => "Edit social";
 
         public string AppName
         {
@@ -55,11 +58,11 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        public EditSocialViewModel(ICollection<SocialInfoDto> socials, SocialInfoDto edited)
+        public EditSocialViewModel(ICollection<SocialInfo> socials, SocialInfo edited)
         {
             _edited = edited;
 
-            _socialInfo = new SocialInfoDto()
+            _socialInfo = new SocialInfo()
             {
                 Id = edited.Id,
                 ContactId = edited.ContactId,
@@ -73,7 +76,7 @@ namespace Organizer.UI.ViewModels
 
             _standartSocials = new ObservableCollection<string>(predefined);
 
-            _saveCommand = Command.CreateCommand("Save", "SaveCommand", GetType(), Save);
+            _saveCommand = Command.CreateCommand("Save", "SaveCommand", GetType(), Save, SaveCanExecute);
             _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
@@ -94,6 +97,12 @@ namespace Organizer.UI.ViewModels
                     MessageBox.Show("Cannot save changes to social, because such social already exists!", "Submit failed!", MessageBoxButton.OK);
                 }
             }
+        }
+
+        private bool SaveCanExecute()
+        {
+            CheckValidation();
+            return IsModelValid;
         }
 
         private void CheckValidation()

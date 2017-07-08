@@ -8,9 +8,9 @@
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="AddSocialDialog" Height="274" Width="580"
+        Title="AddSocialDialog" Height="274" Width="497.325"
         ResizeMode="NoResize"
-        behavior:FocusBehavior.FocusFirst="True">
+        behavior:FocusBehavior.FocusFirst="True" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -23,22 +23,19 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Add social"
+            <TextBlock Text="{Binding HeaderText, FallbackValue='Add social'}"
                        Padding="7"
                        Margin="5 10"
-                       FontFamily="Comic Sans MS"
-                       FontSize="20"
-                       FontStyle="Normal"
+                       FontFamily="{StaticResource RalewayRegular}"
+                       FontSize="{StaticResource FontSizeXLarge}"
                        TextAlignment="Center" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Choose from predefined socials:"
-                       FontSize="16"
                        Padding="5"
                        Margin="5 10" />
             <ComboBox Width="150" Padding="5" Margin="5 10"
-                       FontSize="16"
                       ItemsSource="{Binding StandartSocials, Mode=OneWay}"
                       SelectedValue="{Binding AppName}">
             </ComboBox>
@@ -46,33 +43,31 @@
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="App name:"
-                       FontSize="16"
                        Padding="5"
                        Margin="5 10" />
             <TextBox x:Name="appNameField" MinWidth="120"
                        Padding="5"
-                       FontSize="16"
                        Margin="5 10">
                 <TextBox.Text>
                     <Binding Path="AppName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <valid:StringLengthValidationRule MinLength="4" MaxLength="30" />
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthLessThanValidationRule PropertyName="App name" MaxLength="30" />
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
             </TextBox>
             <TextBlock Text="App id:"
-                       FontSize="16"
                        Padding="5"
                        Margin="5 10" />
             <TextBox x:Name="appIdField" MinWidth="120"
-                       FontSize="16"
                      Padding="5"
                        Margin="5 10">
                 <TextBox.Text>
                     <Binding Path="AppId" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <valid:StringLengthValidationRule MinLength="4" MaxLength="40" />
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthLessThanValidationRule PropertyName="App id" MaxLength="40" />
                             <valid:SocialPhoneValidationRule ValidatesOnTargetUpdated="True">
                                 <valid:SocialPhoneValidationRule.Wrapper>
                                     <helper:Wrapper WrappedData="{Binding Data.AppName, Source={StaticResource proxy}}" />
@@ -84,27 +79,21 @@
             </TextBox>
         </StackPanel>
 
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Margin="5 25 5 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0"
-                    Height="30"
-                    Padding="5"
+                    Padding="10"
                     Margin="15 12"
-                    FontFamily="Comic Sans MS"
-                    FontSize="15"
                     Command="{Binding SubmitCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Submit'}" />
 
             <Button Grid.Column="1"
-                    Height="30"
-                    Padding="5"
+                    Padding="10"
                     Margin="15 12"
-                    FontFamily="Comic Sans MS"
-                    FontSize="15"
                     Command="{Binding CancelCommand}"
                     Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

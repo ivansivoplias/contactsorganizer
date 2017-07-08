@@ -13,5 +13,13 @@ namespace Organizer.Common.Exceptions
         public SocialAlreadyExistException(string message) : base(message)
         {
         }
+
+        public SocialAlreadyExistException(Exception originalException) : base(DefaultErrorMessage, originalException)
+        {
+        }
+
+        public SocialAlreadyExistException(string message, Exception originalException) : base(message, originalException)
+        {
+        }
     }
 }

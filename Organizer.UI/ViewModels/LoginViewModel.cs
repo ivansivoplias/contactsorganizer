@@ -27,9 +27,13 @@ namespace Organizer.UI.ViewModels
 
         public event EventHandler RegistrationMessage = delegate { };
 
+        public event EventHandler ValidationCheckMessage = delegate { };
+
         public ICommand LoginCommand => _loginCommand;
 
         public ICommand RegisterCommand => _registerCommand;
+
+        public bool IsModelValid { get; set; }
 
         public string LoginText => "Login";
 
@@ -68,22 +72,27 @@ namespace Organizer.UI.ViewModels
 
         private void LogIn()
         {
-            try
-            {
-                App.CurrentUser = _service.Login(Login, Password.SecureStringToString());
+            ValidationCheckMessage.Invoke(null, EventArgs.Empty);
 
-                SaveUserInSettings();
+            if (IsModelValid)
+            {
+                try
+                {
+                    App.CurrentUser = _service.Login(Login, Password.SecureStringToString());
 
-                LoginSuccessfulMessage.Invoke(null, EventArgs.Empty);
-            }
-            catch (LoginFailedException e)
-            {
-                MessageBox.Show($"Login failed. See details below. \nDetails: {e.Message}", "Error! Login failed!");
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                LoginFailedMessage.Invoke(null, EventArgs.Empty);
+                    SaveUserInSettings();
+
+                    LoginSuccessfulMessage.Invoke(null, EventArgs.Empty);
+                }
+                catch (LoginFailedException e)
+                {
+                    MessageBox.Show($"Login failed. See details below. \nDetails: {e.Message}", "Error! Login failed!");
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    LoginFailedMessage.Invoke(null, EventArgs.Empty);
+                }
             }
         }
 

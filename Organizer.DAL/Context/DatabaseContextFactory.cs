@@ -5,7 +5,7 @@ namespace Organizer.DAL.Context
     public class DatabaseContextFactory : IDatabaseContextFactory
     {
         private readonly string _connectionString;
-        private IDbContext dataContext;
+        private IDbContext _dbContext;
 
         public DatabaseContextFactory(string connectionString)
         {
@@ -18,7 +18,7 @@ namespace Organizer.DAL.Context
         /// <returns>dataContext</returns>
         public IDbContext MakeContext()
         {
-            return dataContext ?? (dataContext = new DbContext(_connectionString));
+            return _dbContext ?? (_dbContext = new DbContext(_connectionString));
         }
 
         /// <summary>
@@ -26,8 +26,8 @@ namespace Organizer.DAL.Context
         /// </summary>
         public void Dispose()
         {
-            if (dataContext != null)
-                dataContext.Dispose();
+            if (_dbContext != null)
+                _dbContext.Dispose();
         }
     }
 }

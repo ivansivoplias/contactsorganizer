@@ -42,11 +42,6 @@
   <ItemGroup>
     <Compile Include="DTO\BaseDto.cs" />
     <Compile Include="DTO\ContactDto.cs" />
-    <Compile Include="DTO\MeetingDto.cs" />
-    <Compile Include="DTO\NoteDto.cs" />
-    <Compile Include="DTO\PersonalInfoDto.cs" />
-    <Compile Include="DTO\SocialInfoDto.cs" />
-    <Compile Include="DTO\UserDto.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Contact.cs" />
     <Compile Include="Entities\IEntity.cs" />
@@ -66,11 +61,11 @@
     <Compile Include="Exceptions\InvalidData\NoteCaptionAlreadyExistsException.cs" />
     <Compile Include="Exceptions\InvalidData\PrimaryPhoneAlreadyExistException.cs" />
     <Compile Include="Exceptions\InvalidData\SocialAlreadyExistException.cs" />
+    <Compile Include="Exceptions\Transaction\ConnectionIsNullOrClosedException.cs" />
     <Compile Include="Exceptions\Transaction\TransactionAlreadyExistsException.cs" />
     <Compile Include="Exceptions\Transaction\TransactionCommitFailedException.cs" />
     <Compile Include="Exceptions\InvalidData\UserAlreadyExistsException.cs" />
     <Compile Include="Helpers\CollectionHelper.cs" />
-    <Compile Include="Helpers\EnumExtentions.cs" />
     <Compile Include="Helpers\PaginationHelper.cs" />
     <Compile Include="Helpers\SHA512Hasher.cs" />
     <Compile Include="Pagination\Page.cs" />

@@ -1,4 +1,4 @@
-﻿using Organizer.Common.DTO;
+﻿using Organizer.Common.Entities;
 using Organizer.UI.Commands;
 using Organizer.UI.Helpers;
 using System;
@@ -12,11 +12,11 @@ namespace Organizer.UI.ViewModels
 {
     public class AddSocialViewModel : ViewModelBase
     {
-        private SocialInfoDto _socialInfo;
+        private SocialInfo _socialInfo;
         private Command _submitCommand;
         private Command _cancelCommand;
         private ObservableCollection<string> _standartSocials;
-        private ICollection<SocialInfoDto> _socials;
+        private ICollection<SocialInfo> _socials;
 
         public event EventHandler SubmitMessage = delegate { };
 
@@ -32,7 +32,9 @@ namespace Organizer.UI.ViewModels
 
         public bool IsModelValid { get; set; }
 
-        public SocialInfoDto Social => _socialInfo;
+        public string HeaderText => "Add social";
+
+        public SocialInfo Social => _socialInfo;
 
         public string AppName
         {
@@ -54,9 +56,9 @@ namespace Organizer.UI.ViewModels
             }
         }
 
-        public AddSocialViewModel(ICollection<SocialInfoDto> socials)
+        public AddSocialViewModel(ICollection<SocialInfo> socials)
         {
-            _socialInfo = new SocialInfoDto();
+            _socialInfo = new SocialInfo();
 
             _socials = socials;
 
@@ -64,7 +66,7 @@ namespace Organizer.UI.ViewModels
 
             _standartSocials = new ObservableCollection<string>(predefined);
 
-            _submitCommand = Command.CreateCommand("Submit", "SaveCommand", GetType(), Submit);
+            _submitCommand = Command.CreateCommand("Submit", "SaveCommand", GetType(), Submit, SubmitCanExecute);
             _cancelCommand = Command.CreateCommand("Cancel", "CancelCommand", GetType(), Cancel);
         }
 
@@ -84,6 +86,12 @@ namespace Organizer.UI.ViewModels
                     MessageBox.Show("Cannot add social, because such social already exists!", "Submit failed!", MessageBoxButton.OK);
                 }
             }
+        }
+
+        private bool SubmitCanExecute()
+        {
+            CheckValidation();
+            return IsModelValid;
         }
 
         private void CheckValidation()

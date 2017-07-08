@@ -18,7 +18,7 @@ namespace Organizer.UI.Views
         {
             _viewModel = viewModel;
             _viewModel.AddMeetingMessage += AddMeetingMessageHandler;
-            _viewModel.SearchTypeChanged += SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidationMessage += SearchTypeChangedHandler;
             _viewModel.ValidateSearch += ValidateSearchHandler;
             _viewModel.BackMessage += BackMessageHandler;
             _viewModel.EditMeetingMessage += EditMeetingMessageHandler;
@@ -29,6 +29,8 @@ namespace Organizer.UI.Views
 
             _viewModel.RegisterCommandsForWindow(this);
             InitializeComponent();
+
+            this.Title = _viewModel.HeaderText;
         }
 
         private void EditMeetingMessageHandler(object sender, EventArgs e)
@@ -39,6 +41,8 @@ namespace Organizer.UI.Views
 
                 var editMeetingWindow = new EditMeetingWindow(editMeetingViewModel);
 
+                editMeetingWindow.ShowInTaskbar = false;
+                editMeetingWindow.Owner = this;
                 editMeetingWindow.ShowDialog();
             });
         }
@@ -51,6 +55,8 @@ namespace Organizer.UI.Views
 
                 var viewMeetingWindow = new ViewMeetingWindow(viewMeetingViewModel);
 
+                viewMeetingWindow.ShowInTaskbar = false;
+                viewMeetingWindow.Owner = this;
                 viewMeetingWindow.ShowDialog();
             });
         }
@@ -91,6 +97,8 @@ namespace Organizer.UI.Views
 
                 var addMeetingWindow = new AddMeetingWindow(addMeetingViewModel);
 
+                addMeetingWindow.ShowInTaskbar = false;
+                addMeetingWindow.Owner = this;
                 addMeetingWindow.ShowDialog();
             });
         }
@@ -101,7 +109,7 @@ namespace Organizer.UI.Views
 
             _viewModel.BackMessage -= BackMessageHandler;
             _viewModel.AddMeetingMessage -= AddMeetingMessageHandler;
-            _viewModel.SearchTypeChanged -= SearchTypeChangedHandler;
+            _viewModel.UpdateViewValidationMessage -= SearchTypeChangedHandler;
             _viewModel.ValidateSearch -= ValidateSearchHandler;
             _viewModel.EditMeetingMessage -= EditMeetingMessageHandler;
             _viewModel.ViewMeetingMessage -= ViewMeetingMessageHandler;
@@ -113,7 +121,7 @@ namespace Organizer.UI.Views
             bool isBottom = IsScrollViewReachedTheBottom(e);
             if (isBottom)
             {
-                _viewModel.FetchNextPageCommand.Execute(null);
+                _viewModel.NextPageCommand.Execute(null);
             }
         }
 

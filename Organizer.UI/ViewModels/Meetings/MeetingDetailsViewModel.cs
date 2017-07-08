@@ -1,4 +1,5 @@
 ﻿using Organizer.Common.DTO;
+using Organizer.Common.Entities;
 using Organizer.UI.Commands;
 using System;
 using System.Windows;
@@ -9,11 +10,13 @@ namespace Organizer.UI.ViewModels
     public class MeetingDetailsViewModel : ViewModelBase
     {
         private Command _backCommand;
-        private MeetingDto _meeting;
+        private Meeting _meeting;
 
         public event EventHandler BackMessage = delegate { };
 
         public ICommand BackCommand => _backCommand;
+
+        public string HeaderText => "Meeting details";
 
         public string MeetingName => _meeting.MeetingName;
 
@@ -25,7 +28,11 @@ namespace Organizer.UI.ViewModels
 
         public bool SendNotifications => _meeting.SendNotifications;
 
-        public MeetingDetailsViewModel(MeetingDto meeting)
+        public string MeetingPlace => _meeting.MeetingPlace;
+
+        public string MeetingTime => _meeting.MeetingTime.ToString(@"hh\:mm");
+
+        public MeetingDetailsViewModel(Meeting meeting)
         {
             _meeting = meeting;
 

@@ -7,8 +7,8 @@
         xmlns:valid ="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="AddTodoWindow" Height="695.555" Width="657.955"
-        ResizeMode="NoResize">
+        Title="AddTodoWindow" Height="504.771" Width="538.455"
+        ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -20,196 +20,177 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding AddTodoHeader, FallbackValue='Add todo'}"
+            <TextBlock Text="{Binding HeaderText, FallbackValue='Add todo'}"
                        TextAlignment="Center"
-                       Padding="7"
-                       FontSize="20"
-                       FontFamily="Comic Sans MS"
-                       FontStyle="Italic" />
+                       Padding="10"
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       FontFamily="{StaticResource RalewayRegular}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <Grid Grid.Row="1" Margin="10">
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <TextBlock
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       Grid.Row="0"
+                       Padding="10"
+                       HorizontalAlignment="Right"
                        Text="Название задания:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <TextBox
+            <TextBox
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       Grid.Row="0"
                        Padding="5"
+                       Margin="5 7 15 7"
                        VerticalAlignment="Center"
                        x:Name="captionField">
-                    <TextBox.Text>
-                        <Binding Path="Caption" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:StringLengthValidationRule MinLength="5" MaxLength="60" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
+                <TextBox.Text>
+                    <Binding Path="Caption" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthLessThanValidationRule PropertyName="Caption" MaxLength="60" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="1"
                        Text="Описание задания:"
-                       FontFamily="Comic Sans MS"
-                       Padding="5"
-                       FontSize="16"
+                       HorizontalAlignment="Right"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
-                <TextBox
+            <TextBox
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       Grid.Row="1"
                        Padding="5"
-                       Height="200"
+                       Margin="5 7 15 7"
+                       Height="100"
+                     TextWrapping="Wrap"
+                       AcceptsReturn="True"
+                       AcceptsTab="True"
                        VerticalAlignment="Center"
                     x:Name="noteTextField">
-                    <TextBox.Text>
-                        <Binding Path="NoteText" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:StringLengthValidationRule MinLength="20" MaxLength="200" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
+                <TextBox.Text>
+                    <Binding Path="NoteText" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:StringNotEmptyValidationRule />
+                            <valid:StringLengthLessThanValidationRule PropertyName="Note text" MaxLength="200" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="2"
                        Text="Состояние:"
-                       FontFamily="Comic Sans MS"
-                       Padding="5"
-                       FontSize="16"
+                       HorizontalAlignment="Right"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
-                <ComboBox
+            <ComboBox
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       Grid.Row="2"
+                       Margin="5 7 15 7"
                        Padding="5"
                        ItemsSource="{Binding States}"
                        SelectedValue="{Binding State}"
                        VerticalAlignment="Center">
-                </ComboBox>
-            </Grid>
+            </ComboBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
+                       Grid.Row="3"
                        Text="Приоритет:"
-                       FontFamily="Comic Sans MS"
-                       Padding="5"
-                       FontSize="16"
+                       HorizontalAlignment="Right"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Top" />
 
-                <ComboBox
+            <ComboBox
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
+                       Margin="5 7 15 7"
+                       Grid.Row="3"
                        ItemsSource="{Binding Priorities}"
                        SelectedValue="{Binding Priority}"
                        VerticalAlignment="Center">
-                </ComboBox>
-            </Grid>
+            </ComboBox>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       Grid.Row="4"
+                       Padding="10"
                        Text="Дата начала:"
+                       HorizontalAlignment="Right"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <DatePicker
+            <DatePicker
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
+                       Grid.Row="4"
+                       Margin="5 7 15 7"
                        Padding="5"
                        VerticalAlignment="Center"
                     x:Name="startDateField">
-                    <DatePicker.SelectedDate>
-                        <Binding Path="StartDate" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:DateGreaterOrEqualTodayValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </DatePicker.SelectedDate>
-                </DatePicker>
-            </Grid>
+                <DatePicker.SelectedDate>
+                    <Binding Path="StartDate" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:DateGreaterOrEqualTodayValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
 
-            <Grid Margin="5 15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+            <TextBlock
                        Grid.Column="0"
                        Text="Дата завершения:"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
-                       Padding="5"
+                       HorizontalAlignment="Right"
+                       Grid.Row="5"
+                       Padding="10"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
-                <DatePicker
+            <DatePicker
                        Grid.Column="1"
-                       FontFamily="Comic Sans MS"
-                       FontSize="16"
                        Padding="5"
+                       Margin="5 7 15 7"
+                       Grid.Row="5"
                        VerticalAlignment="Center"
                     x:Name="endDateField">
-                    <DatePicker.SelectedDate>
-                        <Binding Path="EndDate" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <valid:NoteEndDateValidationRule>
-                                    <valid:NoteEndDateValidationRule.Wrapper>
-                                        <helper:Wrapper WrappedData="{Binding Data.StartDate, Source={StaticResource proxy}}" />
-                                    </valid:NoteEndDateValidationRule.Wrapper>
-                                </valid:NoteEndDateValidationRule>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </DatePicker.SelectedDate>
-                </DatePicker>
-            </Grid>
-        </StackPanel>
+                <DatePicker.SelectedDate>
+                    <Binding Path="EndDate" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <valid:NoteEndDateValidationRule>
+                                <valid:NoteEndDateValidationRule.Wrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.StartDate, Source={StaticResource proxy}}" />
+                                </valid:NoteEndDateValidationRule.Wrapper>
+                            </valid:NoteEndDateValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
+        </Grid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -218,18 +199,16 @@
             </Grid.ColumnDefinitions>
 
             <Button
-                FontFamily="Comic Sans MS"
-                Height="30"
+                Height="40"
                 Margin="30 10"
-                       FontSize="16"
+                Padding="10"
                 Command="{Binding SaveCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Save'}" />
 
             <Button Grid.Column="1"
-                FontFamily="Comic Sans MS"
-                Height="30"
+                Height="40"
+                Padding="10"
                 Margin="30 10"
-                       FontSize="16"
                 Command="{Binding CancelCommand}"
                 Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Cancel'}" />
         </Grid>

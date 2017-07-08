@@ -16,7 +16,7 @@ namespace Organizer.UI.ValidationRules
 
             TodoSearchType wrappedEnum;
 
-            if (Enum.TryParse(Wrapper.WrappedData.ToString(), out wrappedEnum))
+            if (Wrapper.WrappedData != null && Enum.TryParse(Wrapper.WrappedData.ToString(), out wrappedEnum))
             {
                 if (string.IsNullOrEmpty(stringValue) && wrappedEnum != TodoSearchType.Default)
                 {
