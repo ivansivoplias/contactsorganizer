@@ -7,16 +7,16 @@
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="LoginWindow" MinHeight="511" MinWidth="759" Style="{StaticResource AppWindowStyle}"
-        ResizeMode="NoResize">
+        Title="LoginWindow" Style="{StaticResource AppWindowStyle}"
+        ResizeMode="NoResize" Height="294.611" Width="491.463">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock Margin="0 50 0 0" Text="{Binding HeaderText}" TextAlignment="Center" HorizontalAlignment="Stretch"
+            <TextBlock Margin="0 50 0 10" Text="{Binding HeaderText}" TextAlignment="Center" HorizontalAlignment="Stretch"
                        FontSize="{StaticResource FontSizeXLarge}" />
         </StackPanel>
         <Grid Grid.Row="1">
@@ -32,7 +32,7 @@
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Grid.Row="0" Grid.Column="0"
                    Content="{Binding LoginText}" />
-            <TextBox VerticalAlignment="Center" Margin="0 0 25 0" Padding="10" Grid.Row="0" Grid.Column="1"
+            <TextBox VerticalAlignment="Center" Margin="0 0 25 10" Padding="10" Grid.Row="0" Grid.Column="1"
                      x:Name="loginField">
                 <TextBox.Text>
                     <Binding Path="Login">
@@ -45,7 +45,7 @@
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Grid.Row="1" Grid.Column="0"
                    Content="{Binding PasswordText}" />
-            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 0"  Padding="10" Grid.Row="1" Grid.Column="1"
+            <PasswordBox VerticalAlignment="Center" Margin="0 0 25 10"  Padding="10" Grid.Row="1" Grid.Column="1"
                          helper:PasswordBoxAssistant.BindPassword="True"
                          x:Name="passwordField">
                 <helper:PasswordBoxAssistant.BoundPassword>
@@ -66,8 +66,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Button Height="80" Grid.Column="0" Margin="20" Content="Login" Command="{Binding LoginCommand}" />
-            <Button Height="80" Grid.Column="1" Margin="20" Content="Register me!" Command="{Binding RegisterCommand}" />
+            <Button Grid.Column="0" Padding="10" Margin="20" Content="Login" Command="{Binding LoginCommand}" />
+            <Button Grid.Column="1" Padding="10" Margin="20" Content="Register me!" Command="{Binding RegisterCommand}" />
         </Grid>
     </Grid>
 </Window>
