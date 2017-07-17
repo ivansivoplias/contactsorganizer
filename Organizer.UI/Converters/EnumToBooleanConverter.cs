@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Data;
 
-namespace Organizer.UI.Convertors
+namespace Organizer.UI.Converters
 {
-    public class EnumToBooleanConverter : IValueConverter
+    public class EnumToBooleanConverter : BaseValueConverter<EnumToBooleanConverter>
     {
         #region IValueConverter Members
 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string parameterString = parameter as string;
             if (parameterString == null)
@@ -22,7 +21,7 @@ namespace Organizer.UI.Convertors
             return parameterValue.Equals(value);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public override object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string parameterString = parameter as string;
             if (parameterString == null)

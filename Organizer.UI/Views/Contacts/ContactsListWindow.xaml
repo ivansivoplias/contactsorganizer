@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
-        xmlns:convertor="clr-namespace:Organizer.UI.Convertors"
+        xmlns:converter="clr-namespace:Organizer.UI.Converters"
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:behavior="clr-namespace:Organizer.UI.Behaviours"
         mc:Ignorable="d"
@@ -15,7 +15,6 @@
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
-            <convertor:EnumToBooleanConverter x:Key="enumConvertor" />
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -74,16 +73,16 @@
                 <GroupBox Header="Search type" Padding="5" Margin="10">
                     <StackPanel>
                         <RadioButton
-                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            IsChecked="{Binding Path=SearchType, Converter={converter:EnumToBooleanConverter},
                             ConverterParameter=Default}" Margin="3" Content="Default" />
                         <RadioButton
-                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            IsChecked="{Binding Path=SearchType, Converter={converter:EnumToBooleanConverter},
                             ConverterParameter=ByPhone}" Margin="3" Content="Phone" />
                         <RadioButton
-                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            IsChecked="{Binding Path=SearchType, Converter={converter:EnumToBooleanConverter},
                             ConverterParameter=ByPersonalInfo}" Margin="3" Content="By personal information" />
                         <RadioButton
-                            IsChecked="{Binding Path=SearchType, Converter={StaticResource enumConvertor},
+                            IsChecked="{Binding Path=SearchType, Converter={converter:EnumToBooleanConverter},
                             ConverterParameter=BySocialInfo}" Margin="3" Content="By social id" />
                     </StackPanel>
                 </GroupBox>

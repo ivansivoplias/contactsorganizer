@@ -86,7 +86,8 @@
     </ApplicationDefinition>
     <Compile Include="Behaviours\FocusBehavior.cs" />
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Convertors\EnumToBooleanConvertor.cs" />
+    <Compile Include="Converters\BaseValueConverter.cs" />
+    <Compile Include="Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\BindingProxy.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\PasswordBoxAssistant.cs" />

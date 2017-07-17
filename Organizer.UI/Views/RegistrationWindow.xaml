@@ -8,7 +8,7 @@
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
         Title="RegistrationWindow"  Style="{StaticResource AppWindowStyle}"
-        ResizeMode="NoResize" Height="316.301" Width="515.863">
+        ResizeMode="NoResize" Height="338.894" Width="515.863">
     <Grid>
         <Grid.Resources>
             <helper:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -30,8 +30,8 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="5*" />
             </Grid.ColumnDefinitions>
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 0 10" Padding="10" Grid.Row="0" Grid.Column="0"
@@ -86,12 +86,12 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Width="200" Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
+            <Button Grid.Column="0" Width="200" Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Register'}"
                     Command="{Binding RegisterCommand}"
                     Margin="5"
                     Padding="10" />
 
-            <Button Grid.Column="1" Width="200" Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}"
+            <Button Grid.Column="1" Width="200" Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, FallbackValue='Bach to login'}"
                     Command="{Binding BackCommand}"
                     Margin="5"
                     Padding="10" />

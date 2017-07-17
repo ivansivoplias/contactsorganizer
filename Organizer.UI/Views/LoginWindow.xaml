@@ -26,8 +26,8 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="5*" />
             </Grid.ColumnDefinitions>
 
             <Label VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10" Grid.Row="0" Grid.Column="0"
