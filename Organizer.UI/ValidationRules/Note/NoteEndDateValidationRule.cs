@@ -28,9 +28,9 @@ namespace Organizer.UI.ValidationRules
             DateTime date, wrappedDate;
 
             if (DateTime.TryParse(dateString, out date)
-                && DateTime.TryParse(wrappedString, out wrappedDate) && date.Date <= wrappedDate.Date)
+                && DateTime.TryParse(wrappedString, out wrappedDate) && date.Date < wrappedDate.Date)
             {
-                return new ValidationResult(false, "End date cannot be less than or equal to start date.");
+                return new ValidationResult(false, "End date cannot be less than to start date.");
             }
 
             return ValidationResult.ValidResult;

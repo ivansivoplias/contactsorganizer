@@ -10,7 +10,7 @@ namespace Organizer.DAL.Helpers
             return new SqlParameter[]
             {
                  new SqlParameter("@UserId", userId),
-                    new SqlParameter("@MeetingDate", meetingDate)
+                 new SqlParameter("@MeetingDate", meetingDate)
             };
         }
 

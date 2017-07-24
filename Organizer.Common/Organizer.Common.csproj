@@ -50,6 +50,7 @@
     <Compile Include="Entities\PersonalInfo.cs" />
     <Compile Include="Entities\SocialInfo.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Enums\MeetingType.cs" />
     <Compile Include="Enums\NoteType.cs" />
     <Compile Include="Enums\Priority.cs" />
     <Compile Include="Enums\SearchTypes\ContactSearchType.cs" />
