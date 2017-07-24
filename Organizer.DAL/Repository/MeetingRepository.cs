@@ -1,4 +1,5 @@
 ﻿using Organizer.Common.Entities;
+using Organizer.Common.Enums;
 using Organizer.DAL.Helpers;
 using Organizer.Infrastructure.Database;
 using System;
@@ -17,9 +18,11 @@ namespace Organizer.DAL.Repository
         {
             cmd.Parameters.AddWithValue("@Description", entity.Description);
             cmd.Parameters.AddWithValue("@MeetingName", entity.MeetingName);
+            cmd.Parameters.AddWithValue("@MeetingType", entity.MeetingType.ToString());
             cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
             cmd.Parameters.AddWithValue("@NotificationDate", entity.NotificationDate);
             cmd.Parameters.AddWithValue("@SendNotifications", entity.SendNotifications);
+            cmd.Parameters.AddWithValue("@NotificationTime", entity.MeetingTime);
             cmd.Parameters.AddWithValue("@MeetingPlace", entity.MeetingPlace);
             cmd.Parameters.AddWithValue("@MeetingTime", entity.MeetingTime);
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
@@ -30,9 +33,11 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue($"@{MeetingQueries.MeetingId}", entity.Id);
             cmd.Parameters.AddWithValue("@MeetingName", entity.MeetingName);
             cmd.Parameters.AddWithValue("@Description", entity.Description);
+            cmd.Parameters.AddWithValue("@MeetingType", entity.MeetingType.ToString());
             cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
             cmd.Parameters.AddWithValue("@NotificationDate", entity.NotificationDate);
             cmd.Parameters.AddWithValue("@SendNotifications", entity.SendNotifications);
+            cmd.Parameters.AddWithValue("@NotificationTime", entity.MeetingTime);
             cmd.Parameters.AddWithValue("@MeetingPlace", entity.MeetingPlace);
             cmd.Parameters.AddWithValue("@MeetingTime", entity.MeetingTime);
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
@@ -59,9 +64,13 @@ namespace Organizer.DAL.Repository
                     meeting.Id = Convert.ToInt32(reader[MeetingQueries.MeetingId].ToString());
                     meeting.MeetingName = reader["MeetingName"].ToString();
                     meeting.Description = reader["Description"].ToString();
+
+                    TryParseEnum<MeetingType>(reader, "MeetingType", (x) => meeting.MeetingType = x);
+
                     meeting.MeetingDate = DateTime.Parse(reader["MeetingDate"].ToString());
                     meeting.NotificationDate = DateTime.Parse(reader["NotificationDate"].ToString());
                     meeting.SendNotifications = bool.Parse(reader["SendNotifications"].ToString());
+                    meeting.NotificationTime = TimeSpan.Parse(reader["NotificationTime"].ToString());
                     meeting.MeetingPlace = reader["MeetingPlace"].ToString();
                     meeting.MeetingTime = TimeSpan.Parse(reader["MeetingTime"].ToString());
                     meeting.UserId = Convert.ToInt32(reader["UserId"].ToString());
@@ -81,9 +90,13 @@ namespace Organizer.DAL.Repository
                     meeting.Id = Convert.ToInt32(reader[MeetingQueries.MeetingId].ToString());
                     meeting.MeetingName = reader["MeetingName"].ToString();
                     meeting.Description = reader["Description"].ToString();
+
+                    TryParseEnum<MeetingType>(reader, "MeetingType", (x) => meeting.MeetingType = x);
+
                     meeting.MeetingDate = DateTime.Parse(reader["MeetingDate"].ToString());
                     meeting.NotificationDate = DateTime.Parse(reader["NotificationDate"].ToString());
                     meeting.SendNotifications = bool.Parse(reader["SendNotifications"].ToString());
+                    meeting.NotificationTime = TimeSpan.Parse(reader["NotificationTime"].ToString());
                     meeting.MeetingPlace = reader["MeetingPlace"].ToString();
                     meeting.MeetingTime = TimeSpan.Parse(reader["MeetingTime"].ToString());
                     meeting.UserId = Convert.ToInt32(reader["UserId"].ToString());

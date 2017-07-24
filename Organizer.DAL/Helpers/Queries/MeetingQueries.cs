@@ -8,8 +8,8 @@
         public static string GetFilterByMeetingDateQuery()
         {
             return "SELECT Meetings.MeetingId, MeetingName," +
-                " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
+                " Meetings.Description, MeetingType, MeetingDate," +
+                " NotificationDate, SendNotifications, NotificationTime, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable} "
                 + "WHERE UserId = @UserId AND MeetingDate = @MeetingDate";
         }
@@ -17,25 +17,25 @@
         public static string GetFilterByMeetingName()
         {
             return "SELECT Meetings.MeetingId, MeetingName," +
-                " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
+                " Meetings.Description, MeetingType, MeetingDate," +
+                " NotificationDate, SendNotifications, NotificationTime, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable} "
                 + "WHERE UserId = @UserId AND MeetingName LIKE @MeetingName";
         }
 
         public static string GetInsertQuery()
         {
-            return $"INSERT INTO {MeetingTable} (Description, MeetingName, MeetingDate, " +
-                "NotificationDate, SendNotifications, MeetingPlace, MeetingTime, UserId)" +
-                " VALUES(@Description, @MeetingName, @MeetingDate, " +
-                "@NotificationDate, @SendNotifications, @MeetingPlace, @MeetingTime, @UserId)";
+            return $"INSERT INTO {MeetingTable} (Description, MeetingType, MeetingName, MeetingDate, " +
+                "NotificationDate, SendNotifications, NotificationTime, MeetingPlace, MeetingTime, UserId)" +
+                " VALUES(@Description, @MeetingType, @MeetingName, @MeetingDate, " +
+                "@NotificationDate, @SendNotifications, @NotificationTime, @MeetingPlace, @MeetingTime, @UserId)";
         }
 
         public static string GetUpdateQuery()
         {
             return $"UPDATE {MeetingTable} SET MeetingName = @MeetingName," +
-                " Description = @Description, MeetingDate = @MeetingDate, " +
-                "NotificationDate = @NotificationDate, SendNotifications = @SendNotifications," +
+                " Description = @Description, MeetingType = @MeetingType, MeetingDate = @MeetingDate, " +
+                "NotificationDate = @NotificationDate, SendNotifications = @SendNotifications, NotificationTime = @NotificationTime," +
                 " MeetingPlace = @MeetingPlace, MeetingTime = @MeetingTime, UserId = @Userid" +
                 $" WHERE {MeetingId} = @{MeetingId}";
         }
@@ -48,8 +48,8 @@
         public static string GetGetByIdQuery()
         {
             return "SELECT TOP 1 Meetings.MeetingId, MeetingName," +
-                " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
+                " Meetings.Description, MeetingType, MeetingDate," +
+                " NotificationDate, SendNotifications, NotificationTime, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable}" +
                 $" WHERE {MeetingId} = @{MeetingId}";
         }
@@ -57,8 +57,8 @@
         public static string GetUserMeetingsQuery()
         {
             return "SELECT Meetings.MeetingId, MeetingName," +
-                " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
+                " Meetings.Description, MeetingType, MeetingDate," +
+                " NotificationDate, SendNotifications, NotificationTime, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable}" +
                 " WHERE UserId = @UserId";
         }
@@ -66,8 +66,8 @@
         public static string GetFindByMeetingNameQuery()
         {
             return "SELECT TOP 1 Meetings.MeetingId, MeetingName," +
-                " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
+                " Meetings.Description, MeetingType, MeetingDate," +
+                " NotificationDate, SendNotifications, NotificationTime, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable}" +
                 " WHERE UserId = @UserId AND MeetingName = @MeetingName";
         }
@@ -75,8 +75,8 @@
         public static string GetAllQuery()
         {
             return "SELECT Meetings.MeetingId, MeetingName," +
-                " Meetings.Description, MeetingDate," +
-                " NotificationDate, SendNotifications, MeetingPlace, MeetingTime, Meetings.UserId "
+                " Meetings.Description, MeetingType, MeetingDate," +
+                " NotificationDate, SendNotifications, NotificationTime, MeetingPlace, MeetingTime, Meetings.UserId "
                 + $"FROM {MeetingTable}";
         }
     }

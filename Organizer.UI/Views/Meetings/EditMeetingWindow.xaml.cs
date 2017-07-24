@@ -43,6 +43,8 @@ namespace Organizer.UI.Views
         private void CheckValidationMessageHandler(object sender, EventArgs e)
         {
             meetingTimeField.GetBindingExpression(ComboBox.SelectedValueProperty).UpdateSource();
+            meetingTypeField.GetBindingExpression(ComboBox.SelectedValueProperty).UpdateSource();
+            notificationTimeField.GetBindingExpression(ComboBox.SelectedValueProperty).UpdateSource();
             meetingPlaceField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             meetingNameField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             descriptionField.GetBindingExpression(TextBox.TextProperty).UpdateSource();
@@ -50,6 +52,8 @@ namespace Organizer.UI.Views
             notificationDateField.GetBindingExpression(DatePicker.SelectedDateProperty).UpdateSource();
 
             bool isMeetingNameValid = !meetingNameField.GetBindingExpression(TextBox.TextProperty).HasError;
+            bool isMeetingTypeValid = !meetingTypeField.GetBindingExpression(ComboBox.SelectedValueProperty).HasError;
+            bool isNotificationTimeValid = !notificationTimeField.GetBindingExpression(ComboBox.SelectedValueProperty).HasError;
             bool isMeetingTimeValid = !meetingTimeField.GetBindingExpression(ComboBox.SelectedValueProperty).HasError;
             bool isMeetingPlaceValid = !meetingPlaceField.GetBindingExpression(TextBox.TextProperty).HasError;
             bool isDescriptionValid = !descriptionField.GetBindingExpression(TextBox.TextProperty).HasError;
@@ -57,6 +61,7 @@ namespace Organizer.UI.Views
             bool isNotificationDateValid = !notificationDateField.GetBindingExpression(DatePicker.SelectedDateProperty).HasError;
 
             _viewModel.IsModelValid = isMeetingNameValid && isDescriptionValid
+                && isMeetingTypeValid && isNotificationTimeValid
                 && isMeetingDateValid && isNotificationDateValid && isMeetingPlaceValid && isMeetingTimeValid;
         }
 

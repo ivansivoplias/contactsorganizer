@@ -7,7 +7,7 @@
         xmlns:valid="clr-namespace:Organizer.UI.ValidationRules"
         xmlns:helper="clr-namespace:Organizer.UI.Helpers"
         mc:Ignorable="d"
-        Title="AddMeetingWindow" Height="489.964" Width="537.955"
+        Title="AddMeetingWindow" Height="578.535" Width="537.955"
         ResizeMode="NoResize" Style="{StaticResource AppWindowStyle}">
     <Grid>
         <Grid.Resources>
@@ -31,6 +31,8 @@
         <Grid Grid.Row="1" Margin="10 0">
 
             <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
@@ -106,13 +108,36 @@
                        Grid.Row="2"
                        Padding="5"
                        HorizontalAlignment="Right"
+                       Text="Тип митинга:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+            <ComboBox x:Name="meetingTypeField" Grid.Column="1"
+                       Grid.Row="2"
+                      Padding="5" Margin="0 7"
+                      ItemsSource="{Binding MeetingTypes, Mode=OneWay}">
+                <ComboBox.SelectedValue>
+                    <Binding Path="TypeOfMeeting" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:StringNotEmptyValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.SelectedValue>
+            </ComboBox>
+
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="3"
+                       Padding="5"
+                       HorizontalAlignment="Right"
                        Text="Дата митинга:"
                        TextAlignment="Justify"
                        VerticalAlignment="Center" />
 
             <DatePicker x:Name="meetingDateField"
                        Grid.Column="1"
-                       Grid.Row="2"
+                       Grid.Row="3"
                        Margin="0 7"
                        Padding="5"
                        VerticalAlignment="Center">
@@ -128,7 +153,7 @@
 
             <TextBlock
                        Grid.Column="0"
-                       Grid.Row="3"
+                       Grid.Row="4"
                        Padding="5"
                        HorizontalAlignment="Right"
                        Text="Время митинга:"
@@ -136,7 +161,7 @@
                        VerticalAlignment="Center" />
 
             <ComboBox x:Name="meetingTimeField" Grid.Column="1"
-                       Grid.Row="3"
+                       Grid.Row="4"
                       Padding="5" Margin="0 7"
                       ItemsSource="{Binding TimeIntervals, Mode=OneWay}">
                 <ComboBox.SelectedValue>
@@ -151,7 +176,7 @@
 
             <TextBlock
                        Grid.Column="0"
-                       Grid.Row="4"
+                       Grid.Row="5"
                        Padding="5"
                        HorizontalAlignment="Right"
                        Text="Место митинга:"
@@ -160,7 +185,7 @@
 
             <TextBox x:Name="meetingPlaceField"
                        Grid.Column="1"
-                       Grid.Row="4"
+                       Grid.Row="5"
                        Padding="5"
                        Margin="0 7"
                        VerticalAlignment="Center">
@@ -177,7 +202,7 @@
             <TextBlock
                        Grid.Column="0"
                        Text="Дата оповещения:"
-                       Grid.Row="5"
+                       Grid.Row="6"
                        HorizontalAlignment="Right"
                        Padding="5"
                        TextAlignment="Justify"
@@ -185,7 +210,7 @@
 
             <DatePicker x:Name="notificationDateField"
                        Grid.Column="1"
-                       Grid.Row="5"
+                       Grid.Row="6"
                        Margin="0 7"
                        Padding="5"
                        VerticalAlignment="Center">
@@ -205,7 +230,30 @@
 
             <TextBlock
                        Grid.Column="0"
-                       Grid.Row="6"
+                       Grid.Row="7"
+                       Padding="5"
+                       HorizontalAlignment="Right"
+                       Text="Время нотификации:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+            <ComboBox x:Name="notificationTimeField" Grid.Column="1"
+                       Grid.Row="7"
+                      Padding="5" Margin="0 7"
+                      ItemsSource="{Binding TimeIntervals, Mode=OneWay}">
+                <ComboBox.SelectedValue>
+                    <Binding Path="NotificationTime" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <valid:NotNullValidationRule />
+                            <valid:StringNotEmptyValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.SelectedValue>
+            </ComboBox>
+
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="8"
                        Text="Посылать нотификации?"
                        HorizontalAlignment="Right"
                        Padding="5"
@@ -215,7 +263,7 @@
             <CheckBox
                        IsThreeState="False"
                        Grid.Column="1"
-                       Grid.Row="6"
+                       Grid.Row="8"
                        Margin="0 7"
                        Padding="5"
                        IsChecked="{Binding SendNotifications}"

@@ -112,6 +112,10 @@
                                         Header="Описание"
                                         Width="*" />
 
+                    <DataGridTextColumn Binding="{Binding MeetingType}"
+                                        Header="Тип митинга"
+                                        Width="*" />
+
                     <DataGridTextColumn Binding="{Binding MeetingDate, StringFormat={}{0:dd.mm.yyyy}}"
                                         Header="Дата проведения"
                                         Width="*" />
@@ -126,6 +130,10 @@
 
                     <DataGridTextColumn Binding="{Binding NotificationDate, StringFormat={}{0:dd.mm.yyyy}}"
                                         Header="Дата оповещения"
+                                        Width="*" />
+
+                    <DataGridTextColumn Binding="{Binding NotificationTime, StringFormat=\{0:h\\:mm\}}"
+                                        Header="Время оповещения"
                                         Width="*" />
 
                     <DataGridCheckBoxColumn Binding="{Binding SendNotifications}"

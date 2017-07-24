@@ -22,6 +22,8 @@ namespace Organizer.UI.ViewModels
 
         public string Description => _meeting.Description;
 
+        public string MeetingType => _meeting.MeetingType.ToString();
+
         public DateTime MeetingDate => _meeting.MeetingDate;
 
         public DateTime NotificationDate => _meeting.NotificationDate;
@@ -31,6 +33,8 @@ namespace Organizer.UI.ViewModels
         public string MeetingPlace => _meeting.MeetingPlace;
 
         public string MeetingTime => _meeting.MeetingTime.ToString(@"hh\:mm");
+
+        public string NotificationTime => _meeting.NotificationTime.ToString(@"hh\:mm");
 
         public MeetingDetailsViewModel(Meeting meeting)
         {

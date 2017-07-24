@@ -9,7 +9,6 @@ namespace Organizer.Common.Entities
 
         public string Description { get; set; }
 
-        // TODO: Add NA VIEW
         public MeetingType MeetingType { get; set; }
 
         public DateTime MeetingDate { get; set; }
@@ -18,7 +17,6 @@ namespace Organizer.Common.Entities
 
         public string MeetingPlace { get; set; }
 
-        // TODO: Add NA VIEW
         public TimeSpan NotificationTime { get; set; }
 
         public TimeSpan MeetingTime { get; set; }

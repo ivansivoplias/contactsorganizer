@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Organizer.Common.DTO;
 using Organizer.Common.Entities;
+using Organizer.Common.Enums;
 using Organizer.Common.Exceptions;
 using Organizer.Infrastructure.Services;
 using Organizer.UI.Commands;
@@ -22,6 +23,7 @@ namespace Organizer.UI.ViewModels
         private Command _cancelCommand;
         private Meeting _meeting;
         private ObservableCollection<string> _timeIntervals;
+        private ObservableCollection<string> _meetingTypes;
         private IMeetingService _meetingService;
 
         public event EventHandler SaveMessage = delegate { };
@@ -49,6 +51,8 @@ namespace Organizer.UI.ViewModels
         }
 
         public ICollection<string> TimeIntervals => _timeIntervals;
+
+        public ICollection<string> MeetingTypes => _meetingTypes;
 
         public string Description
         {
@@ -100,6 +104,26 @@ namespace Organizer.UI.ViewModels
             }
         }
 
+        public string NotificationTime
+        {
+            get { return _meeting.NotificationTime.ToString(@"hh\:mm"); }
+            set
+            {
+                _meeting.NotificationTime = TimeSpan.ParseExact(value, @"hh\:mm", null);
+                OnPropertyChanged(nameof(NotificationTime));
+            }
+        }
+
+        public string TypeOfMeeting
+        {
+            get { return _meeting.MeetingType.ToString(); }
+            set
+            {
+                _meeting.MeetingType = (MeetingType)Enum.Parse(typeof(MeetingType), value);
+                OnPropertyChanged(nameof(TypeOfMeeting));
+            }
+        }
+
         public bool SendNotifications
         {
             get { return _meeting.SendNotifications; }
@@ -120,6 +144,12 @@ namespace Organizer.UI.ViewModels
             };
 
             var timeIntervals = TimeIntervalHelper.GetTimeIntervals().Select(x => x.ToString(@"hh\:mm")).ToList();
+
+            var meetingTypes = (Enum.GetValues(typeof(MeetingType)) as MeetingType[])
+                .Where(x => x != default(MeetingType))
+                .Select(x => x.ToString()).ToList();
+
+            _meetingTypes = new ObservableCollection<string>(meetingTypes);
 
             _timeIntervals = new ObservableCollection<string>(timeIntervals);
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organizer.UI.Views"
         mc:Ignorable="d"
-        Title="ViewMeetingWindow" Height="412.863" Width="553.955"
+        Title="ViewMeetingWindow" Height="502.131" Width="553.955"
         ResizeMode="NoResize"
         Style="{StaticResource AppWindowStyle}">
     <Grid>
@@ -27,6 +27,9 @@
         <Grid Grid.Row="1">
 
             <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
@@ -61,6 +64,23 @@
             <TextBlock
                        Grid.Column="0"
                        Grid.Row="1"
+                       HorizontalAlignment="Right"
+                       Text="Тип митинга:"
+                       Padding="10"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Top" />
+
+            <TextBlock
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Padding="10"
+                       TextWrapping="Wrap"
+                       Text="{Binding MeetingType, Mode=OneWay}"
+                       VerticalAlignment="Center" />
+
+            <TextBlock
+                       Grid.Column="0"
+                       Grid.Row="2"
                        Padding="10"
                        HorizontalAlignment="Right"
                        Text="Дата митинга:"
@@ -69,7 +89,7 @@
 
             <TextBlock
                        Grid.Column="1"
-                       Grid.Row="1"
+                       Grid.Row="2"
                        Padding="10"
                        TextWrapping="Wrap"
                        Text="{Binding MeetingDate, Mode=OneWay}"
@@ -77,7 +97,7 @@
 
             <TextBlock
                        Grid.Column="0"
-                       Grid.Row="2"
+                       Grid.Row="3"
                        Padding="10"
                        HorizontalAlignment="Right"
                        Text="Время митинга:"
@@ -86,7 +106,7 @@
 
             <TextBlock
                        Grid.Column="1"
-                       Grid.Row="2"
+                       Grid.Row="3"
                        Padding="10"
                        TextWrapping="Wrap"
                        Text="{Binding MeetingTime, Mode=OneWay}"
@@ -94,7 +114,7 @@
 
             <TextBlock
                        Grid.Column="0"
-                       Grid.Row="3"
+                       Grid.Row="4"
                        Padding="10"
                        HorizontalAlignment="Right"
                        Text="Место митинга:"
@@ -103,7 +123,7 @@
 
             <TextBlock
                        Grid.Column="1"
-                       Grid.Row="3"
+                       Grid.Row="4"
                        Padding="10"
                        TextWrapping="Wrap"
                        Text="{Binding MeetingPlace, Mode=OneWay}"
@@ -111,7 +131,7 @@
 
             <TextBlock
                        Grid.Column="0"
-                       Grid.Row="4"
+                       Grid.Row="5"
                        HorizontalAlignment="Right"
                        Text="Дата оповещения:"
                        Padding="10"
@@ -120,14 +140,31 @@
 
             <TextBlock
                        Grid.Column="1"
-                       Grid.Row="4"
+                       Grid.Row="5"
                        Padding="10"
                        TextWrapping="Wrap"
                        Text="{Binding NotificationDate, Mode=OneWay}"
                        VerticalAlignment="Center" />
 
             <TextBlock
-                       Grid.Row="5"
+                       Grid.Column="0"
+                       Grid.Row="6"
+                       Padding="10"
+                       HorizontalAlignment="Right"
+                       Text="Время оповещения:"
+                       TextAlignment="Justify"
+                       VerticalAlignment="Center" />
+
+            <TextBlock
+                       Grid.Column="1"
+                       Grid.Row="6"
+                       Padding="10"
+                       TextWrapping="Wrap"
+                       Text="{Binding NotificationTime, Mode=OneWay}"
+                       VerticalAlignment="Center" />
+
+            <TextBlock
+                       Grid.Row="7"
                        Grid.Column="0"
                        HorizontalAlignment="Right"
                        Text="Посылать нотификации?"
@@ -139,7 +176,7 @@
                        IsThreeState="False"
                        IsEnabled="False"
                        IsChecked="{Binding SendNotifications, Mode=OneWay, FallbackValue=True}"
-                       Grid.Row="5"
+                       Grid.Row="7"
                        Grid.Column="1"
                        Padding="10"
                        VerticalAlignment="Center" />
