@@ -90,7 +90,7 @@ namespace Organizer.UI.ViewModels
         public ICommand FirstPageCommand => _firstPageCommand;
         public ICommand LastPageCommand => _lastPageCommand;
 
-        public int PagesCount => PaginationHelper.GetPagesCount(_totalCount, _numberOnPage);
+        public int PagesCount => (_totalCount + _numberOnPage - 1) / _numberOnPage;
 
         public int CurrentPage => _pageNumber;
 

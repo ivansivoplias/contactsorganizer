@@ -15,17 +15,5 @@ namespace Organizer.Common.Helpers
 
             return new Page(page.TotalCount, page.PageNumber, pageSize);
         }
-
-        public static int GetPagesCount(int totalCount, int numberOnPage)
-        {
-            var pages = totalCount / numberOnPage;
-            var rest = totalCount % numberOnPage;
-            if (rest != 0)
-            {
-                pages++;
-            }
-
-            return pages;
-        }
     }
 }

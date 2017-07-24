@@ -92,7 +92,7 @@ namespace Organizer.UI.ViewModels
 
         public ICollection<Meeting> Meetings => _meetings;
 
-        public int PagesCount => PaginationHelper.GetPagesCount(_totalCount, _numberOnPage);
+        public int PagesCount => (_totalCount + _numberOnPage - 1) / _numberOnPage;
 
         public int CurrentPage => _pageNumber;
 
