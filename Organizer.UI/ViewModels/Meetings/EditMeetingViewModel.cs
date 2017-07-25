@@ -35,6 +35,8 @@ namespace Organizer.UI.ViewModels
 
         public bool IsModelValid { get; set; }
 
+        public bool IsOneTimeMeeting => _meeting.MeetingType == MeetingType.OneTime;
+
         public string HeaderText => "Edit meeting";
 
         public string MeetingName
@@ -118,6 +120,7 @@ namespace Organizer.UI.ViewModels
             {
                 _meeting.MeetingType = (MeetingType)Enum.Parse(typeof(MeetingType), value);
                 OnPropertyChanged(nameof(TypeOfMeeting));
+                OnPropertyChanged(nameof(IsOneTimeMeeting));
             }
         }
 

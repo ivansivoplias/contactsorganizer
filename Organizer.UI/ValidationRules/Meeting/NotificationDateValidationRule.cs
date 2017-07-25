@@ -12,29 +12,36 @@ namespace Organizer.UI.ValidationRules
             var dateString = value?.ToString();
 
             var wrappedString = Wrapper.WrappedData?.ToString();
+            bool isActive = false;
 
-            if (string.IsNullOrEmpty(dateString))
+            bool.TryParse(IsActiveRule.WrappedData?.ToString(), out isActive);
+            if (isActive)
             {
-                if (!string.IsNullOrEmpty(wrappedString))
+                if (string.IsNullOrEmpty(dateString))
                 {
-                    return new ValidationResult(false, "Notification date is not selected.");
+                    if (!string.IsNullOrEmpty(wrappedString))
+                    {
+                        return new ValidationResult(false, "Notification date is not selected.");
+                    }
+                    else
+                    {
+                        return ValidationResult.ValidResult;
+                    }
                 }
-                else
+
+                DateTime date, wrappedDate;
+
+                if (DateTime.TryParse(dateString, out date)
+                    && DateTime.TryParse(wrappedString, out wrappedDate) && (date.Date > wrappedDate.Date))
                 {
-                    return ValidationResult.ValidResult;
+                    return new ValidationResult(false, "Notification date cannot be greater than meeting date.");
                 }
-            }
-
-            DateTime date, wrappedDate;
-
-            if (DateTime.TryParse(dateString, out date)
-                && DateTime.TryParse(wrappedString, out wrappedDate) && (date.Date > wrappedDate.Date))
-            {
-                return new ValidationResult(false, "Notification date cannot be greater than meeting date.");
             }
 
             return ValidationResult.ValidResult;
         }
+
+        public Wrapper IsActiveRule { get; set; }
 
         public Wrapper Wrapper { get; set; }
     }

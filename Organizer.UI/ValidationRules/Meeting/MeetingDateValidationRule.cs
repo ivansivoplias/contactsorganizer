@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace Organizer.UI.ValidationRules
@@ -26,7 +22,7 @@ namespace Organizer.UI.ValidationRules
                 return new ValidationResult(false, "Value is not date. Pick a right date and try again.");
             }
 
-            return new ValidationResult(true, null);
+            return ValidationResult.ValidResult;
         }
     }
 }

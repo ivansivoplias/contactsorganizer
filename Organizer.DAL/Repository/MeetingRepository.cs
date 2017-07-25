@@ -22,7 +22,7 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
             cmd.Parameters.AddWithValue("@NotificationDate", entity.NotificationDate);
             cmd.Parameters.AddWithValue("@SendNotifications", entity.SendNotifications);
-            cmd.Parameters.AddWithValue("@NotificationTime", entity.MeetingTime);
+            cmd.Parameters.AddWithValue("@NotificationTime", entity.NotificationTime);
             cmd.Parameters.AddWithValue("@MeetingPlace", entity.MeetingPlace);
             cmd.Parameters.AddWithValue("@MeetingTime", entity.MeetingTime);
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);
@@ -37,7 +37,7 @@ namespace Organizer.DAL.Repository
             cmd.Parameters.AddWithValue("@MeetingDate", entity.MeetingDate);
             cmd.Parameters.AddWithValue("@NotificationDate", entity.NotificationDate);
             cmd.Parameters.AddWithValue("@SendNotifications", entity.SendNotifications);
-            cmd.Parameters.AddWithValue("@NotificationTime", entity.MeetingTime);
+            cmd.Parameters.AddWithValue("@NotificationTime", entity.NotificationTime);
             cmd.Parameters.AddWithValue("@MeetingPlace", entity.MeetingPlace);
             cmd.Parameters.AddWithValue("@MeetingTime", entity.MeetingTime);
             cmd.Parameters.AddWithValue("@UserId", entity.UserId);

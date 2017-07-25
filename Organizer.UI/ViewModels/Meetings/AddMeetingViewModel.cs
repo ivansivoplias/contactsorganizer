@@ -38,6 +38,8 @@ namespace Organizer.UI.ViewModels
 
         public bool IsModelValid { get; set; }
 
+        public bool IsOneTimeMeeting => _meeting.MeetingType == MeetingType.OneTime;
+
         public string HeaderText => "Add meeting";
 
         public string MeetingName
@@ -121,6 +123,7 @@ namespace Organizer.UI.ViewModels
             {
                 _meeting.MeetingType = (MeetingType)Enum.Parse(typeof(MeetingType), value);
                 OnPropertyChanged(nameof(TypeOfMeeting));
+                OnPropertyChanged(nameof(IsOneTimeMeeting));
             }
         }
 
@@ -139,8 +142,9 @@ namespace Organizer.UI.ViewModels
             _meeting = new Meeting()
             {
                 UserId = App.CurrentUser.Id,
+                MeetingType = MeetingType.OneTime,
                 MeetingDate = DateTime.Now,
-                NotificationDate = DateTime.Today.AddDays(1)
+                NotificationDate = DateTime.Now
             };
 
             var timeIntervals = TimeIntervalHelper.GetTimeIntervals().Select(x => x.ToString(@"hh\:mm")).ToList();

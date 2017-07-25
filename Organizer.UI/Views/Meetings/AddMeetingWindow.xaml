@@ -145,7 +145,7 @@
                     <Binding Path="MeetingDate" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:NotNullValidationRule />
-                            <valid:DateGreaterThanTodayValidationRule />
+                            <valid:MeetingDateValidationRule />
                         </Binding.ValidationRules>
                     </Binding>
                 </DatePicker.SelectedDate>
@@ -213,12 +213,16 @@
                        Grid.Row="6"
                        Margin="0 7"
                        Padding="5"
+                       IsEnabled="{Binding IsOneTimeMeeting}"
                        VerticalAlignment="Center">
                 <DatePicker.SelectedDate>
                     <Binding Path="NotificationDate" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <valid:NotNullValidationRule />
                             <valid:NotificationDateValidationRule>
+                                <valid:NotificationDateValidationRule.IsActiveRule>
+                                    <helper:Wrapper WrappedData="{Binding Data.IsOneTimeMeeting, Source={StaticResource proxy}}" />
+                                </valid:NotificationDateValidationRule.IsActiveRule>
                                 <valid:NotificationDateValidationRule.Wrapper>
                                     <helper:Wrapper WrappedData="{Binding Data.MeetingDate, Source={StaticResource proxy}}" />
                                 </valid:NotificationDateValidationRule.Wrapper>
@@ -256,6 +260,9 @@
                                 <valid:NotificationTimeValidationRule.MeetingTimeWrapper>
                                     <helper:Wrapper WrappedData="{Binding Data.MeetingTime, Source={StaticResource proxy}}" />
                                 </valid:NotificationTimeValidationRule.MeetingTimeWrapper>
+                                <valid:NotificationTimeValidationRule.MeetingTypeWrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.TypeOfMeeting, Source={StaticResource proxy}}" />
+                                </valid:NotificationTimeValidationRule.MeetingTypeWrapper>
                             </valid:NotificationTimeValidationRule>
                         </Binding.ValidationRules>
                     </Binding>
