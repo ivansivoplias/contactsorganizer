@@ -52,6 +52,48 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <Border BorderBrush="Green" BorderThickness="1">
+                                <AdornedElementPlaceholder Name="adornerPlaceholder" />
+                            </Border>
+                            <TextBlock Padding="5 0 0 0"
+                                       FontFamily="{StaticResource RalewayLight}"
+                                       FontSize="{StaticResource FontSizeSmall}"
+                                       Width="{Binding ElementName=adornerPlaceholder, Path=ActualWidth}"
+                                       TextWrapping="Wrap"
+                                       Text="{Binding [0].ErrorContent}" Foreground="Red" />
+                        </StackPanel>
+
+                        <TextBlock Grid.Column="1"
+                                   Foreground="Red"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Padding="4"
+                                   Margin="0 5 0 0"
+                                   Text="*" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="Foreground" Value="Red" />
+                <Setter Property="ToolTip"
+                         Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style TargetType="{x:Type DatePicker}">
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>

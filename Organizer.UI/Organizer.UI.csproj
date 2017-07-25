@@ -102,6 +102,7 @@
     <Compile Include="ValidationRules\General\SecureStringNotEmptyValidationRule.cs" />
     <Compile Include="ValidationRules\General\StringLengthLessThanValidationRule.cs" />
     <Compile Include="ValidationRules\General\StringNotEmptyValidationRule.cs" />
+    <Compile Include="ValidationRules\Meeting\NotificationTimeValidationRule.cs" />
     <Compile Include="ValidationRules\Search\MeetingSearchValidationRule.cs" />
     <Compile Include="ValidationRules\Search\ContactSearchValidationRule.cs" />
     <Compile Include="ValidationRules\General\DateGreaterOrEqualTodayValidationRule.cs" />

@@ -246,6 +246,17 @@
                         <Binding.ValidationRules>
                             <valid:NotNullValidationRule />
                             <valid:StringNotEmptyValidationRule />
+                            <valid:NotificationTimeValidationRule>
+                                <valid:NotificationTimeValidationRule.MeetingDateWrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.MeetingDate, Source={StaticResource proxy}}" />
+                                </valid:NotificationTimeValidationRule.MeetingDateWrapper>
+                                <valid:NotificationTimeValidationRule.NotificationDateWrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.NotificationDate, Source={StaticResource proxy}}" />
+                                </valid:NotificationTimeValidationRule.NotificationDateWrapper>
+                                <valid:NotificationTimeValidationRule.MeetingTimeWrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.MeetingTime, Source={StaticResource proxy}}" />
+                                </valid:NotificationTimeValidationRule.MeetingTimeWrapper>
+                            </valid:NotificationTimeValidationRule>
                         </Binding.ValidationRules>
                     </Binding>
                 </ComboBox.SelectedValue>
