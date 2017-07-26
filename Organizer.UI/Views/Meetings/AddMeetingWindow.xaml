@@ -169,6 +169,11 @@
                         <Binding.ValidationRules>
                             <valid:NotNullValidationRule />
                             <valid:StringNotEmptyValidationRule />
+                            <valid:MeetingTimeValidationRule>
+                                <valid:MeetingTimeValidationRule.MeetingDateWrapper>
+                                    <helper:Wrapper WrappedData="{Binding Data.MeetingDate, Source={StaticResource proxy}}" />
+                                </valid:MeetingTimeValidationRule.MeetingDateWrapper>
+                            </valid:MeetingTimeValidationRule>
                         </Binding.ValidationRules>
                     </Binding>
                 </ComboBox.SelectedValue>
