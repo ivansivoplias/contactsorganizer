@@ -36,16 +36,15 @@ namespace Organizer.BL.Services
 
                 if (dbContact == null)
                 {
-                    using (var transaction = unitOfWork.BeginTransaction())
-                    {
-                        contactsRepo.Insert(mappedContact, transaction);
+                    unitOfWork.BeginTransaction();
 
-                        var added = contactsRepo.FindByPrimaryPhone(contact.UserId, contact.PrimaryPhone);
+                    contactsRepo.Insert(mappedContact);
 
-                        AddPersonalInfo(added.Id, contact.PersonalInfo, unitOfWork);
-                        AddSocials(added.Id, contact.Socials, unitOfWork);
-                        unitOfWork.Commit();
-                    }
+                    var added = contactsRepo.FindByPrimaryPhone(contact.UserId, contact.PrimaryPhone);
+
+                    AddPersonalInfo(added.Id, contact.PersonalInfo, unitOfWork);
+                    AddSocials(added.Id, contact.Socials, unitOfWork);
+                    unitOfWork.Commit();
                 }
                 else
                 {
@@ -66,13 +65,12 @@ namespace Organizer.BL.Services
 
                 if (dbContacts.Count == 0 || (dbContacts.Count == 1 && dbContacts[0].Id == contact.Id))
                 {
-                    using (var transaction = unitOfWork.BeginTransaction())
-                    {
-                        contactsRepo.Update(mappedContact, transaction);
-                        EditPersonalInfo(contact.PersonalInfo, unitOfWork);
-                        EditSocials(contact.Id, contact.Socials, unitOfWork);
-                        unitOfWork.Commit();
-                    }
+                    unitOfWork.BeginTransaction();
+
+                    contactsRepo.Update(mappedContact);
+                    EditPersonalInfo(contact.PersonalInfo, unitOfWork);
+                    EditSocials(contact.Id, contact.Socials, unitOfWork);
+                    unitOfWork.Commit();
                 }
                 else
                 {
@@ -85,7 +83,7 @@ namespace Organizer.BL.Services
         {
             var personalRepo = new PersonalInfoRepository(unitOfWork);
             personalInfo.Id = contactId;
-            personalRepo.Insert(personalInfo, unitOfWork.Transaction);
+            personalRepo.Insert(personalInfo);
         }
 
         private void AddSocials(int contactId, IEnumerable<SocialInfo> socials, IUnitOfWork unitOfWork)
@@ -94,14 +92,14 @@ namespace Organizer.BL.Services
             foreach (var social in socials)
             {
                 social.ContactId = contactId;
-                socialRepo.Insert(social, unitOfWork.Transaction);
+                socialRepo.Insert(social);
             }
         }
 
         private void EditPersonalInfo(PersonalInfo personalInfo, IUnitOfWork unitOfWork)
         {
             var personalRepo = new PersonalInfoRepository(unitOfWork);
-            personalRepo.Update(personalInfo, unitOfWork.Transaction);
+            personalRepo.Update(personalInfo);
         }
 
         private void EditSocials(int contactId, IEnumerable<SocialInfo> socials, IUnitOfWork unitOfWork)
@@ -115,19 +113,19 @@ namespace Organizer.BL.Services
                 var dbSocial = dbSocials.FirstOrDefault(x => x.Id == (socialInfo.Id));
                 if (dbSocial != null)
                 {
-                    socialRepo.Update(socialInfo, unitOfWork.Transaction);
+                    socialRepo.Update(socialInfo);
                 }
                 else
                 {
                     socialInfo.ContactId = contactId;
-                    socialRepo.Insert(socialInfo, unitOfWork.Transaction);
+                    socialRepo.Insert(socialInfo);
                 }
             }
 
             var deleted = dbSocials.Where(x => socials.FirstOrDefault(y => y.Id == x.Id) == null);
             foreach (var del in deleted)
             {
-                socialRepo.Delete(del.Id, unitOfWork.Transaction);
+                socialRepo.Delete(del.Id);
             }
         }
 
@@ -490,20 +488,18 @@ namespace Organizer.BL.Services
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
-                using (var transaction = unitOfWork.BeginTransaction())
+                unitOfWork.BeginTransaction();
+                var contactRepository = new ContactRepository(unitOfWork);
+                var dbContact = contactRepository.GetById(contact.Id);
+                if (dbContact != null && dbContact.PrimaryPhone == contact.PrimaryPhone
+                    && dbContact.UserId == contact.UserId)
                 {
-                    var contactRepository = new ContactRepository(unitOfWork);
-                    var dbContact = contactRepository.GetById(contact.Id);
-                    if (dbContact != null && dbContact.PrimaryPhone == contact.PrimaryPhone
-                        && dbContact.UserId == contact.UserId)
-                    {
-                        contactRepository.Delete(contact.Id, transaction);
-                        unitOfWork.Commit();
-                    }
-                    else
-                    {
-                        throw new Exception("Contact to remove do not exists or not equal to same contact in db.");
-                    }
+                    contactRepository.Delete(contact.Id);
+                    unitOfWork.Commit();
+                }
+                else
+                {
+                    throw new Exception("Contact to remove do not exists or not equal to same contact in db.");
                 }
             }
         }

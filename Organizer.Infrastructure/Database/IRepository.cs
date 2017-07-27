@@ -6,11 +6,11 @@ namespace Organizer.Infrastructure.Database
 {
     public interface IRepository<T> where T : IEntity
     {
-        int Insert(T entity, SqlTransaction sqlTransaction);
+        int Insert(T entity);
 
-        int Update(T entity, SqlTransaction sqlTransaction);
+        int Update(T entity);
 
-        int Delete(int id, SqlTransaction sqlTransaction);
+        int Delete(int id);
 
         T GetById(int id);
 

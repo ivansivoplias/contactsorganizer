@@ -7,9 +7,9 @@ namespace Organizer.Infrastructure.Database
     {
         IDbContext DataContext { get; }
 
-        SqlTransaction Transaction { get; }
+        void BeginTransaction();
 
-        SqlTransaction BeginTransaction();
+        SqlCommand CreateCommand();
 
         void Commit();
     }

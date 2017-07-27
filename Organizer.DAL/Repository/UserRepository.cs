@@ -69,22 +69,22 @@ namespace Organizer.DAL.Repository
             return users;
         }
 
-        public override int Insert(User entity, SqlTransaction sqlTransaction)
+        public override int Insert(User entity)
         {
             var query = UserQueries.GetInsertQuery();
-            return Insert(entity, query, sqlTransaction);
+            return Insert(entity, query);
         }
 
-        public override int Update(User entity, SqlTransaction sqlTransaction)
+        public override int Update(User entity)
         {
             var query = UserQueries.GetUpdateQuery();
-            return Update(entity, query, sqlTransaction);
+            return Update(entity, query);
         }
 
-        public override int Delete(int id, SqlTransaction sqlTransaction)
+        public override int Delete(int id)
         {
             var query = UserQueries.GetDeleteQuery();
-            return Delete(id, query, sqlTransaction);
+            return Delete(id, query);
         }
 
         public override User GetById(int id)
@@ -104,14 +104,9 @@ namespace Organizer.DAL.Repository
             User result = null;
             var query = UserQueries.FindByLoginQuery();
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@Login", login));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {

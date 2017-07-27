@@ -10,8 +10,7 @@ namespace Organizer.DAL.UoW
     {
         private IDatabaseContextFactory _factory;
         private IDbContext _context;
-
-        public SqlTransaction Transaction { get; private set; }
+        private SqlTransaction _transaction;
 
         public UnitOfWork(IDatabaseContextFactory factory)
         {
@@ -20,19 +19,19 @@ namespace Organizer.DAL.UoW
 
         public void Commit()
         {
-            if (Transaction != null)
+            if (_transaction != null)
             {
                 try
                 {
-                    Transaction.Commit();
+                    _transaction.Commit();
                 }
                 catch (Exception e)
                 {
-                    Transaction.Rollback();
+                    _transaction.Rollback();
                     throw new TransactionCommitFailedException(e);
                 }
-                Transaction.Dispose();
-                Transaction = null;
+                _transaction.Dispose();
+                _transaction = null;
             }
             else
             {
@@ -45,34 +44,43 @@ namespace Organizer.DAL.UoW
             get { return _context ?? (_context = _factory.MakeContext()); }
         }
 
-        public SqlTransaction BeginTransaction()
+        public void BeginTransaction()
         {
-            if (Transaction != null)
+            if (_transaction != null)
             {
                 throw new TransactionAlreadyExistsException();
             }
 
             if (DataContext.Connection != null && DataContext.Connection.State == ConnectionState.Open)
             {
-                Transaction = DataContext.Connection.BeginTransaction();
+                _transaction = DataContext.Connection.BeginTransaction();
             }
             else
             {
                 throw new ConnnectionIsNullOrClosedException();
             }
-            return Transaction;
         }
 
         public void Dispose()
         {
-            if (Transaction != null)
+            if (_transaction != null)
             {
-                Transaction.Dispose();
+                _transaction.Dispose();
             }
             if (_context != null)
             {
                 _context.Dispose();
             }
+        }
+
+        public SqlCommand CreateCommand()
+        {
+            SqlCommand result = DataContext.Connection.CreateCommand();
+
+            if (_transaction != null)
+                result.Transaction = _transaction;
+
+            return result;
         }
     }
 }

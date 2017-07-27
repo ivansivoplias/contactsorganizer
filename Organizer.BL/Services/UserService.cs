@@ -61,11 +61,9 @@ namespace Organizer.BL.Services
 
                 if (dbUser == null)
                 {
-                    using (var transaction = unitOfWork.BeginTransaction())
-                    {
-                        userRepository.Insert(newUser, transaction);
-                        unitOfWork.Commit();
-                    }
+                    unitOfWork.BeginTransaction();
+                    userRepository.Insert(newUser);
+                    unitOfWork.Commit();
 
                     result = userRepository.FindByLogin(newUser.Login);
                 }

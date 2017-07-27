@@ -84,22 +84,22 @@ namespace Organizer.DAL.Repository
             return personalInfoList;
         }
 
-        public override int Insert(PersonalInfo entity, SqlTransaction sqlTransaction)
+        public override int Insert(PersonalInfo entity)
         {
             var query = PersonalInfoQueries.GetInsertQuery();
-            return Insert(entity, query, sqlTransaction);
+            return Insert(entity, query);
         }
 
-        public override int Update(PersonalInfo entity, SqlTransaction sqlTransaction)
+        public override int Update(PersonalInfo entity)
         {
             var query = PersonalInfoQueries.GetUpdateQuery();
-            return Update(entity, query, sqlTransaction);
+            return Update(entity, query);
         }
 
-        public override int Delete(int id, SqlTransaction sqlTransaction)
+        public override int Delete(int id)
         {
             var query = PersonalInfoQueries.GetDeleteQuery();
-            return Delete(id, query, sqlTransaction);
+            return Delete(id, query);
         }
 
         public override PersonalInfo GetById(int id)

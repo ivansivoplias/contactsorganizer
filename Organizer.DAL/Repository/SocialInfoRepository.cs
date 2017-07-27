@@ -74,22 +74,22 @@ namespace Organizer.DAL.Repository
             return socials;
         }
 
-        public override int Insert(SocialInfo entity, SqlTransaction sqlTransaction)
+        public override int Insert(SocialInfo entity)
         {
             var query = SocialInfoQueries.GetInsertQuery();
-            return Insert(entity, query, sqlTransaction);
+            return Insert(entity, query);
         }
 
-        public override int Update(SocialInfo entity, SqlTransaction sqlTransaction)
+        public override int Update(SocialInfo entity)
         {
             var query = SocialInfoQueries.GetUpdateQuery();
-            return Update(entity, query, sqlTransaction);
+            return Update(entity, query);
         }
 
-        public override int Delete(int id, SqlTransaction sqlTransaction)
+        public override int Delete(int id)
         {
             var query = SocialInfoQueries.GetDeleteQuery();
-            return Delete(id, query, sqlTransaction);
+            return Delete(id, query);
         }
 
         public override SocialInfo GetById(int id)
@@ -114,14 +114,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging(SocialInfoQueries.SocialInfoId, pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, SocialInfoParams.GetGetContactSocialsParams(contactId));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -147,14 +142,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging(SocialInfoQueries.SocialInfoId, pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, SocialInfoParams.GetSocialsByAppNameParams(contactId, appName));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -170,14 +160,9 @@ namespace Organizer.DAL.Repository
             SocialInfo social = null;
             var query = SocialInfoQueries.GetFindSocialQuery();
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, SocialInfoParams.GetFindSocialParams(contactId, appName, appId));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {

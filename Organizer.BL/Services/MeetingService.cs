@@ -33,11 +33,11 @@ namespace Organizer.BL.Services
 
                 if (dbMeeting == null)
                 {
-                    using (var transaction = unitOfWork.BeginTransaction())
-                    {
-                        meetingRepo.Insert(meeting, transaction);
-                        unitOfWork.Commit();
-                    }
+                    unitOfWork.BeginTransaction();
+
+                    meetingRepo.Insert(meeting);
+
+                    unitOfWork.Commit();
                 }
                 else
                 {
@@ -57,11 +57,9 @@ namespace Organizer.BL.Services
 
                 if (dbMeeting == null || dbMeeting.Id == meeting.Id)
                 {
-                    using (var transaction = unitOfWork.BeginTransaction())
-                    {
-                        meetingRepo.Update(meeting, transaction);
-                        unitOfWork.Commit();
-                    }
+                    unitOfWork.BeginTransaction();
+                    meetingRepo.Update(meeting);
+                    unitOfWork.Commit();
                 }
                 else
                 {
@@ -237,20 +235,18 @@ namespace Organizer.BL.Services
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
-                using (var transaction = unitOfWork.BeginTransaction())
+                unitOfWork.BeginTransaction();
+                var contactRepository = new MeetingRepository(unitOfWork);
+                var dbMeeting = contactRepository.GetById(meeting.Id);
+                if (dbMeeting != null && dbMeeting.MeetingName == meeting.MeetingName
+                    && dbMeeting.UserId == meeting.UserId)
                 {
-                    var contactRepository = new MeetingRepository(unitOfWork);
-                    var dbMeeting = contactRepository.GetById(meeting.Id);
-                    if (dbMeeting != null && dbMeeting.MeetingName == meeting.MeetingName
-                        && dbMeeting.UserId == meeting.UserId)
-                    {
-                        contactRepository.Delete(meeting.Id, transaction);
-                        unitOfWork.Commit();
-                    }
-                    else
-                    {
-                        throw new Exception("Contact to remove do not exists or not equal to same contact in db.");
-                    }
+                    contactRepository.Delete(meeting.Id);
+                    unitOfWork.Commit();
+                }
+                else
+                {
+                    throw new Exception("Contact to remove do not exists or not equal to same contact in db.");
                 }
             }
         }

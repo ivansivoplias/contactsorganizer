@@ -117,14 +117,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("MeetingDate", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFilterByMeetingDateParams(userId, meetingDate));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -145,14 +140,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("MeetingName", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFilterByMeetingNameParams(userId, meetingName));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -163,22 +153,22 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public override int Insert(Meeting entity, SqlTransaction sqlTransaction)
+        public override int Insert(Meeting entity)
         {
             var query = MeetingQueries.GetInsertQuery();
-            return Insert(entity, query, sqlTransaction);
+            return Insert(entity, query);
         }
 
-        public override int Update(Meeting entity, SqlTransaction sqlTransaction)
+        public override int Update(Meeting entity)
         {
             var query = MeetingQueries.GetUpdateQuery();
-            return Update(entity, query, sqlTransaction);
+            return Update(entity, query);
         }
 
-        public override int Delete(int id, SqlTransaction sqlTransaction)
+        public override int Delete(int id)
         {
             var query = MeetingQueries.GetDeleteQuery();
-            return Delete(id, query, sqlTransaction);
+            return Delete(id, query);
         }
 
         public override Meeting GetById(int id)
@@ -203,14 +193,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging(MeetingQueries.MeetingId, pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, MeetingParams.GetGetUserMeetingsParams(userId));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -226,14 +211,9 @@ namespace Organizer.DAL.Repository
             Meeting result = null;
             var query = MeetingQueries.GetFindByMeetingNameQuery();
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, MeetingParams.GetFindByMeetingNameParams(userId, meetingName));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {

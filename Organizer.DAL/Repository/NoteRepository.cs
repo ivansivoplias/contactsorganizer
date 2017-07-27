@@ -145,14 +145,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("CreationDate", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByCreationDateParams(userId, date, noteType));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -174,15 +169,10 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("LastChangeDate", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query,
                     NoteParams.GetFilterByLastChangeDateParams(userId, lastChangeDate, noteType));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -204,14 +194,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("NoteType", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByNoteTypeParams(userId, noteType));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -233,14 +218,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("State", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByStateParams(userId, state, noteType));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -262,14 +242,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("Priority", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFilterByPriorityParams(userId, priority, noteType));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -291,15 +266,10 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("CreationDate", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query,
                     NoteParams.GetFilterByCreationBetweenParams(userId, startLimit, endLimit, noteType));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -321,15 +291,10 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("StartDate", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query,
                     NoteParams.GetFilterByStartDateParams(userId, startDate, noteType));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -351,15 +316,10 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("EndDate", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query,
                     NoteParams.GetFilterByEndDateParams(userId, endDate, noteType));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -370,22 +330,22 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public override int Insert(Note entity, SqlTransaction sqlTransaction)
+        public override int Insert(Note entity)
         {
             var query = NoteQueries.GetInsertQuery();
-            return Insert(entity, query, sqlTransaction);
+            return Insert(entity, query);
         }
 
-        public override int Update(Note entity, SqlTransaction sqlTransaction)
+        public override int Update(Note entity)
         {
             var query = NoteQueries.GetUpdateQuery();
-            return Update(entity, query, sqlTransaction);
+            return Update(entity, query);
         }
 
-        public override int Delete(int id, SqlTransaction sqlTransaction)
+        public override int Delete(int id)
         {
             var query = NoteQueries.GetDeleteQuery();
-            return Delete(id, query, sqlTransaction);
+            return Delete(id, query);
         }
 
         public override Note GetById(int id)
@@ -411,15 +371,10 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("Caption", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query,
                     NoteParams.GetFilterByCaptionParams(userId, caption, noteType));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -441,15 +396,10 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("Caption", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query,
                     NoteParams.GetFindNotesByCaptionParams(userId, caption, noteType));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -466,14 +416,9 @@ namespace Organizer.DAL.Repository
 
             var query = NoteQueries.GetNoteByCaptionQuery();
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetFindNoteByCaptionParams(userId, noteType, caption));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -495,14 +440,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("Caption", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, NoteParams.GetGetUserNotesParams(userId));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {

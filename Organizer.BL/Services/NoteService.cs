@@ -34,11 +34,9 @@ namespace Organizer.BL.Services
 
                 if (dbNote == null)
                 {
-                    using (var transaction = unitOfWork.BeginTransaction())
-                    {
-                        noteRepo.Insert(note, transaction);
-                        unitOfWork.Commit();
-                    }
+                    unitOfWork.BeginTransaction();
+                    noteRepo.Insert(note);
+                    unitOfWork.Commit();
                 }
                 else
                 {
@@ -58,11 +56,9 @@ namespace Organizer.BL.Services
 
                 if (dbNotes.Count == 0 || (dbNotes.Count == 1 && dbNotes[0].Id == note.Id))
                 {
-                    using (var transaction = unitOfWork.BeginTransaction())
-                    {
-                        noteRepo.Update(note, transaction);
-                        unitOfWork.Commit();
-                    }
+                    unitOfWork.BeginTransaction();
+                    noteRepo.Update(note);
+                    unitOfWork.Commit();
                 }
                 else
                 {
@@ -526,20 +522,18 @@ namespace Organizer.BL.Services
             var unitOfWork = _container.Resolve<IUnitOfWork>();
             using (unitOfWork)
             {
-                using (var transaction = unitOfWork.BeginTransaction())
+                unitOfWork.BeginTransaction();
+                var noteRepository = new NoteRepository(unitOfWork);
+                var dbNote = noteRepository.GetById(note.Id);
+                if (dbNote != null && dbNote.Caption == note.Caption
+                    && dbNote.UserId == note.UserId)
                 {
-                    var noteRepository = new NoteRepository(unitOfWork);
-                    var dbNote = noteRepository.GetById(note.Id);
-                    if (dbNote != null && dbNote.Caption == note.Caption
-                        && dbNote.UserId == note.UserId)
-                    {
-                        noteRepository.Delete(note.Id, transaction);
-                        unitOfWork.Commit();
-                    }
-                    else
-                    {
-                        throw new Exception("Contact to remove do not exists or not equal to same contact in db.");
-                    }
+                    noteRepository.Delete(note.Id);
+                    unitOfWork.Commit();
+                }
+                else
+                {
+                    throw new Exception("Contact to remove do not exists or not equal to same contact in db.");
                 }
             }
         }

@@ -79,14 +79,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("AppName", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterBySocialInfoParams(userId, appId));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -108,15 +103,10 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("FirstName", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
                     new SqlParameter("@FirstName", firstName.MakeStartsWithLikeExpression()));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -137,14 +127,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("Lastname", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByLastnameParams(userId, lastName));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -165,14 +150,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("MiddleName", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByMiddleNameParams(userId, middleName));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -193,15 +173,10 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("FirstName", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query,
                     ContactParams.GetFilterByPersonalInfoParams(userId, personalInfo));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -217,15 +192,10 @@ namespace Organizer.DAL.Repository
             Contact result = null;
             string query = ContactQueries.GetFindByNicknameQuery();
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
                     new SqlParameter("@NickName", nickname));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -242,15 +212,10 @@ namespace Organizer.DAL.Repository
 
             string query = ContactQueries.GetFindByPrimaryPhoneQuery();
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, new SqlParameter("@UserId", userId),
                     new SqlParameter("@Phone", phone));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -271,14 +236,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("Email", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByEmailParams(userId, email));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -289,22 +249,22 @@ namespace Organizer.DAL.Repository
             return result;
         }
 
-        public override int Insert(Contact entity, SqlTransaction sqlTransaction)
+        public override int Insert(Contact entity)
         {
             var query = ContactQueries.GetInsertQuery();
-            return Insert(entity, query, sqlTransaction);
+            return Insert(entity, query);
         }
 
-        public override int Update(Contact entity, SqlTransaction sqlTransaction)
+        public override int Update(Contact entity)
         {
             var query = ContactQueries.GetUpdateQuery();
-            return Update(entity, query, sqlTransaction);
+            return Update(entity, query);
         }
 
-        public override int Delete(int id, SqlTransaction sqlTransaction)
+        public override int Delete(int id)
         {
             var query = ContactQueries.GetDeleteQuery();
-            return Delete(id, query, sqlTransaction);
+            return Delete(id, query);
         }
 
         public override Contact GetById(int id)
@@ -324,14 +284,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging(ContactQueries.ContactId, pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetGetUserContactsParams(userId));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -362,14 +317,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("AppName", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetFilterByAppInfoLikeParams(userId, info));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -390,14 +340,9 @@ namespace Organizer.DAL.Repository
                 query = query.AddPaging("PrimaryPhone", pageSize.Value, page.Value);
             }
 
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 QueryHelper.SetupCommand(cmd, query, ContactParams.GetFindContactsByPrimaryPhoneParams(userId, phone));
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {

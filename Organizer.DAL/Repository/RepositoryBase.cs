@@ -10,7 +10,6 @@ namespace Organizer.DAL.Repository
 {
     public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : IEntity
     {
-        protected SqlConnection _connection;
         protected readonly IUnitOfWork _unitOfWork;
 
         public RepositoryBase(IUnitOfWork unitOfWork)
@@ -20,19 +19,17 @@ namespace Organizer.DAL.Repository
                 throw new ArgumentNullException(nameof(unitOfWork));
             }
             _unitOfWork = unitOfWork;
-            _connection = _unitOfWork.DataContext.Connection;
         }
 
-        protected int Insert(TEntity entity, string insertSql, SqlTransaction sqlTransaction)
+        protected int Insert(TEntity entity, string insertSql)
         {
             int i = 0;
             try
             {
-                using (var cmd = _connection.CreateCommand())
+                using (var cmd = _unitOfWork.CreateCommand())
                 {
                     cmd.CommandText = insertSql;
                     cmd.CommandType = CommandType.Text;
-                    cmd.Transaction = sqlTransaction;
                     InsertCommandParameters(entity, cmd);
                     i = cmd.ExecuteNonQuery();
                 }
@@ -44,28 +41,26 @@ namespace Organizer.DAL.Repository
             return i;
         }
 
-        protected int Update(TEntity entity, string updateSql, SqlTransaction sqlTransaction)
+        protected int Update(TEntity entity, string updateSql)
         {
             int i = 0;
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 cmd.CommandText = updateSql;
                 cmd.CommandType = CommandType.Text;
-                cmd.Transaction = sqlTransaction;
                 UpdateCommandParameters(entity, cmd);
                 i = cmd.ExecuteNonQuery();
             }
             return i;
         }
 
-        protected int Delete(int id, string deleteSql, SqlTransaction sqlTransaction)
+        protected int Delete(int id, string deleteSql)
         {
             int i = 0;
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 cmd.CommandText = deleteSql;
                 cmd.CommandType = CommandType.Text;
-                cmd.Transaction = sqlTransaction;
                 DeleteCommandParameters(id, cmd);
                 i = cmd.ExecuteNonQuery();
             }
@@ -74,16 +69,11 @@ namespace Organizer.DAL.Repository
 
         protected TEntity GetById(int id, string getByIdSql)
         {
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 cmd.CommandText = getByIdSql;
                 cmd.CommandType = CommandType.Text;
                 GetByIdCommandParameters(id, cmd);
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -94,14 +84,10 @@ namespace Organizer.DAL.Repository
 
         protected IEnumerable<TEntity> GetAll(string getAllSql)
         {
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 cmd.CommandText = getAllSql;
                 cmd.CommandType = CommandType.Text;
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -151,11 +137,11 @@ namespace Organizer.DAL.Repository
 
         protected abstract List<TEntity> MapCollection(SqlDataReader reader);
 
-        public abstract int Insert(TEntity entity, SqlTransaction sqlTransaction);
+        public abstract int Insert(TEntity entity);
 
-        public abstract int Update(TEntity entity, SqlTransaction sqlTransaction);
+        public abstract int Update(TEntity entity);
 
-        public abstract int Delete(int id, SqlTransaction sqlTransaction);
+        public abstract int Delete(int id);
 
         public abstract TEntity GetById(int id);
 
@@ -166,15 +152,10 @@ namespace Organizer.DAL.Repository
         protected int Count(string tableName)
         {
             var count = -1;
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 cmd.CommandText = BaseQueries.GetCountQuery(tableName);
                 cmd.CommandType = CommandType.Text;
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 count = (int)cmd.ExecuteScalar();
             }
@@ -184,16 +165,11 @@ namespace Organizer.DAL.Repository
         public int FilteredCount(string filterSql, SqlParameter[] parameters)
         {
             var count = -1;
-            using (var cmd = _connection.CreateCommand())
+            using (var cmd = _unitOfWork.CreateCommand())
             {
                 var filteredSql = BaseQueries.GetFilteredCountQuery(filterSql);
 
                 QueryHelper.SetupCommand(cmd, filteredSql, parameters);
-
-                if (_unitOfWork.Transaction != null)
-                {
-                    cmd.Transaction = _unitOfWork.Transaction;
-                }
 
                 count = (int)cmd.ExecuteScalar();
             }
