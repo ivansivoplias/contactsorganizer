@@ -116,7 +116,7 @@
                                         Header="Тип митинга"
                                         Width="*" />
 
-                    <DataGridTextColumn Binding="{Binding MeetingDate, StringFormat={}{0:dd.mm.yyyy}}"
+                    <DataGridTextColumn Binding="{Binding MeetingDate, StringFormat={}{0:dd.MM.yyyy}}"
                                         Header="Дата проведения"
                                         Width="*" />
 
@@ -128,7 +128,7 @@
                                         Header="Место проведения"
                                         Width="*" />
 
-                    <DataGridTextColumn Binding="{Binding NotificationDate, StringFormat={}{0:dd.mm.yyyy}}"
+                    <DataGridTextColumn Binding="{Binding NotificationDate, StringFormat={}{0:dd.MM.yyyy}}"
                                         Header="Дата оповещения"
                                         Width="*" />
 

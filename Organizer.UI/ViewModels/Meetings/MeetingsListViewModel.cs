@@ -209,7 +209,7 @@ namespace Organizer.UI.ViewModels
             if (IsSearchValueValid)
             {
                 UpdateTotalCount();
-                var list = FetchMeetings(1, _numberOnPage * _pageNumber);
+                var list = FetchMeetings(_pageNumber, _numberOnPage);
                 _meetings.Clear();
                 _meetings = null;
 
